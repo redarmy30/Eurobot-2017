@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<EmBlocks_debug_session>
+	<debuggerLastSession>
+		<breakpoints>
+			<break type="0" file="Robot/robot.c" line="446" />
+		</breakpoints>
+		<watches>
+			<watch key="curState" format="0" array="0" start="0" count="0" />
+			<watch key="points" format="0" array="1" start="0" count="0" />
+			<watch key="regulatorOut" format="0" array="0" start="0" count="0" />
+			<watch key="robotCoord" format="0" array="0" start="0" count="0" />
+			<watch key="robotCoordTarget" format="0" array="0" start="0" count="0" />
+			<watch key="vTargetGlob" format="0" array="0" start="0" count="0" />
+			<watch key="wheelsPidStruct" format="0" array="0" start="0" count="0" />
+		</watches>
+	</debuggerLastSession>
+</EmBlocks_debug_session>
