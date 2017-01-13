@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "pins.h"
+#include <pins.h>
 
 void softDelay(unsigned long int);
 
@@ -97,8 +97,8 @@ void servo_rotate_180();
 #define SERVO_ELEVATE  1 //defining servos
 #define SERVO_ROTATE 2
 
-#define SERVO_ELEVATE_IN 0 //defining angular values
-#define SERVO_ELEVATE_OUT 155
+#define SERVO_ELEVATE_IN  0 //defining angular values
+#define SERVO_ELEVATE_OUT  155
 #define SERVO_ROTATE_90  60
 #define SERVO_ROTATE_180  150
 

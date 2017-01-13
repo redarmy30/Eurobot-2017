@@ -119,16 +119,6 @@ bool pneumoOut()
 
 }
 
-bool switchOnPneumo()
-{
-
-}
-
-bool switchOffPneumo()
-{
-
-}
-
 
 void liftSeashell_up()
 {
@@ -164,8 +154,9 @@ void close_dors()
 }
 void stop_dors()
 {
-setServoMovingSpeed(DOORS_ID,0,0x0400);
+    setServoMovingSpeed(DOORS_ID,0,0x0400);
 }
+
 void open_dors()
 {
     setServoTorque(DOORS_ID , 1000);
@@ -238,8 +229,8 @@ void Open_seashell_doors()
    setServoTorque(DOORS_ID , 1000);
     //setServoAngle(Dors_ID, doors_closedPos );
     //soft_delay(20000000);
-    setServoCWAngleLimit(DOORS_ID,(uint16_t) 0),
-    setServoCCWAngleLimit(DOORS_ID,(uint16_t) 1023),
+    setServoCWAngleLimit(DOORS_ID,(uint16_t) 0);
+    setServoCCWAngleLimit(DOORS_ID,(uint16_t) 1023);
     setServoAngle(DOORS_ID,OPENEDSEASHELANGLE);
 
 
@@ -252,11 +243,50 @@ void close_seashell_doors()
       setServoTorque(DOORS_ID , 1000);
     //setServoAngle(Dors_ID, doors_closedPos );
     //soft_delay(20000000);
-    setServoCWAngleLimit(DOORS_ID,(uint16_t) 0),
-    setServoCCWAngleLimit(DOORS_ID,(uint16_t) 1023),
+    setServoCWAngleLimit(DOORS_ID,(uint16_t) 0);
+    setServoCCWAngleLimit(DOORS_ID,(uint16_t) 1023);
     setServoAngle(DOORS_ID,CLOSEDSEASHELANGLE);
 
 }
+
+void servo_elevate_in()
+{
+    setServoAngle((uint8_t)SERVO_ELEVATE, (uint16_t) SERVO_ELEVATE_IN);
+}
+void servo_elevate_out()
+{
+    setServoAngle((uint8_t)SERVO_ELEVATE, (uint16_t) SERVO_ELEVATE_OUT);
+}
+void servo_rotate_90()
+{
+    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) SERVO_ROTATE_90);
+}
+void servo_rotate_180()
+{
+    setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) SERVO_ROTATE_180);
+}
+bool switchOnPneumo()
+{
+    set_pin(PIN1_12V);
+    set_pin(PIN2_12V);
+    set_pin(PIN3_12V);
+    set_pin(PIN4_12V);
+    set_pin(PIN5_12V);
+    set_pin(PIN6_12V);
+    return 0;
+}
+
+bool switchOffPneumo()
+{
+    reset_pin(PIN1_12V);
+    reset_pin(PIN2_12V);
+    reset_pin(PIN3_12V);
+    reset_pin(PIN4_12V);
+    reset_pin(PIN5_12V);
+    reset_pin(PIN6_12V);
+    return 0;
+}
+
 
 
 ///////////////////////////////////////////////////////////////

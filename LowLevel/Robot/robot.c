@@ -529,58 +529,51 @@ break;
 
 
     case 0x2B:  //Open Cubes Catcher
-  {
-      openCubesCatcher();
-
-      char * str ="Ok";
-      sendAnswer(cmd->command, str, 3);
-  }
-  break;
+      {
+        servo_rotate_90(); // rotate the pump 90 degrees
+        char * str ="Ok";
+        sendAnswer(cmd->command,str, 3);
+    }
+    break;
 
   case 0x2C:  //Close Cubes Catcher
   {
-      uint8_t numberOfCubesCatched;
-      closeCubesCatcher(&numberOfCubesCatched);
-      sendAnswer(cmd->command, numberOfCubesCatched, sizeof(uint8_t));
-  }
-  break;
+    servo_rotate_180(); // rotate the pump 180 degrees
+    char * str ="Ok";
+    sendAnswer(cmd->command,str, 3);
+    }
+break;
 
 
   case 0x2D: // open fishing manipulators
   {
-      OpenFishingManipulator();
-    //uint16_t ang1= 145;
-    // открыто - ловить1!!
+        servo_elevate_out(); // move servo out
+        char * str ="Ok";
+        sendAnswer(cmd->command,str, 3);
+    }
+    break;
 
-    char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+    case 0x2E:
+    {
+        servo_elevate_in(); // move servo inside
+        char * str ="Ok";
+        sendAnswer(cmd->command,str, 3);
+    }
+    break;
+
+   case 0x2F: // switch on
+  {
+    switchOnPneumo();
+    char * str ="Ok1";
+    sendAnswer(cmd->command, str, 4);
   }
    break;
 
-   case 0x2E: // close fishing manipulators
+   case 0x30: // switch off
   {
-    CloseFishingManipulator();
-      //uint16_t ang2= 265;
-
-    char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-  }
-   break;
-
-   case 0x2F: // Tear fishes
-  {
-    TearFish();
-    char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-  }
-   break;
-
-   case 0x99: // Untear
-  {
-    UnTearFish();
-    char ch = 5;
-    char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
+    switchOffPneumo();
+    char * str ="Ok2";
+    sendAnswer(cmd->command, str, 4);
   }
    break;
 
@@ -637,6 +630,7 @@ case 0x94: //UMBRELLA
     sendAnswer(cmd->command, str, 3);
 }
 break;
+
 case 0x35: //halfopen
 {
     HalfOpenFishingManipulator();
@@ -742,47 +736,41 @@ char * str ="Ok";
 sendAnswer(cmd->command,str, 3);
 }
 break;
-
-case 0x44: // check if fish was picked
+/*
+case 0x2E:
 {
-    if (distanceFromIR <21)
-    {
-        char * str ="1"; // picked
-        sendAnswer(cmd->command, str, 2);
-    }
-    if (distanceFromIR >=21)
-    {
-      char * str ="0"; //not
-      sendAnswer(cmd->command,str, 2);
-    }
+    SERVO_EVEVATE_IN(); // move servo inside
+    char * str ="Ok";
+    sendAnswer(cmd->command,str, 3);
+
 }
 break;
-case 0x45: //deepopen
+
+case 0x45:
     {
-        DeepOpenFishingManipulator();
-        char * str ="Ok"; //not
+        SERVO_EVEVATE_OUT(); // move servo out
+        char * str ="Ok";
         sendAnswer(cmd->command,str, 3);
     }
 break;
-
-
 
 case 0x46:
-    {   //disable_distance_digital = 1;
-
-        char * str ="Ok"; //not
+    {
+        servo_ROTATE_90(); // rotate the pump 90 degrees
+        char * str ="Ok";
         sendAnswer(cmd->command,str, 3);
     }
 break;
+
 case 0x47:
-    {   //disable_distance_digital = 0;
-
-        char * str ="Ok"; //not
+    {
+        servo_ROTATE_180(); // rotate the pump 180 degrees
+        char * str ="Ok";
         sendAnswer(cmd->command,str, 3);
     }
 break;
 
-
+*/
 
 
 
@@ -946,7 +934,7 @@ void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_num
     for(; ticks > 0; ticks-- );
 }
     uint16_t stVal = 0;
-    uint16_t finalVal = 300;
+    uint16_t finalVal = 0;
     uint16_t curLoad;*/
 //______________________________________________________//
 
