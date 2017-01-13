@@ -151,11 +151,11 @@ class CommandsList(object):
     # unloadAllPucks = 0x29	#expected parameters: int[1]
     # changeFishingRodState = 0x30	#expected parameters: int[1]
     # changeFishingLatchState = 0x2A	#expected parameters: int[1]
-    openCubeCollector = 0x2B
-    closeCubeCollector = 0x2C
+    move_90 = 0x2B
+    move_180 = 0x2C
     slightlyOpenDoors = 0x3F
-    openDoors = 0x2D
-    closeDoors = 0x2E
+    move_out = 0x2D
+    move_in = 0x2E
     switchOnPneumo = 0x2F
     switchOffPneumo = 0x30
     isPointWasReached = 0x32
@@ -169,7 +169,7 @@ class CommandsList(object):
     pushPredatorsMouth = 0x3C
     closePredatorsMouth = 0x3D
     pullPredatorsMouth = 0x3E
-
+    
     switchOnCollisionAvoidance = 0x33
     switchOffCollisionAvoidance = 0x34
     checkCollisionAvoidanceFlag = 0x40
