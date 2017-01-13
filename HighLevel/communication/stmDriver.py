@@ -131,14 +131,14 @@ def set_cube_manipulator_angle(parameters):
     return reply_on_request
 
 
-def close_cube_collector():
-    packet = packetBuilder.BuildPacket(commands_to_stm.closeCubeCollector)
+def move_180():
+    packet = packetBuilder.BuildPacket(commands_to_stm.move_180)
     reply_on_request = send_request(packet)
     return reply_on_request
 
 
-def open_cube_collector():
-    packet = packetBuilder.BuildPacket(commands_to_stm.openCubeCollector)
+def move_90():
+    packet = packetBuilder.BuildPacket(commands_to_stm.move_90)
     reply_on_request = send_request(packet)
     return reply_on_request
 
@@ -233,14 +233,14 @@ def close_cone_crasher():
     return reply_on_request
 
 
-def close_doors():
-    packet = packetBuilder.BuildPacket(commands_to_stm.closeDoors)
+def move_in():
+    packet = packetBuilder.BuildPacket(commands_to_stm.move_in)
     reply_on_request = send_request(packet)
     return reply_on_request
 
 
-def open_doors():
-    packet = packetBuilder.BuildPacket(commands_to_stm.openDoors)
+def move_out():
+    packet = packetBuilder.BuildPacket(commands_to_stm.move_out)
     reply_on_request = send_request(packet)
     return reply_on_request
 
