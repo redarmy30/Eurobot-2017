@@ -18,7 +18,6 @@ vk = None
 
 def init_vk():
     global vk
-    login, password = '+79851480904',                                                                                                                                           'boroda94'
 
     vk_session = vk_api.VkApi(login, password)
     try:
