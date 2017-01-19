@@ -17,7 +17,7 @@ def get_com_port_number():
     vid = 1155
     pid = 22336
     snr = '365032713431' # stm Serial number
-    # return '/dev/tty.usbmodem1411'
+    return '/dev/tty.usbmodem1411'
     for port in list_ports.comports():
         if port.serial_number == snr:
             return port.device

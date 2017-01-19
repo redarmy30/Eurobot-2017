@@ -35,11 +35,11 @@ def encode_params(params):
         elif isinstance(param, int):
             if not 0<= param <= 255:
                 raise ValueError("Can't encode int: %d" % param)
-            res += chr(param)
-            #res += struct.pack('>i', param)
+            #res += chr(param)
+            res += struct.pack('<B', param)
         elif isinstance(param, float):
             # TODO check
-            res += struct.pack('>f', param)
+            res += struct.pack('<f', param)
         else:
             raise ValueError("Unexpected parameter type: %d" % type(param))
     return res
@@ -47,7 +47,7 @@ def encode_params(params):
 def encode_packet(cmd_id, params):
     enc_params = encode_params(params)
     msg = bytearray()
-    msg += chr(SYNC) + chr(ADDR_SEND) + chr(0) +  chr(cmd_id) + enc_params
+    msg += chr(SYNC) + chr(ADDR_SEND) + chr(0) + chr(cmd_id) + enc_params
     msg[2] = len(msg) + 2
     msg += cut_crc(crc(msg))
     return msg
@@ -56,18 +56,17 @@ def encode_packet(cmd_id, params):
 def decode_params(cmd, params):
     if cmd == 'getCurentCoordinates' or cmd == 'getCurrentSpeed':
         return [
-            struct.unpack('>f', params[i*4:(i+1)*4])[0] # TODO check correctness
+            struct.unpack('<f', params[i*4:(i+1)*4])[0]  # TODO check correctness
             for i in range(3)
         ]
 
     #
-    #if cmd in ['closeCubeCollector', 'getADCPinState']: # One value answer!!
+    # if cmd in ['closeCubeCollector', 'getADCPinState']:  # One value answer!!
     #    return struct.unpack('>B', params)[0] # TODO check correctness
-    return str(params[:-1]) # Denis x00 deletetion
+    return str(params[:-1])  # Denis x00 deletetion
 
 
 def decode_packet(data):
-    data = bytearray(data)
     if data[0] != SYNC or data[1] != ADDR_RECV:
         raise ValueError('Wrong packet header: %s' % data)
     msg_len = data[2]

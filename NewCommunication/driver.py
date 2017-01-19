@@ -10,12 +10,12 @@ from packets import encode_packet, decode_packet
 PORT_VID = 1155
 PORT_PID = 22336
 PORT_SNR = '3677346C3034'
-DEVICE_NAME = '/dev/tty.usbmodem1421'
+DEVICE_NAME = '/dev/tty.usbmodem1411'
 
 class DriverException(Exception):
     pass
 
-
+# code is sensitive to the types, If input Float use 1.0 not 1!
 # message format:
 #   {'source': <'fsm' or 'localization'>,
 #   'cmd': 'cmd name',
@@ -41,7 +41,7 @@ class Driver(Process):
     def connect(self):
         for port in list_ports.comports():
             if (port.serial_number == PORT_SNR) and \
-                    (port.pid == PORT_PID) and (port.vid == PORT_VID): 
+                    (port.pid == PORT_PID) and (port.vid == PORT_VID):
                 self.device = port.device
                 break
         self.device = DEVICE_NAME  ## Time-Limited correction!
@@ -55,10 +55,15 @@ class Driver(Process):
 
     def process_cmd(self, cmd):
         cmd_id = CMD_LIST[cmd['cmd']]
-        packet = encode_packet(cmd_id, cmd['params'])
+        if 'params' in cmd:
+            packet = encode_packet(cmd_id, cmd['params'])
+        else:
+            packet = encode_packet(cmd_id, '')
         print [c for c in packet]
         self.port.write(packet)
-        data = self.port.readline() # TODO check correctness
+        data  = self.port.read(size=3)
+        data = bytearray(data)
+        data += self.port.read(size = int(data[2])) # TODO check correctness, add read 3 bytes then n.
         return decode_packet(data)
 
     def run(self):

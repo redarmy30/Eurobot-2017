@@ -1,3 +1,4 @@
+# float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow }
 CMD_LIST = {
     'echo': 0x01, #expected parameters: char[4] = 'ECHO'
     'setCoordinates': 0x02,   #expected parameters: float32[3]
@@ -49,8 +50,8 @@ CMD_LIST = {
     'setManipulatorAngle': 0x31, # expected parameter: float[1]
     'releaseCubeMoovers': 0x2D,
     'raiseCubeMoovers': 0x2E,
-    'switchOnVibrationTable': 0x2F,
-    'switchOffVibrationTable': 0x30,
+    'switchOnPneumo': 0x2F,
+    'switchOffPneumo': 0x30,
     'switchOnBelts': 0x32,
     'switchOffBelts': 0x33,
     'startGame': 0x34,

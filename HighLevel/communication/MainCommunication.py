@@ -248,5 +248,10 @@ def final():
     stm_driver('switch_off_pneumo')
 
 
-final()
-
+stm = multiprocessing.Process(target=stmDriver.stm_loop, args=(input_command_queue, reply_to_fsm_queue))
+stm.start()
+#print stm_driver('echo')
+parameters = [0, 0, 0]
+stm_driver('set_coordinates_without_movement', parameters)
+parameters = [0.05, 0, 0, 4]
+print stm_driver('go_to_global_point', parameters)

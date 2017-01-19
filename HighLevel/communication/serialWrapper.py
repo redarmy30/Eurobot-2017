@@ -20,6 +20,7 @@ class SerialWrapper(object):
         # read all previous answers (clean buffer)
         self.SerialPort.flushInput()
         self.SerialPort.flushOutput()
+        print [c for c in dataToSend]
         self.SerialPort.write(dataToSend)
         requestRecieved = False
         recievedPacket = ""

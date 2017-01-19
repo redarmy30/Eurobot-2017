@@ -39,7 +39,7 @@ def encode_params(params):
             #res += struct.pack('>i', param)
         elif isinstance(param, float):
             # TODO check
-            res += struct.pack('>f', param)
+            res += struct.pack('<f', param)
         else:
             raise ValueError("Unexpected parameter type: %d" % type(param))
     return res
@@ -56,7 +56,7 @@ def encode_packet(cmd_id, params):
 def decode_params(cmd, params):
     if cmd == 'getCurentCoordinates' or cmd == 'getCurrentSpeed':
         return [
-            struct.unpack('>f', params[i*4:(i+1)*4])[0] # TODO check correctness
+            struct.unpack('<f', params[i*4:(i+1)*4])[0] # TODO check correctness
             for i in range(3)
         ]
 
