@@ -103,7 +103,6 @@ def lidar_sense():
     for i in pf.get_beacons(scan):
         ans.append(i[1]+40)
     return ans
-    # add to all distances radius of beacon(4 cm)
 
 
 def movements():

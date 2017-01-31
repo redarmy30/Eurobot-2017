@@ -63,7 +63,8 @@ class Driver(Process):
         self.port.write(packet)
         data  = self.port.read(size=3)
         data = bytearray(data)
-        data += self.port.read(size = int(data[2])) # TODO check correctness, add read 3 bytes then n.
+        data += self.port.read(size = int(data[2])) # TODO check correctness
+        # clear buffer if error!
         return decode_packet(data)
 
     def run(self):
