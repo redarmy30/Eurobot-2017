@@ -63,10 +63,14 @@ def decode_params(cmd, params):
     #
     # if cmd in ['closeCubeCollector', 'getADCPinState']:  # One value answer!!
     #    return struct.unpack('>B', params)[0] # TODO check correctness
-    return str(params[:-1])  # Denis x00 deletetion
+    if (len(params)>1):
+        return str(params[:-1])  # Denis x00 deletetion
+    else:
+        return ord(params) # for char answer
 
 
 def decode_packet(data):
+    #print ([i for i in data])
     if data[0] != SYNC or data[1] != ADDR_RECV:
         raise ValueError('Wrong packet header: %s' % data)
     msg_len = data[2]
@@ -83,6 +87,6 @@ def decode_packet(data):
     params = data[4:-2]
     data = decode_params(rev_cmd, params)
     res = {'cmd': rev_cmd}
-    if data:
+    if data is not None:
         res['data'] = data
     return res

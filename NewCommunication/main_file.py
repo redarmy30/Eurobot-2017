@@ -15,6 +15,7 @@ class Robotishe():
         if lidar_on:
             self.lidar = HokuyoLX(tsync=False)
             self.lidar.convert_time = False
+        self.lidar_on = lidar_on
         self.particles = [pf.Robot() for i in range(pf.particle_number)]
         self.dr = driver.Driver(1, 2, 3)
         self.dr.connect()
@@ -91,30 +92,79 @@ class Robotishe():
         time.sleep(3)
         lidar_data = self.lidar_sense()
         print lidar_data
-        self.particles = pf.particles_sense(self.particles, lidar_data)
-        self.particles = pf.particles_sense(self.particles, lidar_data)
-        self.particles = pf.particles_sense(self.particles, lidar_data)
+        for i in range(30):
+            self.particles = pf.particles_sense(self.particles, lidar_data)
+            self.particles = pf.particles_sense(self.particles, lidar_data)
+            self.particles = pf.particles_sense(self.particles, lidar_data)
+            main_robot = pf.calculate_main(self.particles)
+            print main_robot
         main_robot = pf.calculate_main(self.particles)
         self.x = main_robot.x
         self.y = main_robot.y
         print main_robot
 
+    def go_to_coord(self):
+        command = {'source': 'fsm', 'cmd': 'addPointToStack', 'params': pm}
+        print self.dr.process_cmd(command)
+
+    def go_to_coord_rotation(self,parameters): #  parameters [x,y,angle,speed]
+        pm = [parameters[0] / 1000., parameters[1] / 1000., parameters[2], parameters[3]]
+        command = {'source': 'fsm', 'cmd': 'addPointToStack', 'params': pm}
+        print self.dr.process_cmd(command)
+        # After movement
+        stamp = time.time()
+        cmd = {'source': 'fsm', 'cmd': 'is_point_was_reached'}
+        while not self.dr.process_cmd(cmd)['data']:
+            time.sleep(0.3)
+            if (time.time() - stamp) > 30:
+                return False # Error
+        print 'reached'
+        if self.lidar_on:
+            lidar_data = self.lidar_sense()
+            for i in range(30):
+                self.particles = pf.particles_sense(self.particles, lidar_data)
+                self.particles = pf.particles_sense(self.particles, lidar_data)
+                self.particles = pf.particles_sense(self.particles, lidar_data)
+                main_robot = pf.calculate_main(self.particles)
+                print main_robot
+        self.x = main_robot.x
+        self.y = main_robot.y
+        command = {'source': 'fsm', 'cmd': 'setCoordinates', 'params': [self.x / 1000., self.y / 1000., self.angle]}
+        print self.dr.process_cmd(command)
+
+
+
+
+
+
+
+
+
 
 def test():
     rb = Robotishe(True)
-    rb.make_move([100.0, 0.0, 0.0, 4])
-    rb.make_move([100.0, 0.0, 0.0, 4])
-    rb.make_move([100.0, 0.0, 0.0, 4])
-    rb.make_move([100.0, 0.0, 0.0, 4])
-    rb.make_move([100.0, 0.0, 0.0, 4])
     rb.make_move([100.0, 0.0, 0.0, 4])
 
 #test()
 
 #
 
-rb = Robotishe(False)
+#rb = Robotishe(False)
 #print rb.lidar_sense()
+
+def func_test():
+    dr = driver.Driver(1, 2, 3)
+    dr.connect()
+    command = {'source': 'fsm', 'cmd': 'is_point_was_reached'}
+    print (dr.process_cmd(command))
+
+#func_test()
+def t():
+    rb = Robotishe(False)
+    rb.go_to_coord_rotation([300, 170, 0.0, 4])
+t()
+
+
 
 
 

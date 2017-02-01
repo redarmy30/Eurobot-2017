@@ -59,7 +59,7 @@ class Driver(Process):
             packet = encode_packet(cmd_id, cmd['params'])
         else:
             packet = encode_packet(cmd_id, '')
-        print [c for c in packet]
+        #print [c for c in packet]
         self.port.write(packet)
         data  = self.port.read(size=3)
         data = bytearray(data)

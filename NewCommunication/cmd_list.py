@@ -45,17 +45,19 @@ CMD_LIST = {
     #unloadAllPucks = 0x29  #expected parameters: int[1]
     #changeFishingRodState = 0x30   #expected parameters: int[1]
     #changeFishingLatchState = 0x2A #expected parameters: int[1]
-    'openCubeCollector': 0x2B,
-    'closeCubeCollector': 0x2C,
     'setManipulatorAngle': 0x31, # expected parameter: float[1]
-    'releaseCubeMoovers': 0x2D,
-    'raiseCubeMoovers': 0x2E,
-    'switchOnPneumo': 0x2F,
-    'switchOffPneumo': 0x30,
-    'switchOnBelts': 0x32,
     'switchOffBelts': 0x33,
     'startGame': 0x34,
-    'openCubeBorder': 0x2D,
+
+    # Denis Commands
+    'switch_on_pneumo': 0x2F,  # no parameters
+    'switch_off_pneumo': 0x30,  # no parameters
+    'move_out_cyl_manipulator': 0x2D,  # no parameters
+    'move_in_cyl_manipulator': 0x2E,  # no parameters
+    'rotate_0_cyl_manipulator': 0x2B,  # no parameters
+    'rotate_1_cyl_manipulator': 0x2C,  # no parameters
+    'is_point_was_reached': 0x32,# no parametes, return 0 or 1
+
 }
 
 REVERSED_CMD_LIST = dict((v,k) for k, v in  CMD_LIST.items())
