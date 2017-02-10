@@ -593,6 +593,8 @@ break;
   }
    break;
 
+
+
 case 0x132: // Unload seashels
   {/*
       open_dors();
@@ -699,6 +701,19 @@ case 0x39:        // avoidance ENABLED
 }
 break;
 
+case 0x3A: // Distance from ultrasonic sensors
+  {
+        float distance[4];
+
+        distance[FRONT_LEFT] = float(adcData[FRONT_LEFT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
+        distance[FRONT_RIGHT] = float(adcData[FRONT_RIGHT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
+        distance[BACK_LEFT] = float(adcData[BACK_LEFT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
+        distance[BACK_RIGHT] = float(adcData[BACK_RIGHT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
+
+        sendAnswer(cmd->command, (char* )distance, sizeof(distance));
+
+  }
+   break;
 
 case 0x41: // ОТКРЫТЬ ДВЕРИ
     {
@@ -717,6 +732,7 @@ case 0x42: // ЗАКРЫТЬ ДВЕРИ
     break;
 
     case 0x43: // Generate new trajectory with correction
+
 {
 float *(temp) ={(float*)cmd->param};
 char * ch = cmd->param + 24;

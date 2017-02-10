@@ -45,6 +45,14 @@
 #define EXTI_DIG_OUTPUT 4
 #define NO_MOTOR 255
 
+#define MAX_DIST 800
+#define MIN_DIST 50
+#define MAX_VOLTAGE 5
+#define CRITICAL_DIST 200
+#define FRONT_LEFT 0
+#define FRONT_RIGHT 1
+#define BACK_LEFT 2
+#define BACK_RIGHT 3
 
 #define threshhold -7
 
