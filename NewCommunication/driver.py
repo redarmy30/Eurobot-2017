@@ -8,9 +8,9 @@ import logging
 from packets import encode_packet, decode_packet
 
 
-PORT_VID = 1155
-PORT_PID = 22336
-PORT_SNR = '3677346C3034'
+PORT_VID = '0483'
+PORT_PID = '5740'
+PORT_SNR = '325936843235'
 DEVICE_NAME = '/dev/tty.usbmodem1411'
 
 class DriverException(Exception):
@@ -45,8 +45,8 @@ class Driver(Process):
                     (port.pid == PORT_PID) and (port.vid == PORT_VID):
                 self.device = port.device
                 break
-        self.device = DEVICE_NAME  ## Time-Limited correction!
         if self.device is None:
+            self.device = DEVICE_NAME  ## Time-Limited correction!
             logging.critical('STM is no connected!')
             raise DriverException('Device not found')
         self.port = serial.Serial(self.device,
