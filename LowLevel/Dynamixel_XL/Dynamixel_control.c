@@ -139,11 +139,18 @@ bool getServoResponse (void)
 
     getServoByte();  // servo header (two 0xff bytes)
     getServoByte();
+    getServoByte();
 
+    response.reserved = getServoByte();
     response.id = getServoByte();
-    response.length = getServoByte();
+    response.length_l = getServoByte();
+    response.length_h = getServoByte();
 
-    if (response.length > SERVO_MAX_PARAMS)
+    uint16_t length = 0x0000;
+    length += response.length_l;
+    length += (response.length_h<<8);
+
+    if (length > SERVO_MAX_PARAMS)
     {
         #ifdef SERVO_DEBUG
         printf ("Response length too big: %d\n", (int)response.length);
@@ -151,13 +158,13 @@ bool getServoResponse (void)
         return false;
     }
 
-    while (getServoBytesAvailable() < response.length)
+    while (getServoBytesAvailable() < length)
     {
         retries++;
         if (retries > REC_WAIT_MAX_RETRIES)
         {
             #ifdef SERVO_DEBUG
-            printf ("Too many retries waiting for params, got %d of %d params\n", getServoBytesAvailable(), response.length);
+            printf ("Too many retries waiting for params, got %d of %d params\n", getServoBytesAvailable(), length);
             #endif
             return false;
         }
@@ -167,17 +174,19 @@ bool getServoResponse (void)
     servoErrorCode = response.error;
 
     uint8_t i = 0;
-    for (; i < response.length - 2; i++)
+    for (; i < length - 2; i++)
         response.params[i] = getServoByte();
 
 
-    uint8_t calcChecksum = response.id + response.length + response.error;
+    uint16_t calcChecksum = response.id + length + response.error;
     i = 0;
-    for (; i < response.length - 2; i++)
+    for (; i < response.length - 3; i++)
         calcChecksum += response.params[i];
     calcChecksum = ~calcChecksum;
 
-    const uint8_t recChecksum = getServoByte();
+    const uint8_t recChecksum_l = getServoByte();
+    const uint8_t recChecksum_h = getServoByte();
+    const uint16_t recChecksum = recChecksum_l + (recChecksum_h << 8);
     if (calcChecksum != recChecksum)
     {
         #ifdef SERVO_DEBUG
@@ -440,7 +449,7 @@ bool getCurrentLoad (const uint8_t servoId,
 
 // make the servo move to an angle
 // valid angles are between 0 and 300 degrees
-bool setServoAngle ( const uint8_t servoId,
+/*bool setServoAngle ( const uint8_t servoId,
                      const uint16_t angle)
 {
     if (angle < 0 || angle > 300)
@@ -462,6 +471,13 @@ bool setServoAngle ( const uint8_t servoId,
       //  return false;
 
     return true;
+}
+*/
+bool setGoalPosition(uint8_t servoId , uint16_t start_position, uint16_t end_position){
+
+
+
+    sendServoCommand ()
 }
 
 // get current servo angle
