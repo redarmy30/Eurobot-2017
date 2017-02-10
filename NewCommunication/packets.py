@@ -1,6 +1,7 @@
 import struct
 from cmd_list import REVERSED_CMD_LIST
 import numpy as np
+import logging
 
 SYNC = 0xFA
 ADDR_SEND = 0xAF
@@ -70,6 +71,7 @@ def decode_params(cmd, params):
 
 
 def decode_packet(data):
+    logging.debug('data_from_stm:' + ','.join([str(i) for i in data]))
     #print ([i for i in data])
     if data[0] != SYNC or data[1] != ADDR_RECV:
         raise ValueError('Wrong packet header: %s' % data)
