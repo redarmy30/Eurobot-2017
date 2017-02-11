@@ -10,9 +10,8 @@ WORLD_X = 3000
 WORLD_Y = 2000
 INT_MAX = 99999990
 mark_r = 40
-#landmarks = [[WORLD_X/2, 0.0], [WORLD_X+mark_r, WORLD_Y], [-mark_r, WORLD_Y]]  # position of 4 landmarks in (x, y) format.
+
 landmarks = [[-mark_r, WORLD_Y/2.], [WORLD_X+mark_r,WORLD_Y + mark_r], [WORLD_X + mark_r, - mark_r]]
-#landmarks = [[0,1000],[1000,0],[1000,1000]]
 # Noises
 distance_noise = 30.0  # Noise parameter: should be included in move function.
 angle_noise = 0.03#0.01  # Noise parameter: should be included in move function.
@@ -21,7 +20,7 @@ particle_number = 3000  # Number of Particles
 
 # ------------------------------------------------
 # 
-# this is the robot class
+# this is the Particle class
 #
 start_position = [170, 170, 0]  # should be two types and not [0,0,0]
 
@@ -29,22 +28,17 @@ start_position = [170, 170, 0]  # should be two types and not [0,0,0]
 
 
 def ideal(x,y):
+    """returns almost ideal lidar data"""
     answer = []
     for i in landmarks:
         answer.append(((x - i[0])**2 + (y - i[1])**2)**0.5+0*random.gauss(0, distance_noise))
     return answer
 
-def MarkGaus(x,sigma=sense_noise):
-        # calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma
-        return math.exp(- ((x) ** 2) / (sigma ** 2) / 2.0) / math.sqrt(2.0 * math.pi * (sigma ** 2))
 
-
-
-
-class Robot:
+class Particle:
     # --------
     # init:
-    #    creates robot and initializes location/orientation
+    #    creates Particle and initializes location/orientation
     #
 
     def __init__(self,a=start_position[0],b=start_position[1],ang = start_position[2]):
@@ -55,20 +49,14 @@ class Robot:
 
     # --------
     # set:
-    #    sets a robot coordinate
+    #    sets a Particle coordinate
     #
 
 
     def set(self, x_new, y_new, orientation_new):
         """Set particle position on the field"""
-        if -100 <= x_new <= WORLD_X+100:
-            self.x = x_new
-        else:
-            raise Exception("Invalid x cord={}".format(x_new))
-        if -100 <= y_new <= WORLD_Y+100:
-            self.y = y_new
-        else:
-            raise Exception("Invalid y cord={}".format(y_new))
+        self.x = x_new
+        self.y = y_new
         self.orientation = orientation_new % (2 * math.pi)  # maybe need to add warning!
 
 
@@ -77,19 +65,25 @@ class Robot:
         x_new = self.x + delta[0] + random.gauss(0, distance_noise)
         y_new = self.y + delta[1] + random.gauss(0, distance_noise)
         orientation_new = self.orientation + delta[2] + random.gauss(0, angle_noise)
-        new_robot = Robot()
-        new_robot.set(x_new, y_new, orientation_new)
-        return new_robot
+        new_Particle = Particle()
+        new_Particle.set(x_new, y_new, orientation_new)
+        return new_Particle
 
     def pose(self):
         """Return particle pose"""
         return self.x, self.y, self.orientation
-#ICP
+
+    def Gaus(self,x, sigma=sense_noise):
+        """calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma"""
+        return math.exp(- ((x) ** 2) / (sigma ** 2) / 2.0) / math.sqrt(2.0 * math.pi * (sigma ** 2))
+
+
     def gaussian(self, mu, sigma, x):
         # calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma
         return math.exp(- ((mu - x) ** 2) / (sigma ** 2) / 2.0) / math.sqrt(2.0 * math.pi * (sigma ** 2))
 
-    def weight(self, lidar_data):
+
+    def weight_depricated(self, lidar_data):
         """Calculate particle weight based on its pose and lidar data"""
 
         if len(lidar_data) == 1:
@@ -151,8 +145,9 @@ class Robot:
 
 
 
-    def weight2(self, x_rob, y_rob, BEACONS):
-        """Calculate particel weight based on its pose and lidar data"""
+    def weight(self, x_rob, y_rob, BEACONS):
+        """Calculate particle weight based on its pose and lidar data"""
+        # TODO check ICP implementation
         temp_beac = [(beacon[0] - self.x, beacon[1] - self.y) for beacon in BEACONS]
         beacons = [(math.cos(self.orientation) * beac[0] + math.sin(self.orientation) * beac[1],
                     -math.sin(self.orientation) * beac[0] + math.cos(self.orientation) * beac[1])
@@ -183,7 +178,7 @@ class Robot:
             num_point[num] += 1
         median = [(beacon[i] / num_point[i]) if num_point[i] != 0 else (1000) for i in xrange(3)]
         try:
-            return MarkGaus(float(sum(median))/len(median))
+            return self.Gaus(float(sum(median))/len(median))
         except ZeroDivisionError:
             print 'Zero division error in weights'
             return 0
@@ -197,6 +192,7 @@ class Robot:
 
 
 def get_beacons(scan):
+    """Depricated function!! Old version"""
     #print scan
     scan = np.array(scan,dtype=float)
     #max_intens = scan[:, 1].max() * 0.8
@@ -229,7 +225,8 @@ def get_beacons(scan):
     return beacons
 
 
-def get_beacons_Marko(scan):
+def get_landmarks(scan):
+    """Returns filtrated lidar data"""
     angles = []
     distances = []
     max_intens = 2800 #2800
@@ -241,34 +238,10 @@ def get_beacons_Marko(scan):
 
 
 
-def get_beacons_2(scan):
-    scan = np.array(scan,dtype=float)
-    max_intens = 2800
-    beacons = []
-    new_scan = []
-    for i in range(len(scan)):
-        if(scan[i][1]>max_intens):
-            new_scan.append((i,scan[i][0]))
-    if len(new_scan)==0:
-        return new_scan
-
-    beacons.append(new_scan[0])
-    for i in new_scan:
-        if i[1] < beacons[-1][1] and abs(i[1]-beacons[-1][1]) < 150 and abs(i[0]-beacons[-1][0]) < 30:
-            beacons.pop()
-            beacons.append(i)
-
-        elif (i[1]-beacons[-1][1]) >= 150 or abs(i[0]-beacons[-1][0]) >= 30:
-            beacons.append(i)
-    answer = []
-    for i in beacons:
-        if(i[1]<3900):
-            answer.append(i)
-    return answer
 
 
 def angle5(angle):
-    """Transform lidar points from lidar coord sys to robot cord sys"""
+    """Transform lidar points from lidar coord sys to Particle cord sys"""
     # if angle >= math.pi/4:
     #	return angle - math.pi/4
     # else:
@@ -277,22 +250,15 @@ def angle5(angle):
 
 
 def p_trans(agl, pit):
-    """Transform lidar measurment to xy in robot coord sys"""
+    """Transform lidar measurment to xy in Particle coord sys"""
     x_rob = [-1*pit[i] * math.cos(angle5(agl[i])) for i in xrange(len(agl))]
     y_rob = [-1*pit[i] * math.sin(angle5(agl[i])) for i in xrange(len(agl))]
     return x_rob, y_rob
 
 
-
-
-#def  get_beacons(scan):
-
-
-
-
-
 def resample(p, w, N):
     """Random pick algorithm for resempling"""
+    # TODO check Stanford implementation (speed?)
     sample = []
     index = int(random.random() * N)
     beta = 0.0
@@ -307,7 +273,7 @@ def resample(p, w, N):
 
 
 def calculate_main(particles):
-    """Function returns robot with mean data"""
+    """Function returns Particle with mean data"""
     p_x = 0
     p_y = 0
     p_orient = 0
@@ -317,7 +283,7 @@ def calculate_main(particles):
         p_orient += (((particles[i].orientation - particles[0].orientation + math.pi) % (2.0 * math.pi))
                         + particles[0].orientation - math.pi)
 
-    answer = Robot()
+    answer = Particle()
     answer.set(p_x / len(particles), p_y / len(particles), p_orient / len(particles))
     logging.info(answer)
     return answer
@@ -330,39 +296,16 @@ def particles_move(particles, delta):
     return particles
 
 
-def particles_sense(particles, lidar_data):
-    """Function returns new particle set after sensing"""
-    weights = []
-    for i in range(len(particles)):
-        weights.append(particles[i].weight(lidar_data))
-    sm = sum(weights)
-    if sm==0:
-        weights = [0.0 for i in xrange(len(particles))]
-        answer = resample(particles, weights, particle_number)
-        return answer
-    for i in range(len(weights)):
-        weights[i] = weights[i] / sm
-        #print i
-        #print particles[i]
-        #print weights[i]
-        #print '##########'
-    answer = resample(particles, weights, particle_number)
-    return answer
 
-def particle_sense2(particles,scan):
-    plt.figure(0)
-    angle,distance = get_beacons_Marko(scan)
+def particles_sense(particles,scan):
+    """Calculates new particles according to Lidar data"""
+    angle,distance = get_landmarks(scan)
     x_coords, y_coords = p_trans(angle, distance)
     print x_coords
     print y_coords
-    mmmain = calculate_main(particles)
-    #plt.plot([i for i in x_coords], [i for i in y_coords], 'ro',color = 'r')
-    #for i in landmarks:
-    #    plt.plot(i[0],i[1],'ro',markersize=10,color = 'b')
     weights = []
-    #plt.show()
     for i in range(len(particles)):
-        weights.append(particles[i].weight2(x_coords,y_coords,landmarks))
+        weights.append(particles[i].weight(x_coords,y_coords,landmarks))
     sm = sum(weights)
     if sm==0:
         weights = [0.0 for i in xrange(len(particles))]
@@ -371,79 +314,12 @@ def particle_sense2(particles,scan):
     for i in range(len(weights)):
         weights[i] = weights[i] / sm
     answer = resample(particles, weights, particle_number)
+
+    # print particles weights
     #for i in range(len(particles)):
         #print i
         #print particles[i]
         #print weights[i]
         #print '##########'
-        #plt.plot(particles[i].x,particles[i].y,'ro',markersize=weights[i]*10,color = 'g')
-    #plt.show()
+
     return answer
-
-
-
-def localisation():
-    # initialize particles
-    particles = [Robot() for i in range(particle_number/2)]
-    for i in range(particle_number/2):
-        t = Robot()
-        t.set(50 ,50 , 0)
-        particles.append(t)
-    # initialize main robot
-    #main_robot = calculate_main(particles)
-    #print(main_robot)
-
-    delta = [15, 15, 0]
-    # move ->sense
-    particles = particles_move(particles, delta)
-    main_robot = calculate_main(particles)
-    print(main_robot)
-    lidar_data = [35.355339, 106.066017, 79.05694]
-
-    for i in range(10):
-        particles = particles_sense(particles, lidar_data)
-        main_robot = calculate_main(particles)
-        print main_robot
-    #particles = particles_sense(particles, lidar_data)
-    #main_robot = calculate_main(particles)
-    #print main_robot
-    #particles = particles_sense(particles, lidar_data)
-    #main_robot = calculate_main(particles)
-    #print main_robot
-
-
-#######
-# test data
-#######
-
-#test_lidar = []
-
-#print("finish")
-#rob = Robot()
-#rob.set(0, 0, 0)
-#lid = [35.355339, 106.066017, 79.05694]
-#lid = [50, 141.4213562373, 100]
-#print(rob.weight(lid))
-#rob.set(24, 24, 0)
-#print(rob.weight(lid))
-#rob.set(23, 25, 0)
-#print(rob.weight(lid))
-#localisation()
-
-
-def pf_test():
-    #  test
-    rob = Robot()
-    particles = [Robot() for i in range(particle_number)]
-    delta = [30,0,0] # 220,170,0
-    particles = particles_move(particles, delta)
-    #print ideal(170, 170)# 870,2827,3382
-    #[852,3415]
-    main_robot = calculate_main(particles)
-    print main_robot
-    for i in range(30):
-        particles = particles_sense(particles, ideal(198, 170)) # 3439, 836
-        main_robot = calculate_main(particles)
-        print main_robot
-
-#pf_test()
