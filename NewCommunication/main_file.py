@@ -251,18 +251,18 @@ class Robotishe():
         #run_animation()
         parameters = [800, 1830, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [850, 1830, 0.0, 4]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1000, 1000, 0.0, 4]
-        self.go_to_coord_rotation(parameters)
-        parameters = [500, 1000, 0.0, 4]
-        self.go_to_coord_rotation(parameters)
-        parameters = [500, 650, 0.0, 4]
-        self.go_to_coord_rotation(parameters)
-        parameters = [250, 650, 0.0, 4]
-        self.go_to_coord_rotation(parameters)
-        parameters = [250, 650, 3.14, 4]
-        self.go_to_coord_rotation(parameters)
+        # parameters = [850, 1830, 0.0, 4]
+        # self.go_to_coord_rotation(parameters)
+        # parameters = [1000, 1000, 0.0, 4]
+        # self.go_to_coord_rotation(parameters)
+        # parameters = [500, 1000, 0.0, 4]
+        # self.go_to_coord_rotation(parameters)
+        # parameters = [500, 650, 0.0, 4]
+        # self.go_to_coord_rotation(parameters)
+        # parameters = [250, 650, 0.0, 4]
+        # self.go_to_coord_rotation(parameters)
+        # parameters = [250, 650, 3.14, 4]
+        # self.go_to_coord_rotation(parameters)
         #return
 
 
@@ -296,7 +296,7 @@ def lidar_test():
 #func_test()
 def t():
     rb = Robotishe(True)
-   # rb.demo()
+    rb.demo()
 
 t()
 
