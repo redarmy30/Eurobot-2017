@@ -287,6 +287,27 @@ bool switchOffPneumo()
     return 0;
 }
 
+bool upBallCollector()
+{
+    set_pin(MOTOR_PIN1);
+    reset_pin(MOTOR_PIN2);
+    if (pin_val (UPPER_SENSOR))
+    {
+        reset_pin(MOTOR_PIN1);
+        reset_pin(MOTOR_PIN2);
+    }
+}
+bool downBallCollector()
+{
+    set_pin(MOTOR_PIN2);
+    reset_pin(MOTOR_PIN1);
+    if (pin_val (LOWER_SENSOR))
+    {
+        reset_pin(MOTOR_PIN2);
+        reset_pin(MOTOR_PIN1);
+    }
+}
+
 
 
 ///////////////////////////////////////////////////////////////
