@@ -160,14 +160,14 @@ class Robotishe():
         print 'Before Calculation:'
         pf.calculate_main(self.particles)
         logging.info('3 second debug sleep')
-        time.sleep(3)
+        time.sleep(0.5)
         if self.lidar_on:
             #lidar_data = self.lidar_sense()
             lidar_data = self.get_raw_lidar()
             #print lidar_data
             self.particles = pf.particle_sense2(self.particles,lidar_data)
             #self.particles = pf.particles_sense(self.particles, lidar_data)
-            print 'Before Calculation:'
+            print 'After Calculation:'
             main_robot = pf.calculate_main(self.particles)
             #for i in range(30):
             #   self.particles = pf.particles_sense(self.particles, lidar_data)
@@ -228,9 +228,9 @@ class Robotishe():
         #parameters = [250, 1780, 0.0, 4]#250,1780
         #self.go_to_virtual(parameters)
 
-        parameters = [800, 1830, 0.0, 4]
+        parameters = [500, 1830, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [850, 1830, 0.0, 4]
+        parameters = [870, 1830, 0.0, 4]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 1000, 0.0, 4]
         self.go_to_coord_rotation(parameters)
@@ -248,7 +248,7 @@ class Robotishe():
 
 
 def test():
-    rb = Robotishe(False)
+    rb = Robotishe(True)
     rb.make_move([100.0, 0.0, 0.0, 4])
 
 #test()
