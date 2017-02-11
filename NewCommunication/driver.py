@@ -3,13 +3,14 @@ import serial
 from serial.tools import list_ports
 from cmd_list import REVERSED_CMD_LIST
 from cmd_list import CMD_LIST
+import logging
 
 from packets import encode_packet, decode_packet
 
 
-PORT_VID = 1155
-PORT_PID = 22336
-PORT_SNR = '3677346C3034'
+PORT_VID = '0483'
+PORT_PID = '5740'
+PORT_SNR = '325936843235'
 DEVICE_NAME = '/dev/tty.usbmodem1411'
 
 class DriverException(Exception):
@@ -46,6 +47,8 @@ class Driver(Process):
                 break
         self.device = DEVICE_NAME  ## Time-Limited correction!
         if self.device is None:
+            self.device = DEVICE_NAME  ## Time-Limited correction!
+            logging.critical('STM is no connected!')
             raise DriverException('Device not found')
         self.port = serial.Serial(self.device,
             baudrate=self.baudrate, timeout=self.timeout)
@@ -59,11 +62,12 @@ class Driver(Process):
             packet = encode_packet(cmd_id, cmd['params'])
         else:
             packet = encode_packet(cmd_id, '')
+        logging.debug('data_to_stm:' + ','.join([str(i) for i in packet]))
         #print [c for c in packet]
         self.port.write(packet)
         data  = self.port.read(size=3)
         data = bytearray(data)
-        data += self.port.read(size = int(data[2])) # TODO check correctness
+        data += self.port.read(size = int(data[2])-3) # minus size of first 3 elements
         # clear buffer if error!
         return decode_packet(data)
 
