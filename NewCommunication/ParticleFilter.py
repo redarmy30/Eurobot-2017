@@ -350,15 +350,15 @@ def particles_sense(particles, lidar_data):
     return answer
 
 def particle_sense2(particles,scan):
-    plt.figure(0)
+    #plt.figure(0)
     angle,distance = get_beacons_Marko(scan)
     x_coords, y_coords = p_trans(angle, distance)
     print x_coords
     print y_coords
-    mmmain = calculate_main(particles)
-    plt.plot([i for i in x_coords], [i for i in y_coords], 'ro',color = 'r')
-    for i in landmarks:
-        plt.plot(i[0],i[1],'ro',markersize=10,color = 'b')
+    main_robot = calculate_main(particles)
+    #plt.plot([i for i in x_coords], [i for i in y_coords], 'ro',color = 'r')
+    #for i in landmarks:
+    #    plt.plot(i[0],i[1],'ro',markersize=10,color = 'b')
     weights = []
     #plt.show()
     for i in range(len(particles)):
@@ -371,13 +371,13 @@ def particle_sense2(particles,scan):
     for i in range(len(weights)):
         weights[i] = weights[i] / sm
     answer = resample(particles, weights, particle_number)
-    for i in range(len(particles)):
+    #for i in range(len(particles)):
         #print i
         #print particles[i]
         #print weights[i]
         #print '##########'
-        plt.plot(particles[i].x,particles[i].y,'ro',markersize=weights[i]*10,color = 'g')
-    plt.show()
+    #    plt.plot(particles[i].x,particles[i].y,'ro',markersize=weights[i]*10,color = 'g')
+    #plt.show()
     return answer
 
 

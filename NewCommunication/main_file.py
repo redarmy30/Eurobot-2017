@@ -158,7 +158,7 @@ class Robotishe():
         self.y = parameters[1]
         self.angle = parameters[2]
         print 'Before Calculation:'
-        pf.calculate_main(self.particles)
+        uncorrect_robot = pf.calculate_main(self.particles)
         logging.info('3 second debug sleep')
         time.sleep(3)
         if self.lidar_on:
@@ -167,7 +167,7 @@ class Robotishe():
             #print lidar_data
             self.particles = pf.particle_sense2(self.particles,lidar_data)
             #self.particles = pf.particles_sense(self.particles, lidar_data)
-            print 'Before Calculation:'
+            print 'After Calculation:'
             main_robot = pf.calculate_main(self.particles)
             #for i in range(30):
             #   self.particles = pf.particles_sense(self.particles, lidar_data)
@@ -220,6 +220,27 @@ class Robotishe():
         #logging.info(self.dr.process_cmd(command))
         # TODO add move correction
 
+    def update(self, plot, text):
+        timestamp, scan = laser.get_filtered_intens(dmax=DMAX)
+        plot.set_offsets(scan[:, :2])
+        plot.set_array(scan[:, 2])
+        text.set_text('t: %d' % timestamp)
+        plt.show()
+        plt.pause(0.001)
+
+    def run_animation():
+        plt.ion()
+        ax = plt.subplot(111)
+        plot = ax.scatter([0, 1], [0, 1], s=5, c=[IMIN, IMAX], cmap=plt.cm.Greys_r, lw=0)
+        text = plt.text(0, 1, '', transform=ax.transAxes)
+        ax.grid(True)
+        plt.show()
+        self.ax = ax
+        self.plot = plot
+        self.text = text
+        # while plt.get_fignums():
+        #     update(laser, plot, text)
+
 
     def demo(self):
         # goal 170 620
@@ -227,7 +248,7 @@ class Robotishe():
         #1830
         #parameters = [250, 1780, 0.0, 4]#250,1780
         #self.go_to_virtual(parameters)
-
+        #run_animation()
         parameters = [800, 1830, 0.0, 4]
         self.go_to_coord_rotation(parameters)
         parameters = [850, 1830, 0.0, 4]
@@ -275,7 +296,7 @@ def lidar_test():
 #func_test()
 def t():
     rb = Robotishe(True)
-    rb.demo()
+   # rb.demo()
 
 t()
 

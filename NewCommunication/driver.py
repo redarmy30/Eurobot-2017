@@ -1,5 +1,6 @@
 from multiprocessing import Process
 import serial
+
 from serial.tools import list_ports
 from cmd_list import REVERSED_CMD_LIST
 from cmd_list import CMD_LIST
@@ -8,9 +9,9 @@ import logging
 from packets import encode_packet, decode_packet
 
 
-PORT_VID = '0483'
-PORT_PID = '5740'
-PORT_SNR = '325936843235'
+PORT_VID = 1155#'0483'
+PORT_PID = 22336#'5740'
+PORT_SNR = '325936843235'#'325936843235'
 DEVICE_NAME = '/dev/tty.usbmodem1411'
 
 class DriverException(Exception):
@@ -40,6 +41,7 @@ class Driver(Process):
         self.lz_output = lz_output
 
     def connect(self):
+        print [(port.pid, port.vid, port.serial_number) for port in list_ports.comports()]
         for port in list_ports.comports():
             if (port.serial_number == PORT_SNR) and \
                     (port.pid == PORT_PID) and (port.vid == PORT_VID):
