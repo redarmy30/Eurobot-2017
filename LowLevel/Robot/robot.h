@@ -47,7 +47,7 @@
 
 #define MAX_DIST 800
 #define MIN_DIST 50
-#define MAX_VOLTAGE 5
+#define MAX_VOLTAGE 3.3
 #define CRITICAL_DIST 200
 #define FRONT_LEFT 0
 #define FRONT_RIGHT 1

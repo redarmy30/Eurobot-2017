@@ -110,15 +110,23 @@ bool setServoCCWAngleLimit (const uint8_t servoId,
 
 //------------------------------------------------------------------------------
 // these shouldn't need to be called externally:
-
+#pragma pack(push, 1)
 typedef struct ServoResponse
 {
+    uint8_t first_byte;
+    uint8_t second_byte;
+    uint8_t third_byte;
+
+    uint8_t reserved;
     uint8_t id;
-    uint8_t length;
+    uint16_t length;
     uint8_t error;
     uint8_t params[SERVO_MAX_PARAMS];
-    uint8_t checksum;
+    uint16_t checksum;
+
 } ServoResponse;
+#pragma pack(pop)
+
 
 void sendServoByte (const uint8_t byte);
 

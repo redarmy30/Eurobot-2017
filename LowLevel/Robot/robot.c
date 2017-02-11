@@ -705,10 +705,10 @@ case 0x3A: // Distance from ultrasonic sensors
   {
         float distance[4];
 
-        distance[FRONT_LEFT] = float(adcData[FRONT_LEFT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
-        distance[FRONT_RIGHT] = float(adcData[FRONT_RIGHT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
-        distance[BACK_LEFT] = float(adcData[BACK_LEFT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
-        distance[BACK_RIGHT] = float(adcData[BACK_RIGHT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
+        distance[FRONT_LEFT] = ((float)adcData[FRONT_LEFT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
+        distance[FRONT_RIGHT] = ((float)adcData[FRONT_RIGHT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
+        distance[BACK_LEFT] = ((float)adcData[BACK_LEFT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
+        distance[BACK_RIGHT] = ((float)adcData[BACK_RIGHT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
 
         sendAnswer(cmd->command, (char* )distance, sizeof(distance));
 
@@ -953,4 +953,5 @@ void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_num
     uint16_t finalVal = 0;
     uint16_t curLoad;*/
 //______________________________________________________//
+
 

@@ -18,6 +18,10 @@
 
 #define MBPS 0x01
 
+void delay(int n){
+    while(n>0)n--;
+}
+
 void RCC_Config(void)
 {
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
@@ -78,6 +82,11 @@ void soft_delay(long int ticks)
 
 long frequency = 9600;
 
+/*void delay(int n){
+    int i;
+    for(i=0; i<n; i++);
+}*/
+
 int main(void)
 {
     SystemInit();
@@ -92,7 +101,7 @@ int main(void)
     uint8_t ID_test = 1;
     uint16_t testAngleVal1 = 150;
     uint16_t testAngleVal2 = 300;
-
+    uint16_t i = 0;
   while(1)
   {
 // Uploading standart paramiters
@@ -120,8 +129,27 @@ int main(void)
        /* setServoAngle(ID_test, testAngleVal);
         setServoAngle(ID_test, testAngleVal1);
         setServoAngle(ID_test, testAngleVal2);*/
-            setServoAngle(254,100);
-            setServoAngle(1,200);
+       // setServoAngle(254,50);
+     //   setServoMovingSpeed(254, 300, 1);
+      //  setServoAngle(254,250);
+//        for(i=20; i<150; i++){
+        setServoCWAngleLimit (254, (uint16_t)0);
+        setServoCCWAngleLimit (254, (uint16_t)0);
+        setServoAngle(254,i++);
+        delay(40000);
+        if(i>359)i=0;
+        //setServoAngle(254,200);
+
+//            delay(1000);
+//        }
+//        delay(10000000);
+//        for(i=150; i>20; i--){
+//            setServoAngle(254,i);
+//            delay(1000);
+//        }
+//        delay(10000000);
+
+    //    setServoMovingSpeed(254, 300, 1);
 //        uint8_t packet[] = {0xFF,0xFF,0xFD,0x00,0x01,0x03,0x00,0x01};
 //        uint16_t answer;
 //        answer = CRC16_BUYPASS(packet,sizeof(packet));

@@ -262,7 +262,7 @@ initRegulators();
 
 //___ADC____________________________________________________________________
 
-  conf_pin(GENERAL_PIN_0, INPUT, PUSH_PULL, FAST_S, PULL_DOWN);//conf_pin(GENERAL_PIN_0, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(GENERAL_PIN_0, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);//conf_pin(GENERAL_PIN_0, INPUT, PUSH_PULL, FAST_S, PULL_DOWN);//
   conf_pin(GENERAL_PIN_1, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(GENERAL_PIN_2, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(GENERAL_PIN_3, ANALOG, PUSH_PULL, FAST_S, NO_PULL_UP);
