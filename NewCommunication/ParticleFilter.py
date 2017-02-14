@@ -96,10 +96,11 @@ class Particle:
                 continue
             beacon[num] += lmin
             num_point[num] += 1
-        median = [(beacon[i] / num_point[i]) if num_point[i] != 0 else (1000) for i in xrange(3)]
+        mean = [(beacon[i] / num_point[i]) if num_point[i] != 0 else (1000) for i in xrange(3)]
+        # TODO try use median instead mean
         # TODO if odometry works very bad and weights are small use only lidar
         try:
-            return self.Gaus(float(sum(median)) / len(median))
+            return self.Gaus(float(sum(mean)) / len(mean))
         except ZeroDivisionError:
             print 'Zero division error in weights'
             return 0
