@@ -57,11 +57,16 @@ class Robot():
         logging.info(self.dr.process_cmd(command))
         # After movement
         stamp = time.time()
+
         cmd = {'source': 'fsm', 'cmd': 'is_point_was_reached'}
+        time.sleep(0.100001)
         while not self.dr.process_cmd(cmd)['data']:
-            time.sleep(0.3)
+            time.sleep(0.05)
             if (time.time() - stamp) > 30:
                 return False # Error
+        # After movement
+        stamp = time.time()
+        time.sleep(0.05)
         logging.info('point reached')
         self.particles = pf.particles_move(self.particles, [parameters[0]-self.x,parameters[1]-self.y,parameters[2]-self.angle])
         self.x = parameters[0]
@@ -69,8 +74,6 @@ class Robot():
         self.angle = parameters[2]
         print 'Before Calculation:'
         pf.calculate_main(self.particles)
-        logging.info('1 second debug sleep')
-        time.sleep(1)
         if self.lidar_on:
             lidar_data = self.get_raw_lidar()
             #print lidar_data
@@ -79,25 +82,26 @@ class Robot():
             main_robot = pf.calculate_main(self.particles)
             self.x = main_robot.x
             self.y = main_robot.y
+            self.angle = main_robot.orientation
         # else lidar
         command = {'source': 'fsm', 'cmd': 'setCoordinates', 'params': [self.x / 1000., self.y / 1000., self.angle]}
         logging.info(self.dr.process_cmd(command))
+        print time.time()-stamp
         # TODO add move correction
 
 
     def demo(self):
         """robot Demo, go to coord and take cylinder"""
         # TODO take cylinder
-        parameters = [1000, 1500, 0.0, 4]
+        parameters = [650, 650, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [1100, 1500, 0.0, 4]
+        parameters = [250, 650, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [1100, 1300, 0.0, 4]
+        parameters = [250, 650, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [1100, 1300, 0.0, 4]
+        parameters = [250, 650, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [1100, 1300, 0.0, 4]
-        self.go_to_coord_rotation(parameters)
+
 
 def test():
     rb = Robot(True)

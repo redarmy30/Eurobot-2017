@@ -5,18 +5,19 @@ import numpy as np
 from hokuyolx import HokuyoLX
 import time
 import matplotlib.pyplot as plt
+
 # Dimensions of the playing field
 WORLD_X = 3000
 WORLD_Y = 2000
 INT_MAX = 99999990
 mark_r = 40
 
-landmarks = [[-mark_r, WORLD_Y/2.], [WORLD_X+mark_r,WORLD_Y + mark_r], [WORLD_X + mark_r, - mark_r]]
+landmarks = [[-mark_r, WORLD_Y / 2.], [WORLD_X + mark_r, WORLD_Y + mark_r], [WORLD_X + mark_r, - mark_r]]
 # Noises
 distance_noise = 30.0  # Noise parameter: should be included in move function.
-angle_noise = 0.03#0.01  # Noise parameter: should be included in move function.
-sense_noise = 40
-particle_number = 3000  # Number of Particles
+angle_noise = 0.02  # 0.01  # Noise parameter: should be included in move function.
+sense_noise = 15
+particle_number = 5000  # Number of Particles
 
 # ------------------------------------------------
 # 
@@ -24,14 +25,15 @@ particle_number = 3000  # Number of Particles
 #
 start_position = [170, 170, 0]  # should be two types and not [0,0,0]
 
+
 # Support Functions
 
 
-def ideal(x,y):
+def ideal(x, y):
     """returns almost ideal lidar data"""
     answer = []
     for i in landmarks:
-        answer.append(((x - i[0])**2 + (y - i[1])**2)**0.5+0*random.gauss(0, distance_noise))
+        answer.append(((x - i[0]) ** 2 + (y - i[1]) ** 2) ** 0.5 + 0 * random.gauss(0, distance_noise))
     return answer
 
 
@@ -41,17 +43,11 @@ class Particle:
     #    creates Particle and initializes location/orientation
     #
 
-    def __init__(self,a=start_position[0],b=start_position[1],ang = start_position[2]):
-        # add gausssian
-        self.x = a + random.gauss(0, distance_noise)   # initial x position
-        self.y = b + random.gauss(0, distance_noise) # initial y position
-        self.orientation = ang + random.gauss(0,angle_noise)  # initial orientation
-
-    # --------
-    # set:
-    #    sets a Particle coordinate
-    #
-
+    def __init__(self, a=start_position[0], b=start_position[1], ang=start_position[2]):
+        # add gauss errors
+        self.x = a + np.random.normal(0, distance_noise)  # initial x position
+        self.y = b + np.random.normal(0, distance_noise)  # initial y position
+        self.orientation = (ang + np.random.normal(0, angle_noise)) % (2 * math.pi)  # initial orientation
 
     def set(self, x_new, y_new, orientation_new):
         """Set particle position on the field"""
@@ -59,91 +55,17 @@ class Particle:
         self.y = y_new
         self.orientation = orientation_new % (2 * math.pi)  # maybe need to add warning!
 
-
     def move(self, delta):
         """Move particle by creating new one and setting position"""
-        x_new = self.x + delta[0] + random.gauss(0, distance_noise)
-        y_new = self.y + delta[1] + random.gauss(0, distance_noise)
-        orientation_new = self.orientation + delta[2] + random.gauss(0, angle_noise)
-        new_Particle = Particle()
-        new_Particle.set(x_new, y_new, orientation_new)
-        return new_Particle
+        return Particle(self.x + delta[0], self.y + delta[1], self.orientation + delta[2])
 
     def pose(self):
         """Return particle pose"""
         return self.x, self.y, self.orientation
 
-    def Gaus(self,x, sigma=sense_noise):
+    def Gaus(self, x, sigma=sense_noise):
         """calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma"""
-        return math.exp(- ((x) ** 2) / (sigma ** 2) / 2.0) / math.sqrt(2.0 * math.pi * (sigma ** 2))
-
-
-    def gaussian(self, mu, sigma, x):
-        # calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma
-        return math.exp(- ((mu - x) ** 2) / (sigma ** 2) / 2.0) / math.sqrt(2.0 * math.pi * (sigma ** 2))
-
-
-    def weight_depricated(self, lidar_data):
-        """Calculate particle weight based on its pose and lidar data"""
-
-        if len(lidar_data) == 1:
-            minimum = INT_MAX
-            best = -10
-            for mark in landmarks:
-                prob = 1.0
-                dist = math.sqrt((self.x - mark[0]) ** 2 + (self.y - mark[1]) ** 2)
-                prob *= self.gaussian(dist, sense_noise, lidar_data[0][1])
-                if best < prob:
-                    best = prob
-            return best
-
-        elif len(lidar_data) == 2:
-            comb = [[0, 1], [0, 2], [1, 2], [1, 0], [2, 0], [2, 1]]  # Precalculated sets
-            best = -10
-            for st in comb:
-                prob = 1.0
-                dist = math.sqrt((self.x - landmarks[st[0]][0]) ** 2 + (self.y - landmarks[st[0]][1]) ** 2)
-                prob *= self.gaussian(dist, sense_noise, lidar_data[0][1])# lidar_data (angle,dist)
-
-                dist = math.sqrt((self.x - landmarks[st[1]][0]) ** 2 + (self.y - landmarks[st[1]][1]) ** 2)
-                prob *= self.gaussian(dist, sense_noise, lidar_data[1][1])
-                if best < prob:
-                    best = prob
-            return best
-
-        elif len(lidar_data) == 3:
-            comb = [[2, 0, 1], [1, 0, 2], [0, 1, 2], [2, 1, 0], [1, 2, 0], [0, 2, 1]]  # Precalculated sets
-            best = -10
-            for st in comb:
-                prob = 1.0
-                dist = math.sqrt((self.x - landmarks[st[0]][0]) ** 2 + (self.y - landmarks[st[0]][1]) ** 2)
-                prob *= self.gaussian(dist, sense_noise, lidar_data[0][1])
-
-                dist = math.sqrt((self.x - landmarks[st[1]][0]) ** 2 + (self.y - landmarks[st[1]][1]) ** 2)
-                prob *= self.gaussian(dist, sense_noise, lidar_data[1][1])
-
-                dist = math.sqrt((self.x - landmarks[st[2]][0]) ** 2 + (self.y - landmarks[st[2]][1]) ** 2)
-                prob *= self.gaussian(dist, sense_noise, lidar_data[2][1])
-
-                if best < prob:
-                    best = prob
-            return best
-                #######
-                # theory_dist = abs(lidar_data[0] - math.sqrt((self.x - landmarks[st[0]][0]) ** 2 + (
-                #     self.y - landmarks[st[0]][1]) ** 2)) ** 2  # distance to first mark
-                #
-                # theory_dist += abs(lidar_data[1] - math.sqrt((self.x - landmarks[st[1]][0]) ** 2 + (
-                #     self.y - landmarks[st[1]][1]) ** 2)) ** 2  # distance to second mark
-                #
-                # theory_dist += abs(lidar_data[2] - math.sqrt((self.x - landmarks[st[2]][0]) ** 2 + (
-                #     self.y - landmarks[st[2]][1]) ** 2)) ** 2  # distance to third mark
-
-                # theory_dist = dif1^2 + dif2^2 +dif3^2
-        else:
-            logging.warning("Invalid lidar data len={0}".format(len(lidar_data)))
-            return 0.1
-
-
+        return math.exp(- (x ** 2) / (sigma ** 2) / 2.0) / math.sqrt(2.0 * math.pi * (sigma ** 2))
 
     def weight(self, x_rob, y_rob, BEACONS):
         """Calculate particle weight based on its pose and lidar data"""
@@ -152,8 +74,6 @@ class Particle:
         beacons = [(math.cos(self.orientation) * beac[0] + math.sin(self.orientation) * beac[1],
                     -math.sin(self.orientation) * beac[0] + math.cos(self.orientation) * beac[1])
                    for beac in temp_beac]
-
-
 
         beacon = [0, 0, 0]
         num_point = [0, 0, 0]
@@ -177,13 +97,12 @@ class Particle:
             beacon[num] += lmin
             num_point[num] += 1
         median = [(beacon[i] / num_point[i]) if num_point[i] != 0 else (1000) for i in xrange(3)]
+        # TODO if odometry works very bad and weights are small use only lidar
         try:
-            return self.Gaus(float(sum(median))/len(median))
+            return self.Gaus(float(sum(median)) / len(median))
         except ZeroDivisionError:
             print 'Zero division error in weights'
             return 0
-
-
 
     def __str__(self):
         """Print statement"""
@@ -191,53 +110,16 @@ class Particle:
                % (self.x, self.y, math.degrees(self.orientation))
 
 
-def get_beacons(scan):
-    """Depricated function!! Old version"""
-    #print scan
-    scan = np.array(scan,dtype=float)
-    #max_intens = scan[:, 1].max() * 0.8
-    max_intens = 2400
-    #print 'max'
-    #print max_intens
-    beacons = []
-    prev = -1
-    dist = 99999
-    for i in range(1080):
-        if scan[i][1] > max_intens:
-            # print scan[i][1]
-            if prev == -1:
-                dist = scan[i][0]
-                prev = i
-                continue
-            if scan[i][0] < dist and (abs(dist - scan[i][0]) < 100) and abs(i - prev) < 30:
-                dist = scan[i][0]
-                prev = i
-            elif abs(dist - int(scan[i][0])) > 100 or abs(i - prev) > 30:
-                beacons.append((prev * 0.25 - 135, dist))
-                prev = i
-                dist = scan[i][0]
-    if len(beacons)==0 and dist!=99999:
-        beacons.append((prev * 0.25 - 135, dist))
-    elif abs(beacons[-1][1]-dist)>100 or (beacons[-1][0]+135)/0.25-prev>30:
-        # print prev * 0.25 - 135
-        beacons.append((prev * 0.25 - 135, dist))
-    logging.info('beacons'+','.join([str(i[1])+'-'+str(i[0])for i in beacons]))
-    return beacons
-
-
 def get_landmarks(scan):
     """Returns filtrated lidar data"""
     angles = []
     distances = []
-    max_intens = 2800 #2800
+    max_intens = 2600  # 2800
     for i in range(len(scan)):
-        if scan[i][1]>max_intens and scan[i][0]<3700:
-            angles.append(i*math.pi/180/4)
+        if scan[i][1] > max_intens and scan[i][0] < 3700:
+            angles.append(i * math.pi / 180 / 4)
             distances.append(scan[i][0])
-    return angles,distances
-
-
-
+    return angles, distances
 
 
 def angle5(angle):
@@ -251,8 +133,8 @@ def angle5(angle):
 
 def p_trans(agl, pit):
     """Transform lidar measurment to xy in Particle coord sys"""
-    x_rob = [-1*pit[i] * math.cos(angle5(agl[i])) for i in xrange(len(agl))]
-    y_rob = [-1*pit[i] * math.sin(angle5(agl[i])) for i in xrange(len(agl))]
+    x_rob = [-1 * pit[i] * math.cos(angle5(agl[i])) for i in xrange(len(agl))]
+    y_rob = [-1 * pit[i] * math.sin(angle5(agl[i])) for i in xrange(len(agl))]
     return x_rob, y_rob
 
 
@@ -281,7 +163,7 @@ def calculate_main(particles):
         p_x += particles[i].x
         p_y += particles[i].y
         p_orient += (((particles[i].orientation - particles[0].orientation + math.pi) % (2.0 * math.pi))
-                        + particles[0].orientation - math.pi)
+                     + particles[0].orientation - math.pi)
 
     answer = Particle()
     answer.set(p_x / len(particles), p_y / len(particles), p_orient / len(particles))
@@ -296,18 +178,17 @@ def particles_move(particles, delta):
     return particles
 
 
-
-def particles_sense(particles,scan):
+def particles_sense(particles, scan):
     """Calculates new particles according to Lidar data"""
-    angle,distance = get_landmarks(scan)
+    angle, distance = get_landmarks(scan)
     x_coords, y_coords = p_trans(angle, distance)
     print x_coords
     print y_coords
     weights = []
     for i in range(len(particles)):
-        weights.append(particles[i].weight(x_coords,y_coords,landmarks))
+        weights.append(particles[i].weight(x_coords, y_coords, landmarks))
     sm = sum(weights)
-    if sm==0:
+    if sm == 0:
         weights = [0.0 for i in xrange(len(particles))]
         answer = resample(particles, weights, particle_number)
         return answer
@@ -316,10 +197,10 @@ def particles_sense(particles,scan):
     answer = resample(particles, weights, particle_number)
 
     # print particles weights
-    #for i in range(len(particles)):
-        #print i
-        #print particles[i]
-        #print weights[i]
-        #print '##########'
+    # for i in range(len(particles)):
+    # print i
+    # print particles[i]
+    # print weights[i]
+    # print '##########'
 
     return answer
