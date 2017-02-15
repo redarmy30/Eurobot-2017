@@ -3,6 +3,7 @@ import time
 import ParticleFilter as pf
 from hokuyolx import HokuyoLX
 import logging
+import signal
 
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w',format='%(levelname)s:%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p',level=lvl)
@@ -81,8 +82,13 @@ class Robot:
         logging.info(self.dr.process_cmd(command))
         # TODO add move correction
 
+    ############################################################################
+    ######## HIGH LEVEL FUNCTIONS ##############################################
+    ############################################################################
     def demo(self):
         """robot Demo, go to coord and take cylinder"""
+        signal.signal(signal.SIGALRM, self.funny_action)
+        signal.alarm(90)
         # TODO take cylinder
         parameters = [650, 650, 0.0, 4]
         self.go_to_coord_rotation(parameters)
@@ -92,6 +98,11 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [250, 650, 0.0, 4]
         self.go_to_coord_rotation(parameters)
+
+    def funny_action(self,signum, frame):
+        print 'Main functionaly is off'
+        print 'FUNNNY ACTION'
+
 
 
 def test():
