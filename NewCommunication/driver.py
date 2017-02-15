@@ -47,6 +47,7 @@ class Driver(Process):
                     (port.pid == PORT_PID) and (port.vid == PORT_VID):
                 self.device = port.device
                 break
+        self.device = DEVICE_NAME  ## Time-Limited correction!
         if self.device is None:
             self.device = DEVICE_NAME  ## Time-Limited correction!
             logging.critical('STM is no connected!')
