@@ -50,6 +50,7 @@ uint16_t CRC16_BUYPASS(uint8_t *data, size_t len)
   size_t j;
   int i;
   for (j=len; j>0; j--) {
+
     crc ^= (uint16_t)(*data++) << 8;
     for (i=0; i<8; i++) {
       if (crc & 0x8000) crc = (crc<<1) ^ 0x8005;
@@ -289,7 +290,7 @@ bool setServoReturnDelayMicros (const uint8_t servoId,
         return false;
 
     const uint8_t params[4] = {RETURN_DELAY, (uint8_t)0x00,
-                               (uint8_t)((micros / 2) & 0xff), (uint8_t)0x00};
+                               (uint8_t)((micros / 2) & 0xff), (uint8_t)0x00,};
 
     sendServoCommand (servoId, WRITE, 4, params);
 
@@ -301,7 +302,7 @@ bool setServoReturnDelayMicros (const uint8_t servoId,
 
 // set the events that will cause the servo to blink its LED
 
-
+/*
 //////////////////////////////////////////////////////   changed
 bool setServoBlinkConditions (const uint8_t servoId,
                               const uint8_t flags)
@@ -334,7 +335,7 @@ bool setServoShutdownConditions (const uint8_t servoId,
     return true;
 }
 
-
+*/
 // valid torque values are from 0 (free running) to 1023 (max)
 
 //////////////////////////////////////////////////////   changed
@@ -363,9 +364,9 @@ bool setServoTorque (const uint8_t servoId,
 bool getServoTorque (const uint8_t servoId,
                      uint16_t *torqueValue)
 {
-    const uint8_t params[2] = {TORQUE, 2};  // read two bytes, starting at address TORQUE
+    const uint8_t params[4] = {TORQUE, 4, 0x04, 0x00};  // read two bytes, starting at address TORQUE
 
-    sendServoCommand (servoId, READ, 2, params);
+    sendServoCommand (servoId, READ, 4, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -399,7 +400,7 @@ bool setServoMovingSpeed (const uint8_t servoId,
 
     const uint8_t params[6] = {MOVING_SPEED, (uint8_t)0x00,
                                lowByte,
-                               highByte, (uint8_t)0x00, (uint8_t)0x00};
+                               highByte, (uint8_t)0x00, (uint8_t)0x00 };
 
     sendServoCommand (servoId, WRITE, 6, params);
 
@@ -451,9 +452,9 @@ bool getServoCurrentSpeed (const uint8_t servoId,
 bool getCurrentLoad (const uint8_t servoId,
                      uint16_t *loadValue)
 {
-    const uint8_t params[2] = {CURRENT_LOAD, 2};  // read two bytes, starting at address CURRENT_LOAD
+    const uint8_t params[4] = {CURRENT_LOAD, 4, 0x04, 0x00};  // read two bytes, starting at address CURRENT_LOAD
 
-    sendServoCommand (servoId, READ, 2, params);
+    sendServoCommand (servoId, READ, 4, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -493,11 +494,11 @@ bool setServoAngle ( const uint8_t servoId,
 }
 
 // get current servo angle
-bool getServoAngle (const uint8_t servoId, float *angle)
+bool getServoAngle (const uint8_t servoId,
+                    float *angle)
 {
-
-
-    const uint8_t params[2] = {CURRENT_ANGLE, 0x00, 0x04, 0x00 /*repsonse.length-3, 0x00*/};  // read two bytes, starting at address CURRENT_ANGLE
+    const uint8_t params[4] = {CURRENT_ANGLE,
+                               4, 0x04, 0x00};  // read two bytes, starting at address CURRENT_ANGLE
 
     sendServoCommand (servoId, READ, 4, params);
 
