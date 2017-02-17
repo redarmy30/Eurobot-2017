@@ -19,7 +19,8 @@
 #include "gpio.h" // работа с портами ввода-вывода
 #include "Pins.h" // определение ножек на плате
 #include "Interrupts.h"
-#include "regulator.h"  // регуляторы колес, кинематика, траекторный
+#include "regulator.h"
+// регуляторы колес, кинематика, траекторный
 
 #include "usart.h" //обмен с измерительной тележкой
 #include "robot.h"  //определение конфигурации робота и его основных функций
@@ -44,8 +45,8 @@ char mode;
 int main(void)
 {
     __disable_irq();
-   initAll();
-
+    initAll();
+    CloseLauncher();
 
       USBD_Init(&USB_OTG_dev,
 #ifdef USE_USB_OTG_HS
@@ -87,8 +88,8 @@ uint16_t detector = 0;
 //int ttime = 19000000;
 //int ttime1 = 10000000;
 //uint16_t  angle = 130;
-while(1){
 
+while(1){
 
 
      //curState.collisionAvEn =1;

@@ -36,7 +36,15 @@ bool closeCubesCatcher(uint8_t*);
 void initCubeCatcherPID(void);
 void GetDataForManipulator(void);
 void pidLowLevelManipulator(float, float);
-///////////////////////////////////////////////////////////////
+
+//////////////////////////FUNNY ACTION IN EUROBOT 2017/////////////////////////////////////
+
+#define CLOSE_LID_VALUE 0.027
+#define OPEN_LID_VALUE 0.07
+#define FUNNY_ACTION_BTN_CHANNEL 4
+
+void OpenLauncher();
+void CloseLauncher();
 
 ///////////////////////////PNEUMO//////////////////////////////
 

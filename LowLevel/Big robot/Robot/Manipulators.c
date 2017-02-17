@@ -180,7 +180,13 @@ void DeepOpenFishingManipulator()
 }
 
 
+void OpenLauncher(){
+    setPWM((char)FUNNY_ACTION_BTN_CHANNEL, (float)OPEN_LID_VALUE);
+}
 
+void CloseLauncher(){
+    setPWM((char)FUNNY_ACTION_BTN_CHANNEL, (float)CLOSE_LID_VALUE);
+}
 
 void CloseFishingManipulator()
 {

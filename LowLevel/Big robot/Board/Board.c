@@ -62,7 +62,7 @@ char setPWM(char ch, float duty) // установить заполнение на выходе ШИМ  0 .. 1,
 {
     if (duty > 1 ) duty = 1;
     if (duty < 0 ) duty = 0;
-    *PWM_CCR[ch] = (int32_t)((duty * MAX_PWM));
+    *PWM_CCR[ch] = (int32_t)(duty * MAX_PWM);
     return 0;
 }
 
@@ -315,12 +315,5 @@ initRegulators();
 //NVIC_EnableIRQ(I2C2_ER_IRQn);
 //NVIC_EnableIRQ(I2C2_EV_IRQn);
 __enable_irq();
-CloseFishingManipulator();
-setVoltage((char)CH_FISHIN_GSERVO - 1, (float) -DUTY_FISH_UNCATCH); //0
-    softDelay(9000000);
-    setVoltage((char)CH_FISHIN_GSERVO - 1, (float) -DUTY_FISH_UNCATCH-0.005);
-    setServoTorque((uint8_t)ID_FISHING_MANIPULATOR, (uint16_t) 850);
-close_seashell_doors();
-
 }
 ////////////////////////////////////////////////////////////////////////////////
