@@ -715,6 +715,25 @@ case 0x3A: // Distance from ultrasonic sensors
   }
    break;
 
+case 0x3B: // Funny action - open lid and shoot
+  {
+
+        OpenLauncher();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+
+  }
+   break;
+
+case 0x3C: // Funny action - close lid
+  {
+        CloseLauncher();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+
+  }
+   break;
+
 case 0x41: // ОТКРЫТЬ ДВЕРИ
     {
        Open_seashell_doors();
