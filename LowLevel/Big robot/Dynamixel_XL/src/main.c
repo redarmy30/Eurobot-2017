@@ -133,13 +133,13 @@ int main(void)
      //   setServoMovingSpeed(254, 300, 1);
       //  setServoAngle(254,250);
 //        for(i=20; i<150; i++){
-        setServoCWAngleLimit (254, (uint16_t)0);
-        setServoCCWAngleLimit (254, (uint16_t)0);
-        setServoAngle(254,i++);
+//        setServoCWAngleLimit (254, (uint16_t)0);
+//        setServoCCWAngleLimit (254, (uint16_t)0);
+//        setServoAngle(254,i++);
         delay(40000);
-        if(i>359)i=0;
-        //setServoAngle(254,200);
-
+//        if(i>359)i=0;
+        setServoAngle(254,50);
+        setServoAngle(254,250);
 //            delay(1000);
 //        }
 //        delay(10000000);

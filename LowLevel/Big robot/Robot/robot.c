@@ -715,6 +715,25 @@ case 0x3A: // Distance from ultrasonic sensors
   }
    break;
 
+case 0x3B: // Funny action - open lid and shoot
+  {
+
+        OpenLauncher();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+
+  }
+   break;
+
+case 0x3C: // Funny action - close lid
+  {
+        CloseLauncher();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+
+  }
+   break;
+
 case 0x41: // ОТКРЫТЬ ДВЕРИ
     {
        Open_seashell_doors();
@@ -788,10 +807,47 @@ break;
 
 */
 
+case  0x44:  //TURN ON RIGHT BALL COLLECTOR TO GET BALL
+    {
+       downRightCollectorToGetBalls();
+       char * str ="Ok";
+       sendAnswer(cmd->command, str, 3);
+    }
+ case 0x45: //TURN OFF RIGHT BALLCOLLECTOR WITH BALLS
+    {
+       upRightCollectorWithBalls();
+       char * str ="Ok";
+       sendAnswer(cmd->command, str, 3);
 
+    }
 
+ case 0x46: //SWITCH RIGHT BALLCOLLECTOR TO PUSH BALLS INTO BOX
+     {
+       throwRightCollectorIntoBox();
+       char * str ="Ok";
+       sendAnswer(cmd->command, str, 3);
+     }
 
+ case 0x47: //TURN ON LEFT BALLCOLLECTOR TO GET BALLS
+    {
+        downLeftCoolectorToGetBalls();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
 
+ case 0x48: // TURN OFF LEFT BALLCOLLECTOR
+    {
+        upLeftCollectorWithBalls();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+
+ case 0x49: //SWITCH LEFT BALLCOLLECTOR TO PUSH BALLS INTO BOX
+    {
+        throwLeftCollectorIntoBox();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
     default:
     return 0;
   break;
