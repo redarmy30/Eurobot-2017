@@ -164,7 +164,7 @@
 	"stm32f4xx_rcc.h"
 	"stm32f4xx_conf.h"
 
-1487340692 source:f:\from git\lowlevel\big robot\board\board.c
+1487688846 source:f:\from git\lowlevel\big robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
 	"Pins.h"
@@ -201,7 +201,7 @@
 
 1487326145 f:\from git\lowlevel\big robot\robot\path.h
 
-1487343730 f:\from git\lowlevel\big robot\robot\manipulators.h
+1487691437 f:\from git\lowlevel\big robot\robot\manipulators.h
 	<stdbool.h>
 	<stdint.h>
 	"pins.h"
@@ -318,7 +318,7 @@
 
 1487326145 source:f:\from git\lowlevel\big robot\robot\kinematics.c
 
-1487342609 source:f:\from git\lowlevel\big robot\robot\manipulators.c
+1487691526 source:f:\from git\lowlevel\big robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"
@@ -343,7 +343,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1487326145 source:f:\from git\lowlevel\big robot\robot\robot.c
+1487599525 source:f:\from git\lowlevel\big robot\robot\robot.c
 	"robot.h"
 	"pins.h"
 	"usart.h"
@@ -546,7 +546,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1487342917 source:f:\from git\lowlevel\big robot\src\main.c
+1487691220 source:f:\from git\lowlevel\big robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"

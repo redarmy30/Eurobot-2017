@@ -248,6 +248,27 @@ void close_seashell_doors()
     setServoAngle(DOORS_ID,CLOSEDSEASHELANGLE);
 
 }
+////
+bool moveSuckerManipulatorUp(){
+    while(pin_val()){
+        set_pin();
+        reset_pin();
+    }
+    set_pin();
+    reset_pin();
+}
+
+bool moveSuckerManipulatorDown(){
+    while(pin_val()){
+        set_pin();
+        reset_pin();
+    }
+    set_pin();
+    reset_pin();
+
+}
+
+
 
 void servo_elevate_in()
 {

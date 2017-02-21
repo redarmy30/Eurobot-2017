@@ -59,7 +59,10 @@ bool setServoBlinkConditions (const uint8_t servoId,
 // set the errors that will cause the servo to shut off torque
 bool setServoShutdownConditions (const uint8_t servoId,
                                  const uint8_t errorFlags);
-
+/*
+//set default values
+bool setDefault (const uint8_t servoId);
+*/
 
 // valid torque values are from 0 (free running) to 1023 (max)
 bool setServoTorque (const uint8_t servoId,

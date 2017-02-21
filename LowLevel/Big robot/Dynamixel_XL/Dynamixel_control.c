@@ -25,7 +25,8 @@ typedef enum ServoCommand
 {
     PING = 1,
     READ = 2,
-    WRITE = 3
+    WRITE = 3,
+//    RESETing = 6
 } ServoCommand;
 
 #define ID                  0x03
@@ -316,7 +317,21 @@ bool setServoBlinkConditions (const uint8_t servoId,
 
     return true;
 }
+/*
+//(re)set default (factory) parameters except ID and Baudrate
 
+bool setDefault(const uint8_t servoId)
+{
+    const uint8_t params[1] = {0x02};
+
+    sendServoCommand (servoId, RESETing, 1, params);
+
+    if (!getAndCheckResponse (servoId))
+        return false;
+
+    return true;
+}
+*/
 // set the events that will cause the servo to shut off torque
 
 //////////////////////////////////////////////////////   changed

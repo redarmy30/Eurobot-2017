@@ -702,13 +702,13 @@ case 0x39:        // avoidance ENABLED
 break;
 
 case 0x3A: // Distance from ultrasonic sensors
-  {
+{
         float distance[4];
 
-        distance[FRONT_LEFT] = ((float)adcData[FRONT_LEFT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
-        distance[FRONT_RIGHT] = ((float)adcData[FRONT_RIGHT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
-        distance[BACK_LEFT] = ((float)adcData[BACK_LEFT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
-        distance[BACK_RIGHT] = ((float)adcData[BACK_RIGHT] * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE);
+        distance[FRONT_LEFT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[FRONT_LEFT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
+        distance[FRONT_RIGHT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[FRONT_RIGHT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
+        distance[BACK_LEFT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[BACK_LEFT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
+        distance[BACK_RIGHT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[BACK_RIGHT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
 
         sendAnswer(cmd->command, (char* )distance, sizeof(distance));
 
@@ -728,6 +728,24 @@ case 0x3B: // Funny action - open lid and shoot
 case 0x3C: // Funny action - close lid
   {
         CloseLauncher();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+
+  }
+   break;
+
+case 0x3D: // Funny action - close lid
+  {
+        goUpWithSuckingManipulator();
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+
+  }
+   break;
+
+case 0x3E: // Funny action - close lid
+  {
+        goDownWithSuckingManipulator();
         char * str ="Ok";
         sendAnswer(cmd->command, str, 3);
 

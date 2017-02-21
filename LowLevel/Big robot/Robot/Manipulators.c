@@ -293,6 +293,32 @@ bool switchOffPneumo()
     return 0;
 }
 
+bool goUpWithSuckingManipulator(){
 
+    set_pin(INPUT1_CONTROL);
+    reset_pin(INPUT2_CONTROL);
+
+
+    while(!pin_val(UPPER_SWITCH));
+
+
+    reset_pin(INPUT1_CONTROL);
+}
+
+bool goDownWithSuckingManipulator(){
+
+    set_pin(INPUT2_CONTROL);
+    reset_pin(INPUT1_CONTROL);
+
+
+    while(!pin_val(DOWN_SWITCH));
+
+
+    reset_pin(INPUT2_CONTROL);
+}
+
+////set_pin(broj pina)
+////reset_pin(broj pina)
+////pin_val(vrijednost pina testira), ima vrijednost - 1, nema vrijednost -0
 
 ///////////////////////////////////////////////////////////////

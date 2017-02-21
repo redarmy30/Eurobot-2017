@@ -90,6 +90,9 @@ uint16_t detector = 0;
 //uint16_t  angle = 130;
 
 while(1){
+    goDownWithSuckingManipulator();
+
+  //  goUpWithSuckingManipulator();
 
 
      //curState.collisionAvEn =1;

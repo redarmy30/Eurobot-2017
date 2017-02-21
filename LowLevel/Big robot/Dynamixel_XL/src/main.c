@@ -126,6 +126,7 @@ int main(void)
 ////// Uncomment when done with first section to test
 
         USART_Config(1000000);
+        setDefault(254);
        /* setServoAngle(ID_test, testAngleVal);
         setServoAngle(ID_test, testAngleVal1);
         setServoAngle(ID_test, testAngleVal2);*/
@@ -133,8 +134,8 @@ int main(void)
      //   setServoMovingSpeed(254, 300, 1);
       //  setServoAngle(254,250);
 //        for(i=20; i<150; i++){
-//        setServoCWAngleLimit (254, (uint16_t)0);
-//        setServoCCWAngleLimit (254, (uint16_t)0);
+//        setServoCWAngleLimit (254, 0);
+ //       setServoCCWAngleLimit (254, 1023);
 //        setServoAngle(254,i++);
         delay(40000);
 //        if(i>359)i=0;
