@@ -322,3 +322,115 @@ bool goDownWithSuckingManipulator(){
 ////pin_val(vrijednost pina testira), ima vrijednost - 1, nema vrijednost -0
 
 ///////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////
+////////////////////////BALL COLLECTORS/////////////////////////
+///////////////////////////////////////////////////////////////
+
+
+/////////////////////////////RIGHT BALL COLLECTOR/////////////////////
+bool downRightCollectorToGetBalls()
+{
+    setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_ON);
+        //setVoltage(5,1);
+        //set_pin(EXTI_SERVOPOLOL1);
+        //reset_pin(EXTI_SERVOPOLOL2);
+        //while ((pin_val (EXTI_HIGHERSENSOR)))
+        //{
+          //  setVoltage(5,0);
+          //reset_pin(EXTI_SERVOPOLOL1);
+        //}
+}
+
+bool upRightCollectorWithBalls()
+{
+   setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_OFF);
+}
+
+
+bool throwRightCollectorIntoBox()
+{
+        float throwAnggle;
+         setServoAngle(DNMXL_MAN_RIGHT,DNMXL_ANGLE_MAN_THROW);
+         getServoAngle(DNMXL_MAN_RIGHT,&throwAnggle);
+
+         /*while (throwAnggle=DNMXL_ANGLE_MAN_THROW)
+         {
+             ;
+         }*/
+         //setVoltage(5,-1);
+          set_pin(EXTI_POLOL2_RIGHT);
+         reset_pin(EXTI_POLOL1_RIGHT);
+         while(!(pin_val (EXTI_LOWERSENSOR_RIGHT)))
+         {
+            ;
+          } //setVoltage(5,0);
+             reset_pin(EXTI_POLOL2_RIGHT);
+             reset_pin(EXTI_POLOL1_RIGHT);
+
+         //setVoltage(5,1);
+         set_pin(EXTI_POLOL1_RIGHT);
+         reset_pin(EXTI_POLOL2_RIGHT);
+         while (!(pin_val (EXTI_HIGHERSENSOR_RIGHT)))
+        {
+            ;
+        }//setVoltage(5,0);
+             reset_pin(EXTI_POLOL2_RIGHT);
+             reset_pin(EXTI_POLOL1_RIGHT);
+
+}
+
+/////////////LEFT BALL COLLECTOR//////////////////////////////////////
+
+bool downLeftCoolectorToGetBalls()
+{
+    setServoAngle(DNMXL_MAN_LEFT,DNMXL_ANGLE_MAN_ON);
+        //setVoltage(5,1);
+        //set_pin(EXTI_SERVOPOLOL1);
+        //reset_pin(EXTI_SERVOPOLOL2);
+        //while ((pin_val (EXTI_HIGHERSENSOR)))
+        //{
+          //  setVoltage(5,0);
+          //reset_pin(EXTI_SERVOPOLOL1);
+        //}
+}
+
+bool upLeftCollectorWithBalls()
+{
+   setServoAngle(DNMXL_MAN_LEFT,DNMXL_ANGLE_MAN_OFF);
+}
+
+
+bool throwLeftCollectorIntoBox()
+{
+        float throwAnggle;
+         setServoAngle(DNMXL_MAN_LEFT,DNMXL_ANGLE_MAN_THROW);
+         getServoAngle(DNMXL_MAN_LEFT,&throwAnggle);
+
+         /*while (throwAnggle=DNMXL_ANGLE_MAN_THROW)
+         {
+             ;
+         }*/
+         //setVoltage(5,-1);
+          set_pin(EXTI_POLOL2_LEFT);
+         reset_pin(EXTI_POLOL1_LEFT);
+         while(!(pin_val (EXTI_LOWERSENSOR_LEFT)))
+         {
+            ;
+          } //setVoltage(5,0);
+             reset_pin(EXTI_POLOL2_LEFT);
+             reset_pin(EXTI_POLOL1_LEFT);
+
+         //setVoltage(5,1);
+         set_pin(EXTI_POLOL1_LEFT);
+         reset_pin(EXTI_POLOL2_LEFT);
+         while (!(pin_val (EXTI_HIGHSENSOR_LEFT)))
+        {
+            ;
+        }//setVoltage(5,0);
+             reset_pin(EXTI_POLOL2_RIGHT);
+             reset_pin(EXTI_POLOL1_RIGHT);
+
+}

@@ -94,7 +94,6 @@ while(1){
 
   //  goUpWithSuckingManipulator();
 
-
      //curState.collisionAvEn =1;
 /*    setServoTorque(DOORS_ID , 1000);
     //setServoAngle(Dors_ID, doors_closedPos );

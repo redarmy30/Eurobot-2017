@@ -3,6 +3,7 @@
 #include "Regulator.h"
 #include "Board.h"
 
+
 void softDelay(__IO unsigned long int ticks)
 {
     for(; ticks > 0; ticks--);
@@ -307,6 +308,7 @@ bool switchOffPneumo()
     reset_pin(PIN6_12V);
     return 0;
 }
+
 
 
 

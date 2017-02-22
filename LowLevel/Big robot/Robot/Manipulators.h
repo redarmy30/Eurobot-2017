@@ -111,6 +111,34 @@ void servo_rotate_180();
 #define SERVO_ROTATE_180  150
 
 
+///////////////////////BALL COLLECTORS////////////////////////////////
+
+
+#define EXTI_HIGHERSENSOR_RIGHT EXTI8_PIN
+#define EXTI_LOWERSENSOR_RIGHT EXTI7_PIN
+#define EXTI_HIGHSENSOR_LEFT EXTI4_PIN
+#define EXTI_LOWERSENSOR_LEFT EXTI3_PIN
+#define DNMXL_MAN_RIGHT 1
+#define DNMXL_MAN_LEFT 227
+#define EXTI_POLOL1_RIGHT EXTI5_PIN
+#define EXTI_POLOL2_RIGHT EXTI6_PIN
+#define EXTI_POLOL1_LEFT EXTI1_PIN
+#define EXTI_POLOL2_LEFT EXTI2_PIN
+#define DNMXL_ANGLE_MAN_ON 140
+#define DNMXL_ANGLE_MAN_OFF 30
+#define DNMXL_ANGLE_MAN_THROW 80
+
+bool downRightCollectorToGetBalls();
+bool upRightCollectorWithBalls();
+bool throwRightCollectorIntoBox();
+bool downLeftCoolectorToGetBalls();
+bool upLeftCollectorWithBalls();
+bool throwLeftCollectorIntoBox();
+
+//////////////////////////////////////////////////////////////////////
+
+
+
 
 /////////////////small robot eurobot 2017 for manipulators
 
