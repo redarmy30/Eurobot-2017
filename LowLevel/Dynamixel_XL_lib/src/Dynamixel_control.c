@@ -23,10 +23,10 @@ volatile uint8_t* volatile receiveBufferEnd = receiveBuffer;
 
 typedef enum ServoCommand
 {
-    PING = 1,
-    READ = 2,
-    WRITE = 3,
-//    RESETing = 6
+    PING = 0x01,
+    READ = 0x02,
+    WRITE = 0x03,
+    RESETing = 0x06
 } ServoCommand;
 
 #define ID                  0x03
@@ -310,7 +310,7 @@ bool setServoBlinkConditions (const uint8_t servoId,
 
     return true;
 }
-/*
+
 //(re)set default (factory) parameters except ID and Baudrate
 
 bool setDefault(const uint8_t servoId)
@@ -324,7 +324,7 @@ bool setDefault(const uint8_t servoId)
 
     return true;
 }
-*/
+
 // set the events that will cause the servo to shut off torque
 
 //////////////////////////////////////////////////////   changed

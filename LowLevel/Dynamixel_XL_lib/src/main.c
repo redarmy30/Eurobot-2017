@@ -15,6 +15,7 @@
 #include "stm32f4xx.h"
 #include <stdbool.h>
 #include "gpio.h"
+#include "Dynamixel_control.h"
 
 #define MBPS 0x01
 
@@ -102,15 +103,15 @@ int main(void)
     uint16_t testAngleVal1 = 150;
     uint16_t testAngleVal2 = 300;
     uint16_t i = 0;
-    setServoMovingSpeed(254, 200, 0);
+    //setServoMovingSpeed(254, 200, 0);
 
-    setServoCWAngleLimit (254, 0);
-    setServoCCWAngleLimit (254, 0);
+ //   setServoCWAngleLimit (254, 0);
+  //  setServoCCWAngleLimit (254, 0);
   while(1)
   {
 // Uploading standart paramiters
 
-        setServoMovingSpeed(254, 200, 0x0000);
+        //setServoMovingSpeed(254, 200, 0x0000);
 //      for (; frequency <= 1001000; frequency *= 1.01)
 //      {
 //          USART_Config(frequency);
@@ -131,18 +132,22 @@ int main(void)
 ////// Uncomment when done with first section to test
 
         USART_Config(1000000);
+  //      setDefault(1);
+       // setServoCCWAngleLimit (1, 700);
+        //setServoCWAngleLimit (1, 700);
+    //    setServoMovingSpeed(1, 700, 0x0000);
        /* setServoAngle(ID_test, testAngleVal);
         setServoAngle(ID_test, testAngleVal1);
         setServoAngle(ID_test, testAngleVal2);*/
-        setServoAngle(254,50);
-        setServoMovingSpeed(254, 300, 1);
-        setServoAngle(254,250);
+      //  setServoAngle(1,50);
+      //  setServoMovingSpeed(254, 300, 0x0000);
+      //  setServoAngle(1,250);
 //        for(i=20; i<150; i++){
 
-        /*setServoAngle(254,i++);
+        setServoAngle(254,i++);
         delay(40000);
-        if(i>359)i=0;*/
-        setServoAngle(254,200);
+        if(i>359)i=0;
+     //   setServoAngle(1,200);
 
 //            delay(1000);
 //        }
