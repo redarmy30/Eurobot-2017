@@ -4,7 +4,6 @@ Code to control multiple Dynamixel AX-12 servo motors over USART
 on an STM32F4 chip.
 
 */
-
 #ifndef Dynamixels_h
 #define Dynamixels_h
 
@@ -17,7 +16,7 @@ on an STM32F4 chip.
 
 #define REC_WAIT_START_US    75
 #define REC_WAIT_PARAMS_US   (SERVO_MAX_PARAMS * 5)
-#define REC_WAIT_MAX_RETRIES 2000
+#define REC_WAIT_MAX_RETRIES 50000
 
 #define SERVO_INSTRUCTION_ERROR   (1 << 6)
 #define SERVO_OVERLOAD_ERROR      (1 << 5)
@@ -29,27 +28,6 @@ on an STM32F4 chip.
 
 #define CW  0x0400
 #define CCW 0x0000
-
-#define RETURN_DELAY        0x05
-#define BLINK_CONDITIONS    0x11
-#define SHUTDOWN_CONDITIONS 0x12
-#define TORQUE              0x22
-#define CURRENT_LOAD        0x28
-#define MOVING_SPEED        0x20
-#define CURRENT_SPEED       0x26
-#define GOAL_ANGLE          0x1e
-#define CURRENT_ANGLE       0x24
-#define CW_ANGLE_LIMIT      0x06
-#define CCW_ANGLE_LIMIT     0x08
-
-typedef enum ServoCommand
-{
-    PING = 1,
-    READ = 2,
-    WRITE = 3
-} ServoCommand;
-
-
 
 extern uint8_t servoErrorCode;
 
@@ -63,6 +41,10 @@ void initServoUSART (void);
 
 // ping a servo, returns true if we get back the expected values
 bool pingServo (const uint8_t servoId);
+
+bool setID (const uint8_t servoId, uint8_t newID);
+
+bool setBaudRate (const uint8_t servoId, uint8_t baudRate);
 
 // set the number of microseconds the servo waits before returning a response
 // servo factory default value is 500, but we probably want it to be 0
@@ -128,15 +110,23 @@ bool setServoCCWAngleLimit (const uint8_t servoId,
 
 //------------------------------------------------------------------------------
 // these shouldn't need to be called externally:
-
+#pragma pack(push, 1)
 typedef struct ServoResponse
 {
+    uint8_t first_byte;
+    uint8_t second_byte;
+    uint8_t third_byte;
+
+    uint8_t reserved;
     uint8_t id;
-    uint8_t length;
+    uint16_t length;
     uint8_t error;
     uint8_t params[SERVO_MAX_PARAMS];
-    uint8_t checksum;
+    uint16_t checksum;
+
 } ServoResponse;
+#pragma pack(pop)
+
 
 void sendServoByte (const uint8_t byte);
 
@@ -151,4 +141,5 @@ void sendServoCommand (const uint8_t servoId,
                        const uint8_t *params);
 bool getServoResponse (void);
 
+uint16_t CRC16_BUYPASS(uint8_t *data, size_t len);
 #endif /* Dynamixels_h */

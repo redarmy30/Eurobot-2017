@@ -3,6 +3,7 @@
 #include "Regulator.h"
 #include "Board.h"
 
+
 void softDelay(__IO unsigned long int ticks)
 {
     for(; ticks > 0; ticks--);
@@ -248,6 +249,27 @@ void close_seashell_doors()
     setServoAngle(DOORS_ID,CLOSEDSEASHELANGLE);
 
 }
+////
+bool moveSuckerManipulatorUp(){
+    while(pin_val()){
+        set_pin();
+        reset_pin();
+    }
+    set_pin();
+    reset_pin();
+}
+
+bool moveSuckerManipulatorDown(){
+    while(pin_val()){
+        set_pin();
+        reset_pin();
+    }
+    set_pin();
+    reset_pin();
+
+}
+
+
 
 void servo_elevate_in()
 {
@@ -286,6 +308,7 @@ bool switchOffPneumo()
     reset_pin(PIN6_12V);
     return 0;
 }
+
 
 
 

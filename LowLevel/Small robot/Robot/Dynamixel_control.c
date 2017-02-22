@@ -21,30 +21,101 @@ volatile uint8_t receiveBuffer[REC_BUFFER_LEN];
 volatile uint8_t* volatile receiveBufferStart = receiveBuffer;
 volatile uint8_t* volatile receiveBufferEnd = receiveBuffer;
 
+typedef enum ServoCommand
+{
+    PING = 1,
+    READ = 2,
+    WRITE = 3
+} ServoCommand;
+
+#define ID                  0x03
+#define BAUD_RATE           0x04
+#define RETURN_DELAY        0x05
+#define BLINK_CONDITIONS    0x11
+#define SHUTDOWN_CONDITIONS 0x12
+#define TORQUE              0x22
+#define CURRENT_LOAD        0x28
+#define MOVING_SPEED        0x20
+#define CURRENT_SPEED       0x26
+#define GOAL_ANGLE          0x1e
+#define CURRENT_ANGLE       0x24
+#define CW_ANGLE_LIMIT      0x06
+#define CCW_ANGLE_LIMIT     0x08
+
+
+
+uint16_t CRC16_BUYPASS(uint8_t *data, size_t len)
+{
+  uint16_t crc = 0x0000;
+  size_t j;
+  int i;
+  for (j=len; j>0; j--) {
+    crc ^= (uint16_t)(*data++) << 8;
+    for (i=0; i<8; i++) {
+      if (crc & 0x8000) crc = (crc<<1) ^ 0x8005;
+      else crc <<= 1;
+    }
+  }
+  return (crc);
+}
+
 void sendServoCommand (const uint8_t servoId,
                        const ServoCommand commandByte,
                        const uint8_t numParams,
                        const uint8_t *params)
 {
+    uint8_t packet[100] = {};
+    uint8_t packet_size = 0;
+
+    sendServoByte (0xff); // command header
+    packet[packet_size] = 0xff;
+    packet_size++;
+
     sendServoByte (0xff);
-    sendServoByte (0xff);  // command header
+    packet[packet_size] = 0xff;
+    packet_size++; // command header
 
-    sendServoByte (servoId);  // servo ID
-    uint8_t checksum = servoId;
+    sendServoByte (0xfd);
+    packet[packet_size] = 0xfd;
+    packet_size++; // command header
 
-    sendServoByte (numParams + 2);  // number of following bytes
+    sendServoByte (0x00); // empty byte
+    packet[packet_size] = 0x00;
+    packet_size++;
+
+    sendServoByte (servoId);
+    packet[packet_size] = servoId;
+    packet_size++;  // servo ID
+    //uint8_t checksum = servoId;
+
+    uint16_t length = numParams + 3;
+    uint8_t length_l = (length & 0x00FF);
+    uint8_t length_h = (length>>8) & 0x00FF;
+    sendServoByte (length_l);
+    packet[packet_size] = length_l;
+    packet_size++;
+    sendServoByte (length_h);
+    packet[packet_size] = length_h;
+    packet_size++;
+      // number of following bytes
     sendServoByte ((uint8_t)commandByte);  // command
-
-    checksum += numParams + 2 + commandByte;
+    packet[packet_size] = (uint8_t)commandByte;
+    packet_size++;
+    //checksum += numParams + 3 + commandByte;
 
     uint8_t i = 0;
     for (; i < numParams; i++)
     {
         sendServoByte (params[i]);  // parameters
-        checksum += params[i];
+        packet[packet_size] = params[i];
+        packet_size++;
     }
 
-    sendServoByte (~checksum);  // checksum
+    uint16_t crc = CRC16_BUYPASS(packet, packet_size);
+    uint8_t crc_l = (crc & 0x00FF);
+    uint8_t crc_h = (crc>>8) & 0x00FF;
+    sendServoByte (crc_l);
+    sendServoByte (crc_h);  // checksum
 }
 
 bool getServoResponse (void)
@@ -66,11 +137,19 @@ bool getServoResponse (void)
     }
     retries = 0;
 
-    getServoByte();  // servo header (two 0xff bytes)
-    getServoByte();
+    response.first_byte = getServoByte();  // servo header (two 0xff bytes)
+    response.second_byte = getServoByte();
+    response.third_byte = getServoByte();
+
+    response.reserved = getServoByte();
 
     response.id = getServoByte();
-    response.length = getServoByte();
+    uint8_t length_l = getServoByte();
+    uint8_t length_h = getServoByte();
+
+    response.length = 0x0000;
+    response.length += length_l;
+    response.length += (uint16_t)(length_h<<8);
 
     if (response.length > SERVO_MAX_PARAMS)
     {
@@ -95,22 +174,24 @@ bool getServoResponse (void)
     response.error = getServoByte();
     servoErrorCode = response.error;
 
-    uint8_t i = 0;
-    for (; i < response.length - 2; i++)
+    uint16_t i = 0;
+    for (; i < response.length - 3; i++)
         response.params[i] = getServoByte();
 
-
-    uint8_t calcChecksum = response.id + response.length + response.error;
-    i = 0;
-    for (; i < response.length - 2; i++)
-        calcChecksum += response.params[i];
-    calcChecksum = ~calcChecksum;
-
-    const uint8_t recChecksum = getServoByte();
-    if (calcChecksum != recChecksum)
+    uint16_t calcChecksum = CRC16_BUYPASS(&response, sizeof(response)-2);
+//    i = 0;
+//    for (; i < response.length - 3; i++)
+//        calcChecksum += response.params[i];
+//    calcChecksum = ~calcChecksum;
+    uint16_t chc;
+    const uint8_t checksum_l = getServoByte();
+    const uint8_t checksum_h = getServoByte();
+    response.checksum = checksum_l + (uint16_t)(checksum_h << 8);
+    chc = response.checksum;
+    if (calcChecksum != response.checksum)
     {
         #ifdef SERVO_DEBUG
-        printf ("Checksum mismatch: %x calculated, %x received\n", calcChecksum, recChecksum);
+        printf ("Checksum mismatch: %x calculated, %x received\n", calcChecksum, response.checksum);
         #endif
         return false;
     }
@@ -158,30 +239,77 @@ bool pingServo (const uint8_t servoId)
     return true;
 }
 
+// set an ID to a servo, returns true if we get back the expected values
+
+/////////////////////////////////////////////////////////////////////////////////////////////////                NOT DONE
+bool setID (const uint8_t servoId, uint8_t newID)
+{
+    if (newID > 253)
+        return false;
+
+    const uint8_t params[2] = {ID, newID & 0xff};
+
+    sendServoCommand (servoId, WRITE, 2, params);
+
+//    if (!getAndCheckResponse (newID))
+//        return false;
+
+    return true;
+}
+
+// set a baud rate to a servo, returns true if we get back the expected values
+
+/////////////////////////////////////////////////////////////////////////////////////////////////                NOT DONE
+bool setBaudRate (const uint8_t servoId, uint8_t baudRate)
+{
+    if (BAUD_RATE > 253)
+        return false;
+
+    const uint8_t params[2] = {BAUD_RATE, baudRate & 0xff};
+
+    sendServoCommand (servoId, WRITE, 2, params);
+
+//    if (!getAndCheckResponse (servoId))
+  //      return false;
+
+    return true;
+}
+
+
 // set the number of microseconds the servo waits before returning a response
 // servo factory default value is 500, but we probably want it to be 0
 // max value: 510
+
+
+//////////////////////////////////////////////////////   changed
 bool setServoReturnDelayMicros (const uint8_t servoId,
                                 const uint16_t micros)
 {
     if (micros > 510)
         return false;
-    const uint8_t params[2] = {RETURN_DELAY,
-                               (uint8_t)((micros / 2) & 0xff)};
-    sendServoCommand (servoId, WRITE, 2, params);
-    if (!getAndCheckResponse (servoId))
-        return false;
+
+    const uint8_t params[4] = {RETURN_DELAY, (uint8_t)0x00,
+                               (uint8_t)((micros / 2) & 0xff), (uint8_t)0x00};
+
+    sendServoCommand (servoId, WRITE, 4, params);
+
+//    if (!getAndCheckResponse (servoId))
+  //      return false;
+
     return true;
 }
 
 // set the events that will cause the servo to blink its LED
+
+
+//////////////////////////////////////////////////////   changed
 bool setServoBlinkConditions (const uint8_t servoId,
                               const uint8_t flags)
 {
-    const uint8_t params[2] = {BLINK_CONDITIONS,
-                               flags};
+    const uint8_t params[4] = {BLINK_CONDITIONS,(uint8_t)0x00,
+                               flags, (uint8_t)0x00};
 
-    sendServoCommand (servoId, WRITE, 2, params);
+    sendServoCommand (servoId, WRITE, 4, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -190,13 +318,15 @@ bool setServoBlinkConditions (const uint8_t servoId,
 }
 
 // set the events that will cause the servo to shut off torque
+
+//////////////////////////////////////////////////////   changed
 bool setServoShutdownConditions (const uint8_t servoId,
                                  const uint8_t flags)
 {
-    const uint8_t params[2] = {SHUTDOWN_CONDITIONS,
-                               flags};
+    const uint8_t params[4] = {SHUTDOWN_CONDITIONS, (uint8_t)0x00,
+                               flags, (uint8_t)0x00};
 
-    sendServoCommand (servoId, WRITE, 2, params);
+    sendServoCommand (servoId, WRITE, 4, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -206,6 +336,8 @@ bool setServoShutdownConditions (const uint8_t servoId,
 
 
 // valid torque values are from 0 (free running) to 1023 (max)
+
+//////////////////////////////////////////////////////   changed
 bool setServoTorque (const uint8_t servoId,
                      const uint16_t torqueValue)
 {
@@ -215,11 +347,11 @@ bool setServoTorque (const uint8_t servoId,
     if (torqueValue > 1023)
         return false;
 
-    const uint8_t params[3] = {TORQUE,
+    const uint8_t params[6] = {TORQUE, (uint8_t)0x00,
                                lowByte,
-                               highByte};
+                               highByte, (uint8_t)0x00, (uint8_t)0x00};
 
-    sendServoCommand (servoId, WRITE, 3, params);
+    sendServoCommand (servoId, WRITE, 6, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -242,6 +374,7 @@ bool getServoTorque (const uint8_t servoId,
     *torqueValue <<= 8;
     *torqueValue |= response.params[0];
 
+
     return true;
 }
 
@@ -250,6 +383,9 @@ bool getServoTorque (const uint8_t servoId,
 //  0 < speedValue < 1023
 // direction CCW = 0x0000, CW = 0x0400
 // a value of zero will disable velocity control
+
+
+//////////////////////////////////////////////////////   changed
 bool setServoMovingSpeed (const uint8_t servoId,
                        const uint16_t speedValue, const uint16_t direction)
 {
@@ -261,11 +397,11 @@ bool setServoMovingSpeed (const uint8_t servoId,
     if (speedValue > 1023)
         return false;
 
-    const uint8_t params[3] = {MOVING_SPEED,
+    const uint8_t params[6] = {MOVING_SPEED, (uint8_t)0x00,
                                lowByte,
-                               highByte};
+                               highByte, (uint8_t)0x00, (uint8_t)0x00};
 
-    sendServoCommand (servoId, WRITE, 3, params);
+    sendServoCommand (servoId, WRITE, 6, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -273,7 +409,7 @@ bool setServoMovingSpeed (const uint8_t servoId,
     return true;
 }
 
-// get maximum allowed speedgetServoAngle
+// get maximum allowed speed
 bool getServoMovingSpeed (const uint8_t servoId,
                        uint16_t *speedValue)
 {
@@ -311,11 +447,11 @@ bool getServoCurrentSpeed (const uint8_t servoId,
     return true;
 }
 
-// get current load
+// get current load on the shaft
 bool getCurrentLoad (const uint8_t servoId,
                      uint16_t *loadValue)
 {
-    const uint8_t params[2] = {CURRENT_LOAD, 2};  // read two bytes, starting at address TORQUE
+    const uint8_t params[2] = {CURRENT_LOAD, 2};  // read two bytes, starting at address CURRENT_LOAD
 
     sendServoCommand (servoId, READ, 2, params);
 
@@ -325,7 +461,7 @@ bool getCurrentLoad (const uint8_t servoId,
     *loadValue = response.params[1];
     *loadValue <<= 8;
     *loadValue |= response.params[0];
-    *loadValue &= 0x03ff;
+    *loadValue &= 0x3ff;
 
     return true;
 }
@@ -344,11 +480,11 @@ bool setServoAngle ( const uint8_t servoId,
     const uint8_t highByte = (uint8_t)((angleValue >> 8) & 0xff);
     const uint8_t lowByte = (uint8_t)(angleValue & 0xff);
 
-    const uint8_t params[3] = {GOAL_ANGLE,
+    const uint8_t params[6] = {GOAL_ANGLE, (uint8_t)0x00,
                                lowByte,
-                               highByte};
+                               highByte, (uint8_t)0x00, (uint8_t)0x00};
 
-    sendServoCommand (servoId, WRITE, 3, params);
+    sendServoCommand (servoId, WRITE, 6, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -357,13 +493,13 @@ bool setServoAngle ( const uint8_t servoId,
 }
 
 // get current servo angle
-bool getServoAngle (const uint8_t servoId,
-                    float *angle)
+bool getServoAngle (const uint8_t servoId, float *angle)
 {
-    const uint8_t params[2] = {CURRENT_ANGLE,
-                               2};  // read two bytes, starting at address CURRENT_ANGLE
 
-    sendServoCommand (servoId, READ, 2, params);
+
+    const uint8_t params[2] = {CURRENT_ANGLE, 0x00, 0x04, 0x00 /*repsonse.length-3, 0x00*/};  // read two bytes, starting at address CURRENT_ANGLE
+
+    sendServoCommand (servoId, READ, 4, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -379,6 +515,8 @@ bool getServoAngle (const uint8_t servoId,
 
 // set CW angle  limit
 // if both CW and CCW angle limits set to 0, endless turn is activated
+
+//////////////////////////////////////////////////////   changed
 bool setServoCWAngleLimit (const uint8_t servoId,
                      const uint16_t limitValue)
 {
@@ -388,11 +526,11 @@ bool setServoCWAngleLimit (const uint8_t servoId,
     if (limitValue > 1023)
         return false;
 
-    const uint8_t params[3] = {CW_ANGLE_LIMIT,
+    const uint8_t params[6] = {CW_ANGLE_LIMIT, (uint8_t)0x00,
                                lowByte,
-                               highByte};
+                               highByte, (uint8_t)0x00, (uint8_t)0x00};
 
-    sendServoCommand (servoId, WRITE, 3, params);
+    sendServoCommand (servoId, WRITE, 6, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -402,6 +540,8 @@ bool setServoCWAngleLimit (const uint8_t servoId,
 
 // set CCW angle  limit form 0 to 1023
 // if both CW and CCW angle limits set to 0, endless turn is activated
+
+//////////////////////////////////////////////////////   changed
 bool setServoCCWAngleLimit (const uint8_t servoId,
                      const uint16_t limitValue)
 {
@@ -411,14 +551,14 @@ bool setServoCCWAngleLimit (const uint8_t servoId,
     if (limitValue > 1023)
         return false;
 
-    const uint8_t params[3] = {CCW_ANGLE_LIMIT,
+    const uint8_t params[6] = {CCW_ANGLE_LIMIT, (uint8_t)0x00,
                                lowByte,
-                               highByte};
+                               highByte, (uint8_t)0x00, (uint8_t)0x00};
 
-    sendServoCommand (servoId, WRITE, 3, params);
+    sendServoCommand (servoId, WRITE, 6, params);
 
-    if (!getAndCheckResponse (servoId))
-        return false;
+ //   if (!getAndCheckResponse (servoId))
+   //     return false;
 
     return true;
 }
@@ -438,7 +578,7 @@ void initServoUSART (void)
     clearServoReceiveBuffer();
 
     // set USART3 Tx (PB8) as alternate function open-drain
-    GPIO_InitStruct.GPIO_Pin  = GPIO_Pin_8 | GPIO_Pin_9; //B8 B9
+    GPIO_InitStruct.GPIO_Pin  = GPIO_Pin_8 | GPIO_Pin_9;
     GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStruct.GPIO_OType = GPIO_OType_OD;
     GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
@@ -511,7 +651,7 @@ void USART3_IRQHandler (void)
 {
 	// check if the USART3 receive interrupt flag was set
 	if (USART_GetITStatus (USART3, USART_IT_RXNE))
-	{
+	{   //USART_ClearITPendingBit(USART3,USART_IT_RXNE);
 		const uint8_t byte = (uint8_t)USART_ReceiveData (USART3); // grab the byte from the data register
 
         receiveBufferEnd++;

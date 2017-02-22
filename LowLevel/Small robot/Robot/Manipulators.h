@@ -44,6 +44,7 @@ bool pneumoIn();
 bool pneumoOut();
 bool switchOnPneumo();
 bool switchOffPneumo();
+
 ///////////////////////////////////////////////////////////////
 ////////////////small robot///////////////////
 
@@ -103,6 +104,8 @@ void servo_rotate_180();
 #define SERVO_ROTATE_180  150
 
 
+bool moveSuckerManipulatorUp();
+bool moveSuckerManipulatorDown();
 
 
 

@@ -62,7 +62,7 @@ char setPWM(char ch, float duty) // установить заполнение на выходе ШИМ  0 .. 1,
 {
     if (duty > 1 ) duty = 1;
     if (duty < 0 ) duty = 0;
-    *PWM_CCR[ch] = (int32_t)((duty * MAX_PWM));
+    *PWM_CCR[ch] = (int32_t)(duty * MAX_PWM);
     return 0;
 }
 
@@ -276,12 +276,21 @@ initRegulators();
   //NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 
 //___EXTI____________________________________________________________________
+<<<<<<< HEAD
   conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI3_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI4_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI5_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI6_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+=======
+  conf_pin(EXTI1_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI2_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI5_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI6_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
+>>>>>>> 8df8bdc351fbe19f52824554e59e93e5857de4da
   conf_pin(EXTI7_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI8_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI9_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
@@ -315,12 +324,5 @@ initRegulators();
 //NVIC_EnableIRQ(I2C2_ER_IRQn);
 //NVIC_EnableIRQ(I2C2_EV_IRQn);
 __enable_irq();
-CloseFishingManipulator();
-setVoltage((char)CH_FISHIN_GSERVO - 1, (float) -DUTY_FISH_UNCATCH); //0
-    softDelay(9000000);
-    setVoltage((char)CH_FISHIN_GSERVO - 1, (float) -DUTY_FISH_UNCATCH-0.005);
-    setServoTorque((uint8_t)ID_FISHING_MANIPULATOR, (uint16_t) 850);
-close_seashell_doors();
-
 }
 ////////////////////////////////////////////////////////////////////////////////
