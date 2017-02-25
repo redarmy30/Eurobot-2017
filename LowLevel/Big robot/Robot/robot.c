@@ -705,10 +705,11 @@ case 0x3A: // Distance from ultrasonic sensors
 {
         float distance[4];
 
-        distance[FRONT_LEFT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[FRONT_LEFT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
-        distance[FRONT_RIGHT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[FRONT_RIGHT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
-        distance[BACK_LEFT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[BACK_LEFT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
-        distance[BACK_RIGHT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[BACK_RIGHT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
+        distance[FRONT_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+
+        distance[FRONT_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+        distance[BACK_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+        distance[BACK_RIGHT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[BACK_RIGHT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
 
         sendAnswer(cmd->command, (char* )distance, sizeof(distance));
 
