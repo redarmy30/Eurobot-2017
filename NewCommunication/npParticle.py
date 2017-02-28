@@ -30,6 +30,14 @@ class ParticleFilter:
 
     def move_particles(self, delta): # delta = [dx,dy,d_rot]
         stamp = time.time()
+        # # self.particles + noise + delta:
+        # # noise - Nx3 : N - num particles, (x_noise, y_noise, angle_noise)
+        # self.particles += (np.random.normal(loc=np.array([0, 0, 0]),
+        #                                     scale=np.diag([self.distance_noise, self.distance_noise, self.angle_noise]),
+        #                                     size=(self.particle_num, 3))
+        #                    + np.array([delta]))
+        # self.particles[:, 2] %= 2 * np.pi
+
         x_noise = np.random.normal(0, self.distance_noise, self.particles_num)
         y_noise = np.random.normal(0, self.distance_noise, self.particles_num)
         angle_noise = np.random.normal(0, self.angle_noise, self.particles_num)
