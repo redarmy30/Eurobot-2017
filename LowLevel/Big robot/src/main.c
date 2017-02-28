@@ -41,6 +41,7 @@
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
 
 char mode;
+float distance[4];
 
 int main(void)
 {
@@ -90,7 +91,15 @@ uint16_t detector = 0;
 //uint16_t  angle = 130;
 
 while(1){
-    goDownWithSuckingManipulator();
+
+
+        distance[FRONT_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
+
+
+
+
+
+//    goDownWithSuckingManipulator();
 
   //  goUpWithSuckingManipulator();
 

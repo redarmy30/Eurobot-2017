@@ -26,7 +26,7 @@ typedef enum ServoCommand
     PING = 0x01,
     READ = 0x02,
     WRITE = 0x03,
-    RESETing = 0x06
+    RESETING = 0x06
 } ServoCommand;
 
 #define ID                  0x03
@@ -317,7 +317,7 @@ bool setDefault(const uint8_t servoId)
 {
     const uint8_t params[1] = {0x02};
 
-    sendServoCommand (servoId, RESETing, 1, params);
+    sendServoCommand (servoId, RESETING, 1, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -402,8 +402,11 @@ bool setServoMovingSpeed (const uint8_t servoId,
     const uint8_t highByte = (uint8_t)((speed >> 8) & 0xff);
     const uint8_t lowByte = (uint8_t)(speed & 0xff);
 
-    if (speedValue > 1023)
+    if (speedValue > 1023 && direction == 0x0000 )
         return false;
+
+   /* if ((speedValue > 2047 || speedValue < 1024) && direction == 0x0400)
+        return false;*/
 
     const uint8_t params[6] = {MOVING_SPEED, (uint8_t)0x00,
                                lowByte,

@@ -1,9 +1,9 @@
 import driver
 import time
-import ParticleFilter as pf
 from hokuyolx import HokuyoLX
 import logging
 import signal
+import npParticle as pf
 
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w',format='%(levelname)s:%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p',level=lvl)
@@ -30,10 +30,10 @@ class Robot:
             except:
                 self.lidar_on = False
                 logging.warning('lidar is not connected')
-        self.x = 1000  # mm
-        self.y = 1500  # mm
+        self.x = 170  # mm
+        self.y = 150  # mm
         self.angle = 0.0  # pi
-        self.particles = [pf.Particle(self.x,self.y,self.angle) for i in range(pf.particle_number)]
+        self.PF = pf.ParticleFilter(self,particles=500,sense_noise=50,distance_noise=30,angle_noise=0.02,in_x = self.x,in_y = self.y)
         self.dr = driver.Driver(1, 2, 3)
         self.dr.connect()
         # Test command
@@ -46,7 +46,8 @@ class Robot:
     def get_raw_lidar(self):
         #return np.load('scan.npy')[::-1]
         timestamp, scan = self.lidar.get_intens()
-        return scan[::-1]
+        return scan
+        return scan[::-1] # our robot
 
     def go_to_coord_rotation(self,parameters): #  parameters [x,y,angle,speed]
         pm = [parameters[0] / 1000., parameters[1] / 1000., parameters[2], parameters[3]]
@@ -55,28 +56,28 @@ class Robot:
         # After movement
         stamp = time.time()
         cmd = {'source': 'fsm', 'cmd': 'is_point_was_reached'}
-        time.sleep(0.100001) # sleep because of STM iterruptions (Maybe add force iterrupt in STM)
+        time.sleep(0.100001) # sleep because of STM interruptions (Maybe add force interrupt in STM)
         while not self.dr.process_cmd(cmd)['data']:
             time.sleep(0.05)
             if (time.time() - stamp) > 30:
                 return False # Error, need to handle somehow (Localize and add new point maybe)
         logging.info('point reached')
-        self.particles = pf.particles_move(self.particles, [parameters[0]-self.x,parameters[1]-self.y,parameters[2]-self.angle])
+        self.PF.move_particles([parameters[0] - self.x, parameters[1] - self.y, parameters[2] - self.angle])
         self.x = parameters[0]
         self.y = parameters[1]
         self.angle = parameters[2]
         print 'Before Calculation:'
-        pf.calculate_main(self.particles)
+        self.PF.calculate_main()
         if self.lidar_on:
             lidar_data = self.get_raw_lidar() # check lidar connection!
             #print lidar_data
             # TODO http://hokuyolx.readthedocs.io/en/latest/ RESET,REBOOT functions
-            self.particles = pf.particles_sense(self.particles,lidar_data)
+            self.PF.particle_sense(lidar_data)
             print 'After Calculation:'
-            main_robot = pf.calculate_main(self.particles)
-            self.x = main_robot.x
-            self.y = main_robot.y
-            self.angle = main_robot.orientation
+            main_robot = self.PF.calculate_main()
+            self.x = main_robot[0]
+            self.y = main_robot[1]
+            self.angle = main_robot[2]
         # else lidar
         command = {'source': 'fsm', 'cmd': 'setCoordinates', 'params': [self.x / 1000., self.y / 1000., self.angle]}
         logging.info(self.dr.process_cmd(command))
@@ -90,13 +91,17 @@ class Robot:
         signal.signal(signal.SIGALRM, self.funny_action)
         signal.alarm(90)
         # TODO take cylinder
-        parameters = [650, 650, 0.0, 4]
+        parameters = [850, 150, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 650, 0.0, 4]
+        parameters = [1000, 500, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 650, 0.0, 4]
+        parameters = [1000, 700, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 650, 0.0, 4]
+        parameters = [650, 1350, 0.0, 4]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, 0.0, 4]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, 0.0, 4]
         self.go_to_coord_rotation(parameters)
 
     def funny_action(self,signum, frame):
