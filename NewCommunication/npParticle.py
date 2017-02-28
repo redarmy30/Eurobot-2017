@@ -123,17 +123,14 @@ def get_landmarks(scan):
     angles = np.pi / 4 / 180 * ind
     distances = scan[ind, 0]
     logging.info('scan preproccesing time: ' + str(time.time() - stamp))
-    return (angles + np.pi / 4) % (2 * np.pi),distances
+    return (angles + np.pi / 4+ np.pi/2) % (2 * np.pi),distances # delete +np.pi for our robot
 
 
 def p_trans(agl, pit):
-    x_rob = -1*pit*np.cos(agl)
-    y_rob = -1*pit*np.sin(agl)
+    x_rob = pit*np.cos(agl) # multiply by minus in our robot
+    y_rob = pit*np.sin(agl)
     return x_rob,y_rob
 
-scan = np.load('scan.npy')[::-1]
-
-print get_landmarks(scan)
 
 
 

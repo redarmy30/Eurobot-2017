@@ -30,8 +30,8 @@ class Robot:
             except:
                 self.lidar_on = False
                 logging.warning('lidar is not connected')
-        self.x = 1000  # mm
-        self.y = 1500  # mm
+        self.x = 170  # mm
+        self.y = 150  # mm
         self.angle = 0.0  # pi
         self.PF = pf.ParticleFilter(self,particles=500,sense_noise=50,distance_noise=30,angle_noise=0.02,in_x = self.x,in_y = self.y)
         self.dr = driver.Driver(1, 2, 3)
@@ -46,7 +46,8 @@ class Robot:
     def get_raw_lidar(self):
         #return np.load('scan.npy')[::-1]
         timestamp, scan = self.lidar.get_intens()
-        return scan[::-1]
+        return scan
+        return scan[::-1] # our robot
 
     def go_to_coord_rotation(self,parameters): #  parameters [x,y,angle,speed]
         pm = [parameters[0] / 1000., parameters[1] / 1000., parameters[2], parameters[3]]
@@ -90,13 +91,17 @@ class Robot:
         signal.signal(signal.SIGALRM, self.funny_action)
         signal.alarm(90)
         # TODO take cylinder
-        parameters = [650, 650, 0.0, 4]
+        parameters = [850, 150, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 650, 0.0, 4]
+        parameters = [1000, 500, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 650, 0.0, 4]
+        parameters = [1000, 700, 0.0, 4]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 650, 0.0, 4]
+        parameters = [650, 1350, 0.0, 4]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, 0.0, 4]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, 0.0, 4]
         self.go_to_coord_rotation(parameters)
 
     def funny_action(self,signum, frame):
