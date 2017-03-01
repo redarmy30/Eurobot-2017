@@ -12,7 +12,8 @@ from packets import encode_packet, decode_packet
 PORT_VID = 1155#'0483'
 PORT_PID = 22336#'5740'
 PORT_SNR = '325936843235'#'325936843235'
-DEVICE_NAME = '/dev/tty.usbmodem1411'
+DEVICE_NAME = '/dev/ttyACM0' #our robot = '/dev/tty.usbmodem1411'
+
 
 class DriverException(Exception):
     pass

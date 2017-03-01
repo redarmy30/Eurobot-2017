@@ -1,7 +1,7 @@
 # High-Level Documentation
 
 ## Eurobot Localisation
-We use simple particle filter. To understand how it works look at [Udacity course by Sebastian Thrun](https://www.udacity.com/course/artificial-intelligence-for-robotics--cs373).  
+We use simple particle filter with NumPy operations. To understand how it works look at [Udacity course by Sebastian Thrun](https://www.udacity.com/course/artificial-intelligence-for-robotics--cs373).  
 We combine data from odometry and lidar (HokuyoLX).  
 **The trickest thing** is [the weight function](https://github.com/SkRobo/Eurobot-2017/blob/master/NewCommunication/ParticleFilter.py#L70) of our particle filter. It is based on https://github.com/simama realization.
 How it works?  

@@ -33,7 +33,7 @@ class Robot:
         self.x = 170  # mm
         self.y = 150  # mm
         self.angle = 0.0  # pi
-        self.PF = pf.ParticleFilter(self,particles=500,sense_noise=50,distance_noise=30,angle_noise=0.02,in_x = self.x,in_y = self.y)
+        self.PF = pf.ParticleFilter(particles=500,sense_noise=50,distance_noise=30,angle_noise=0.02,in_x = self.x,in_y = self.y)
         self.dr = driver.Driver(1, 2, 3)
         self.dr.connect()
         # Test command
