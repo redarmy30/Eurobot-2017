@@ -86,7 +86,7 @@ class Robot:
     ############################################################################
     ######## HIGH LEVEL FUNCTIONS ##############################################
     ############################################################################
-    def demo(self,speed= 1):
+    def demo(self, speed=1):
         """robot Demo, go to coord and take cylinder"""
         signal.signal(signal.SIGALRM, self.funny_action)
         signal.alarm(90)
@@ -104,7 +104,7 @@ class Robot:
         parameters = [250, 1350, 0.0, speed]
         self.go_to_coord_rotation(parameters)
 
-    def demo_r(self,speed= 1):
+    def demo_r(self, speed=1):
         """robot Demo, go to coord and take cylinder"""
         # TODO take cylinder
         parameters = [850, 150, 0.0, speed]
@@ -125,10 +125,10 @@ class Robot:
         print 'FUNNNY ACTION'
 
 
-
 def test():
     rb = Robot(True)
     rb.demo()
+    rb.demo_r()
 
 test()
 

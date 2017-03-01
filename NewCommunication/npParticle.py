@@ -11,7 +11,7 @@ BEAC_R = 40
 BEACONS = np.array([[-BEAC_R, WORLD_Y / 2.], [WORLD_X + BEAC_R, WORLD_Y + BEAC_R], [WORLD_X + BEAC_R, - BEAC_R]])
 
 # parametres of lidar
-MAX_ITENS = 2600
+MAX_ITENS = 1600  # MAX_ITENS 2600
 MAX_DIST = 3700
 BEAC_DIST_THRES = 200
 
