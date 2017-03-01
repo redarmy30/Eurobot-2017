@@ -33,25 +33,25 @@ class ParticleFilter:
         """calculates the probability of x for 1-dim Gaussian with mean mu and var. sigma"""
         return np.exp(- ((x-mu) ** 2) / (sigma ** 2) / 2.0) / np.sqrt(2.0 * np.pi * (sigma ** 2))
 
-    def move_particles(self, delta): # delta = [dx,dy,d_rot]
+    def move_particles(self, delta, mode="npy"): # delta = [dx,dy,d_rot]
         stamp = time.time()
-        # OLD START
-        # x_noise = np.random.normal(0, self.distance_noise, self.particles_num)
-        # y_noise = np.random.normal(0, self.distance_noise, self.particles_num)
-        # angle_noise = np.random.normal(0, self.angle_noise, self.particles_num)
-        # self.particles[:, 0] = self.particles[:, 0] + delta[0] + x_noise
-        # self.particles[:, 1] = self.particles[:, 1] + delta[1] + y_noise
-        # self.particles[:, 2] = (self.particles[:, 2] + delta[2] + angle_noise) % (2 * math.pi)
+        x_noise = np.random.normal(0, self.distance_noise, self.particles_num)
+        y_noise = np.random.normal(0, self.distance_noise, self.particles_num)
+        angle_noise = np.random.normal(0, self.angle_noise, self.particles_num)
+        self.particles[:, 0] = self.particles[:, 0] + delta[0] + x_noise
+        self.particles[:, 1] = self.particles[:, 1] + delta[1] + y_noise
+        self.particles[:, 2] = (self.particles[:, 2] + delta[2] + angle_noise) % (2 * math.pi)
         # START instead of
+        # NOT FASTER! NOT RIGHT((
         # # self.particles + noise + delta:
         # # noise - Nx3 : N - num particles, (x_noise, y_noise, angle_noise)
-        self.particles += (np.random.normal(loc=np.array([0, 0, 0]),
-                                            scale=np.diag([self.distance_noise,
-                                                           self.distance_noise,
-                                                           self.angle_noise]),
-                                            size=(self.particles_num, 3))
-                           + np.array([delta]))
-        self.particles[:, 2] %= 2 * np.pi
+        # self.particles += (np.random.multivariate_normal(mean=np.array([0, 0, 0]),
+        #                                     cov=np.diag(np.array([self.distance_noise,
+        #                                                    self.distance_noise,
+        #                                                    self.angle_noise])),
+        #                                     size=(self.particles_num))
+        #                    + np.array([delta]))
+        # self.particles[:, 2] %= 2 * np.pi
         # END instead of
         logging.info('Particle Move time: ' + str(time.time() - stamp))
 
@@ -64,14 +64,14 @@ class ParticleFilter:
         # for u in [(u0 + i) / n for i in range(n)]:
         # START instead of
         n = self.particles_num
-        weights = np.array(weights)
+        weigths = np.array(weights)
         indices = []
-        C = np.append([0.], np.cumsum(weights))# [0.] + [sum(weights[:i + 1]) for i in range(n)]
+        C = np.append([0.], np.cumsum(weigths))# [0.] + [sum(weights[:i + 1]) for i in range(n)]
         j = 0
         u0 = (np.random.rand() + np.arange(n))/n
         for u in u0: #[(u0 + i) / n for i in range(n)
         # END intsead of
-            while u > C[j]:
+            while j < len(C) and u > C[j]:
                 j += 1
             indices += [j - 1]
         return indices
@@ -171,10 +171,6 @@ def p_trans(agl, pit):
     x_beac = pit*np.cos(agl) # multiply by minus in our robot
     y_beac = pit*np.sin(agl)
     return x_beac,y_beac
-
-
-
-
 
 
 
