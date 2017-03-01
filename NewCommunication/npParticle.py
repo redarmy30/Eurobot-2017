@@ -17,7 +17,7 @@ BEAC_DIST_THRES = 200
 
 
 class ParticleFilter:
-    def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x = 150, in_y = 150):
+    def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x=150, in_y=150):
         stamp = time.time()
         self.particles_num = particles
         self.sense_noise = sense_noise
@@ -164,7 +164,7 @@ def get_landmarks(scan):
     angles = np.pi / 4 / 180 * ind
     distances = scan[ind, 0]
     logging.info('scan preproccesing time: ' + str(time.time() - stamp))
-    return (angles + np.pi / 4+ np.pi/2) % (2 * np.pi), distances # delete +np.pi for our robot
+    return (angles + np.pi / 4+ np.pi/2) % (2 * np.pi), distances  # delete +np.pi for our robot
 
 
 def p_trans(agl, pit):

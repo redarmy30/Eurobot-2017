@@ -15,11 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main_file.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main_file.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_file.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1708">
-              <caret line="131" column="0" lean-forward="false" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+            <state relative-caret-position="568">
+              <caret line="155" column="0" lean-forward="true" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -27,11 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="npParticle.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="npParticle.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/npParticle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="21" lean-forward="true" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+            <state relative-caret-position="-1742">
+              <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
               <folding>
                 <element signature="e#1#19#0" expanded="true" />
               </folding>
@@ -135,14 +135,14 @@
         <option value="$PROJECT_DIR$/packets.py" />
         <option value="$PROJECT_DIR$/driver.py" />
         <option value="$PROJECT_DIR$/ParticleFilter.py" />
-        <option value="$PROJECT_DIR$/main_file.py" />
         <option value="$PROJECT_DIR$/npParticle.py" />
+        <option value="$PROJECT_DIR$/main_file.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="23" />
+    <option name="x" value="22" />
+    <option name="y" value="32" />
     <option name="width" value="1194" />
     <option name="height" value="740" />
   </component>
@@ -357,7 +357,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="23" width="1194" height="740" extended-state="0" />
+    <frame x="22" y="32" width="1194" height="740" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26716918" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -774,16 +774,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main_file.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1708">
-          <caret line="131" column="0" lean-forward="false" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ParticleFilter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2550">
@@ -796,10 +786,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/npParticle.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="21" lean-forward="true" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+        <state relative-caret-position="-1742">
+          <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
           <folding>
             <element signature="e#1#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="568">
+          <caret line="155" column="0" lean-forward="true" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
