@@ -17,7 +17,7 @@ BEAC_DIST_THRES = 200
 
 
 class ParticleFilter:
-    def __init__(self,particles=500,sense_noise=50,distance_noise=30,angle_noise=0.02,in_x = 150,in_y = 150):
+    def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x = 150, in_y = 150):
         stamp = time.time()
         self.particles_num = particles
         self.sense_noise = sense_noise
@@ -26,7 +26,7 @@ class ParticleFilter:
         x = np.random.normal(in_x, distance_noise, particles)
         y = np.random.normal(in_y, distance_noise, particles)
         orient = np.random.normal(0, angle_noise, particles) % (2 * np.pi)
-        self.particles = np.array([x, y, orient]).T # instead of np.vstack((x,y,orient)).T
+        self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
         logging.info('initialize time: '+str(time.time()-stamp))
 
     def gaus(self, x, mu=0, sigma=1):
@@ -148,7 +148,7 @@ class ParticleFilter:
             beacon_error_sum[ind, 2] = np.sum(np.where(error_l3, errors, 0), axis=-1)[ind] / err_l3[ind]
 
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
-        weights = self.gaus(np.mean(beacon_error_sum, axis=1), mu=0, sigma=self.sense_noise)
+        weights = self.gaus(np.mean(beacon_error_sum, axis=1), sigma=self.sense_noise)
         weights /= np.sum(weights)
         return weights
         # TODO try use median instead mean

@@ -44,10 +44,10 @@ class Robot:
         logging.info(self.dr.process_cmd(command))
 
     def get_raw_lidar(self):
-        #return np.load('scan.npy')[::-1]
+        # return np.load('scan.npy')[::-1]
         timestamp, scan = self.lidar.get_intens()
         return scan
-        return scan[::-1] # our robot
+        # return scan[::-1]  our robot(old)
 
     def go_to_coord_rotation(self,parameters): #  parameters [x,y,angle,speed]
         pm = [parameters[0] / 1000., parameters[1] / 1000., parameters[2], parameters[3]]
@@ -86,22 +86,38 @@ class Robot:
     ############################################################################
     ######## HIGH LEVEL FUNCTIONS ##############################################
     ############################################################################
-    def demo(self):
+    def demo(self,speed= 1):
         """robot Demo, go to coord and take cylinder"""
         signal.signal(signal.SIGALRM, self.funny_action)
         signal.alarm(90)
         # TODO take cylinder
-        parameters = [850, 150, 0.0, 4]
+        parameters = [850, 150, 0.0, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1000, 500, 0.0, 4]
+        parameters = [1000, 500, 0.0, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1000, 700, 0.0, 4]
+        parameters = [1000, 700, 0.0, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [650, 1350, 0.0, 4]
+        parameters = [650, 1350, 0.0, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 1350, 0.0, 4]
+        parameters = [250, 1350, 0.0, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 1350, 0.0, 4]
+        parameters = [250, 1350, 0.0, speed]
+        self.go_to_coord_rotation(parameters)
+
+    def demo_r(self,speed= 1):
+        """robot Demo, go to coord and take cylinder"""
+        # TODO take cylinder
+        parameters = [850, 150, 0.0, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1000, 500, 0.0, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1000, 700, 0.0, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [650, 1350, 0.0, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, 0.0, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, 0.0, speed]
         self.go_to_coord_rotation(parameters)
 
     def funny_action(self,signum, frame):
@@ -112,7 +128,7 @@ class Robot:
 
 def test():
     rb = Robot(True)
-    #rb.demo()
+    rb.demo()
 
 test()
 
