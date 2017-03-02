@@ -59,8 +59,8 @@ class Robot:
             logging.warning('Lidar off')
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
-        pm = [parameters[0] / 1000., parameters[1] / 1000., parameters[2], parameters[3]]
-        command = {'source': 'fsm', 'cmd': 'addPointToStack', 'params': pm}
+        pm = [self.x/1000.,self.y/1000.,float(self.angle),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
+        command = {'source': 'fsm', 'cmd': 'go_to_with_corrections', 'params': pm}
         logging.info(self.dr.process_cmd(command))
         # After movement
         stamp = time.time()
@@ -78,8 +78,8 @@ class Robot:
         self.angle = parameters[2]
         print 'Before Calculation:'
         self.PF.calculate_main()
-        if self.lidar_on:
-            self.check_lidar()  # check lidar connection
+        #if self.lidar_on:
+        #    self.check_lidar()  # check lidar connection
         if self.lidar_on:
             lidar_data = self.get_raw_lidar()
             # print lidar_data
@@ -91,10 +91,12 @@ class Robot:
             self.y = main_robot[1]
             self.angle = main_robot[2]
 
-        command = {'source': 'fsm', 'cmd': 'setCoordinates', 'params': [self.x / 1000., self.y / 1000., self.angle]}
-        logging.info(self.dr.process_cmd(command))
         return True
-        # TODO add move correction
+
+    def go_last(self,parameters):
+        while abs(parameters[0]-self.x) < 10 and abs(parameters[1]-self.x) < 10:
+            self.go_to_coord_rotation(parameters)
+
 
     ############################################################################
     ######## HIGH LEVEL FUNCTIONS ##############################################
@@ -114,23 +116,20 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [250, 1350, 0.0, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 1350, 0.0, speed]
-        self.go_to_coord_rotation(parameters)
+        self.go_last(parameters)
 
     def demo_r(self, speed=1):
         """robot Demo, go to coord and take cylinder"""
         # TODO take cylinder
-        parameters = [850, 150, 0.0, speed]
-        self.go_to_coord_rotation(parameters)
-        parameters = [1000, 500, 0.0, speed]
+        parameters = [650, 1350, 0.0, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 700, 0.0, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [650, 1350, 0.0, speed]
+        parameters = [1000, 500, 0.0, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 1350, 0.0, speed]
+        parameters = [850, 150, 0.0, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 1350, 0.0, speed]
+        parameters = [170, 150, 0.0, speed]
         self.go_to_coord_rotation(parameters)
 
     def funny_action(self, signum, frame):
@@ -140,8 +139,11 @@ class Robot:
 
 def test():
     rb = Robot(True)
-    rb.demo()
-    rb.demo_r()
+    i = 0
+    while i<10:
+        rb.demo(4)
+        rb.demo_r(4)
+        i+=1
 
 def tst_time():
     rb = Robot(True)
@@ -151,5 +153,5 @@ def tst_time():
         rb.dr.process_cmd(command)
     print time.time()-stamp
 
-tst_time()
+test()
 
