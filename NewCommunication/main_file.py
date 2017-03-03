@@ -94,7 +94,7 @@ class Robot:
         return True
 
     def go_last(self,parameters):
-        while abs(parameters[0]-self.x) > 10 or abs(parameters[1]-self.x) > 10:
+        while abs(parameters[0]-self.x) > 10 or abs(parameters[1]-self.y) > 10:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
 
@@ -144,8 +144,8 @@ def test():
     rb = Robot(True)
     i = 0
     while i<10:
-        rb.demo(4)
-        rb.demo_r(4)
+        rb.demo(6)
+        rb.demo_r(6)
         i+=1
 
 def tst_time():
