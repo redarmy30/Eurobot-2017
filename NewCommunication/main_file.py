@@ -4,7 +4,7 @@ from hokuyolx import HokuyoLX
 import logging
 import signal
 import npParticle as pf
-
+import numpy as np
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
@@ -34,7 +34,7 @@ class Robot:
         self.x = 170  # mm
         self.y = 150  # mm
         self.angle = 0.0  # pi
-        self.PF = pf.ParticleFilter(particles=1000, sense_noise=30, distance_noise=40, angle_noise=0.15, in_x=self.x,
+        self.PF = pf.ParticleFilter(particles=1500, sense_noise=30, distance_noise=40, angle_noise=0.2, in_x=self.x,
                                     in_y=self.y)
         self.dr = driver.Driver(1, 2, 3)
         self.dr.connect()
@@ -94,7 +94,8 @@ class Robot:
         return True
 
     def go_last(self,parameters):
-        while abs(parameters[0]-self.x) < 10 and abs(parameters[1]-self.x) < 10:
+        while abs(parameters[0]-self.x) > 10 or abs(parameters[1]-self.x) > 10:
+            print 'calibrate'
             self.go_to_coord_rotation(parameters)
 
 
@@ -106,30 +107,32 @@ class Robot:
         signal.signal(signal.SIGALRM, self.funny_action)
         signal.alarm(90)
         # TODO take cylinder
-        parameters = [850, 150, 0.0, speed]
+        angle = np.pi/2.
+        parameters = [850, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1000, 500, 0.0, speed]
+        parameters = [1000, 500, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1000, 700, 0.0, speed]
+        parameters = [1000, 700, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [650, 1350, 0.0, speed]
+        parameters = [650, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 1350, 0.0, speed]
+        parameters = [250, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.go_last(parameters)
 
     def demo_r(self, speed=1):
         """robot Demo, go to coord and take cylinder"""
         # TODO take cylinder
-        parameters = [650, 1350, 0.0, speed]
+        angle = np.pi / 2.
+        parameters = [650, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1000, 700, 0.0, speed]
+        parameters = [1000, 700, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1000, 500, 0.0, speed]
+        parameters = [1000, 500, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [850, 150, 0.0, speed]
+        parameters = [850, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [170, 150, 0.0, speed]
+        parameters = [170, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
     def funny_action(self, signum, frame):

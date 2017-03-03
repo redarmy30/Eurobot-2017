@@ -8,7 +8,8 @@ import math
 WORLD_X = 3000
 WORLD_Y = 2000
 BEAC_R = 40
-BEACONS = np.array([[-BEAC_R, WORLD_Y / 2.], [WORLD_X + BEAC_R, WORLD_Y + BEAC_R], [WORLD_X + BEAC_R, - BEAC_R]])
+BORDER = 10
+BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.], [-BEAC_R-BORDER, WORLD_Y + BEAC_R+BORDER], [- BEAC_R-BORDER, - BEAC_R - BORDER]])
 
 # parametres of lidar
 MAX_ITENS = 1600  # MAX_ITENS 2600
