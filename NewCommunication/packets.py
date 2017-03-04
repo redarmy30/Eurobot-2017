@@ -30,6 +30,8 @@ def cut_crc(msg_crc):
 
 def encode_params(params):
     res = bytearray()
+    if params is None:
+        return res
     for param in params:
         if isinstance(param, str):
             res += param

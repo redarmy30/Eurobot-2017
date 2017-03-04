@@ -1,22 +1,21 @@
-from multiprocessing import Process
+from multiprocessing import Process, Queue
+from multiprocessing.queues import Queue as QueueType
 import serial
-
 from serial.tools import list_ports
-from cmd_list import REVERSED_CMD_LIST
 from cmd_list import CMD_LIST
+import time
+from packets import encode_packet, decode_packet
 import logging
 
-from packets import encode_packet, decode_packet
 
-
-PORT_VID = 1155#'0483'
-PORT_PID = 22336#'5740'
-PORT_SNR = '325936843235'#'325936843235'
-DEVICE_NAME = '/dev/ttyACM0' #our robot = '/dev/tty.usbmodem1411'
-
+PORT_VID = 1155
+PORT_PID = 22336
+PORT_SNR = '3677346C3034'
+DEVICE_NAME = '/dev/ttyACM0'
 
 class DriverException(Exception):
     pass
+
 
 # code is sensitive to the types, If input Float use 1.0 not 1!
 # message format:
@@ -27,65 +26,95 @@ class DriverException(Exception):
 
 # You can test it without spawning process:
 # >>> from driver import Driver
-# >>> d = Driver(1,2,3)
+# >>> d = Driver()
 # >>> d.connect()
 # >>> d.process_cmd(cmd)
 class Driver(Process):
-    def __init__(self, input_cmd, fsm_output, lz_output,
-            baudrate=9600, timeout=1, **kwargs):
+    """Class for communications with STM32. Only one instance can exist at a time.
+    !!!warning!!! command parameters are type sensitive, use 0.0 not 0 if
+    parameter must be float
+    Examples
+    -------
+    >>> d = Driver()
+    >>> # send command in the blocking mode
+    >>> d.process_cmd('setCoordinates', [0.0, 0.0, 0.0])
+    >>> # register queue and start process
+    >>> d.register_queue('queue_name', queue)
+    >>> d.start()
+    """
+
+    output_queues = None
+    input_cmd_queue = None
+
+    def __init__(self, baudrate=9600, timeout=0.5, device=DEVICE_NAME, connect=True, **kwargs):
         super(Driver, self).__init__(**kwargs)
-        self.device = None
+        self.device = device
+        self.port = None
         self.baudrate = baudrate
         self.timeout = timeout
-        self.input_cmd = input_cmd
-        self.fsm_output = fsm_output
-        self.lz_output = lz_output
+        self.input_cmd_queue = Queue()
+        self.output_queues = {}
+        if connect:
+            self.connect()
 
     def connect(self):
-        print [(port.pid, port.vid, port.serial_number) for port in list_ports.comports()]
+        """Connect to STM32 using serial port"""
         for port in list_ports.comports():
             if (port.serial_number == PORT_SNR) and \
                     (port.pid == PORT_PID) and (port.vid == PORT_VID):
                 self.device = port.device
                 break
-        self.device = DEVICE_NAME  ## Time-Limited correction!
-        if self.device is None:
-            self.device = DEVICE_NAME  ## Time-Limited correction!
-            logging.critical('STM is no connected!')
-            raise DriverException('Device not found')
         self.port = serial.Serial(self.device,
-            baudrate=self.baudrate, timeout=self.timeout)
+                                  baudrate=self.baudrate, timeout=self.timeout)
 
     def close(self):
+        '''Close serial port'''
         self.port.close()
+        self.port = None
 
-    def process_cmd(self, cmd):
-        cmd_id = CMD_LIST[cmd['cmd']]
-        if 'params' in cmd:
-            packet = encode_packet(cmd_id, cmd['params'])
-        else:
-            packet = encode_packet(cmd_id, '')
+    def process_cmd(self, cmd, params=None):
+        '''Process command in the blocking mode
+        Parameters
+        ----------
+        cmd: string
+            Command name (see CMD_LIST)
+        params: list, optional
+            List of command parameters
+        '''
+        cmd_id = CMD_LIST[cmd]
+        packet = encode_packet(cmd_id, params)
         logging.debug('data_to_stm:' + ','.join([str(i) for i in packet]))
-        #print [c for c in packet]
         self.port.write(packet)
-        data  = self.port.read(size=3)
+        data = self.port.read(size=3)
+        if len(data) != 3:
+            self.port.reset_input_buffer()
+            self.port.reset_output_buffer()
+            logging.critical('Couldn\'t read 3 bytes')
+            raise DriverException('Couldn\'t read 3 bytes')
         data = bytearray(data)
-        data += self.port.read(size = int(data[2])-3) # minus size of first 3 elements
-        # clear buffer if error!
+        data += self.port.read(size=int(data[2]) - 3)
         return decode_packet(data)
 
+    def register_output(self, name, queue):
+        '''Register output queue. Must be called before run()'''
+        if not isinstance(queue, QueueType):
+            raise TypeError('Wrong type for queue')
+        self.output_queues[name] = queue
+
     def run(self):
+        if not self.output_queues:
+            raise DriverException('Zero output queues were registered')
         self.connect()
         try:
             while True:
-                cmd = input_command_queue.get()
+                cmd = self.input_cmd_queue.get()
                 if cmd is None:
                     break
+                source = cmd.get('source')
                 reply = self.process_cmd(cmd)
-                if cmd['source'] == 'fsm':
-                    self.fsm_output.put(reply)
-                elif cmd['source'] == 'localization':
-                    self.lz_output.put(reply)
+                output_queue = self.output_queues.get(source)
+                if output_queue is not None:
+                    output_queue.put(reply)
                 else:
                     raise DriverException('Incorrect source')
         finally:
