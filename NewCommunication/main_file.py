@@ -5,6 +5,8 @@ import logging
 import signal
 import npParticle as pf
 import numpy as np
+from multiprocessing import Process, Queue, Value,Array
+from multiprocessing.queues import Queue as QueueType
 lvl = logging.INFO
 logging.basicConfig(filename='Eurobot.log', filemode='w', format='%(levelname)s:%(asctime)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=lvl)
@@ -31,19 +33,39 @@ class Robot:
             except:
                 self.lidar_on = False
                 logging.warning('lidar is not connected')
-        self.x = 170  # mm
-        self.y = 150  # mm
-        self.angle = 0.0  # pi
-        self.PF = pf.ParticleFilter(particles=1500, sense_noise=30, distance_noise=40, angle_noise=0.2, in_x=self.x,
-                                    in_y=self.y)
-        self.dr = driver.Driver(1, 2, 3)
-        self.dr.connect()
+        #self.x = 170  # mm
+        #self.y = 150  # mm
+        #self.angle = 0.0  # pi
+        self.coords = Array('d',[170, 150, 0])
+        self.input_queue = Queue()
+        self.loc_queue = Queue()
+        self.fsm_queue = Queue()
+        self.PF = pf.ParticleFilter(particles=1500, sense_noise=30, distance_noise=40, angle_noise=0.2, in_x=self.coords[0],
+                                    in_y=self.coords[1],input_queue=self.input_queue,out_queue=self.loc_queue)
+
+
+        # driver process
+        self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
+        p = Process(target=self.dr.run)
+        p.start()
+        p2 = Process(target=self.PF.localisation)
+        #p2.start()
         # Test command
-        command = {'source': 'fsm', 'cmd': 'echo', 'params': 'ECHO'}
-        logging.info(self.dr.process_cmd(command))
+        #self.input_queue.put({'source':'fsm','cmd':'echo','params':'ECHO'})
+        logging.info(self.send_command('echo','ECHO'))
+
+
+
+        #logging.info(self.dr.process_cmd('echo', 'ECHO'))
         # Set start coordinates
-        command = {'source': 'fsm', 'cmd': 'setCoordinates', 'params': [self.x / 1000., self.y / 1000., self.angle]}
-        logging.info(self.dr.process_cmd(command))
+        #self.input_queue.put({'source': 'fsm', 'cmd': 'echo', 'params': 'ECHO'})
+        #logging.info(self.dr.process_cmd('setCoordinates',[self.x / 1000., self.y / 1000., self.angle]))
+        logging.info(self.send_command('setCoordinates',[self.coords[0] / 1000., self.coords[1] / 1000., self.coords[2]]))
+
+
+    def send_command(self,name,params=None):
+        self.input_queue.put({'source':'fsm','cmd':name,'params':params})
+        return self.fsm_queue.get()
 
     def get_raw_lidar(self):
         # return np.load('scan.npy')[::-1]
@@ -59,23 +81,21 @@ class Robot:
             logging.warning('Lidar off')
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
-        pm = [self.x/1000.,self.y/1000.,float(self.angle),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
-        command = {'source': 'fsm', 'cmd': 'go_to_with_corrections', 'params': pm}
-        logging.info(self.dr.process_cmd(command))
+        pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
+        logging.info(self.dr.process_cmd('go_to_with_corrections',pm))
         # After movement
         stamp = time.time()
-        cmd = {'source': 'fsm', 'cmd': 'is_point_was_reached'}
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
-        while not self.dr.process_cmd(cmd)['data']:
+        while not self.dr.process_cmd('is_point_was_reached')['data']:
             time.sleep(0.05)
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
                 return False  # Error, need to handle somehow (Localize and add new point maybe)
         logging.info('point reached')
-        self.PF.move_particles([parameters[0] - self.x, parameters[1] - self.y, parameters[2] - self.angle])
-        self.x = parameters[0]
-        self.y = parameters[1]
-        self.angle = parameters[2]
+        self.PF.move_particles([parameters[0] - self.coords[0], parameters[1] - self.coords[1], parameters[2] - self.coords[2]])
+        self.coords[0] = parameters[0]
+        self.coords[1] = parameters[1]
+        self.coords[2] = parameters[2]
         print 'Before Calculation:'
         self.PF.calculate_main()
         #if self.lidar_on:
@@ -87,14 +107,14 @@ class Robot:
             self.PF.particle_sense(lidar_data)
             print 'After Calculation:'
             main_robot = self.PF.calculate_main()
-            self.x = main_robot[0]
-            self.y = main_robot[1]
-            self.angle = main_robot[2]
+            self.coords[0] = main_robot[0]
+            self.coords[1] = main_robot[1]
+            self.coords[2] = main_robot[2]
 
         return True
 
     def go_last(self,parameters):
-        while abs(parameters[0]-self.x) > 10 or abs(parameters[1]-self.y) > 10:
+        while abs(parameters[0]-self.coords[0]) > 10 or abs(parameters[1]-self.coords[1]) > 10:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
 
@@ -144,8 +164,8 @@ def test():
     rb = Robot(True)
     i = 0
     while i<10:
-        rb.demo(6)
-        rb.demo_r(6)
+        rb.demo(4)
+        rb.demo_r(4)
         i+=1
 
 def tst_time():

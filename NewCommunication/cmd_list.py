@@ -16,7 +16,7 @@ CMD_LIST = {
     'cleanPointsStack': 0x10,
     'addPointToStack': 0x11,  #expected parameters: float32[3], int[1]
     'getStackState': 0x12,
-    'getCurentCoordinates': 0x13,
+    'getCurrentCoordinates': 0x13,
     'getCurrentSpeed': 0x14,
     'setMovementParameters': 0x15,    #expected parameters: float32[5]
     'setADCPinMode': 0x16,    #expected parameters: int[1], int[1]

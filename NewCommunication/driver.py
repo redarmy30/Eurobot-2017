@@ -43,17 +43,15 @@ class Driver(Process):
     >>> d.start()
     """
 
-    output_queues = None
-    input_cmd_queue = None
 
-    def __init__(self, baudrate=9600, timeout=0.5, device=DEVICE_NAME, connect=True, **kwargs):
+    def __init__(self,inp_queue,fsm_queue,loc_queue, baudrate=9600, timeout=0.5, device=DEVICE_NAME, connect=True, **kwargs):
         super(Driver, self).__init__(**kwargs)
         self.device = device
         self.port = None
         self.baudrate = baudrate
         self.timeout = timeout
-        self.input_cmd_queue = Queue()
-        self.output_queues = {}
+        self.input_cmd_queue = inp_queue
+        self.output_queues = {'fsm':fsm_queue,'loc':loc_queue}
         if connect:
             self.connect()
 
@@ -102,16 +100,14 @@ class Driver(Process):
         self.output_queues[name] = queue
 
     def run(self):
-        if not self.output_queues:
-            raise DriverException('Zero output queues were registered')
-        self.connect()
+        #{'source':'fsm','cmd':'SetCoordinates','params':[0,0,0]}
         try:
             while True:
                 cmd = self.input_cmd_queue.get()
                 if cmd is None:
                     break
                 source = cmd.get('source')
-                reply = self.process_cmd(cmd)
+                reply = self.process_cmd(cmd.get('cmd'),cmd.get('params'))
                 output_queue = self.output_queues.get(source)
                 if output_queue is not None:
                     output_queue.put(reply)

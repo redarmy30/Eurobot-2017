@@ -18,8 +18,11 @@ BEAC_DIST_THRES = 200
 
 
 class ParticleFilter:
-    def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x=150, in_y=150):
+    def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x=150, in_y=150,input_queue=None,out_queue=None):
         stamp = time.time()
+        self.input_queue = input_queue
+        self.out_queue = out_queue
+
         self.particles_num = particles
         self.sense_noise = sense_noise
         self.distance_noise = distance_noise
@@ -154,6 +157,20 @@ class ParticleFilter:
         return weights
         # TODO try use median instead mean
         # TODO if odometry works very bad and weights are small use only lidar
+
+    def send_command(self,name,params=None):
+        self.input_queue.put({'source':'loc','cmd':name,'params':params})
+        return self.out_queue.get()
+
+
+
+    def localisation(self):
+        while True:
+            print self.send_command('getCurrentCoordinates')
+            time.sleep(0.5)
+
+
+
 
 
 # help functions
