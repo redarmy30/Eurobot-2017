@@ -40,7 +40,7 @@ class Robot:
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=1500, sense_noise=30, distance_noise=40, angle_noise=0.2, in_x=self.coords[0],
+        self.PF = pf.ParticleFilter(particles=500, sense_noise=20, distance_noise=20, angle_noise=0.2, in_x=self.coords[0],
                                     in_y=self.coords[1],input_queue=self.input_queue,out_queue=self.loc_queue)
 
 
@@ -48,8 +48,8 @@ class Robot:
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
         p = Process(target=self.dr.run)
         p.start()
-        p2 = Process(target=self.PF.localisation)
-        #p2.start()
+        p2 = Process(target=self.PF.localisation,args=(self.coords,self.get_raw_lidar))
+        p2.start()
         # Test command
         #self.input_queue.put({'source':'fsm','cmd':'echo','params':'ECHO'})
         logging.info(self.send_command('echo','ECHO'))
@@ -92,24 +92,24 @@ class Robot:
             if (time.time() - stamp) > 30:
                 return False  # Error, need to handle somehow (Localize and add new point maybe)
         logging.info('point reached')
-        self.PF.move_particles([parameters[0] - self.coords[0], parameters[1] - self.coords[1], parameters[2] - self.coords[2]])
-        self.coords[0] = parameters[0]
-        self.coords[1] = parameters[1]
-        self.coords[2] = parameters[2]
-        print 'Before Calculation:'
-        self.PF.calculate_main()
+        #self.PF.move_particles([parameters[0] - self.coords[0], parameters[1] - self.coords[1], parameters[2] - self.coords[2]])
+        #self.coords[0] = parameters[0]
+        #self.coords[1] = parameters[1]
+        #self.coords[2] = parameters[2]
+        #print 'Before Calculation:'
+        #self.PF.calculate_main()
         #if self.lidar_on:
         #    self.check_lidar()  # check lidar connection
-        if self.lidar_on:
-            lidar_data = self.get_raw_lidar()
+        #if self.lidar_on:
+        #    lidar_data = self.get_raw_lidar()
             # print lidar_data
             # TODO http://hokuyolx.readthedocs.io/en/latest/ RESET,REBOOT functions
-            self.PF.particle_sense(lidar_data)
-            print 'After Calculation:'
-            main_robot = self.PF.calculate_main()
-            self.coords[0] = main_robot[0]
-            self.coords[1] = main_robot[1]
-            self.coords[2] = main_robot[2]
+        #    self.PF.particle_sense(lidar_data)
+        #    print 'After Calculation:'
+        #    main_robot = self.PF.calculate_main()
+        #    self.coords[0] = main_robot[0]
+        #    self.coords[1] = main_robot[1]
+        #    self.coords[2] = main_robot[2]
 
         return True
 
@@ -162,6 +162,7 @@ class Robot:
 
 def test():
     rb = Robot(True)
+    return
     i = 0
     while i<10:
         rb.demo(4)

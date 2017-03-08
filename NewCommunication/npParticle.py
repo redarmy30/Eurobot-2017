@@ -22,7 +22,6 @@ class ParticleFilter:
         stamp = time.time()
         self.input_queue = input_queue
         self.out_queue = out_queue
-
         self.particles_num = particles
         self.sense_noise = sense_noise
         self.distance_noise = distance_noise
@@ -162,14 +161,19 @@ class ParticleFilter:
         self.input_queue.put({'source':'loc','cmd':name,'params':params})
         return self.out_queue.get()
 
-
-
-    def localisation(self):
+    def localisation(self, shared_coords,get_raw):
+        print get_raw()
         while True:
-            print self.send_command('getCurrentCoordinates')
-            time.sleep(0.5)
-
-
+            coords = [i*100 for i in self.send_command('getCurrentCoordinates')['data']]
+            self.PF.move_particles(
+                [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
+            lidar_data = get_raw()
+            self.PF.particle_sense(lidar_data)
+            main_robot = self.PF.calculate_main()
+            shared_coords[0] = main_robot[0]
+            shared_coords[1] = main_robot[1]
+            shared_coords[2] = main_robot[2]
+            time.sleep(0.1)
 
 
 

@@ -57,7 +57,7 @@ def encode_packet(cmd_id, params):
 
 
 def decode_params(cmd, params):
-    if cmd == 'getCurentCoordinates' or cmd == 'getCurrentSpeed':
+    if cmd == 'getCurrentCoordinates' or cmd == 'getCurrentSpeed':
         return [
             struct.unpack('<f', params[i*4:(i+1)*4])[0]  # TODO check correctness
             for i in range(3)
