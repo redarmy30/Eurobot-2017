@@ -735,23 +735,7 @@ case 0x3C: // Funny action - close lid
   }
    break;
 
-case 0x3D: // Funny action - close lid
-  {
-        goUpWithSuckingManipulator();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
 
-  }
-   break;
-
-case 0x3E: // Funny action - close lid
-  {
-        goDownWithSuckingManipulator();
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
-
-  }
-   break;
 
 case 0x41: // ОТКРЫТЬ ДВЕРИ
     {
