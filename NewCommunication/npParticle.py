@@ -164,8 +164,8 @@ class ParticleFilter:
     def localisation(self, shared_coords,get_raw):
         while True:
             coords = self.send_command('getCurrentCoordinates')['data']
-            coords[0]*=1000
-            coords[1]*=1000
+            coords[0]=coords[0]*1000
+            coords[1]=coords[1]*1000
             print coords
             self.move_particles(
                 [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
