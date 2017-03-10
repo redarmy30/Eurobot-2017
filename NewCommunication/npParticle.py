@@ -167,11 +167,11 @@ class ParticleFilter:
             coords[0]*=1000
             coords[1]*=1000
             print coords
-            self.PF.move_particles(
+            self.move_particles(
                 [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
             lidar_data = get_raw()
-            self.PF.particle_sense(lidar_data)
-            main_robot = self.PF.calculate_main()
+            self.particle_sense(lidar_data)
+            main_robot = self.calculate_main()
             shared_coords[0] = main_robot[0]
             shared_coords[1] = main_robot[1]
             shared_coords[2] = main_robot[2]
