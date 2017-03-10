@@ -126,7 +126,48 @@ class Robot:
         parameters = [170, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
-    def test_trajectory(self):
+    def test_trajectory(self,speed=1):
+        angle =3*np.pi / 2.
+        parameters = [700, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        ######
+        parameters = [900, 1200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900, 1200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        ########
+        parameters = [1300, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 1550, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1200, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 1450, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1200, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 1550, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1300, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [170, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
         return
     def funny_action(self, signum, frame):
         print 'Main functionaly is off'
@@ -135,6 +176,8 @@ class Robot:
 
 def test():
     rb = Robot(True)
+    rb.test_trajectory()
+    return
     i = 0
     while i<10:
         rb.demo(4)
