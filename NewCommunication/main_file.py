@@ -72,11 +72,11 @@ class Robot:
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
-        logging.info(self.dr.process_cmd('go_to_with_corrections',pm))
+        logging.info(self.send_command('go_to_with_corrections',pm))
         # After movement
         stamp = time.time()
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
-        while not self.dr.process_cmd('is_point_was_reached')['data']:
+        while not self.send_command('is_point_was_reached')['data']:
             time.sleep(0.05)
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
