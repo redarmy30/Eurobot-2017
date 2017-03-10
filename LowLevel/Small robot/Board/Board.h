@@ -4,7 +4,7 @@
 #include "stdint.h"
 
 char setVoltage(char ch, float duty); // установить напряжение на выходе управления двигателем -1,0 .. 1,0
-
+char setPWM(char ch, float duty);
 extern uint32_t * PWM_CCR[10];  //регистры сравнения каналов ШИМ
 extern uint32_t  PWM_DIR[10];
 extern uint32_t  GENERAL_PIN[10];
