@@ -250,7 +250,7 @@ void close_seashell_doors()
 
 }
 ////
-bool moveSuckerManipulatorUp(){
+/*bool moveSuckerManipulatorUp(){
     while(pin_val()){
         set_pin();
         reset_pin();
@@ -268,7 +268,7 @@ bool moveSuckerManipulatorDown(){
     reset_pin();
 
 }
-
+*/
 
 
 void servo_elevate_in()

@@ -88,11 +88,31 @@ uint16_t detector = 0;
 //int ttime1 = 10000000;
 //uint16_t  angle = 130;
 int angle = 0;
+int i, j;
+float d;
+/*
+pwm goes from 0.6-1.0
+*/
 while(1){
+
+    /*for(i=2818;i<100000;i++){
+        d = (float)i/100;
+        setPWM((char)4, d);
+        for(j=0; j<500000; j++);
+    }*/
+//    for(i=(-100);i<100;i++){
+//        d = (float)i/100;
+        setPWM((char)4, 0.055);
+        setPWM((char)4, 0.099);
+        setPWM((char)4, 0.107);
+        setPWM((char)4, 0.166);
+//        for(j=0; j<1000000; j++);
+//    }
+
 //upCollectorToGetBalls();
 //downCollectorWithBalls();
 
-throwCollectorIntoBox();
+//throwCollectorIntoBox();
 
   /*  if (pin_val (EXTI2_PIN))
             {   //curState.pidEnabled=1;

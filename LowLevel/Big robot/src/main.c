@@ -89,18 +89,15 @@ uint16_t detector = 0;
 //int ttime = 19000000;
 //int ttime1 = 10000000;
 //uint16_t  angle = 130;
-
+float speed = 0;
 while(1){
+//OpenLauncher();
+//CloseLauncher();
+    setSpeedMaxon(0, speed);
 
 
-        distance[FRONT_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
-
-
-
-
-
+//        distance[FRONT_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
 //    goDownWithSuckingManipulator();
-
   //  goUpWithSuckingManipulator();
 
      //curState.collisionAvEn =1;

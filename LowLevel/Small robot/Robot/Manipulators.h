@@ -109,5 +109,8 @@ bool moveSuckerManipulatorDown();
 
 
 
+#define ZERO_ANGLE_FUTABA_S3154 0.05
+#define MAX_ANGLE_FUTABA_S3154 0.1
+
 
 #endif
