@@ -72,11 +72,11 @@ class Robot:
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
-        logging.info(self.dr.process_cmd('go_to_with_corrections',pm))
+        logging.info(self.send_command('go_to_with_corrections',pm))
         # After movement
         stamp = time.time()
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
-        while not self.dr.process_cmd('is_point_was_reached')['data']:
+        while not self.send_command('is_point_was_reached')['data']:
             time.sleep(0.05)
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
@@ -126,7 +126,48 @@ class Robot:
         parameters = [170, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
-    def test_trajectory(self):
+    def test_trajectory(self,speed=1):
+        angle =3*np.pi / 2.
+        parameters = [700, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        ######
+        parameters = [900, 1200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900, 1200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        ########
+        parameters = [1300, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 1550, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1200, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 1450, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1200, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 1550, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1300, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [170, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
         return
     def funny_action(self, signum, frame):
         print 'Main functionaly is off'
@@ -135,6 +176,8 @@ class Robot:
 
 def test():
     rb = Robot(True)
+    rb.test_trajectory()
+    return
     i = 0
     while i<10:
         rb.demo(4)
