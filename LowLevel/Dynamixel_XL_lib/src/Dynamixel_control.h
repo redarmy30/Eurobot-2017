@@ -111,6 +111,11 @@ bool setServoCWAngleLimit (const uint8_t servoId,
 bool setServoCCWAngleLimit (const uint8_t servoId,
                      const uint16_t limitValue);
 
+bool setControlMode(const uint8_t servoId, uint8_t mode);
+
+bool setServoToWheelMode(const uint8_t servoId);
+bool setServoToJointMode(const uint8_t servoId);
+
 //------------------------------------------------------------------------------
 // these shouldn't be called externally:
 #pragma pack(push, 1)
