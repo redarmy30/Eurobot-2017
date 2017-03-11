@@ -32,16 +32,16 @@ typedef enum ServoCommand
 #define ID                  0x03
 #define BAUD_RATE           0x04
 #define RETURN_DELAY        0x05
-#define BLINK_CONDITIONS    0x11
 #define SHUTDOWN_CONDITIONS 0x12
 #define TORQUE              0x22
 #define CURRENT_LOAD        0x28
 #define MOVING_SPEED        0x20
 #define CURRENT_SPEED       0x26
-#define GOAL_ANGLE          0x1e
+#define GOAL_ANGLE          0x1E
 #define CURRENT_ANGLE       0x24
 #define CW_ANGLE_LIMIT      0x06
 #define CCW_ANGLE_LIMIT     0x08
+#define CONTROL_MODE        0x0B
 
 
 
@@ -251,9 +251,24 @@ bool setID (const uint8_t servoId, uint8_t newID)
     return true;
 }
 
-// set a baud rate to a servo, returns true if we get back the expected values
+// set servo control mode 1- wheel 2 - joint
+bool setControlMode(const uint8_t servoId, uint8_t mode)
+{
+    if (mode > 2 || mode < 1)
+        return false;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////                NOT DONE
+    const uint8_t params[3] = {CONTROL_MODE, (uint8_t)0x00,
+                                    mode & 0xff};
+
+    sendServoCommand (servoId, WRITE, 3, params);
+
+//    if (!getAndCheckResponse (newID))
+//        return false;
+
+    return true;
+}
+
+// set a baud rate to a servo, returns true if we get back the expected values
 bool setBaudRate (const uint8_t servoId, uint8_t baudRate)
 {
     if (BAUD_RATE > 253)
@@ -273,9 +288,6 @@ bool setBaudRate (const uint8_t servoId, uint8_t baudRate)
 // set the number of microseconds the servo waits before returning a response
 // servo factory default value is 500, but we probably want it to be 0
 // max value: 510
-
-
-//////////////////////////////////////////////////////   changed
 bool setServoReturnDelayMicros (const uint8_t servoId,
                                 const uint16_t micros)
 {
@@ -289,24 +301,6 @@ bool setServoReturnDelayMicros (const uint8_t servoId,
 
 //    if (!getAndCheckResponse (servoId))
   //      return false;
-
-    return true;
-}
-
-// set the events that will cause the servo to blink its LED
-
-
-//////////////////////////////////////////////////////   changed
-bool setServoBlinkConditions (const uint8_t servoId,
-                              const uint8_t flags)
-{
-    const uint8_t params[4] = {BLINK_CONDITIONS,(uint8_t)0x00,
-                               flags, (uint8_t)0x00};
-
-    sendServoCommand (servoId, WRITE, 4, params);
-
-    if (!getAndCheckResponse (servoId))
-        return false;
 
     return true;
 }
@@ -326,8 +320,6 @@ bool setDefault(const uint8_t servoId)
 }
 
 // set the events that will cause the servo to shut off torque
-
-//////////////////////////////////////////////////////   changed
 bool setServoShutdownConditions (const uint8_t servoId,
                                  const uint8_t flags)
 {
@@ -344,8 +336,6 @@ bool setServoShutdownConditions (const uint8_t servoId,
 
 
 // valid torque values are from 0 (free running) to 1023 (max)
-
-//////////////////////////////////////////////////////   changed
 bool setServoTorque (const uint8_t servoId,
                      const uint16_t torqueValue)
 {
@@ -391,9 +381,6 @@ bool getServoTorque (const uint8_t servoId,
 //  0 < speedValue < 1023
 // direction CCW = 0x0000, CW = 0x0400
 // a value of zero will disable velocity control
-
-
-//////////////////////////////////////////////////////   changed
 bool setServoMovingSpeed (const uint8_t servoId,
                        const uint16_t speedValue, const uint16_t direction)
 {
@@ -405,14 +392,10 @@ bool setServoMovingSpeed (const uint8_t servoId,
     if (speedValue > 1023 && direction == 0x0000 )
         return false;
 
-   /* if ((speedValue > 2047 || speedValue < 1024) && direction == 0x0400)
-        return false;*/
+    const uint8_t params[4] = {MOVING_SPEED, (uint8_t)0x00,
+                               lowByte, highByte};
 
-    const uint8_t params[6] = {MOVING_SPEED, (uint8_t)0x00,
-                               lowByte,
-                               highByte, (uint8_t)0x00, (uint8_t)0x00};
-
-    sendServoCommand (servoId, WRITE, 6, params);
+    sendServoCommand (servoId, WRITE, 4, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -491,11 +474,10 @@ bool setServoAngle ( const uint8_t servoId,
     const uint8_t highByte = (uint8_t)((angleValue >> 8) & 0xff);
     const uint8_t lowByte = (uint8_t)(angleValue & 0xff);
 
-    const uint8_t params[6] = {GOAL_ANGLE, (uint8_t)0x00,
-                               lowByte,
-                               highByte, (uint8_t)0x00, (uint8_t)0x00};
+    const uint8_t params[4] = {GOAL_ANGLE, (uint8_t)0x00,
+                               lowByte, highByte};
 
-    sendServoCommand (servoId, WRITE, 6, params);
+    sendServoCommand (servoId, WRITE, 4, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -506,9 +488,7 @@ bool setServoAngle ( const uint8_t servoId,
 // get current servo angle
 bool getServoAngle (const uint8_t servoId, float *angle)
 {
-
-
-    const uint8_t params[2] = {CURRENT_ANGLE, 0x00, 0x04, 0x00 /*repsonse.length-3, 0x00*/};  // read two bytes, starting at address CURRENT_ANGLE
+    const uint8_t params[2] = {CURRENT_ANGLE, 0x00, 0x04, 0x00 };  // read two bytes, starting at address CURRENT_ANGLE
 
     sendServoCommand (servoId, READ, 4, params);
 
@@ -526,8 +506,6 @@ bool getServoAngle (const uint8_t servoId, float *angle)
 
 // set CW angle  limit
 // if both CW and CCW angle limits set to 0, endless turn is activated
-
-//////////////////////////////////////////////////////   changed
 bool setServoCWAngleLimit (const uint8_t servoId,
                      const uint16_t limitValue)
 {
@@ -537,11 +515,10 @@ bool setServoCWAngleLimit (const uint8_t servoId,
     if (limitValue > 1023)
         return false;
 
-    const uint8_t params[6] = {CW_ANGLE_LIMIT, (uint8_t)0x00,
-                               lowByte,
-                               highByte, (uint8_t)0x00, (uint8_t)0x00};
+    const uint8_t params[4] = {CW_ANGLE_LIMIT, (uint8_t)0x00,
+                               lowByte, highByte};
 
-    sendServoCommand (servoId, WRITE, 6, params);
+    sendServoCommand (servoId, WRITE, 4, params);
 
     if (!getAndCheckResponse (servoId))
         return false;
@@ -551,8 +528,6 @@ bool setServoCWAngleLimit (const uint8_t servoId,
 
 // set CCW angle  limit form 0 to 1023
 // if both CW and CCW angle limits set to 0, endless turn is activated
-
-//////////////////////////////////////////////////////   changed
 bool setServoCCWAngleLimit (const uint8_t servoId,
                      const uint16_t limitValue)
 {
@@ -562,15 +537,43 @@ bool setServoCCWAngleLimit (const uint8_t servoId,
     if (limitValue > 1023)
         return false;
 
-    const uint8_t params[6] = {CCW_ANGLE_LIMIT, (uint8_t)0x00,
-                               lowByte,
-                               highByte, (uint8_t)0x00, (uint8_t)0x00};
+    const uint8_t params[4] = {CCW_ANGLE_LIMIT, (uint8_t)0x00,
+                               lowByte, highByte};
 
-    sendServoCommand (servoId, WRITE, 6, params);
+    sendServoCommand (servoId, WRITE, 4, params);
 
  //   if (!getAndCheckResponse (servoId))
    //     return false;
 
+    return true;
+}
+// Sets servo to endless turn mode
+// Use setServoSpeed to control servo in this mode
+bool setServoToWheelMode(const uint8_t servoId)
+{
+    setDefault(1);
+    int i = 0;
+    for(;i < 70000000; i++){ // Delay to set servo parameters to default
+        asm("nop");
+    }
+    setControlMode(servoId, (uint8_t)1);
+    setServoCWAngleLimit (servoId, (uint16_t) 0);
+    setServoCCWAngleLimit (servoId, (uint16_t) 0);
+    return true;
+}
+
+// Sets servo to joint turn mode
+// Use setServoAngle to control servo in this mode
+bool setServoToJointMode(const uint8_t servoId)
+{
+    setDefault(1);
+    int i = 0;
+    for(;i < 70000000; i++){ // Delay to set servo parameters to default
+        asm("nop");
+    }
+    setServoCWAngleLimit (servoId, (uint16_t) 0);
+    setServoCCWAngleLimit (servoId, (uint16_t) 1023);
+    setControlMode(servoId, (uint8_t)2);
     return true;
 }
 
