@@ -388,7 +388,9 @@ bool setServoMovingSpeed (const uint8_t servoId,
     speed |= direction;
     const uint8_t highByte = (uint8_t)((speed >> 8) & 0xff);
     const uint8_t lowByte = (uint8_t)(speed & 0xff);
-
+    
+    if ((speedValue > 2047 || speedValue < 1024) && direction == 0x0400)
+    return false;
     if (speedValue > 1023 && direction == 0x0000 )
         return false;
 
