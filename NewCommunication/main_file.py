@@ -134,7 +134,7 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [1150, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1350, 1600, angle, speed]
+        parameters = [1350, 1570, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1350, 1500, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -150,13 +150,15 @@ class Robot:
         parameters = [250, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
         ########
-        parameters = [1300, 1600, angle, speed]
+        parameters = [1150, 1200, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1250, 1550, angle, speed]
+        parameters = [1300, 1550, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1200, 1500, angle, speed]
+        parameters = [1270, 1500, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1150, 1450, angle, speed]
+        parameters = [1250, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1200, 1450, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1200, 1500, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -169,6 +171,59 @@ class Robot:
         parameters = [170, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
         return
+
+    def simpliest_trajectory(self,speed=1):
+        angle =3*np.pi / 2.
+        parameters = [700, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        time.sleep(1)
+        parameters = [1150, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        #########
+        parameters = [1250, 1200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1300, 1550, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1280, 1530, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1080, 1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_last(parameters)
+        ####
+        parameters = [270, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1050, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1050, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+        ######
+        ## funny action
+        parameters = [270, 1150, 0, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1150, 0, speed]
+        self.go_to_coord_rotation(parameters)
+
+
+
     def funny_action(self, signum, frame):
         print 'Main functionaly is off'
         print 'FUNNNY ACTION'
