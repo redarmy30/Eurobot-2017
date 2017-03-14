@@ -149,7 +149,6 @@ class ParticleFilter:
         ind = np.where(err_l3)[0]
         if ind.size:
             beacon_error_sum[ind, 2] = np.sum(np.where(error_l3, errors, 0), axis=-1)[ind] / err_l3[ind]
-        print beacon_error_sum
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
         weights = self.gaus(np.mean(beacon_error_sum, axis=1), sigma=self.sense_noise)
         weights /= np.sum(weights)

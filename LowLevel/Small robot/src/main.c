@@ -90,10 +90,25 @@ uint16_t detector = 0;
 int angle = 0;
 int i, j;
 float d;
+int p;
 /*
 pwm goes from 0.6-1.0
 */
 while(1){
+
+        setSpeedMaxon(0, 50);
+       // extiType[10];
+        //p = pin_val(EXTI5_PIN);
+        /*distance_digital2[0] = pin_val(EXTI7_PIN);
+        if (distance_digital2[0]>0) {
+                distance_digital2[0] = distance_digital2[0];
+        }*/
+        //distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
+/*        distance_digital2[2] = extiType[6];
+        distance_digital2[3] = extiType[7];
+        distance_digital2[4] = extiType[8];
+        distance_digital2[5] = extiType[9];
+*/
 
     /*for(i=2818;i<100000;i++){
         d = (float)i/100;
@@ -102,10 +117,10 @@ while(1){
     }*/
 //    for(i=(-100);i<100;i++){
 //        d = (float)i/100;
-        setPWM((char)4, 0.055);
+       /* setPWM((char)4, 0.055);
         setPWM((char)4, 0.099);
         setPWM((char)4, 0.107);
-        setPWM((char)4, 0.166);
+        setPWM((char)4, 0.166);*/
 //        for(j=0; j<1000000; j++);
 //    }
 

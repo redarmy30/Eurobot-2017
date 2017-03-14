@@ -1707,7 +1707,11 @@
 
 1487352574 ated upstream
 
-1487326146 source:f:\from git\lowlevel\small robot\board\adc.c
+1488714994 source:f:\from git\lowlevel\small robot\board\adc.c
+	"adc.h"
+	"math.h"
+	"stm32f4xx.h"
+	"robot.h"
 
 1486828985 source:c:\users\ihor.sorokin\desktop\reset-2017\lowlevel\small robot\board\adc.c
 
@@ -1982,7 +1986,10 @@
 1487326146 f:\from git\lowlevel\small robot\spl\inc\misc.h
 	"stm32f4xx.h"
 
-1487326146 f:\from git\lowlevel\small robot\robot\robot.h
+1489498492 f:\from git\lowlevel\small robot\robot\robot.h
+	"Communication.h"
+	"gpio.h"
+	<stdbool.h>
 
 1486828987 c:\users\ihor.sorokin\desktop\reset-2017\lowlevel\small robot\spl\inc\stm32f4xx_adc.h
 	"stm32f4xx.h"
@@ -2086,7 +2093,7 @@
 
 1486828985 c:\users\ihor.sorokin\desktop\reset-2017\lowlevel\small robot\board\gpio.h
 
-1487692397 source:f:\from git\lowlevel\small robot\board\board.c
+1489497671 source:f:\from git\lowlevel\small robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
 	"Pins.h"
@@ -2101,7 +2108,7 @@
 
 1487343354 source:c:\users\ihor.sorokin\desktop\reset-2017\lowlevel\small robot\board\board.c
 
-1488031554 f:\from git\lowlevel\small robot\board\board.h
+1489493116 f:\from git\lowlevel\small robot\board\board.h
 	"stdint.h"
 
 1487692397 f:\from git\lowlevel\small robot\board\pins.h
@@ -2125,7 +2132,7 @@
 
 1487326146 f:\from git\lowlevel\small robot\robot\path.h
 
-1488036165 f:\from git\lowlevel\small robot\robot\manipulators.h
+1489498427 f:\from git\lowlevel\small robot\robot\manipulators.h
 	<stdbool.h>
 	<stdint.h>
 	"pins.h"
@@ -2163,7 +2170,17 @@
 
 1486828986 c:\users\ihor.sorokin\desktop\reset-2017\lowlevel\small robot\robot\dynamixel_control.h
 
-1487326146 source:f:\from git\lowlevel\small robot\board\interrupts.c
+1489424438 source:f:\from git\lowlevel\small robot\board\interrupts.c
+	"Interrupts.h"
+	"gpio.h"
+	"Regulator.h"
+	"Path.h"
+	"Pins.h"
+	<math.h>
+	"usart.h"
+	"robot.h"
+	"board.h"
+	"Manipulators.h"
 
 1486828985 source:c:\users\ihor.sorokin\desktop\reset-2017\lowlevel\small robot\board\interrupts.c
 
@@ -2299,7 +2316,7 @@
 
 1487326146 source:f:\from git\lowlevel\small robot\robot\kinematics.c
 
-1488026597 source:f:\from git\lowlevel\small robot\robot\manipulators.c
+1489498263 source:f:\from git\lowlevel\small robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"
@@ -2323,7 +2340,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1487692397 source:f:\from git\lowlevel\small robot\robot\robot.c
+1489493485 source:f:\from git\lowlevel\small robot\robot\robot.c
 	"robot.h"
 	"pins.h"
 	"usart.h"
@@ -2550,7 +2567,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1488034504 source:f:\from git\lowlevel\small robot\src\main.c
+1489497649 source:f:\from git\lowlevel\small robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"

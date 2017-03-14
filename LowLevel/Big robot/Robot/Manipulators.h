@@ -142,7 +142,7 @@ bool throwLeftCollectorIntoBox();
 
 /////////////////small robot eurobot 2017 for manipulators
 
-#define UPPER_SWITCH EXTI1_PIN
+/*#define UPPER_SWITCH EXTI1_PIN
 #define DOWN_SWITCH EXTI2_PIN
 #define INPUT2_CONTROL EXTI3_PIN
 #define INPUT1_CONTROL EXTI4_PIN
@@ -151,7 +151,7 @@ bool throwLeftCollectorIntoBox();
 bool goUpWithSuckingManipulator();
 bool goDownWithSuckingManipulator();
 
-
+*/
 
 
 #endif
