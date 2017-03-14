@@ -104,8 +104,6 @@ char setSpeedMaxon(char ch, float targetSpeed) // V can be positive and negative
     setVoltageMaxon(ch, pwm_dir,  pwm);
 }
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 //__________________________________EXTI______________________________________//
 ////////////////////////////////////////////////////////////////////////////////
@@ -355,12 +353,13 @@ initRegulators();
 //NVIC_EnableIRQ(I2C2_ER_IRQn);
 //NVIC_EnableIRQ(I2C2_EV_IRQn);
 __enable_irq();
+
 reset_pin(PWM_INHIBIT);
 //___MAXON'S_PWM________________________________________________________________
-
-setSpeedMaxon(0, (float) 0.0);
-setSpeedMaxon(1, (float) 0.0);
-setSpeedMaxon(2, (float) 0.0);
-
+char i = 0;
+for(i; i < 4; i++)
+{
+    setSpeedMaxon(WHEELS[i], (float) 0.0);
+}
 }
 ////////////////////////////////////////////////////////////////////////////////
