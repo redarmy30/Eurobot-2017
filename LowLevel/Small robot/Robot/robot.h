@@ -56,6 +56,13 @@
 
 #define threshhold -7
 
+#define IR_FRONT_LEFT_DOWN EXTI5_PIN
+#define IR_FRONT_RIGHT_DOWN EXTI6_PIN
+#define IR_FRONT_LEFT_UP EXTI7_PIN
+#define IR_FRONT_RIGHT_UP EXTI8_PIN
+#define IR_FRONT_TOP EXTI9_PIN
+#define IR_BACK EXTI10_PIN*/
+
 #pragma pack(push,1)
 typedef struct {
   char sync;
@@ -114,6 +121,9 @@ extern robStateStruct curState;
 extern encOutPackStruct outEnc;
 extern float vTargetGlob[3];
 
+
+extern uint8_t distance_digital2[6];
+
 extern uint32_t  PWM_DIR[10];
 extern uint32_t * PWM_CCR[10];
 extern uint32_t * encCnt[4];
@@ -126,9 +136,9 @@ extern InPackStruct inCommand;
 extern char inData[64];
 extern char dataIndex;
 extern float distanceData[3][6];
-void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_number3);
+//void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_number3);
 void stopmove();
-void checkCollisionAvoid_small(float *rV , float* vTargetGlob);
+//void checkCollisionAvoid_small(float *rV , float* vTargetGlob);
 
 char setVoltage(char ch, float duty);
 char execCommand(InPackStruct* cmd);
