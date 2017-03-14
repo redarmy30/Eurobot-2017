@@ -250,25 +250,29 @@ void close_seashell_doors()
 
 }
 ////
-/*bool moveSuckerManipulatorUp(){
-    while(pin_val()){
-        set_pin();
-        reset_pin();
-    }
-    set_pin();
-    reset_pin();
+bool goUpWithSuckingManipulator(){
+
+    set_pin(INPUT1_CONTROL);
+    reset_pin(INPUT2_CONTROL);
+
+
+    while(!pin_val(UPPER_SWITCH));
+
+
+    reset_pin(INPUT1_CONTROL);
 }
 
-bool moveSuckerManipulatorDown(){
-    while(pin_val()){
-        set_pin();
-        reset_pin();
-    }
-    set_pin();
-    reset_pin();
+bool goDownWithSuckingManipulator(){
 
+    set_pin(INPUT2_CONTROL);
+    reset_pin(INPUT1_CONTROL);
+
+
+    while(!pin_val(DOWN_SWITCH));
+
+
+    reset_pin(INPUT2_CONTROL);
 }
-*/
 
 
 void servo_elevate_in()

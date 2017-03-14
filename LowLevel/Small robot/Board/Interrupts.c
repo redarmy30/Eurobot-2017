@@ -26,7 +26,7 @@ void TIM2_IRQHandler(void)
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес
+/*void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес
 {
 //static char i=0; // Divider by 2 to get 10Hz frequency
    //   set_pin(PWM_DIR[8]);
@@ -58,6 +58,7 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
 
    //   reset_pin(PWM_DIR[8]);
 }
+*/
 ////////////////////////////////////////////////////////////////////////////////
 
 void TIM7_IRQHandler() // 33kHz
@@ -108,7 +109,7 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
 {
    TrackRegulator(&robotCoord[0],&robotSpeed[0], (&curPath),&vTargetGlob[0]); // расчет глобальных скоростей
 }
-takeadc(distanceData,1,2,3);
+/*takeadc(distanceData,1,2,3);
    if (curState.filtering)
        {
             SpeedFiltration(&vTargetGlob[0],&vTargetGlobF[0]);
@@ -125,6 +126,7 @@ takeadc(distanceData,1,2,3);
     ////////////////////////////////////////////////////////////////////////////////
   NVIC_EnableIRQ(TIM6_DAC_IRQn); //включение ПИД
     // reset_pin(PWM_DIR[8]);
+*/
 }
 
 
@@ -248,6 +250,5 @@ void delay(__IO uint32_t nCount)
 void DMA2_Stream0_IRQHandler(void)
 {
 DMA2->LIFCR |= DMA_LIFCR_CTCIF0;
-
 }
 ////////////////////////////////////////////////////////////////////////////////
