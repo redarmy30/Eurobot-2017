@@ -106,7 +106,7 @@ switch(cmd->command)
   {
       char  ch = *cmd->param;
       float temp = *((float*)(cmd->param+1));
-      setVoltage( ch-1, temp);
+      setVoltageMaxon( ch-1, temp);
       char * str ="Ok";
       sendAnswer(cmd->command,str, 3);
   }
@@ -578,69 +578,12 @@ break;
   }
    break;
 
-    case 0x31: // LoadSeashels
-  { /*
-        close_dors();
-        liftSeashell_down();
-        setVoltage(4,-0.5);
-        //optic sensor
-        stop_dors();
-        liftSeashell_up();
-        setVoltage(4,0);
-
-    // optic sensor control
-  */  char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-  }
-   break;
-
-
-
-case 0x132: // Unload seashels
-  {/*
-      open_dors();
-      liftSeashell_down();
-      setVoltage(4,0.5);
-      softDelay(9000000);
-    // optic sensor control
-  */  char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-  }
-   break;
-
 case 0x32:  // Flag of reached point
   {
       sendAnswer(cmd->command, (char *)&traceFlag, sizeof(traceFlag));
   }
   break;
 
-
-
-case 0x33: //open doors
-{/*
-    open_dors();
-*/
-    char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-}
-break;
-
-case 0x94: //UMBRELLA
-{    if (pin_val(GENERAL_PIN_0))
-        { set_pin (PIN6_12V);}
-        else {reset_pin (PIN6_12V);}
-        char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-}
-break;
-
-case 0x35: //halfopen
-{
-    HalfOpenFishingManipulator();
-    char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-}
-break;
 case 0x37:   //open umbrella
 {
     set_pin (PIN6_12V); // крутимся
@@ -679,7 +622,7 @@ case 0x40: // STOP AFTER 90 SEC
         char i;
         for (i = 0; i < 4; i++)
         {
-            setVoltage(WHEELS[i], (float) 0);
+            setVoltageMaxon(WHEELS[i], (float) 0);
         }
         char * str ="Ok";
         sendAnswer(cmd->command,str, 3);
