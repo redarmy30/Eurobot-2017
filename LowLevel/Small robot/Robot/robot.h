@@ -61,7 +61,7 @@
 #define IR_FRONT_LEFT_UP EXTI7_PIN
 #define IR_FRONT_RIGHT_UP EXTI8_PIN
 #define IR_FRONT_TOP EXTI9_PIN
-#define IR_BACK EXTI10_PIN*/
+#define IR_BACK EXTI10_PIN
 
 #pragma pack(push,1)
 typedef struct {

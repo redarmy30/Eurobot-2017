@@ -1,4 +1,4 @@
-cscope 15 F:\From Git\LowLevel\Small robot"               0001577227
+cscope 15 F:\From Git\LowLevel\Small robot"               0001578598
 	@F:\From Git\LowLevel\Small robot\Board\ADC.c
 
 5 
@@ -523,7 +523,141 @@ MAX_PWM
 	}
 }
 
-72 
+72 
+	$£tVﬁègeMax⁄
+(
+ch
+, 
+öt8_t
+ 
+pwm_dú
+ , 
+duty
+)
+
+74 i‡(
+ch
+ == 255)
+
+76 i‡(
+duty
+ > 0.9 ) duty = 0.9;
+
+77 i‡(
+duty
+ < 0.1 ) duty = 0.1;
+
+78 i‡(
+pwm_dú
+ > 0)
+
+80 *
+PWM_CCR
+[
+ch
+] = (
+öt32_t
+Ë(
+duty
+ * 
+MAX_PWM
+);
+
+81 
+	`£t_pö
+(
+PWM_DIR
+[
+ch
+]);
+
+83 i‡(
+pwm_dú
+ < 0)
+
+85 *
+PWM_CCR
+[
+ch
+] = (
+öt32_t
+Ë(
+duty
+ * 
+MAX_PWM
+);
+
+86 
+	`ª£t_pö
+(
+PWM_DIR
+[
+ch
+]);
+
+89 
+	}
+}
+
+91 
+	$£tS≥edMax⁄
+(
+ch
+, 
+èrgëS≥ed
+)
+
+93 
+pwm_dú
+ = 0;
+
+94 i‡(
+èrgëS≥ed
+ > 0)
+
+96 
+pwm_dú
+ = 1;
+
+100 
+pwm_dú
+ = -1;
+
+102 
+pwm
+ = (
+MAX_MAXON_PWM
+ - 
+MIN_MAXON_PWM
+Ë* 
+REDUCTION
+ * 60 * 
+	`Ábs
+(
+èrgëS≥ed
+Ë/ (
+MAX_RPM
+ * 2.0 * 
+PI
+ * 
+RO
+) + MIN_MAXON_PWM;
+
+103 
+	`£tVﬁègeMax⁄
+(
+ch
+, 
+pwm_dú
+, 
+pwm
+);
+
+104 
+	}
+}
+
+111 
 	$add_ext_öãºu±
 (
 pö
@@ -531,7 +665,7 @@ pö
 edge
 )
 
-74 
+113 
 SYSCFG
 ->
 EXTICR
@@ -539,7 +673,7 @@ EXTICR
 pö
 )&0xF) >> 0x02] |= (pin>>4) << ((((pin)&0xF) % 4) << 0x02);
 
-75 
+114 
 EXTI
 ->
 IMR
@@ -547,15 +681,15 @@ IMR
 pö
 )&0xF));
 
-77 
+116 
 edge
 )
 
-79 
+118 
 EXTI_FALLING_EDGE
 :
 
-81 
+120 
 EXTI
 ->
 FTSR
@@ -563,7 +697,7 @@ FTSR
 pö
 )&0xF));
 
-82 
+121 
 EXTI
 ->
 RTSR
@@ -571,11 +705,11 @@ RTSR
 pö
 )&0xF));
 
-86 
+125 
 EXTI_RISING_EDGE
 :
 
-88 
+127 
 EXTI
 ->
 FTSR
@@ -583,7 +717,7 @@ FTSR
 pö
 )&0xF));
 
-89 
+128 
 EXTI
 ->
 RTSR
@@ -591,11 +725,11 @@ RTSR
 pö
 )&0xF));
 
-93 
+132 
 EXTI_BOTH_EDGES
 :
 
-95 
+134 
 EXTI
 ->
 RTSR
@@ -603,7 +737,7 @@ RTSR
 pö
 )&0xF));
 
-96 
+135 
 EXTI
 ->
 FTSR
@@ -611,17 +745,17 @@ FTSR
 pö
 )&0xF));
 
-100 
+139 
 	}
 }
 
-101 
+140 
 	$˛ór_ext_öãºu±
 (
 pö
 )
 
-103 
+142 
 SYSCFG
 ->
 EXTICR
@@ -629,7 +763,7 @@ EXTICR
 pö
 )&0xF) >> 0x02] &= ~((pin>>4) << ((((pin)&0xF) % 4) << 0x02));
 
-104 
+143 
 EXTI
 ->
 IMR
@@ -637,15 +771,15 @@ IMR
 pö
 )&0xF));
 
-106 
+145 
 	}
 }
 
-110 
+149 
 	$öôAŒ
 ()
 
-113 
+152 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_PWR
@@ -653,7 +787,7 @@ RCC_APB1Pîùh_PWR
 ENABLE
 );
 
-114 
+153 
 PWR
 ->
 CR
@@ -661,15 +795,15 @@ CR
 PWR_CR_DBP
 ;
 
-115 
+154 
 	`__dißbÀ_úq
 ();
 
-117 
+156 
 	`öôReguœt‹s
 ();
 
-122 
+161 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_CRC
@@ -677,7 +811,7 @@ RCC_AHB1Pîùh_CRC
 ENABLE
 );
 
-123 
+162 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOA
@@ -685,7 +819,7 @@ RCC_AHB1Pîùh_GPIOA
 ENABLE
 );
 
-124 
+163 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOB
@@ -693,7 +827,7 @@ RCC_AHB1Pîùh_GPIOB
 ENABLE
 );
 
-125 
+164 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOC
@@ -701,7 +835,7 @@ RCC_AHB1Pîùh_GPIOC
 ENABLE
 );
 
-126 
+165 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOD
@@ -709,7 +843,7 @@ RCC_AHB1Pîùh_GPIOD
 ENABLE
 );
 
-127 
+166 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOE
@@ -717,7 +851,7 @@ RCC_AHB1Pîùh_GPIOE
 ENABLE
 );
 
-129 
+168 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM1
@@ -725,7 +859,7 @@ RCC_APB2Pîùh_TIM1
 ENABLE
 );
 
-130 
+169 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM2
@@ -733,7 +867,7 @@ RCC_APB1Pîùh_TIM2
 ENABLE
 );
 
-131 
+170 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM3
@@ -741,7 +875,7 @@ RCC_APB1Pîùh_TIM3
 ENABLE
 );
 
-132 
+171 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM4
@@ -749,7 +883,7 @@ RCC_APB1Pîùh_TIM4
 ENABLE
 );
 
-133 
+172 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM6
@@ -757,7 +891,7 @@ RCC_APB1Pîùh_TIM6
 ENABLE
 );
 
-134 
+173 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM7
@@ -765,7 +899,7 @@ RCC_APB1Pîùh_TIM7
 ENABLE
 );
 
-135 
+174 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM8
@@ -773,7 +907,7 @@ RCC_APB2Pîùh_TIM8
 ENABLE
 );
 
-136 
+175 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM9
@@ -781,7 +915,7 @@ RCC_APB2Pîùh_TIM9
 ENABLE
 );
 
-137 
+176 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM10
@@ -789,7 +923,7 @@ RCC_APB2Pîùh_TIM10
 ENABLE
 );
 
-138 
+177 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM11
@@ -797,7 +931,7 @@ RCC_APB2Pîùh_TIM11
 ENABLE
 );
 
-139 
+178 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM12
@@ -805,7 +939,7 @@ RCC_APB1Pîùh_TIM12
 ENABLE
 );
 
-140 
+179 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM13
@@ -813,7 +947,7 @@ RCC_APB1Pîùh_TIM13
 ENABLE
 );
 
-141 
+180 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_ADC1
@@ -821,7 +955,7 @@ RCC_APB2Pîùh_ADC1
 ENABLE
 );
 
-144 
+183 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB2Pîùh_USART1
@@ -829,7 +963,7 @@ RCC_APB2Pîùh_USART1
 ENABLE
 );
 
-145 
+184 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_USART3
@@ -837,7 +971,7 @@ RCC_APB1Pîùh_USART3
 ENABLE
 );
 
-147 
+186 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_DMA1
@@ -845,7 +979,7 @@ RCC_AHB1Pîùh_DMA1
 ENABLE
 );
 
-148 
+187 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_DMA2
@@ -853,7 +987,7 @@ RCC_AHB1Pîùh_DMA2
 ENABLE
 );
 
-150 
+189 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_SYSCFG
@@ -861,7 +995,7 @@ RCC_APB2Pîùh_SYSCFG
 ENABLE
 );
 
-154 
+193 
 	`c⁄f_pö
 (
 BTN1_DIR_PIN
@@ -875,7 +1009,7 @@ FAST_S
 NO_PULL_UP
 );
 
-155 
+194 
 	`c⁄f_pö
 (
 BTN2_DIR_PIN
@@ -889,7 +1023,7 @@ FAST_S
 NO_PULL_UP
 );
 
-156 
+195 
 	`c⁄f_pö
 (
 BTN3_DIR_PIN
@@ -903,7 +1037,7 @@ FAST_S
 NO_PULL_UP
 );
 
-157 
+196 
 	`c⁄f_pö
 (
 BTN4_DIR_PIN
@@ -917,7 +1051,7 @@ FAST_S
 NO_PULL_UP
 );
 
-158 
+197 
 	`c⁄f_pö
 (
 BTN5_DIR_PIN
@@ -931,7 +1065,7 @@ FAST_S
 NO_PULL_UP
 );
 
-159 
+198 
 	`c⁄f_pö
 (
 BTN6_DIR_PIN
@@ -945,7 +1079,7 @@ FAST_S
 NO_PULL_UP
 );
 
-160 
+199 
 	`c⁄f_pö
 (
 BTN7_DIR_PIN
@@ -959,7 +1093,7 @@ FAST_S
 NO_PULL_UP
 );
 
-161 
+200 
 	`c⁄f_pö
 (
 BTN8_DIR_PIN
@@ -973,7 +1107,7 @@ FAST_S
 NO_PULL_UP
 );
 
-162 
+201 
 	`c⁄f_pö
 (
 BTN9_DIR_PIN
@@ -987,7 +1121,7 @@ FAST_S
 NO_PULL_UP
 );
 
-163 
+202 
 	`c⁄f_pö
 (
 BTN10_DIR_PIN
@@ -1001,7 +1135,7 @@ FAST_S
 NO_PULL_UP
 );
 
-164 
+203 
 	`c⁄f_pö
 (
 PWM_INHIBIT
@@ -1015,7 +1149,7 @@ FAST_S
 NO_PULL_UP
 );
 
-169 
+208 
 	`c⁄f_pö
 (
 PIN1_12V
@@ -1029,7 +1163,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-170 
+209 
 	`c⁄f_pö
 (
 PIN2_12V
@@ -1043,7 +1177,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-171 
+210 
 	`c⁄f_pö
 (
 PIN3_12V
@@ -1057,7 +1191,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-172 
+211 
 	`c⁄f_pö
 (
 PIN4_12V
@@ -1071,7 +1205,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-173 
+212 
 	`c⁄f_pö
 (
 PIN5_12V
@@ -1085,7 +1219,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-174 
+213 
 	`c⁄f_pö
 (
 PIN6_12V
@@ -1099,7 +1233,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-179 
+218 
 	`c⁄f_pö
 (
 BTN1_PWM_PIN
@@ -1113,306 +1247,98 @@ FAST_S
 NO_PULL_UP
 );
 
-180 
+219 
 	`c⁄f_af
 (
 BTN1_PWM_PIN
 , 
 AF2
-);
-
-181 
-	`c⁄f_pö
-(
-BTN2_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-182 
-	`c⁄f_af
-(
-BTN2_PWM_PIN
-, 
-AF2
-);
-
-183 
-	`c⁄f_pö
-(
-BTN3_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-184 
-	`c⁄f_af
-(
-BTN3_PWM_PIN
-, 
-AF2
-);
-
-185 
-	`c⁄f_pö
-(
-BTN4_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-186 
-	`c⁄f_af
-(
-BTN4_PWM_PIN
-, 
-AF2
-);
-
-187 
-	`c⁄f_pö
-(
-BTN5_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-188 
-	`c⁄f_af
-(
-BTN5_PWM_PIN
-, 
-AF3
-);
-
-189 
-	`c⁄f_pö
-(
-BTN6_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-190 
-	`c⁄f_af
-(
-BTN6_PWM_PIN
-, 
-AF3
-);
-
-191 
-	`c⁄f_pö
-(
-BTN7_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-192 
-	`c⁄f_af
-(
-BTN7_PWM_PIN
-, 
-AF3
-);
-
-193 
-	`c⁄f_pö
-(
-BTN8_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-194 
-	`c⁄f_af
-(
-BTN8_PWM_PIN
-, 
-AF3
-);
-
-195 
-	`c⁄f_pö
-(
-BTN9_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-196 
-	`c⁄f_af
-(
-BTN9_PWM_PIN
-, 
-AF9
-);
-
-197 
-	`c⁄f_pö
-(
-BTN10_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-198 
-	`c⁄f_af
-(
-BTN10_PWM_PIN
-, 
-AF9
-);
-
-201 
-	`timPWMC⁄figuª
-(
-TIM4
-, 5, 
-MAX_PWM
-, 1, 1, 1, 1);
-
-202 
-	`timPWMC⁄figuª
-(
-TIM11
-, 2*1667, 
-MAX_PWM
-, 1, 0, 0, 0);
-
-203 
-	`timPWMC⁄figuª
-(
-TIM10
-, 14, 
-MAX_PWM
-, 1, 0, 0, 0);
-
-204 
-	`timPWMC⁄figuª
-(
-TIM9
-, 14, 
-MAX_PWM
-, 1, 1, 0, 0);
-
-205 
-	`timPWMC⁄figuª
-(
-TIM12
-, 7, 
-MAX_PWM
-, 1, 1, 0, 0);
-
-209 
-	`timPIDC⁄figuª
-(
-TIM6
-, 13107, 64);
-
-210 
-	`NVIC_E«bÀIRQ
-(
-TIM6_DAC_IRQn
-);
-
-214 
-	`timPIDC⁄figuª
-(
-TIM7
-, 10, 255);
-
-215 
-	`NVIC_E«bÀIRQ
-(
-TIM7_IRQn
 );
 
 220 
-	`timPIDC⁄figuª
+	`c⁄f_pö
 (
-TIM13
-, 8400, 1000);
+BTN2_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
 
 221 
-	`NVIC_E«bÀIRQ
+	`c⁄f_af
 (
-TIM8_UP_TIM13_IRQn
+BTN2_PWM_PIN
+, 
+AF2
+);
+
+222 
+	`c⁄f_pö
+(
+BTN3_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+223 
+	`c⁄f_af
+(
+BTN3_PWM_PIN
+, 
+AF2
+);
+
+224 
+	`c⁄f_pö
+(
+BTN4_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+225 
+	`c⁄f_af
+(
+BTN4_PWM_PIN
+, 
+AF2
 );
 
 226 
 	`c⁄f_pö
 (
-ENCODER1A_PIN
+BTN5_PWM_PIN
 , 
 ALTERNATE
 , 
 PUSH_PULL
 , 
-LOW_S
+FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
 227 
 	`c⁄f_af
 (
-ENCODER1A_PIN
+BTN5_PWM_PIN
 , 
 AF3
 );
@@ -1420,6 +1346,214 @@ AF3
 228 
 	`c⁄f_pö
 (
+BTN6_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+229 
+	`c⁄f_af
+(
+BTN6_PWM_PIN
+, 
+AF3
+);
+
+230 
+	`c⁄f_pö
+(
+BTN7_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+231 
+	`c⁄f_af
+(
+BTN7_PWM_PIN
+, 
+AF3
+);
+
+232 
+	`c⁄f_pö
+(
+BTN8_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+233 
+	`c⁄f_af
+(
+BTN8_PWM_PIN
+, 
+AF3
+);
+
+234 
+	`c⁄f_pö
+(
+BTN9_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+235 
+	`c⁄f_af
+(
+BTN9_PWM_PIN
+, 
+AF9
+);
+
+236 
+	`c⁄f_pö
+(
+BTN10_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+237 
+	`c⁄f_af
+(
+BTN10_PWM_PIN
+, 
+AF9
+);
+
+240 
+	`timPWMC⁄figuª
+(
+TIM4
+, 5, 
+MAX_PWM
+, 1, 1, 1, 1);
+
+241 
+	`timPWMC⁄figuª
+(
+TIM11
+, 2*1667, 
+MAX_PWM
+, 1, 0, 0, 0);
+
+242 
+	`timPWMC⁄figuª
+(
+TIM10
+, 14, 
+MAX_PWM
+, 1, 0, 0, 0);
+
+243 
+	`timPWMC⁄figuª
+(
+TIM9
+, 14, 
+MAX_PWM
+, 1, 1, 0, 0);
+
+244 
+	`timPWMC⁄figuª
+(
+TIM12
+, 7, 
+MAX_PWM
+, 1, 1, 0, 0);
+
+248 
+	`timPIDC⁄figuª
+(
+TIM6
+, 13107, 64);
+
+249 
+	`NVIC_E«bÀIRQ
+(
+TIM6_DAC_IRQn
+);
+
+253 
+	`timPIDC⁄figuª
+(
+TIM7
+, 10, 255);
+
+254 
+	`NVIC_E«bÀIRQ
+(
+TIM7_IRQn
+);
+
+259 
+	`timPIDC⁄figuª
+(
+TIM13
+, 8400, 1000);
+
+260 
+	`NVIC_E«bÀIRQ
+(
+TIM8_UP_TIM13_IRQn
+);
+
+265 
+	`c⁄f_pö
+(
+ENCODER1A_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+LOW_S
+, 
+PULL_UP
+);
+
+266 
+	`c⁄f_af
+(
+ENCODER1A_PIN
+, 
+AF3
+);
+
+267 
+	`c⁄f_pö
+(
 ENCODER1B_PIN
 , 
 ALTERNATE
@@ -1431,7 +1565,7 @@ LOW_S
 PULL_UP
 );
 
-229 
+268 
 	`c⁄f_af
 (
 ENCODER1B_PIN
@@ -1439,7 +1573,7 @@ ENCODER1B_PIN
 AF3
 );
 
-231 
+270 
 	`c⁄f_pö
 (
 ENCODER2A_PIN
@@ -1453,7 +1587,7 @@ LOW_S
 PULL_UP
 );
 
-232 
+271 
 	`c⁄f_af
 (
 ENCODER2A_PIN
@@ -1461,7 +1595,7 @@ ENCODER2A_PIN
 AF1
 );
 
-233 
+272 
 	`c⁄f_pö
 (
 ENCODER2B_PIN
@@ -1475,7 +1609,7 @@ LOW_S
 PULL_UP
 );
 
-234 
+273 
 	`c⁄f_af
 (
 ENCODER2B_PIN
@@ -1483,7 +1617,7 @@ ENCODER2B_PIN
 AF1
 );
 
-236 
+275 
 	`c⁄f_pö
 (
 ENCODER3A_PIN
@@ -1497,7 +1631,7 @@ LOW_S
 PULL_UP
 );
 
-237 
+276 
 	`c⁄f_af
 (
 ENCODER3A_PIN
@@ -1505,7 +1639,7 @@ ENCODER3A_PIN
 AF2
 );
 
-238 
+277 
 	`c⁄f_pö
 (
 ENCODER3B_PIN
@@ -1519,7 +1653,7 @@ LOW_S
 PULL_UP
 );
 
-239 
+278 
 	`c⁄f_af
 (
 ENCODER3B_PIN
@@ -1527,7 +1661,7 @@ ENCODER3B_PIN
 AF2
 );
 
-241 
+280 
 	`c⁄f_pö
 (
 ENCODER4A_PIN
@@ -1541,7 +1675,7 @@ LOW_S
 PULL_UP
 );
 
-242 
+281 
 	`c⁄f_af
 (
 ENCODER4A_PIN
@@ -1549,7 +1683,7 @@ ENCODER4A_PIN
 AF1
 );
 
-243 
+282 
 	`c⁄f_pö
 (
 ENCODER4B_PIN
@@ -1563,7 +1697,7 @@ LOW_S
 PULL_UP
 );
 
-244 
+283 
 	`c⁄f_af
 (
 ENCODER4B_PIN
@@ -1571,31 +1705,31 @@ ENCODER4B_PIN
 AF1
 );
 
-246 
+285 
 	`timEncodîC⁄figuª
 (
 TIM8
 );
 
-247 
+286 
 	`timEncodîC⁄figuª
 (
 TIM1
 );
 
-248 
+287 
 	`timEncodîC⁄figuª
 (
 TIM3
 );
 
-249 
+288 
 	`timEncodîC⁄figuª
 (
 TIM2
 );
 
-253 
+292 
 	`c⁄f_pö
 (
 RX3_PIN
@@ -1609,7 +1743,7 @@ LOW_S
 PULL_UP
 );
 
-254 
+293 
 	`c⁄f_af
 (
 RX3_PIN
@@ -1617,7 +1751,7 @@ RX3_PIN
 AF7
 );
 
-255 
+294 
 	`c⁄f_pö
 (
 TX3_PIN
@@ -1631,7 +1765,7 @@ LOW_S
 PULL_UP
 );
 
-256 
+295 
 	`c⁄f_af
 (
 TX3_PIN
@@ -1639,13 +1773,13 @@ TX3_PIN
 AF7
 );
 
-257 
+296 
 	`u¨tInô
 (
 USART3
 , 1000000);
 
-259 
+298 
 USART3
 ->
 CR3
@@ -1653,7 +1787,7 @@ CR3
 USART_CR3_DMAT
 ;
 
-265 
+304 
 	`c⁄f_pö
 (
 GENERAL_PIN_0
@@ -1667,7 +1801,7 @@ FAST_S
 NO_PULL_UP
 );
 
-266 
+305 
 	`c⁄f_pö
 (
 GENERAL_PIN_1
@@ -1681,7 +1815,7 @@ FAST_S
 NO_PULL_UP
 );
 
-267 
+306 
 	`c⁄f_pö
 (
 GENERAL_PIN_2
@@ -1695,7 +1829,7 @@ FAST_S
 NO_PULL_UP
 );
 
-268 
+307 
 	`c⁄f_pö
 (
 GENERAL_PIN_3
@@ -1709,7 +1843,7 @@ FAST_S
 NO_PULL_UP
 );
 
-269 
+308 
 	`c⁄f_pö
 (
 GENERAL_PIN_4
@@ -1723,7 +1857,7 @@ FAST_S
 NO_PULL_UP
 );
 
-270 
+309 
 	`c⁄f_pö
 (
 GENERAL_PIN_5
@@ -1737,7 +1871,7 @@ FAST_S
 NO_PULL_UP
 );
 
-271 
+310 
 	`c⁄f_pö
 (
 GENERAL_PIN_6
@@ -1751,7 +1885,7 @@ FAST_S
 NO_PULL_UP
 );
 
-272 
+311 
 	`c⁄f_pö
 (
 GENERAL_PIN_7
@@ -1765,7 +1899,7 @@ FAST_S
 NO_PULL_UP
 );
 
-273 
+312 
 	`c⁄f_pö
 (
 GENERAL_PIN_8
@@ -1779,7 +1913,7 @@ FAST_S
 NO_PULL_UP
 );
 
-274 
+313 
 	`c⁄f_pö
 (
 GENERAL_PIN_9
@@ -1793,11 +1927,11 @@ FAST_S
 NO_PULL_UP
 );
 
-275 
+314 
 	`adcC⁄fig
 ();
 
-279 
+318 
 	`c⁄f_pö
 (
 EXTI1_PIN
@@ -1811,7 +1945,7 @@ FAST_S
 PULL_UP
 );
 
-280 
+319 
 	`c⁄f_pö
 (
 EXTI2_PIN
@@ -1825,7 +1959,7 @@ FAST_S
 PULL_UP
 );
 
-281 
+320 
 	`c⁄f_pö
 (
 EXTI3_PIN
@@ -1839,7 +1973,7 @@ FAST_S
 PULL_UP
 );
 
-282 
+321 
 	`c⁄f_pö
 (
 EXTI4_PIN
@@ -1853,12 +1987,12 @@ FAST_S
 PULL_UP
 );
 
-283 
+322 
 	`c⁄f_pö
 (
 EXTI5_PIN
 , 
-GENERAL
+INPUT
 , 
 PUSH_PULL
 , 
@@ -1867,12 +2001,12 @@ FAST_S
 NO_PULL_UP
 );
 
-284 
+323 
 	`c⁄f_pö
 (
 EXTI6_PIN
 , 
-GENERAL
+INPUT
 , 
 PUSH_PULL
 , 
@@ -1881,7 +2015,7 @@ FAST_S
 NO_PULL_UP
 );
 
-285 
+324 
 	`c⁄f_pö
 (
 EXTI7_PIN
@@ -1892,10 +2026,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-286 
+325 
 	`c⁄f_pö
 (
 EXTI8_PIN
@@ -1906,10 +2040,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-287 
+326 
 	`c⁄f_pö
 (
 EXTI9_PIN
@@ -1920,10 +2054,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-288 
+327 
 	`c⁄f_pö
 (
 EXTI10_PIN
@@ -1934,10 +2068,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-290 
+329 
 	`add_ext_öãºu±
 (
 EXTI1_PIN
@@ -1945,7 +2079,7 @@ EXTI1_PIN
 EXTI_BOTH_EDGES
 );
 
-291 
+330 
 	`add_ext_öãºu±
 (
 EXTI2_PIN
@@ -1953,7 +2087,7 @@ EXTI2_PIN
 EXTI_BOTH_EDGES
 );
 
-292 
+331 
 	`add_ext_öãºu±
 (
 EXTI3_PIN
@@ -1961,7 +2095,7 @@ EXTI3_PIN
 EXTI_BOTH_EDGES
 );
 
-293 
+332 
 	`add_ext_öãºu±
 (
 EXTI4_PIN
@@ -1969,7 +2103,7 @@ EXTI4_PIN
 EXTI_BOTH_EDGES
 );
 
-294 
+333 
 	`add_ext_öãºu±
 (
 EXTI5_PIN
@@ -1977,7 +2111,7 @@ EXTI5_PIN
 EXTI_BOTH_EDGES
 );
 
-295 
+334 
 	`add_ext_öãºu±
 (
 EXTI6_PIN
@@ -1985,7 +2119,7 @@ EXTI6_PIN
 EXTI_BOTH_EDGES
 );
 
-296 
+335 
 	`add_ext_öãºu±
 (
 EXTI7_PIN
@@ -1993,7 +2127,7 @@ EXTI7_PIN
 EXTI_BOTH_EDGES
 );
 
-297 
+336 
 	`add_ext_öãºu±
 (
 EXTI8_PIN
@@ -2001,7 +2135,7 @@ EXTI8_PIN
 EXTI_BOTH_EDGES
 );
 
-298 
+337 
 	`add_ext_öãºu±
 (
 EXTI9_PIN
@@ -2009,7 +2143,7 @@ EXTI9_PIN
 EXTI_BOTH_EDGES
 );
 
-299 
+338 
 	`add_ext_öãºu±
 (
 EXTI10_PIN
@@ -2017,15 +2151,15 @@ EXTI10_PIN
 EXTI_BOTH_EDGES
 );
 
-317 
+356 
 	`__íabÀ_úq
 ();
 
-318 
+357 
 	`Clo£FishögM™ùuœt‹
 ();
 
-319 
+358 
 	`£tVﬁège
 (()
 CH_FISHIN_GSERVO
@@ -2033,11 +2167,11 @@ CH_FISHIN_GSERVO
 DUTY_FISH_UNCATCH
 );
 
-320 
+359 
 	`so·Dñay
 (9000000);
 
-321 
+360 
 	`£tVﬁège
 (()
 CH_FISHIN_GSERVO
@@ -2045,7 +2179,7 @@ CH_FISHIN_GSERVO
 DUTY_FISH_UNCATCH
 -0.005);
 
-322 
+361 
 	`£tSîvoT‹que
 ((
 uöt8_t
@@ -2055,11 +2189,11 @@ ID_FISHING_MANIPULATOR
 uöt16_t
 ) 850);
 
-323 
+362 
 	`˛o£_£ashñl_do‹s
 ();
 
-325 
+364 
 	}
 }
 
@@ -2079,7 +2213,27 @@ _BOARD_INCLUDED_
 	~"°döt.h
 "
 
-6 
+6 
+	#MAX_RPM
+ 13100
+
+7 
+	#REDUCTION
+ 26
+
+8 
+	#MAX_MAXON_PWM
+ 0.9
+
+	)
+
+9 
+	#MIN_MAXON_PWM
+ 0.1
+
+	)
+
+11 
 £tVﬁège
 (
 ch
@@ -2087,7 +2241,7 @@ ch
 duty
 );
 
-7 
+12 
 £tPWM
 (
 ch
@@ -2095,71 +2249,91 @@ ch
 duty
 );
 
-8 
+14 
+£tVﬁègeMax⁄
+ (
+ch
+, 
+öt8_t
+ 
+pwm_dú
+ , 
+duty
+);
+
+15 
+£tS≥edMax⁄
+(
+ch
+, 
+èrgëS≥ed
+);
+
+17 
 uöt32_t
  * 
 PWM_CCR
 [10];
 
-9 
+18 
 uöt32_t
  
 PWM_DIR
 [10];
 
-10 
+19 
 uöt32_t
  
 GENERAL_PIN
 [10];
 
-11 
+20 
 uöt32_t
  
 EXTI_PIN
 [10];
 
-12 
+21 
 uöt32_t
  
 V12_PIN
 [6];
 
-14 
+23 
 uöt16_t
  
 adcD©a
 [10];
 
-15 
+24 
 uöt8_t
  
 pöTy≥
 [10];
 
-16 
+25 
 uöt8_t
  
 extiTy≥
 [10];
 
-17 
+26 
 uöt16_t
  
 extiFœg
 ;
 
-19 
+28 
 öôAŒ
 ();
 
-20 
+29 
 ˛ór_ext_öãºu±
 (
 pö
 );
 
-21 
+30 
 add_ext_öãºu±
 (
 pö
@@ -140739,23 +140913,55 @@ comm™d
 °r
 , 3);
 
-740 
+708 
 di°™˚_digôÆ2
 [0] = 
 	`pö_vÆ
 (
-IR_FRONT_LEFT
+IR_FRONT_LEFT_DOWN
 );
 
-741 
+709 
 di°™˚_digôÆ2
 [1] = 
 	`pö_vÆ
 (
-IR_FRONT_RIGHT
+IR_FRONT_RIGHT_DOWN
 );
 
-747 
+710 
+di°™˚_digôÆ2
+[2] = 
+	`pö_vÆ
+(
+IR_FRONT_LEFT_UP
+);
+
+711 
+di°™˚_digôÆ2
+[3] = 
+	`pö_vÆ
+(
+IR_FRONT_RIGHT_UP
+);
+
+712 
+di°™˚_digôÆ2
+[4] = 
+	`pö_vÆ
+(
+IR_FRONT_TOP
+);
+
+713 
+di°™˚_digôÆ2
+[5] = 
+	`pö_vÆ
+(
+IR_BACK
+);
+
+715 
 	`£ndAnswî
 (
 cmd
@@ -140765,15 +140971,51 @@ comm™d
 di°™˚_digôÆ2
 , (distance_digital2));
 
-752 
+722 
+	`goUpWôhSuckögM™ùuœt‹
+();
+
+723 * 
+°r
+ ="Ok";
+
+724 
+	`£ndAnswî
+(
+cmd
+->
+comm™d
+, 
+°r
+, 3);
+
+731 
+	`goDownWôhSuckögM™ùuœt‹
+();
+
+732 * 
+°r
+ ="Ok";
+
+733 
+	`£ndAnswî
+(
+cmd
+->
+comm™d
+, 
+°r
+, 3);
+
+746 
 	`O≥n_£ashñl_do‹s
 ();
 
-753 * 
+747 * 
 °r
  ="Ok";
 
-754 
+748 
 	`£ndAnswî
 (
 cmd
@@ -140783,15 +141025,15 @@ comm™d
 °r
 , 3);
 
-760 
+754 
 	`˛o£_£ashñl_do‹s
 ();
 
-761 * 
+755 * 
 °r
  ="Ok";
 
-762 
+756 
 	`£ndAnswî
 (
 cmd
@@ -140801,7 +141043,7 @@ comm™d
 °r
 , 3);
 
-769 *(
+763 *(
 ãmp
 Ë={(*)
 cmd
@@ -140809,7 +141051,7 @@ cmd
 ∑øm
 };
 
-770 * 
+764 * 
 ch
  = 
 cmd
@@ -140817,29 +141059,29 @@ cmd
 ∑øm
  + 24;
 
-771 
+765 
 robŸCo‹d
 [0] = 
 ãmp
 [0];
 
-772 
+766 
 robŸCo‹d
 [1] = 
 ãmp
 [1];
 
-773 
+767 
 robŸCo‹d
 [2] = 
 ãmp
 [2];
 
-774 
+768 
 œ°Poöt
 ++;
 
-775 
+769 
 poöts
 [
 œ°Poöt
@@ -140849,7 +141091,7 @@ poöts
 ãmp
 [3];
 
-776 
+770 
 poöts
 [
 œ°Poöt
@@ -140859,7 +141101,7 @@ poöts
 ãmp
 [4];
 
-777 
+771 
 poöts
 [
 œ°Poöt
@@ -140869,7 +141111,7 @@ poöts
 ãmp
 [5];
 
-778 
+772 
 poöts
 [
 œ°Poöt
@@ -140881,7 +141123,7 @@ poöts
 ch
 ];
 
-779 
+773 
 poöts
 [
 œ°Poöt
@@ -140893,7 +141135,7 @@ rŸTy≥
 ch
 ];
 
-780 
+774 
 poöts
 [
 œ°Poöt
@@ -140903,7 +141145,7 @@ poöts
 NULL
 ;
 
-781 
+775 
 poöts
 [
 œ°Poöt
@@ -140913,11 +141155,11 @@ movTask
 NULL
 ;
 
-783 * 
+777 * 
 °r
  ="Ok";
 
-784 
+778 
 	`£ndAnswî
 (
 cmd
@@ -140927,7 +141169,7 @@ comm™d
 °r
 , 3);
 
-835 
+829 
 	}
 }
 
@@ -141220,7 +141462,7 @@ ENCODER4A_PIN
 	)
 
 59 
-	#IR_FRONT_LEFT
+	#IR_FRONT_LEFT_DOWN
  
 EXTI5_PIN
 
@@ -141228,10 +141470,42 @@ EXTI5_PIN
 	)
 
 60 
-	#IR_FRONT_RIGHT
+	#IR_FRONT_RIGHT_DOWN
  
 EXTI6_PIN
 
+
+	)
+
+61 
+	#IR_FRONT_LEFT_UP
+ 
+EXTI7_PIN
+
+
+	)
+
+62 
+	#IR_FRONT_RIGHT_UP
+ 
+EXTI8_PIN
+
+
+	)
+
+63 
+	#IR_FRONT_TOP
+ 
+EXTI9_PIN
+
+
+	)
+
+64 
+	#IR_BACK
+ 
+EXTI10_PIN
+*/
 
 	)
 
@@ -141431,73 +141705,67 @@ uöt8_t
 di°™˚_digôÆ2
 [6];
 
-126 
-uöt8_t
- 
-	gextiTy≥
-[10];
-
-128 
+127 
 uöt32_t
  
 PWM_DIR
 [10];
 
-129 
+128 
 uöt32_t
  * 
 PWM_CCR
 [10];
 
-130 
+129 
 uöt32_t
  * 
 ícC¡
 [4];
 
-131 
+130 
 WHEELS
 [4];
 
-132 
+131 
 uöt16_t
  
 adcD©a
 [10];
 
-134 
+133 
 boﬁ
  
 Êag
 ;
 
-135 
+134 
 ∑ckLí
 [0x29];
 
-136 
+135 
 InPackSåu˘
  
 öComm™d
 ;
 
-137 
+136 
 öD©a
 [64];
 
-138 
+137 
 d©aIndex
 ;
 
-139 
+138 
 di°™˚D©a
 [3][6];
 
-141 
+140 
 °›move
 ();
 
-144 
+143 
 £tVﬁège
 (
 ch
@@ -141505,7 +141773,7 @@ ch
 duty
 );
 
-145 
+144 
 execComm™d
 (
 InPackSåu˘
@@ -141513,13 +141781,13 @@ InPackSåu˘
 cmd
 );
 
-146 
+145 
 pushByã
 (
 öByã
 );
 
-147 
+146 
 £ndAnswî
 (
 cmd
@@ -252145,23 +252413,11 @@ j
 d
 ;
 
-100 
-di°™˚_digôÆ2
-[0] = 
-	`pö_vÆ
-(
-IR_FRONT_LEFT
-);
+93 
+p
+;
 
-101 
-di°™˚_digôÆ2
-[1] = 
-	`pö_vÆ
-(
-IR_FRONT_RIGHT
-);
-
-140 
+145 
 	}
 }
 

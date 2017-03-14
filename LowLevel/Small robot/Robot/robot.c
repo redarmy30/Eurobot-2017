@@ -717,7 +717,7 @@ case 0x3A: // Distance from ultrasonic sensors
   }
    break;
 
-case 0x3B: // Sucking manipulator
+/*case 0x3B: // Sucking manipulator
   {
         goUpWithSuckingManipulator();
         char * str ="Ok";
@@ -734,7 +734,7 @@ case 0x3C: // Sucking manipulator
 
   }
    break;
-
+*/
 /*case 0x3D:
     {
 

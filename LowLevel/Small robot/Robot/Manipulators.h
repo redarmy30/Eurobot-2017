@@ -93,6 +93,15 @@ void servo_rotate_90();
 void servo_rotate_180();
 
 
+#define UPPER_SWITCH EXTI1_PIN
+#define DOWN_SWITCH EXTI2_PIN
+#define INPUT2_CONTROL EXTI3_PIN
+#define INPUT1_CONTROL EXTI4_PIN
+
+
+bool goUpWithSuckingManipulator();
+bool goDownWithSuckingManipulator();
+
 
 
 #define SERVO_ELEVATE  1 //defining servos

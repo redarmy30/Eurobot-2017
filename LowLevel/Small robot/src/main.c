@@ -96,12 +96,13 @@ pwm goes from 0.6-1.0
 */
 while(1){
 
+        setSpeedMaxon(0, 50);
        // extiType[10];
         //p = pin_val(EXTI5_PIN);
-        distance_digital2[0] = pin_val(EXTI7_PIN);
+        /*distance_digital2[0] = pin_val(EXTI7_PIN);
         if (distance_digital2[0]>0) {
                 distance_digital2[0] = distance_digital2[0];
-        }
+        }*/
         //distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
 /*        distance_digital2[2] = extiType[6];
         distance_digital2[3] = extiType[7];

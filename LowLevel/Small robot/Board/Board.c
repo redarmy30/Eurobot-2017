@@ -15,7 +15,7 @@ uint8_t extiType[10];
 uint16_t extiFlag;
 
 uint32_t * PWM_CCR[10] ={BTN1_CCR,BTN2_CCR,BTN3_CCR,BTN4_CCR,BTN5_CCR,
-                          BTN6_CCR,BTN7_CCR,BTN8_CCR,BTN9_CCR,BTN10_CCR};  //регистры сравнения каналов ШИМ
+                          BTN6_CCR,BTN7_CCR,BTN8_CCR,BTN9_CCR,BTN10_CCR};  //СЂРµРіРёСЃС‚СЂС‹ СЃСЂР°РІРЅРµРЅРёСЏ РєР°РЅР°Р»РѕРІ РЁРРњ
 uint32_t  PWM_DIR[10] ={BTN1_DIR_PIN,BTN2_DIR_PIN,
                           BTN3_DIR_PIN,BTN4_DIR_PIN,
                           BTN5_DIR_PIN,BTN6_DIR_PIN,
@@ -39,7 +39,7 @@ uint32_t  V12_PIN[6] ={PIN5_12V,PIN6_12V,
 ////////////////////////////////////////////////////////////////////////////////
 //___________________________PWM CONTROS______________________________________//
 ////////////////////////////////////////////////////////////////////////////////
-char setVoltage(char ch, float duty) // установить напряжение на выходе управления двигателем -1,0 .. 1,0
+char setVoltage(char ch, float duty) // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РЅР°РїСЂСЏР¶РµРЅРёРµ РЅР° РІС‹С…РѕРґРµ СѓРїСЂР°РІР»РµРЅРёСЏ РґРІРёРіР°С‚РµР»РµРј -1,0 .. 1,0
 {       duty =duty*-1;
     if (ch == 255)
         return 0;
@@ -58,13 +58,52 @@ char setVoltage(char ch, float duty) // установить напряжение на выходе управлен
     return 0;
 }
 
-char setPWM(char ch, float duty) // установить заполнение на выходе ШИМ  0 .. 1,0
+char setPWM(char ch, float duty) // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Р·Р°РїРѕР»РЅРµРЅРёРµ РЅР° РІС‹С…РѕРґРµ РЁРРњ  0 .. 1,0
 {
     if (duty > 1 ) duty = 1;
     if (duty < 0 ) duty = 0;
     *PWM_CCR[ch] = (int32_t)((duty * MAX_PWM));
     return 0;
 }
+
+//////////////////////////////////////FOR MAXON MOTORS////////////////////////////
+
+
+char setVoltageMaxon(char ch, int8_t pwm_dir , float duty) // ГіГ±ГІГ Г­Г®ГўГЁГІГј Г­Г ГЇГ°ГїГ¦ГҐГ­ГЁГҐ Г­Г  ГўГ»ГµГ®Г¤ГҐ ГіГЇГ°Г ГўГ«ГҐГ­ГЁГї Г¤ГўГЁГЈГ ГІГҐГ«ГҐГ¬ -1,0 .. 1,0
+{
+    if (ch == 255)
+        return 0;
+    if (duty > 0.9 ) duty = 0.9;
+    if (duty < 0.1 ) duty = 0.1;
+    if (pwm_dir > 0)
+    {
+            *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
+            set_pin(PWM_DIR[ch]);
+    }
+    if (pwm_dir == 0)
+    {
+          *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
+          reset_pin(PWM_DIR[ch]);
+    }
+    return 0;
+}
+
+char setSpeedMaxon(char ch, float targetSpeed) // V can be positive and negative
+{
+    float pwm_dir = 0;
+    if (targetSpeed > 0)
+    {
+        pwm_dir = 1;
+    }
+    else
+    {
+        pwm_dir = -1;
+    }
+    float pwm =  (MAX_MAXON_PWM - MIN_MAXON_PWM) * REDUCTION * 60 * fabs(targetSpeed) / (MAX_RPM * 2.0 * PI * RO)   + MIN_MAXON_PWM;
+    setVoltageMaxon(ch, pwm_dir,  pwm);
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //__________________________________EXTI______________________________________//
@@ -176,25 +215,25 @@ initRegulators();
 
 //___PWM_TIM________________________________________________________________
 
-  conf_pin(BTN1_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 1 шим
+  conf_pin(BTN1_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 1 С€РёРј
   conf_af(BTN1_PWM_PIN, AF2);
-  conf_pin(BTN2_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 2 шим
+  conf_pin(BTN2_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 2 С€РёРј
   conf_af(BTN2_PWM_PIN, AF2);
-  conf_pin(BTN3_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 3 шим
+  conf_pin(BTN3_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 3 С€РёРј
   conf_af(BTN3_PWM_PIN, AF2);
-  conf_pin(BTN4_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 4 шим
+  conf_pin(BTN4_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 4 С€РёРј
   conf_af(BTN4_PWM_PIN, AF2);
-  conf_pin(BTN5_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 5 шим
+  conf_pin(BTN5_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 5 С€РёРј
   conf_af(BTN5_PWM_PIN, AF3);
-  conf_pin(BTN6_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 6 шим
+  conf_pin(BTN6_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 6 С€РёРј
   conf_af(BTN6_PWM_PIN, AF3);
-  conf_pin(BTN7_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 7 шим
+  conf_pin(BTN7_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 7 С€РёРј
   conf_af(BTN7_PWM_PIN, AF3);
-  conf_pin(BTN8_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 8 шим
+  conf_pin(BTN8_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 8 С€РёРј
   conf_af(BTN8_PWM_PIN, AF3);
-  conf_pin(BTN9_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 9 шим
+  conf_pin(BTN9_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 9 С€РёРј
   conf_af(BTN9_PWM_PIN, AF9);
-  conf_pin(BTN10_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 10 шим
+  conf_pin(BTN10_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 10 С€РёРј
   conf_af(BTN10_PWM_PIN, AF9);
 
 
@@ -223,24 +262,24 @@ initRegulators();
 
 //___TIM_ENCODERS___________________________________________________________
 
-  conf_pin(ENCODER1A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Энкодер 1 А
+  conf_pin(ENCODER1A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Р­РЅРєРѕРґРµСЂ 1 Рђ
   conf_af(ENCODER1A_PIN, AF3);
-  conf_pin(ENCODER1B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Энкодер 1 B
+  conf_pin(ENCODER1B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Р­РЅРєРѕРґРµСЂ 1 B
   conf_af(ENCODER1B_PIN, AF3);
 
-  conf_pin(ENCODER2A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Энкодер 2 А
+  conf_pin(ENCODER2A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Р­РЅРєРѕРґРµСЂ 2 Рђ
   conf_af(ENCODER2A_PIN, AF1);
-  conf_pin(ENCODER2B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Энкодер 2 B
+  conf_pin(ENCODER2B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Р­РЅРєРѕРґРµСЂ 2 B
   conf_af(ENCODER2B_PIN, AF1);
 
-  conf_pin(ENCODER3A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Энкодер 3 А
+  conf_pin(ENCODER3A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Р­РЅРєРѕРґРµСЂ 3 Рђ
   conf_af(ENCODER3A_PIN, AF2);
-  conf_pin(ENCODER3B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Энкодер 3 B
+  conf_pin(ENCODER3B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Р­РЅРєРѕРґРµСЂ 3 B
   conf_af(ENCODER3B_PIN, AF2);
 
-  conf_pin(ENCODER4A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Энкодер 4 A
+  conf_pin(ENCODER4A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Р­РЅРєРѕРґРµСЂ 4 A
   conf_af(ENCODER4A_PIN, AF1);
-  conf_pin(ENCODER4B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Энкодер 4 B
+  conf_pin(ENCODER4B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //Р­РЅРєРѕРґРµСЂ 4 B
   conf_af(ENCODER4B_PIN, AF1);
 
   timEncoderConfigure(TIM8);
@@ -254,10 +293,10 @@ initRegulators();
   conf_af(RX3_PIN, AF7);
   conf_pin(TX3_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);    // TX
   conf_af(TX3_PIN, AF7);
-  uartInit(USART3, 1000000);                                      //Включаем USART3 115200
-//  NVIC_EnableIRQ(USART3_IRQn);             // Разрешение прерываний для USART3
+  uartInit(USART3, 1000000);                                      //Р’РєР»СЋС‡Р°РµРј USART3 115200
+//  NVIC_EnableIRQ(USART3_IRQn);             // Р Р°Р·СЂРµС€РµРЅРёРµ РїСЂРµСЂС‹РІР°РЅРёР№ РґР»СЏ USART3
   USART3->CR3 |= USART_CR3_DMAT;
-  //configUsart3DMA();                                 // Настройка DMA для USART3
+  //configUsart3DMA();                                 // РќР°СЃС‚СЂРѕР№РєР° DMA РґР»СЏ USART3
   //configUsart2DMA();
 
 //___ADC____________________________________________________________________
