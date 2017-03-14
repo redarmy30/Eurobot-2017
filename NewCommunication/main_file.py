@@ -40,7 +40,7 @@ class Robot:
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=500, sense_noise=20, distance_noise=20, angle_noise=0.2, in_x=self.coords[0],
+        self.PF = pf.ParticleFilter(particles=800, sense_noise=30, distance_noise=30, angle_noise=0.1, in_x=self.coords[0],
                                     in_y=self.coords[1],input_queue=self.input_queue,out_queue=self.loc_queue)
 
 
@@ -49,19 +49,9 @@ class Robot:
         p = Process(target=self.dr.run)
         p.start()
         p2 = Process(target=self.PF.localisation,args=(self.coords,self.get_raw_lidar))
-        p2.start()
-        # Test command
-        #self.input_queue.put({'source':'fsm','cmd':'echo','params':'ECHO'})
         logging.info(self.send_command('echo','ECHO'))
-
-
-
-        #logging.info(self.dr.process_cmd('echo', 'ECHO'))
-        # Set start coordinates
-        #self.input_queue.put({'source': 'fsm', 'cmd': 'echo', 'params': 'ECHO'})
-        #logging.info(self.dr.process_cmd('setCoordinates',[self.x / 1000., self.y / 1000., self.angle]))
         logging.info(self.send_command('setCoordinates',[self.coords[0] / 1000., self.coords[1] / 1000., self.coords[2]]))
-
+        p2.start()
 
     def send_command(self,name,params=None):
         self.input_queue.put({'source':'fsm','cmd':name,'params':params})
@@ -82,35 +72,16 @@ class Robot:
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
-        logging.info(self.dr.process_cmd('go_to_with_corrections',pm))
+        logging.info(self.send_command('go_to_with_corrections',pm))
         # After movement
         stamp = time.time()
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
-        while not self.dr.process_cmd('is_point_was_reached')['data']:
+        while not self.send_command('is_point_was_reached')['data']:
             time.sleep(0.05)
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
                 return False  # Error, need to handle somehow (Localize and add new point maybe)
         logging.info('point reached')
-        #self.PF.move_particles([parameters[0] - self.coords[0], parameters[1] - self.coords[1], parameters[2] - self.coords[2]])
-        #self.coords[0] = parameters[0]
-        #self.coords[1] = parameters[1]
-        #self.coords[2] = parameters[2]
-        #print 'Before Calculation:'
-        #self.PF.calculate_main()
-        #if self.lidar_on:
-        #    self.check_lidar()  # check lidar connection
-        #if self.lidar_on:
-        #    lidar_data = self.get_raw_lidar()
-            # print lidar_data
-            # TODO http://hokuyolx.readthedocs.io/en/latest/ RESET,REBOOT functions
-        #    self.PF.particle_sense(lidar_data)
-        #    print 'After Calculation:'
-        #    main_robot = self.PF.calculate_main()
-        #    self.coords[0] = main_robot[0]
-        #    self.coords[1] = main_robot[1]
-        #    self.coords[2] = main_robot[2]
-
         return True
 
     def go_last(self,parameters):
@@ -127,7 +98,7 @@ class Robot:
         signal.signal(signal.SIGALRM, self.funny_action)
         signal.alarm(90)
         # TODO take cylinder
-        angle = np.pi/2.
+        angle = 3*np.pi/2.
         parameters = [850, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 500, angle, speed]
@@ -143,7 +114,7 @@ class Robot:
     def demo_r(self, speed=1):
         """robot Demo, go to coord and take cylinder"""
         # TODO take cylinder
-        angle = np.pi / 2.
+        angle =3*np.pi / 2.
         parameters = [650, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 700, angle, speed]
@@ -155,6 +126,104 @@ class Robot:
         parameters = [170, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
+    def test_trajectory(self,speed=1):
+        angle =3*np.pi / 2.
+        parameters = [700, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1570, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        ######
+        parameters = [900, 1200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900, 1200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        ########
+        parameters = [1150, 1200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1300, 1550, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1270, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1200, 1450, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1200, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 1550, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1300, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [170, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        return
+
+    def simpliest_trajectory(self,speed=1):
+        angle =3*np.pi / 2.
+        parameters = [700, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        time.sleep(1)
+        parameters = [1150, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        #########
+        parameters = [1250, 1200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1350, 1600, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1300, 1550, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1280, 1530, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1250, 1500, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1080, 1300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_last(parameters)
+        ####
+        parameters = [270, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1050, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1050, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+        ######
+        ## funny action
+        parameters = [270, 1150, 0, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [270, 1150, 0, speed]
+        self.go_to_coord_rotation(parameters)
+
+
+
     def funny_action(self, signum, frame):
         print 'Main functionaly is off'
         print 'FUNNNY ACTION'
@@ -162,6 +231,7 @@ class Robot:
 
 def test():
     rb = Robot(True)
+    rb.test_trajectory()
     return
     i = 0
     while i<10:

@@ -12,7 +12,7 @@ BORDER = 10
 BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.], [-BEAC_R-BORDER, WORLD_Y + BEAC_R+BORDER], [- BEAC_R-BORDER, - BEAC_R - BORDER]])
 
 # parametres of lidar
-MAX_ITENS = 1600  # MAX_ITENS 2600
+MAX_ITENS = 2000  # MAX_ITENS 2600
 MAX_DIST = 3700
 BEAC_DIST_THRES = 200
 
@@ -149,7 +149,6 @@ class ParticleFilter:
         ind = np.where(err_l3)[0]
         if ind.size:
             beacon_error_sum[ind, 2] = np.sum(np.where(error_l3, errors, 0), axis=-1)[ind] / err_l3[ind]
-
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
         weights = self.gaus(np.mean(beacon_error_sum, axis=1), sigma=self.sense_noise)
         weights /= np.sum(weights)
@@ -162,18 +161,20 @@ class ParticleFilter:
         return self.out_queue.get()
 
     def localisation(self, shared_coords,get_raw):
-        print get_raw()
         while True:
-            coords = [i*100 for i in self.send_command('getCurrentCoordinates')['data']]
-            self.PF.move_particles(
+            coords = self.send_command('getCurrentCoordinates')['data']
+            coords[0]=coords[0]*1000
+            coords[1]=coords[1]*1000
+            print coords
+            self.move_particles(
                 [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
             lidar_data = get_raw()
-            self.PF.particle_sense(lidar_data)
-            main_robot = self.PF.calculate_main()
+            self.particle_sense(lidar_data)
+            main_robot = self.calculate_main()
             shared_coords[0] = main_robot[0]
             shared_coords[1] = main_robot[1]
             shared_coords[2] = main_robot[2]
-            time.sleep(0.1)
+            time.sleep(0.2)
 
 
 
