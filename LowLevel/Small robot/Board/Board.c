@@ -87,6 +87,7 @@ char setVoltageMaxon(char ch, int8_t pwm_dir , float duty) // óñòàíîâèò
           *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
           reset_pin(PWM_DIR[ch]);
     }
+
     return 0;
 }
 

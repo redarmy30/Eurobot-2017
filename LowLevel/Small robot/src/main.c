@@ -60,8 +60,88 @@ int main(void)
 
 __enable_irq();
 
+<<<<<<< HEAD
 while(1)
 {
     data = adcData[0] * 360.0 / 4096.0 - 22.0;
+=======
+     //   char * str ="mobile robot V1.0";
+    //char ch = 5;
+    //float duty = 0.09;
+    //float duty1 = 0.07;// çàêðûòî (ÏÐÈÒßÃÈÂÀÅÌ)
+    //float duty2 = 0.024;// îòêðûòî(ÎÒÑÎÅÄÈÍßÅÌ)
+//int  test =  0;
+
+
+/*InPackStruct test;
+test.command=0x25;
+char robotCoord1[3] = {0.1,0.,0};
+test.param = *robotCoord1;*/
+//265
+//145
+//pathPointStr robotCoord1 = {0.0, 0.0, 3.14, NULL,NULL,0,stopVel,stopRot,0,1};
+//float robotCoord1[3] = {0.1,0.,0};
+float temp[3] ={0.25,-0.25,0};
+float anlge =270;
+float torka = 1000;
+uint16_t detector = 0;
+//int ttime = 19000000;
+//int ttime1 = 10000000;
+//uint16_t  angle = 130;
+int angle = 0;
+int i, j;
+float d;
+int p;
+/*
+pwm goes from 0.6-1.0
+*/
+while(1){
+
+        setSpeedMaxon(0, 0.5);
+       // extiType[10];
+        //p = pin_val(EXTI5_PIN);
+        /*distance_digital2[0] = pin_val(EXTI7_PIN);
+        if (distance_digital2[0]>0) {
+                distance_digital2[0] = distance_digital2[0];
+        }*/
+        //distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
+/*        distance_digital2[2] = extiType[6];
+        distance_digital2[3] = extiType[7];
+        distance_digital2[4] = extiType[8];
+        distance_digital2[5] = extiType[9];
+*/
+
+    /*for(i=2818;i<100000;i++){
+        d = (float)i/100;
+        setPWM((char)4, d);
+        for(j=0; j<500000; j++);
+    }*/
+//    for(i=(-100);i<100;i++){
+//        d = (float)i/100;
+       /* setPWM((char)4, 0.055);
+        setPWM((char)4, 0.099);
+        setPWM((char)4, 0.107);
+        setPWM((char)4, 0.166);*/
+//        for(j=0; j<1000000; j++);
+//    }
+
+//upCollectorToGetBalls();
+//downCollectorWithBalls();
+
+//throwCollectorIntoBox();
+
+  /*  if (pin_val (EXTI2_PIN))
+            {   //curState.pidEnabled=1;
+                curState.trackEn = 1;}
+        else
+          {curState.trackEn = 0;
+            vTargetGlob[0]=0;
+            vTargetGlob[1]=0;
+            vTargetGlob[2]=0;
+
+            //curState.pidEnabled=0;
+    } */
+
+>>>>>>> aff9469a5ed1c8bdea830e6cd08b2f88546efd28
 }
 }
