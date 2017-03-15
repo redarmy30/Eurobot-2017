@@ -85,6 +85,7 @@ char setVoltageMaxon(char ch, int8_t pwm_dir , float duty) // óñòàíîâèò
           *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
           reset_pin(PWM_DIR[ch]);
     }
+
     return 0;
 }
 
@@ -102,8 +103,6 @@ char setSpeedMaxon(char ch, float targetSpeed) // V can be positive and negative
     float pwm =  (MAX_MAXON_PWM - MIN_MAXON_PWM) * REDUCTION * 60 * fabs(targetSpeed) / (MAX_RPM * 2.0 * PI * RO)   + MIN_MAXON_PWM;
     setVoltageMaxon(ch, pwm_dir,  pwm);
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //__________________________________EXTI______________________________________//
@@ -354,12 +353,13 @@ initRegulators();
 //NVIC_EnableIRQ(I2C2_ER_IRQn);
 //NVIC_EnableIRQ(I2C2_EV_IRQn);
 __enable_irq();
-CloseFishingManipulator();
-setVoltage((char)CH_FISHIN_GSERVO - 1, (float) -DUTY_FISH_UNCATCH); //0
-    softDelay(9000000);
-    setVoltage((char)CH_FISHIN_GSERVO - 1, (float) -DUTY_FISH_UNCATCH-0.005);
-    setServoTorque((uint8_t)ID_FISHING_MANIPULATOR, (uint16_t) 850);
-close_seashell_doors();
 
+reset_pin(PWM_INHIBIT);
+//___MAXON'S_PWM________________________________________________________________
+char i = 0;
+for(i; i < 4; i++)
+{
+    setSpeedMaxon(WHEELS[i], (float) 0.0);
+}
 }
 ////////////////////////////////////////////////////////////////////////////////
