@@ -1,10 +1,6 @@
 #/usr/bin/env python
 
 
-import roslib; #roslib.load_manifest('smach_tutorials')
-#import rospy
-from smach import State, StateMachine
-import smach_ros
 #import rospy
 import smach
 import logging
