@@ -26,39 +26,21 @@ void TIM2_IRQHandler(void)
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-/*void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес
+void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес, манипулятора и считывание данных сонаров
 {
-//static char i=0; // Divider by 2 to get 10Hz frequency
-   //   set_pin(PWM_DIR[8]);
-
-
   TIM6->SR = 0;
-
   NVIC_DisableIRQ(TIM8_UP_TIM13_IRQn);
-
-    takeadc(distanceData,1,2,3);
-  if (curState.filtering) SpeedFiltration(&vTargetGlob[0],&vTargetGlobF[0]);
-  else
-   {
-      vTargetGlobF[0] =vTargetGlob[0];
-      vTargetGlobF[1] =vTargetGlob[1];
-      vTargetGlobF[2] =vTargetGlob[2];
-   }
-
-   if (curState.collisionAvEn)
-            { checkCollisionAvoid_small(robotSpeed,vTargetGlobF);}
   GetDataForRegulators(); // обновление входных данных для ПИД
   NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn);
-    // рассчет ПИД
 
-  if (curState.kinemEn) FunctionalRegulator(&vTargetGlobF[0], &robotCoordTarget[0], &robotCoordTarget[0], &regulatorOut[0]); // рассчет  кинематики и насыщения
+  if (curState.kinemEn) FunctionalRegulator(&vTargetGlob[0],  &regulatorOut[0]); // рассчет  кинематики и насыщения
 
-  pidLowLevel();
-//  pidLowLevelManipulator();
-
-   //   reset_pin(PWM_DIR[8]);
+    char i = 0;
+    for(i; i < 4; i++)
+    {
+        if (curState.pidEnabled) setSpeedMaxon(WHEELS[i], regulatorOut[i]);
+    }
 }
-*/
 ////////////////////////////////////////////////////////////////////////////////
 
 void TIM7_IRQHandler() // 33kHz
@@ -109,24 +91,7 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
 {
    TrackRegulator(&robotCoord[0],&robotSpeed[0], (&curPath),&vTargetGlob[0]); // расчет глобальных скоростей
 }
-/*takeadc(distanceData,1,2,3);
-   if (curState.filtering)
-       {
-            SpeedFiltration(&vTargetGlob[0],&vTargetGlobF[0]);
-        }
-   else
-   {
-      vTargetGlobF[0] =vTargetGlob[0];
-      vTargetGlobF[1] =vTargetGlob[1];
-      vTargetGlobF[2] =vTargetGlob[2];
-   }
-
-   if (curState.collisionAvEn)
-            { checkCollisionAvoid_small(robotSpeed,vTargetGlobF);}
-    ////////////////////////////////////////////////////////////////////////////////
-  NVIC_EnableIRQ(TIM6_DAC_IRQn); //включение ПИД
-    // reset_pin(PWM_DIR[8]);
-*/
+NVIC_EnableIRQ(TIM6_DAC_IRQn);
 }
 
 

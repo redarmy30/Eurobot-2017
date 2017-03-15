@@ -31,10 +31,6 @@ bool close_tower(int8_t);
 
 extern uint16_t adcData[10];
 
-bool openCubesCatcher();
-bool closeCubesCatcher(uint8_t*);
-void initCubeCatcherPID(void);
-void GetDataForManipulator(void);
 void pidLowLevelManipulator(float, float);
 ///////////////////////////////////////////////////////////////
 
@@ -115,7 +111,6 @@ bool goDownWithSuckingManipulator();
 
 bool moveSuckerManipulatorUp();
 bool moveSuckerManipulatorDown();
-
 
 
 #define ZERO_ANGLE_FUTABA_S3154 0.05

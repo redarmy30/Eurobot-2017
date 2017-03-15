@@ -13,8 +13,8 @@ obj\release\src\main.o: src\main.c Library/stm32f4xx_conf.h \
  SPL\inc/stm32f4xx_spi.h SPL\inc/stm32f4xx_syscfg.h \
  SPL\inc/stm32f4xx_tim.h SPL\inc/stm32f4xx_usart.h \
  SPL\inc/stm32f4xx_wwdg.h SPL\inc/misc.h Board/Board.h Board/gpio.h \
- Board/Pins.h Board/gpio.h Board/Interrupts.h Robot/regulator.h \
- Robot/Path.h Board/usart.h Robot/robot.h Robot/Communication.h \
+ Board/Pins.h Board/gpio.h Board/Interrupts.h Robot/Regulator.h \
+ Robot/Path.h Board/usart.h Robot/Robot.h Robot/Communication.h \
  Robot/robot.h USB\ App/usbd_conf.h USB\ App/usb_conf.h \
  Robot/Manipulators.h Board/pins.h Library\cdc\inc/usbd_cdc_core.h \
  Library\core\inc/usbd_ioreq.h Library\core\inc/usbd_def.h \

@@ -1,4 +1,4 @@
-#include "robot.h"
+#include "Robot.h"
 #include "pins.h"
 #include "usart.h"
 #include "usbd_cdc_core.h"
@@ -8,7 +8,7 @@
 #include "stm32fxxx_it.h"
 #include "usbd_cdc_vcp.h"
 #include "string.h"
-#include "regulator.h"
+#include "Regulator.h"
 #include "interrupts.h"
 #include "Board.h"
 #include "Communication.h"
@@ -105,8 +105,9 @@ switch(cmd->command)
   case 0x06:  //Установить напряжение на двигателе
   {
       char  ch = *cmd->param;
-      float temp = *((float*)(cmd->param+1));
-      setVoltageMaxon( ch-1, temp);
+      float duty = *((float*)(cmd->param + 1));
+      uint16_t dir = *((uint16_t*)(cmd->param + 2));
+      setVoltageMaxon( ch-1, dir, duty);
       char * str ="Ok";
       sendAnswer(cmd->command,str, 3);
   }
@@ -613,22 +614,19 @@ case 0x36:
 
     }
 break;
-case 0x40: // STOP AFTER 90 SEC
 
-    {  //initAll();
-       //curState.trackEn = 0;
-        CloseFishingManipulator();
-        curState.pidEnabled = 0;
-        char i;
-        for (i = 0; i < 4; i++)
-        {
-            setVoltageMaxon(WHEELS[i], (float) 0);
-        }
-        char * str ="Ok";
-        sendAnswer(cmd->command,str, 3);
+  case 0x40:  // Stop command
+  {
+    curState.pidEnabled = 0;
+    char i;
+    for (i = 0; i < 4; i++)
+    {
+        setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
     }
-
-    break;
+    char * str ="Ok";
+    sendAnswer(cmd->command,str, 3);
+  }
+  break;
 
 case 0x38:        // avoidance ENABLED
 {       curState.collisionAvEn   = 1;
@@ -684,24 +682,8 @@ case 0x3C: // Sucking manipulator
 
     }*/
 
-case 0x41: // ОТКРЫТЬ ДВЕРИ
-    {
-       Open_seashell_doors();
-       char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
-    }
-    break;
 
-case 0x42: // ЗАКРЫТЬ ДВЕРИ
-    {
-       close_seashell_doors();
-       char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
-    }
-    break;
-
-    case 0x43: // Generate new trajectory with correction
-
+case 0x43: // Generate new trajectory with correction
 {
 float *(temp) ={(float*)cmd->param};
 char * ch = cmd->param + 24;

@@ -6,7 +6,6 @@
 		<Option title="Small robot 2017" />
 		<Option pch_mode="2" />
 		<Option compiler="armgcc_eb" />
-		<Option virtualFolders="Board\;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin\Debug\Robot_V2.elf" />
@@ -165,9 +164,6 @@
 		</Unit>
 		<Unit filename="Library\core_cm4.h" />
 		<Unit filename="Library\core_cm4_simd.h" />
-		<Unit filename="Library\core_cmFunc.h">
-			<Option virtualFolder="Board\" />
-		</Unit>
 		<Unit filename="Library\core_cmInstr.h" />
 		<Unit filename="Library\stm32f4_discovery.h" />
 		<Unit filename="Library\stm32f4xx.h" />
@@ -189,6 +185,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Robot\Manipulators.h" />
+		<Unit filename="Robot\Matrix.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Robot\Path.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -196,15 +195,12 @@
 		<Unit filename="Robot\Regulator.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Robot\matrix.c">
+		<Unit filename="Robot\Regulator.h" />
+		<Unit filename="Robot\Robot.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Robot\Robot.h" />
 		<Unit filename="Robot\matrix.h" />
-		<Unit filename="Robot\regulator.h" />
-		<Unit filename="Robot\robot.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="Robot\robot.h" />
 		<Unit filename="USB App\stm32fxxx_it.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -377,43 +373,7 @@
 		<Unit filename="version.h" />
 		<Extensions>
 			<code_completion />
-			<debugger>
-				<target_debugging_settings target="Debug" active_interface="ST-link">
-					<debug_interface interface_id="ST-link" ip_address="localhost" ip_port="4242" path="${EMBLOCKS}\share\contrib" executable="STLinkGDB.exe" description="Board\STM32F40x.svd" dont_start_server="false" backoff_time="1000" options="2" reg_filter="0" active_family="STMicroelectronics">
-						<family_options family_id="STMicroelectronics">
-							<option opt_id="ID_JTAG_SWD" opt_value="swd" />
-							<option opt_id="ID_VECTOR_START" opt_value="0x08000000" />
-							<option opt_id="ID_RESET_TYPE" opt_value="System" />
-							<option opt_id="ID_LOAD_PROGRAM" opt_value="1" />
-							<option opt_id="ID_SEMIHOST_CHECK" opt_value="0" />
-							<option opt_id="ID_RAM_EXEC" opt_value="0" />
-							<option opt_id="ID_VEC_TABLE" opt_value="1" />
-							<option opt_id="ID_DONT_CONN_RESET" opt_value="0" />
-							<option opt_id="ID_ALL_MODE_DEBUG" opt_value="0" />
-							<option opt_id="ID_DEV_ADDR" opt_value="" />
-							<option opt_id="ID_VERBOSE_LEVEL" opt_value="3" />
-						</family_options>
-					</debug_interface>
-				</target_debugging_settings>
-				<target_debugging_settings target="Release" active_interface="ST-link">
-					<debug_interface interface_id="Generic" ip_address="" ip_port="" path="" executable="" description="" dont_start_server="false" backoff_time="" options="0" reg_filter="0" active_family="" />
-					<debug_interface interface_id="ST-link" ip_address="localhost" ip_port="4242" path="${EMBLOCKS}\share\contrib" executable="STLinkGDB.exe" description="Board\STM32F40x.svd" dont_start_server="false" backoff_time="2000" options="16" reg_filter="0" active_family="STMicroelectronics">
-						<family_options family_id="STMicroelectronics">
-							<option opt_id="ID_JTAG_SWD" opt_value="swd" />
-							<option opt_id="ID_VECTOR_START" opt_value="0x08000000" />
-							<option opt_id="ID_RESET_TYPE" opt_value="System" />
-							<option opt_id="ID_LOAD_PROGRAM" opt_value="1" />
-							<option opt_id="ID_SEMIHOST_CHECK" opt_value="0" />
-							<option opt_id="ID_RAM_EXEC" opt_value="0" />
-							<option opt_id="ID_VEC_TABLE" opt_value="1" />
-							<option opt_id="ID_DONT_CONN_RESET" opt_value="0" />
-							<option opt_id="ID_ALL_MODE_DEBUG" opt_value="1" />
-							<option opt_id="ID_DEV_ADDR" opt_value="" />
-							<option opt_id="ID_VERBOSE_LEVEL" opt_value="3" />
-						</family_options>
-					</debug_interface>
-				</target_debugging_settings>
-			</debugger>
+			<debugger />
 			<envvars />
 			<DoxyBlocks>
 				<comment_style block="0" line="0" />

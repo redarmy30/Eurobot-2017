@@ -93,7 +93,7 @@ extern float InverseKinematics[4][4];   //
 
 
 void pidCalc(PidStruct *pid_control); //Расчитать ПИД, в качестве параметра - указатель на структуру
-void FunctionalRegulator(float *V_target, float *Coord_target, float *Coord_cur, float *V_out);
+void FunctionalRegulator(float *V_target, float *V_out);
 void pidWheelsFinishWait(void); // Ожидание окончания регулирования пидов колес
 void pidLowLevel(void); // Пид нижнего уровня - колеса
 void GetDataForRegulators(void);

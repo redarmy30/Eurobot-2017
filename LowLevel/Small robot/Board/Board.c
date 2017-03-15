@@ -9,6 +9,8 @@
 #include "Regulator.h"
 #include "Manipulators.h"
 #include "Dynamixel_control.h"
+#include "Robot.h"
+
 uint16_t adcData[10];
 uint8_t pinType[10];
 uint8_t extiType[10];
@@ -80,7 +82,7 @@ char setVoltageMaxon(char ch, int8_t pwm_dir , float duty) // óñòàíîâèò
             *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
             set_pin(PWM_DIR[ch]);
     }
-    if (pwm_dir == 0)
+    if (pwm_dir < 0)
     {
           *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
           reset_pin(PWM_DIR[ch]);
@@ -235,8 +237,8 @@ initRegulators();
   conf_af(BTN10_PWM_PIN, AF9);
 
 
-  timPWMConfigure(TIM4, 5, MAX_PWM, 1, 1, 1, 1); // 1000Hz
-  timPWMConfigure(TIM11, 2*1667, MAX_PWM, 1, 0, 0, 0); // 50 HZ // timPWMConfigure(TIM11, 14, MAX_PWM, 1, 0, 0, 0);
+  timPWMConfigure(TIM4, 2*33600, MAX_PWM, 1, 1, 1, 1);
+  timPWMConfigure(TIM11, 2*1667, MAX_PWM, 1, 0, 0, 0);
   timPWMConfigure(TIM10, 14, MAX_PWM, 1, 0, 0, 0);
   timPWMConfigure(TIM9, 14, MAX_PWM, 1, 1, 0, 0);
   timPWMConfigure(TIM12, 7, MAX_PWM, 1, 1, 0, 0);
@@ -334,31 +336,19 @@ initRegulators();
   add_ext_interrupt(EXTI8_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI9_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI10_PIN, EXTI_BOTH_EDGES);
-//  NVIC_EnableIRQ(EXTI0_IRQn);
-//  NVIC_EnableIRQ(EXTI1_IRQn);
-//  NVIC_EnableIRQ(EXTI2_IRQn);
-//  NVIC_EnableIRQ(EXTI3_IRQn);
-//  NVIC_EnableIRQ(EXTI4_IRQn);
-//  NVIC_EnableIRQ(EXTI9_5_IRQn);
-//  NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-//___I2C_____________________________________________________________________
-//conf_af(I2C_SDA_PIN, AF4);
-//conf_pin(I2C_SDA_PIN, ALTERNATE, OPEN_DRAIN, FAST_S, NO_PULL_UP);    //I2C_SDA
-//conf_af(I2C_SCL_PIN, AF4);
-//conf_pin(I2C_SCL_PIN, ALTERNATE, OPEN_DRAIN, FAST_S, NO_PULL_UP);    //I2C_SCL
-//
-//RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);  //I2C2
-//NVIC_EnableIRQ(I2C2_ER_IRQn);
-//NVIC_EnableIRQ(I2C2_EV_IRQn);
+
 __enable_irq();
 
+set_pin(PWM_INHIBIT);
+softDelay(500000);
 reset_pin(PWM_INHIBIT);
 //___MAXON'S_PWM________________________________________________________________
-char i = 0;
+int i = 0;
 for(i; i < 4; i++)
 {
     setSpeedMaxon(WHEELS[i], (float) 0.0);
 }
+
 }
 ////////////////////////////////////////////////////////////////////////////////

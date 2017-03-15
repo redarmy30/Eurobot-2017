@@ -34,19 +34,7 @@ float ACCEL_INC = 0.02;
  TVector AccelInc2 = {0, 0};
  TVector TargSpeed = {0, 0};
 
-pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 30.0, NULL,NULL,0,stopVelFast,normalRotFast,0,1 },  //Стек точек траектории
-                                        {0., 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },//#1
-                                        {1.0, 0., 0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0., 0.0, 0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 4*3.139999-3*0.0001, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.4, 0.1, 0.0, NULL,NULL,0,normalVelFast,normalRotFast,0,1 },//5
-                                        {0.5, 0.50, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },//6
-                                        {0.5, 0.0, 0, NULL,NULL,0,normalVelFast,stopRotFast,0,1 },
-                                        {0,   0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },};
+
 
 //pathPointStr defaultPoint;
 
@@ -74,6 +62,20 @@ float standRotSlow[5] = {1.0 , 1.0, -1.0, 2.0, 2.5};                            
 
 float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow };// типы  линейный скоростей
 float * rotType[6] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow};// типы угловых скоростей
+
+pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },  //Стек точек траектории
+                                        {0.5, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//#1
+                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {0.0, 0.5, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//5
+                                        {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//6
+                                        {0.5, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {0,   0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },};
 
 //______________________________________________________________________________
 ////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +167,7 @@ void MaxValue(float *a,char rows,float *b)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void FunctionalRegulator(float *V_target, float *Coord_target, float *Coord_cur, float *V_out) // расчет требуемой скорости вращения двигателей
+void FunctionalRegulator(float *V_target, float *V_out) // расчет требуемой скорости вращения двигателей
 {
   //float cosinus = cosf(-robotCoord[2]), sinus = sinf(-robotCoord[2]);
   //float Velocity[3]  = {(*(V_target)), (*(V_target+1)),*(V_target+2)};
@@ -493,20 +495,6 @@ float Mrot[2][2]={ cos(realRad),   sin(realRad),
   robotCoord[2] += robotSpeed[2]*PID_PERIOD;
   rangeAngle(&robotCoord[2]);
 
-}
-///////////////////////////////////////////////////////////////////////////////
-void pidLowLevel(void) //вычисление ПИД регулятора колес
-{
-//Low level pid target values are set here__________________________________
-  char i;
-  for(i =0; i < 4; i++)
-  {
-
-    wheelsPidStruct[i].target = regulatorOut[i];//передача требуемых значений от траекторного регулятора
-    wheelsPidStruct[i].current = motorSpeed[i]; // текущие занчения скоростей колес
-    pidCalc(&wheelsPidStruct[i]);
-    if (curState.pidEnabled) setVoltageMaxon(WHEELS[i], wheelsPidStruct[i].output);
-  }
 }
 
 void vectorAngle(float x, float y, float* angle)  //рассчет угла вектора

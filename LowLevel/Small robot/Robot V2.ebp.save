@@ -185,6 +185,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Robot\Manipulators.h" />
+		<Unit filename="Robot\Matrix.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Robot\Path.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -192,14 +195,11 @@
 		<Unit filename="Robot\Regulator.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Robot\matrix.c">
+		<Unit filename="Robot\Regulator.h" />
+		<Unit filename="Robot\Robot.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Robot\matrix.h" />
-		<Unit filename="Robot\regulator.h" />
-		<Unit filename="Robot\robot.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="Robot\robot.h" />
 		<Unit filename="USB App\stm32fxxx_it.c">
 			<Option compilerVar="CC" />
