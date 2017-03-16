@@ -58,7 +58,8 @@ CMD_LIST = {
     'move_in_cyl_manipulator': 0x2E,  # no parameters
     'rotate_0_cyl_manipulator': 0x2B,  # no parameters
     'rotate_1_cyl_manipulator': 0x2C,  # no parameters
-    'is_point_was_reached': 0x32,# no parametes, return 0 or 1
+    'is_point_was_reached': 0x32,  # no parameters, returns 0 or 1
+    'sensors_data': 0x47,  # no parameters, returns integer with first 6 bits sensor data
 
 }
 
