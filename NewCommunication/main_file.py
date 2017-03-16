@@ -4,6 +4,7 @@ from hokuyolx import HokuyoLX
 import logging
 import signal
 import npParticle as pf
+import fsm
 import numpy as np
 from multiprocessing import Process, Queue, Value,Array
 from multiprocessing.queues import Queue as QueueType

@@ -9,13 +9,15 @@
 #include "Regulator.h"
 #include "Manipulators.h"
 #include "Dynamixel_control.h"
+#include "Robot.h"
+
 uint16_t adcData[10];
 uint8_t pinType[10];
 uint8_t extiType[10];
 uint16_t extiFlag;
 
 uint32_t * PWM_CCR[10] ={BTN1_CCR,BTN2_CCR,BTN3_CCR,BTN4_CCR,BTN5_CCR,
-                          BTN6_CCR,BTN7_CCR,BTN8_CCR,BTN9_CCR,BTN10_CCR};  //Â„ËÒÚ˚ Ò‡‚ÌÂÌËˇ Í‡Ì‡ÎÓ‚ ÿ»Ã
+                          BTN6_CCR,BTN7_CCR,BTN8_CCR,BTN9_CCR,BTN10_CCR};  //—Ä–µ–≥–∏—Å—Ç—Ä—ã —Å—Ä–∞–≤–Ω–µ–Ω–∏—è –∫–∞–Ω–∞–ª–æ–≤ –®–ò–ú
 uint32_t  PWM_DIR[10] ={BTN1_DIR_PIN,BTN2_DIR_PIN,
                           BTN3_DIR_PIN,BTN4_DIR_PIN,
                           BTN5_DIR_PIN,BTN6_DIR_PIN,
@@ -39,7 +41,7 @@ uint32_t  V12_PIN[6] ={PIN5_12V,PIN6_12V,
 ////////////////////////////////////////////////////////////////////////////////
 //___________________________PWM CONTROS______________________________________//
 ////////////////////////////////////////////////////////////////////////////////
-char setVoltage(char ch, float duty) // ÛÒÚ‡ÌÓ‚ËÚ¸ Ì‡ÔˇÊÂÌËÂ Ì‡ ‚˚ıÓ‰Â ÛÔ‡‚ÎÂÌËˇ ‰‚Ë„‡ÚÂÎÂÏ -1,0 .. 1,0
+char setVoltage(char ch, float duty) // —É—Å—Ç–∞–Ω–æ–≤–∏—Ç—å –Ω–∞–ø—Ä—è–∂–µ–Ω–∏–µ –Ω–∞ –≤—ã—Ö–æ–¥–µ —É–ø—Ä–∞–≤–ª–µ–Ω–∏—è –¥–≤–∏–≥–∞—Ç–µ–ª–µ–º -1,0 .. 1,0
 {       duty =duty*-1;
     if (ch == 255)
         return 0;
@@ -58,12 +60,50 @@ char setVoltage(char ch, float duty) // ÛÒÚ‡ÌÓ‚ËÚ¸ Ì‡ÔˇÊÂÌËÂ Ì‡ ‚˚ıÓ‰Â ÛÔ‡‚ÎÂÌ
     return 0;
 }
 
-char setPWM(char ch, float duty) // ÛÒÚ‡ÌÓ‚ËÚ¸ Á‡ÔÓÎÌÂÌËÂ Ì‡ ‚˚ıÓ‰Â ÿ»Ã  0 .. 1,0
+char setPWM(char ch, float duty) // —É—Å—Ç–∞–Ω–æ–≤–∏—Ç—å –∑–∞–ø–æ–ª–Ω–µ–Ω–∏–µ –Ω–∞ –≤—ã—Ö–æ–¥–µ –®–ò–ú  0 .. 1,0
 {
     if (duty > 1 ) duty = 1;
     if (duty < 0 ) duty = 0;
     *PWM_CCR[ch] = (int32_t)((duty * MAX_PWM));
     return 0;
+}
+
+//////////////////////////////////////FOR MAXON MOTORS////////////////////////////
+
+
+char setVoltageMaxon(char ch, int8_t pwm_dir , float duty) // √≥√±√≤√†√≠√Æ√¢√®√≤√º √≠√†√Ø√∞√ø√¶√•√≠√®√• √≠√† √¢√ª√µ√Æ√§√• √≥√Ø√∞√†√¢√´√•√≠√®√ø √§√¢√®√£√†√≤√•√´√•√¨ -1,0 .. 1,0
+{
+    if (ch == 255)
+        return 0;
+    if (duty > 0.9 ) duty = 0.9;
+    if (duty < 0.1 ) duty = 0.1;
+    if (pwm_dir > 0)
+    {
+            *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
+            set_pin(PWM_DIR[ch]);
+    }
+    if (pwm_dir < 0)
+    {
+          *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
+          reset_pin(PWM_DIR[ch]);
+    }
+
+    return 0;
+}
+
+char setSpeedMaxon(char ch, float targetSpeed) // V can be positive and negative
+{
+    float pwm_dir = 0;
+    if (targetSpeed > 0)
+    {
+        pwm_dir = 1;
+    }
+    else
+    {
+        pwm_dir = -1;
+    }
+    float pwm =  (MAX_MAXON_PWM - MIN_MAXON_PWM) * REDUCTION * 60 * fabs(targetSpeed) / (MAX_RPM * 2.0 * PI * RO)   + MIN_MAXON_PWM;
+    setVoltageMaxon(ch, pwm_dir,  pwm);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -176,30 +216,30 @@ initRegulators();
 
 //___PWM_TIM________________________________________________________________
 
-  conf_pin(BTN1_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 1 ¯ËÏ
+  conf_pin(BTN1_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 1 —à–∏–º
   conf_af(BTN1_PWM_PIN, AF2);
-  conf_pin(BTN2_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 2 ¯ËÏ
+  conf_pin(BTN2_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 2 —à–∏–º
   conf_af(BTN2_PWM_PIN, AF2);
-  conf_pin(BTN3_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 3 ¯ËÏ
+  conf_pin(BTN3_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 3 —à–∏–º
   conf_af(BTN3_PWM_PIN, AF2);
-  conf_pin(BTN4_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 4 ¯ËÏ
+  conf_pin(BTN4_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 4 —à–∏–º
   conf_af(BTN4_PWM_PIN, AF2);
-  conf_pin(BTN5_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 5 ¯ËÏ
+  conf_pin(BTN5_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 5 —à–∏–º
   conf_af(BTN5_PWM_PIN, AF3);
-  conf_pin(BTN6_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 6 ¯ËÏ
+  conf_pin(BTN6_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 6 —à–∏–º
   conf_af(BTN6_PWM_PIN, AF3);
-  conf_pin(BTN7_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 7 ¯ËÏ
+  conf_pin(BTN7_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 7 —à–∏–º
   conf_af(BTN7_PWM_PIN, AF3);
-  conf_pin(BTN8_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 8 ¯ËÏ
+  conf_pin(BTN8_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 8 —à–∏–º
   conf_af(BTN8_PWM_PIN, AF3);
-  conf_pin(BTN9_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 9 ¯ËÏ
+  conf_pin(BTN9_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 9 —à–∏–º
   conf_af(BTN9_PWM_PIN, AF9);
-  conf_pin(BTN10_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 10 ¯ËÏ
+  conf_pin(BTN10_PWM_PIN, ALTERNATE, PUSH_PULL, FAST_S, NO_PULL_UP); // 10 —à–∏–º
   conf_af(BTN10_PWM_PIN, AF9);
 
 
-  timPWMConfigure(TIM4, 5, MAX_PWM, 1, 1, 1, 1); // 1000Hz
-  timPWMConfigure(TIM11, 2*1667, MAX_PWM, 1, 0, 0, 0); // 50 HZ // timPWMConfigure(TIM11, 14, MAX_PWM, 1, 0, 0, 0);
+  timPWMConfigure(TIM4, 2*33600, MAX_PWM, 1, 1, 1, 1);
+  timPWMConfigure(TIM11, 2*1667, MAX_PWM, 1, 0, 0, 0);
   timPWMConfigure(TIM10, 14, MAX_PWM, 1, 0, 0, 0);
   timPWMConfigure(TIM9, 14, MAX_PWM, 1, 1, 0, 0);
   timPWMConfigure(TIM12, 7, MAX_PWM, 1, 1, 0, 0);
@@ -223,24 +263,24 @@ initRegulators();
 
 //___TIM_ENCODERS___________________________________________________________
 
-  conf_pin(ENCODER1A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //›ÌÍÓ‰Â 1 ¿
+  conf_pin(ENCODER1A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //–≠–Ω–∫–æ–¥–µ—Ä 1 –ê
   conf_af(ENCODER1A_PIN, AF3);
-  conf_pin(ENCODER1B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //›ÌÍÓ‰Â 1 B
+  conf_pin(ENCODER1B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //–≠–Ω–∫–æ–¥–µ—Ä 1 B
   conf_af(ENCODER1B_PIN, AF3);
 
-  conf_pin(ENCODER2A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //›ÌÍÓ‰Â 2 ¿
+  conf_pin(ENCODER2A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //–≠–Ω–∫–æ–¥–µ—Ä 2 –ê
   conf_af(ENCODER2A_PIN, AF1);
-  conf_pin(ENCODER2B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //›ÌÍÓ‰Â 2 B
+  conf_pin(ENCODER2B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //–≠–Ω–∫–æ–¥–µ—Ä 2 B
   conf_af(ENCODER2B_PIN, AF1);
 
-  conf_pin(ENCODER3A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //›ÌÍÓ‰Â 3 ¿
+  conf_pin(ENCODER3A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //–≠–Ω–∫–æ–¥–µ—Ä 3 –ê
   conf_af(ENCODER3A_PIN, AF2);
-  conf_pin(ENCODER3B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //›ÌÍÓ‰Â 3 B
+  conf_pin(ENCODER3B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //–≠–Ω–∫–æ–¥–µ—Ä 3 B
   conf_af(ENCODER3B_PIN, AF2);
 
-  conf_pin(ENCODER4A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //›ÌÍÓ‰Â 4 A
+  conf_pin(ENCODER4A_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //–≠–Ω–∫–æ–¥–µ—Ä 4 A
   conf_af(ENCODER4A_PIN, AF1);
-  conf_pin(ENCODER4B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //›ÌÍÓ‰Â 4 B
+  conf_pin(ENCODER4B_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);   //–≠–Ω–∫–æ–¥–µ—Ä 4 B
   conf_af(ENCODER4B_PIN, AF1);
 
   timEncoderConfigure(TIM8);
@@ -254,10 +294,10 @@ initRegulators();
   conf_af(RX3_PIN, AF7);
   conf_pin(TX3_PIN, ALTERNATE, PUSH_PULL, LOW_S, PULL_UP);    // TX
   conf_af(TX3_PIN, AF7);
-  uartInit(USART3, 1000000);                                      //¬ÍÎ˛˜‡ÂÏ USART3 115200
-//  NVIC_EnableIRQ(USART3_IRQn);             // –‡ÁÂ¯ÂÌËÂ ÔÂ˚‚‡ÌËÈ ‰Îˇ USART3
+  uartInit(USART3, 1000000);                                      //–í–∫–ª—é—á–∞–µ–º USART3 115200
+//  NVIC_EnableIRQ(USART3_IRQn);             // –†–∞–∑—Ä–µ—à–µ–Ω–∏–µ –ø—Ä–µ—Ä—ã–≤–∞–Ω–∏–π –¥–ª—è USART3
   USART3->CR3 |= USART_CR3_DMAT;
-  //configUsart3DMA();                                 // Õ‡ÒÚÓÈÍ‡ DMA ‰Îˇ USART3
+  //configUsart3DMA();                                 // –ù–∞—Å—Ç—Ä–æ–π–∫–∞ DMA –¥–ª—è USART3
   //configUsart2DMA();
 
 //___ADC____________________________________________________________________
@@ -280,12 +320,12 @@ initRegulators();
   conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI5_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(EXTI6_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(EXTI7_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI8_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI9_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI10_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI5_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI6_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI7_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI8_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI9_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI10_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
 
   add_ext_interrupt(EXTI1_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI2_PIN, EXTI_BOTH_EDGES);
@@ -297,30 +337,19 @@ initRegulators();
   add_ext_interrupt(EXTI8_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI9_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI10_PIN, EXTI_BOTH_EDGES);
-//  NVIC_EnableIRQ(EXTI0_IRQn);
-//  NVIC_EnableIRQ(EXTI1_IRQn);
-//  NVIC_EnableIRQ(EXTI2_IRQn);
-//  NVIC_EnableIRQ(EXTI3_IRQn);
-//  NVIC_EnableIRQ(EXTI4_IRQn);
-//  NVIC_EnableIRQ(EXTI9_5_IRQn);
-//  NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-//___I2C_____________________________________________________________________
-//conf_af(I2C_SDA_PIN, AF4);
-//conf_pin(I2C_SDA_PIN, ALTERNATE, OPEN_DRAIN, FAST_S, NO_PULL_UP);    //I2C_SDA
-//conf_af(I2C_SCL_PIN, AF4);
-//conf_pin(I2C_SCL_PIN, ALTERNATE, OPEN_DRAIN, FAST_S, NO_PULL_UP);    //I2C_SCL
-//
-//RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);  //I2C2
-//NVIC_EnableIRQ(I2C2_ER_IRQn);
-//NVIC_EnableIRQ(I2C2_EV_IRQn);
+
 __enable_irq();
-CloseFishingManipulator();
-setVoltage((char)CH_FISHIN_GSERVO - 1, (float) -DUTY_FISH_UNCATCH); //0
-    softDelay(9000000);
-    setVoltage((char)CH_FISHIN_GSERVO - 1, (float) -DUTY_FISH_UNCATCH-0.005);
-    setServoTorque((uint8_t)ID_FISHING_MANIPULATOR, (uint16_t) 850);
-close_seashell_doors();
+
+set_pin(PWM_INHIBIT);
+softDelay(500000);
+reset_pin(PWM_INHIBIT);
+//___MAXON'S_PWM________________________________________________________________
+int i = 0;
+for(i; i < 4; i++)
+{
+    setSpeedMaxon(WHEELS[i], (float) 0.0);
+}
 
 }
 ////////////////////////////////////////////////////////////////////////////////

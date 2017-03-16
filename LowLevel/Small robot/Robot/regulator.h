@@ -20,7 +20,7 @@
 #define JOYST_RAD_VEL_KOFF  MAX_RAD_SPEED/128.0 //(MAX_WHEEL_SPEED/distA/128.0/5.0)
 //#define DISKR_TO_REAL       (2.0*PI*RO/106496.0)
 //#define DISKR_TO_REAL       (2.0*PI*RO/4096.0/26)
-#define DISKR_TO_REAL       (2.0*PI*RO/2800)
+#define DISKR_TO_REAL       (2.0*PI*RO/4096.0/26)
 #define ONE_RO_COS_PHI      1.0                   // 23.0947
 //#define COFF_TO_RAD         (2.0*PI/(4658.346666667))
 #define MAX_CAPACITANCE     0.9 //(120.0*DISKR_TO_REAL/PID_PERIOD)*1.5   // Максимальный вектор задания на ПИДЫ
@@ -93,7 +93,7 @@ extern float InverseKinematics[4][4];   //
 
 
 void pidCalc(PidStruct *pid_control); //Расчитать ПИД, в качестве параметра - указатель на структуру
-void FunctionalRegulator(float *V_target, float *Coord_target, float *Coord_cur, float *V_out);
+void FunctionalRegulator(float *V_target, float *V_out);
 void pidWheelsFinishWait(void); // Ожидание окончания регулирования пидов колес
 void pidLowLevel(void); // Пид нижнего уровня - колеса
 void GetDataForRegulators(void);

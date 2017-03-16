@@ -1,5 +1,5 @@
-cscope 15 F:\From Git\LowLevel"               0001577208
-	@F:\From Git\LowLevel\Board\ADC.c
+cscope 15 F:\From Git\LowLevel\Small robot"               0001578598
+	@F:\From Git\LowLevel\Small robot\Board\ADC.c
 
 5 
 	~"adc.h
@@ -193,11 +193,11 @@ CR2
 ADC_CR2_SWSTART
 ;
 
-76 
+72 
 	}
 }
 
-	@F:\From Git\LowLevel\Board\Board.c
+	@F:\From Git\LowLevel\Small robot\Board\Board.c
 
 1 
 	~"Bﬂrd.h
@@ -523,7 +523,141 @@ MAX_PWM
 	}
 }
 
-72 
+72 
+	$£tVﬁègeMax⁄
+(
+ch
+, 
+öt8_t
+ 
+pwm_dú
+ , 
+duty
+)
+
+74 i‡(
+ch
+ == 255)
+
+76 i‡(
+duty
+ > 0.9 ) duty = 0.9;
+
+77 i‡(
+duty
+ < 0.1 ) duty = 0.1;
+
+78 i‡(
+pwm_dú
+ > 0)
+
+80 *
+PWM_CCR
+[
+ch
+] = (
+öt32_t
+Ë(
+duty
+ * 
+MAX_PWM
+);
+
+81 
+	`£t_pö
+(
+PWM_DIR
+[
+ch
+]);
+
+83 i‡(
+pwm_dú
+ < 0)
+
+85 *
+PWM_CCR
+[
+ch
+] = (
+öt32_t
+Ë(
+duty
+ * 
+MAX_PWM
+);
+
+86 
+	`ª£t_pö
+(
+PWM_DIR
+[
+ch
+]);
+
+89 
+	}
+}
+
+91 
+	$£tS≥edMax⁄
+(
+ch
+, 
+èrgëS≥ed
+)
+
+93 
+pwm_dú
+ = 0;
+
+94 i‡(
+èrgëS≥ed
+ > 0)
+
+96 
+pwm_dú
+ = 1;
+
+100 
+pwm_dú
+ = -1;
+
+102 
+pwm
+ = (
+MAX_MAXON_PWM
+ - 
+MIN_MAXON_PWM
+Ë* 
+REDUCTION
+ * 60 * 
+	`Ábs
+(
+èrgëS≥ed
+Ë/ (
+MAX_RPM
+ * 2.0 * 
+PI
+ * 
+RO
+) + MIN_MAXON_PWM;
+
+103 
+	`£tVﬁègeMax⁄
+(
+ch
+, 
+pwm_dú
+, 
+pwm
+);
+
+104 
+	}
+}
+
+111 
 	$add_ext_öãºu±
 (
 pö
@@ -531,7 +665,7 @@ pö
 edge
 )
 
-74 
+113 
 SYSCFG
 ->
 EXTICR
@@ -539,7 +673,7 @@ EXTICR
 pö
 )&0xF) >> 0x02] |= (pin>>4) << ((((pin)&0xF) % 4) << 0x02);
 
-75 
+114 
 EXTI
 ->
 IMR
@@ -547,15 +681,15 @@ IMR
 pö
 )&0xF));
 
-77 
+116 
 edge
 )
 
-79 
+118 
 EXTI_FALLING_EDGE
 :
 
-81 
+120 
 EXTI
 ->
 FTSR
@@ -563,7 +697,7 @@ FTSR
 pö
 )&0xF));
 
-82 
+121 
 EXTI
 ->
 RTSR
@@ -571,11 +705,11 @@ RTSR
 pö
 )&0xF));
 
-86 
+125 
 EXTI_RISING_EDGE
 :
 
-88 
+127 
 EXTI
 ->
 FTSR
@@ -583,7 +717,7 @@ FTSR
 pö
 )&0xF));
 
-89 
+128 
 EXTI
 ->
 RTSR
@@ -591,11 +725,11 @@ RTSR
 pö
 )&0xF));
 
-93 
+132 
 EXTI_BOTH_EDGES
 :
 
-95 
+134 
 EXTI
 ->
 RTSR
@@ -603,7 +737,7 @@ RTSR
 pö
 )&0xF));
 
-96 
+135 
 EXTI
 ->
 FTSR
@@ -611,17 +745,17 @@ FTSR
 pö
 )&0xF));
 
-100 
+139 
 	}
 }
 
-101 
+140 
 	$˛ór_ext_öãºu±
 (
 pö
 )
 
-103 
+142 
 SYSCFG
 ->
 EXTICR
@@ -629,7 +763,7 @@ EXTICR
 pö
 )&0xF) >> 0x02] &= ~((pin>>4) << ((((pin)&0xF) % 4) << 0x02));
 
-104 
+143 
 EXTI
 ->
 IMR
@@ -637,15 +771,15 @@ IMR
 pö
 )&0xF));
 
-106 
+145 
 	}
 }
 
-110 
+149 
 	$öôAŒ
 ()
 
-113 
+152 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_PWR
@@ -653,7 +787,7 @@ RCC_APB1Pîùh_PWR
 ENABLE
 );
 
-114 
+153 
 PWR
 ->
 CR
@@ -661,15 +795,15 @@ CR
 PWR_CR_DBP
 ;
 
-115 
+154 
 	`__dißbÀ_úq
 ();
 
-117 
+156 
 	`öôReguœt‹s
 ();
 
-122 
+161 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_CRC
@@ -677,7 +811,7 @@ RCC_AHB1Pîùh_CRC
 ENABLE
 );
 
-123 
+162 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOA
@@ -685,7 +819,7 @@ RCC_AHB1Pîùh_GPIOA
 ENABLE
 );
 
-124 
+163 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOB
@@ -693,7 +827,7 @@ RCC_AHB1Pîùh_GPIOB
 ENABLE
 );
 
-125 
+164 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOC
@@ -701,7 +835,7 @@ RCC_AHB1Pîùh_GPIOC
 ENABLE
 );
 
-126 
+165 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOD
@@ -709,7 +843,7 @@ RCC_AHB1Pîùh_GPIOD
 ENABLE
 );
 
-127 
+166 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_GPIOE
@@ -717,7 +851,7 @@ RCC_AHB1Pîùh_GPIOE
 ENABLE
 );
 
-129 
+168 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM1
@@ -725,7 +859,7 @@ RCC_APB2Pîùh_TIM1
 ENABLE
 );
 
-130 
+169 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM2
@@ -733,7 +867,7 @@ RCC_APB1Pîùh_TIM2
 ENABLE
 );
 
-131 
+170 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM3
@@ -741,7 +875,7 @@ RCC_APB1Pîùh_TIM3
 ENABLE
 );
 
-132 
+171 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM4
@@ -749,7 +883,7 @@ RCC_APB1Pîùh_TIM4
 ENABLE
 );
 
-133 
+172 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM6
@@ -757,7 +891,7 @@ RCC_APB1Pîùh_TIM6
 ENABLE
 );
 
-134 
+173 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM7
@@ -765,7 +899,7 @@ RCC_APB1Pîùh_TIM7
 ENABLE
 );
 
-135 
+174 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM8
@@ -773,7 +907,7 @@ RCC_APB2Pîùh_TIM8
 ENABLE
 );
 
-136 
+175 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM9
@@ -781,7 +915,7 @@ RCC_APB2Pîùh_TIM9
 ENABLE
 );
 
-137 
+176 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM10
@@ -789,7 +923,7 @@ RCC_APB2Pîùh_TIM10
 ENABLE
 );
 
-138 
+177 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_TIM11
@@ -797,7 +931,7 @@ RCC_APB2Pîùh_TIM11
 ENABLE
 );
 
-139 
+178 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM12
@@ -805,7 +939,7 @@ RCC_APB1Pîùh_TIM12
 ENABLE
 );
 
-140 
+179 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_TIM13
@@ -813,7 +947,7 @@ RCC_APB1Pîùh_TIM13
 ENABLE
 );
 
-141 
+180 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_ADC1
@@ -821,7 +955,7 @@ RCC_APB2Pîùh_ADC1
 ENABLE
 );
 
-144 
+183 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB2Pîùh_USART1
@@ -829,7 +963,7 @@ RCC_APB2Pîùh_USART1
 ENABLE
 );
 
-145 
+184 
 	`RCC_APB1PîùhClockCmd
 (
 RCC_APB1Pîùh_USART3
@@ -837,7 +971,7 @@ RCC_APB1Pîùh_USART3
 ENABLE
 );
 
-147 
+186 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_DMA1
@@ -845,7 +979,7 @@ RCC_AHB1Pîùh_DMA1
 ENABLE
 );
 
-148 
+187 
 	`RCC_AHB1PîùhClockCmd
 (
 RCC_AHB1Pîùh_DMA2
@@ -853,7 +987,7 @@ RCC_AHB1Pîùh_DMA2
 ENABLE
 );
 
-150 
+189 
 	`RCC_APB2PîùhClockCmd
 (
 RCC_APB2Pîùh_SYSCFG
@@ -861,7 +995,7 @@ RCC_APB2Pîùh_SYSCFG
 ENABLE
 );
 
-154 
+193 
 	`c⁄f_pö
 (
 BTN1_DIR_PIN
@@ -875,7 +1009,7 @@ FAST_S
 NO_PULL_UP
 );
 
-155 
+194 
 	`c⁄f_pö
 (
 BTN2_DIR_PIN
@@ -889,7 +1023,7 @@ FAST_S
 NO_PULL_UP
 );
 
-156 
+195 
 	`c⁄f_pö
 (
 BTN3_DIR_PIN
@@ -903,7 +1037,7 @@ FAST_S
 NO_PULL_UP
 );
 
-157 
+196 
 	`c⁄f_pö
 (
 BTN4_DIR_PIN
@@ -917,7 +1051,7 @@ FAST_S
 NO_PULL_UP
 );
 
-158 
+197 
 	`c⁄f_pö
 (
 BTN5_DIR_PIN
@@ -931,7 +1065,7 @@ FAST_S
 NO_PULL_UP
 );
 
-159 
+198 
 	`c⁄f_pö
 (
 BTN6_DIR_PIN
@@ -945,7 +1079,7 @@ FAST_S
 NO_PULL_UP
 );
 
-160 
+199 
 	`c⁄f_pö
 (
 BTN7_DIR_PIN
@@ -959,7 +1093,7 @@ FAST_S
 NO_PULL_UP
 );
 
-161 
+200 
 	`c⁄f_pö
 (
 BTN8_DIR_PIN
@@ -973,7 +1107,7 @@ FAST_S
 NO_PULL_UP
 );
 
-162 
+201 
 	`c⁄f_pö
 (
 BTN9_DIR_PIN
@@ -987,7 +1121,7 @@ FAST_S
 NO_PULL_UP
 );
 
-163 
+202 
 	`c⁄f_pö
 (
 BTN10_DIR_PIN
@@ -1001,7 +1135,7 @@ FAST_S
 NO_PULL_UP
 );
 
-164 
+203 
 	`c⁄f_pö
 (
 PWM_INHIBIT
@@ -1015,7 +1149,7 @@ FAST_S
 NO_PULL_UP
 );
 
-169 
+208 
 	`c⁄f_pö
 (
 PIN1_12V
@@ -1029,7 +1163,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-170 
+209 
 	`c⁄f_pö
 (
 PIN2_12V
@@ -1043,7 +1177,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-171 
+210 
 	`c⁄f_pö
 (
 PIN3_12V
@@ -1057,7 +1191,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-172 
+211 
 	`c⁄f_pö
 (
 PIN4_12V
@@ -1071,7 +1205,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-173 
+212 
 	`c⁄f_pö
 (
 PIN5_12V
@@ -1085,7 +1219,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-174 
+213 
 	`c⁄f_pö
 (
 PIN6_12V
@@ -1099,7 +1233,7 @@ HIGH_S
 NO_PULL_UP
 );
 
-179 
+218 
 	`c⁄f_pö
 (
 BTN1_PWM_PIN
@@ -1113,306 +1247,98 @@ FAST_S
 NO_PULL_UP
 );
 
-180 
+219 
 	`c⁄f_af
 (
 BTN1_PWM_PIN
 , 
 AF2
-);
-
-181 
-	`c⁄f_pö
-(
-BTN2_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-182 
-	`c⁄f_af
-(
-BTN2_PWM_PIN
-, 
-AF2
-);
-
-183 
-	`c⁄f_pö
-(
-BTN3_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-184 
-	`c⁄f_af
-(
-BTN3_PWM_PIN
-, 
-AF2
-);
-
-185 
-	`c⁄f_pö
-(
-BTN4_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-186 
-	`c⁄f_af
-(
-BTN4_PWM_PIN
-, 
-AF2
-);
-
-187 
-	`c⁄f_pö
-(
-BTN5_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-188 
-	`c⁄f_af
-(
-BTN5_PWM_PIN
-, 
-AF3
-);
-
-189 
-	`c⁄f_pö
-(
-BTN6_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-190 
-	`c⁄f_af
-(
-BTN6_PWM_PIN
-, 
-AF3
-);
-
-191 
-	`c⁄f_pö
-(
-BTN7_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-192 
-	`c⁄f_af
-(
-BTN7_PWM_PIN
-, 
-AF3
-);
-
-193 
-	`c⁄f_pö
-(
-BTN8_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-194 
-	`c⁄f_af
-(
-BTN8_PWM_PIN
-, 
-AF3
-);
-
-195 
-	`c⁄f_pö
-(
-BTN9_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-196 
-	`c⁄f_af
-(
-BTN9_PWM_PIN
-, 
-AF9
-);
-
-197 
-	`c⁄f_pö
-(
-BTN10_PWM_PIN
-, 
-ALTERNATE
-, 
-PUSH_PULL
-, 
-FAST_S
-, 
-NO_PULL_UP
-);
-
-198 
-	`c⁄f_af
-(
-BTN10_PWM_PIN
-, 
-AF9
-);
-
-201 
-	`timPWMC⁄figuª
-(
-TIM4
-, 5, 
-MAX_PWM
-, 1, 1, 1, 1);
-
-202 
-	`timPWMC⁄figuª
-(
-TIM11
-, 2*1667, 
-MAX_PWM
-, 1, 0, 0, 0);
-
-203 
-	`timPWMC⁄figuª
-(
-TIM10
-, 14, 
-MAX_PWM
-, 1, 0, 0, 0);
-
-204 
-	`timPWMC⁄figuª
-(
-TIM9
-, 14, 
-MAX_PWM
-, 1, 1, 0, 0);
-
-205 
-	`timPWMC⁄figuª
-(
-TIM12
-, 7, 
-MAX_PWM
-, 1, 1, 0, 0);
-
-209 
-	`timPIDC⁄figuª
-(
-TIM6
-, 13107, 64);
-
-210 
-	`NVIC_E«bÀIRQ
-(
-TIM6_DAC_IRQn
-);
-
-214 
-	`timPIDC⁄figuª
-(
-TIM7
-, 10, 255);
-
-215 
-	`NVIC_E«bÀIRQ
-(
-TIM7_IRQn
 );
 
 220 
-	`timPIDC⁄figuª
+	`c⁄f_pö
 (
-TIM13
-, 8400, 1000);
+BTN2_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
 
 221 
-	`NVIC_E«bÀIRQ
+	`c⁄f_af
 (
-TIM8_UP_TIM13_IRQn
+BTN2_PWM_PIN
+, 
+AF2
+);
+
+222 
+	`c⁄f_pö
+(
+BTN3_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+223 
+	`c⁄f_af
+(
+BTN3_PWM_PIN
+, 
+AF2
+);
+
+224 
+	`c⁄f_pö
+(
+BTN4_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+225 
+	`c⁄f_af
+(
+BTN4_PWM_PIN
+, 
+AF2
 );
 
 226 
 	`c⁄f_pö
 (
-ENCODER1A_PIN
+BTN5_PWM_PIN
 , 
 ALTERNATE
 , 
 PUSH_PULL
 , 
-LOW_S
+FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
 227 
 	`c⁄f_af
 (
-ENCODER1A_PIN
+BTN5_PWM_PIN
 , 
 AF3
 );
@@ -1420,6 +1346,214 @@ AF3
 228 
 	`c⁄f_pö
 (
+BTN6_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+229 
+	`c⁄f_af
+(
+BTN6_PWM_PIN
+, 
+AF3
+);
+
+230 
+	`c⁄f_pö
+(
+BTN7_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+231 
+	`c⁄f_af
+(
+BTN7_PWM_PIN
+, 
+AF3
+);
+
+232 
+	`c⁄f_pö
+(
+BTN8_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+233 
+	`c⁄f_af
+(
+BTN8_PWM_PIN
+, 
+AF3
+);
+
+234 
+	`c⁄f_pö
+(
+BTN9_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+235 
+	`c⁄f_af
+(
+BTN9_PWM_PIN
+, 
+AF9
+);
+
+236 
+	`c⁄f_pö
+(
+BTN10_PWM_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+FAST_S
+, 
+NO_PULL_UP
+);
+
+237 
+	`c⁄f_af
+(
+BTN10_PWM_PIN
+, 
+AF9
+);
+
+240 
+	`timPWMC⁄figuª
+(
+TIM4
+, 5, 
+MAX_PWM
+, 1, 1, 1, 1);
+
+241 
+	`timPWMC⁄figuª
+(
+TIM11
+, 2*1667, 
+MAX_PWM
+, 1, 0, 0, 0);
+
+242 
+	`timPWMC⁄figuª
+(
+TIM10
+, 14, 
+MAX_PWM
+, 1, 0, 0, 0);
+
+243 
+	`timPWMC⁄figuª
+(
+TIM9
+, 14, 
+MAX_PWM
+, 1, 1, 0, 0);
+
+244 
+	`timPWMC⁄figuª
+(
+TIM12
+, 7, 
+MAX_PWM
+, 1, 1, 0, 0);
+
+248 
+	`timPIDC⁄figuª
+(
+TIM6
+, 13107, 64);
+
+249 
+	`NVIC_E«bÀIRQ
+(
+TIM6_DAC_IRQn
+);
+
+253 
+	`timPIDC⁄figuª
+(
+TIM7
+, 10, 255);
+
+254 
+	`NVIC_E«bÀIRQ
+(
+TIM7_IRQn
+);
+
+259 
+	`timPIDC⁄figuª
+(
+TIM13
+, 8400, 1000);
+
+260 
+	`NVIC_E«bÀIRQ
+(
+TIM8_UP_TIM13_IRQn
+);
+
+265 
+	`c⁄f_pö
+(
+ENCODER1A_PIN
+, 
+ALTERNATE
+, 
+PUSH_PULL
+, 
+LOW_S
+, 
+PULL_UP
+);
+
+266 
+	`c⁄f_af
+(
+ENCODER1A_PIN
+, 
+AF3
+);
+
+267 
+	`c⁄f_pö
+(
 ENCODER1B_PIN
 , 
 ALTERNATE
@@ -1431,7 +1565,7 @@ LOW_S
 PULL_UP
 );
 
-229 
+268 
 	`c⁄f_af
 (
 ENCODER1B_PIN
@@ -1439,7 +1573,7 @@ ENCODER1B_PIN
 AF3
 );
 
-231 
+270 
 	`c⁄f_pö
 (
 ENCODER2A_PIN
@@ -1453,7 +1587,7 @@ LOW_S
 PULL_UP
 );
 
-232 
+271 
 	`c⁄f_af
 (
 ENCODER2A_PIN
@@ -1461,7 +1595,7 @@ ENCODER2A_PIN
 AF1
 );
 
-233 
+272 
 	`c⁄f_pö
 (
 ENCODER2B_PIN
@@ -1475,7 +1609,7 @@ LOW_S
 PULL_UP
 );
 
-234 
+273 
 	`c⁄f_af
 (
 ENCODER2B_PIN
@@ -1483,7 +1617,7 @@ ENCODER2B_PIN
 AF1
 );
 
-236 
+275 
 	`c⁄f_pö
 (
 ENCODER3A_PIN
@@ -1497,7 +1631,7 @@ LOW_S
 PULL_UP
 );
 
-237 
+276 
 	`c⁄f_af
 (
 ENCODER3A_PIN
@@ -1505,7 +1639,7 @@ ENCODER3A_PIN
 AF2
 );
 
-238 
+277 
 	`c⁄f_pö
 (
 ENCODER3B_PIN
@@ -1519,7 +1653,7 @@ LOW_S
 PULL_UP
 );
 
-239 
+278 
 	`c⁄f_af
 (
 ENCODER3B_PIN
@@ -1527,7 +1661,7 @@ ENCODER3B_PIN
 AF2
 );
 
-241 
+280 
 	`c⁄f_pö
 (
 ENCODER4A_PIN
@@ -1541,7 +1675,7 @@ LOW_S
 PULL_UP
 );
 
-242 
+281 
 	`c⁄f_af
 (
 ENCODER4A_PIN
@@ -1549,7 +1683,7 @@ ENCODER4A_PIN
 AF1
 );
 
-243 
+282 
 	`c⁄f_pö
 (
 ENCODER4B_PIN
@@ -1563,7 +1697,7 @@ LOW_S
 PULL_UP
 );
 
-244 
+283 
 	`c⁄f_af
 (
 ENCODER4B_PIN
@@ -1571,31 +1705,31 @@ ENCODER4B_PIN
 AF1
 );
 
-246 
+285 
 	`timEncodîC⁄figuª
 (
 TIM8
 );
 
-247 
+286 
 	`timEncodîC⁄figuª
 (
 TIM1
 );
 
-248 
+287 
 	`timEncodîC⁄figuª
 (
 TIM3
 );
 
-249 
+288 
 	`timEncodîC⁄figuª
 (
 TIM2
 );
 
-253 
+292 
 	`c⁄f_pö
 (
 RX3_PIN
@@ -1609,7 +1743,7 @@ LOW_S
 PULL_UP
 );
 
-254 
+293 
 	`c⁄f_af
 (
 RX3_PIN
@@ -1617,7 +1751,7 @@ RX3_PIN
 AF7
 );
 
-255 
+294 
 	`c⁄f_pö
 (
 TX3_PIN
@@ -1631,7 +1765,7 @@ LOW_S
 PULL_UP
 );
 
-256 
+295 
 	`c⁄f_af
 (
 TX3_PIN
@@ -1639,13 +1773,13 @@ TX3_PIN
 AF7
 );
 
-257 
+296 
 	`u¨tInô
 (
 USART3
 , 1000000);
 
-259 
+298 
 USART3
 ->
 CR3
@@ -1653,21 +1787,21 @@ CR3
 USART_CR3_DMAT
 ;
 
-265 
+304 
 	`c⁄f_pö
 (
 GENERAL_PIN_0
 , 
-INPUT
+ANALOG
 , 
 PUSH_PULL
 , 
 FAST_S
 , 
-PULL_DOWN
+NO_PULL_UP
 );
 
-266 
+305 
 	`c⁄f_pö
 (
 GENERAL_PIN_1
@@ -1681,7 +1815,7 @@ FAST_S
 NO_PULL_UP
 );
 
-267 
+306 
 	`c⁄f_pö
 (
 GENERAL_PIN_2
@@ -1695,7 +1829,7 @@ FAST_S
 NO_PULL_UP
 );
 
-268 
+307 
 	`c⁄f_pö
 (
 GENERAL_PIN_3
@@ -1709,7 +1843,7 @@ FAST_S
 NO_PULL_UP
 );
 
-269 
+308 
 	`c⁄f_pö
 (
 GENERAL_PIN_4
@@ -1723,7 +1857,7 @@ FAST_S
 NO_PULL_UP
 );
 
-270 
+309 
 	`c⁄f_pö
 (
 GENERAL_PIN_5
@@ -1737,7 +1871,7 @@ FAST_S
 NO_PULL_UP
 );
 
-271 
+310 
 	`c⁄f_pö
 (
 GENERAL_PIN_6
@@ -1751,7 +1885,7 @@ FAST_S
 NO_PULL_UP
 );
 
-272 
+311 
 	`c⁄f_pö
 (
 GENERAL_PIN_7
@@ -1765,7 +1899,7 @@ FAST_S
 NO_PULL_UP
 );
 
-273 
+312 
 	`c⁄f_pö
 (
 GENERAL_PIN_8
@@ -1779,7 +1913,7 @@ FAST_S
 NO_PULL_UP
 );
 
-274 
+313 
 	`c⁄f_pö
 (
 GENERAL_PIN_9
@@ -1793,11 +1927,11 @@ FAST_S
 NO_PULL_UP
 );
 
-275 
+314 
 	`adcC⁄fig
 ();
 
-279 
+318 
 	`c⁄f_pö
 (
 EXTI1_PIN
@@ -1811,7 +1945,7 @@ FAST_S
 PULL_UP
 );
 
-280 
+319 
 	`c⁄f_pö
 (
 EXTI2_PIN
@@ -1825,7 +1959,7 @@ FAST_S
 PULL_UP
 );
 
-281 
+320 
 	`c⁄f_pö
 (
 EXTI3_PIN
@@ -1839,7 +1973,7 @@ FAST_S
 PULL_UP
 );
 
-282 
+321 
 	`c⁄f_pö
 (
 EXTI4_PIN
@@ -1853,7 +1987,7 @@ FAST_S
 PULL_UP
 );
 
-283 
+322 
 	`c⁄f_pö
 (
 EXTI5_PIN
@@ -1864,10 +1998,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-284 
+323 
 	`c⁄f_pö
 (
 EXTI6_PIN
@@ -1878,10 +2012,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-285 
+324 
 	`c⁄f_pö
 (
 EXTI7_PIN
@@ -1892,10 +2026,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-286 
+325 
 	`c⁄f_pö
 (
 EXTI8_PIN
@@ -1906,10 +2040,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-287 
+326 
 	`c⁄f_pö
 (
 EXTI9_PIN
@@ -1920,10 +2054,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-288 
+327 
 	`c⁄f_pö
 (
 EXTI10_PIN
@@ -1934,10 +2068,10 @@ PUSH_PULL
 , 
 FAST_S
 , 
-PULL_UP
+NO_PULL_UP
 );
 
-290 
+329 
 	`add_ext_öãºu±
 (
 EXTI1_PIN
@@ -1945,7 +2079,7 @@ EXTI1_PIN
 EXTI_BOTH_EDGES
 );
 
-291 
+330 
 	`add_ext_öãºu±
 (
 EXTI2_PIN
@@ -1953,7 +2087,7 @@ EXTI2_PIN
 EXTI_BOTH_EDGES
 );
 
-292 
+331 
 	`add_ext_öãºu±
 (
 EXTI3_PIN
@@ -1961,7 +2095,7 @@ EXTI3_PIN
 EXTI_BOTH_EDGES
 );
 
-293 
+332 
 	`add_ext_öãºu±
 (
 EXTI4_PIN
@@ -1969,7 +2103,7 @@ EXTI4_PIN
 EXTI_BOTH_EDGES
 );
 
-294 
+333 
 	`add_ext_öãºu±
 (
 EXTI5_PIN
@@ -1977,7 +2111,7 @@ EXTI5_PIN
 EXTI_BOTH_EDGES
 );
 
-295 
+334 
 	`add_ext_öãºu±
 (
 EXTI6_PIN
@@ -1985,7 +2119,7 @@ EXTI6_PIN
 EXTI_BOTH_EDGES
 );
 
-296 
+335 
 	`add_ext_öãºu±
 (
 EXTI7_PIN
@@ -1993,7 +2127,7 @@ EXTI7_PIN
 EXTI_BOTH_EDGES
 );
 
-297 
+336 
 	`add_ext_öãºu±
 (
 EXTI8_PIN
@@ -2001,7 +2135,7 @@ EXTI8_PIN
 EXTI_BOTH_EDGES
 );
 
-298 
+337 
 	`add_ext_öãºu±
 (
 EXTI9_PIN
@@ -2009,7 +2143,7 @@ EXTI9_PIN
 EXTI_BOTH_EDGES
 );
 
-299 
+338 
 	`add_ext_öãºu±
 (
 EXTI10_PIN
@@ -2017,15 +2151,15 @@ EXTI10_PIN
 EXTI_BOTH_EDGES
 );
 
-317 
+356 
 	`__íabÀ_úq
 ();
 
-318 
+357 
 	`Clo£FishögM™ùuœt‹
 ();
 
-319 
+358 
 	`£tVﬁège
 (()
 CH_FISHIN_GSERVO
@@ -2033,11 +2167,11 @@ CH_FISHIN_GSERVO
 DUTY_FISH_UNCATCH
 );
 
-320 
+359 
 	`so·Dñay
 (9000000);
 
-321 
+360 
 	`£tVﬁège
 (()
 CH_FISHIN_GSERVO
@@ -2045,7 +2179,7 @@ CH_FISHIN_GSERVO
 DUTY_FISH_UNCATCH
 -0.005);
 
-322 
+361 
 	`£tSîvoT‹que
 ((
 uöt8_t
@@ -2055,15 +2189,15 @@ ID_FISHING_MANIPULATOR
 uöt16_t
 ) 850);
 
-323 
+362 
 	`˛o£_£ashñl_do‹s
 ();
 
-325 
+364 
 	}
 }
 
-	@F:\From Git\LowLevel\Board\Board.h
+	@F:\From Git\LowLevel\Small robot\Board\Board.h
 
 1 #i‚de‡
 _BOARD_INCLUDED_
@@ -2079,7 +2213,27 @@ _BOARD_INCLUDED_
 	~"°döt.h
 "
 
-6 
+6 
+	#MAX_RPM
+ 13100
+
+7 
+	#REDUCTION
+ 26
+
+8 
+	#MAX_MAXON_PWM
+ 0.9
+
+	)
+
+9 
+	#MIN_MAXON_PWM
+ 0.1
+
+	)
+
+11 
 £tVﬁège
 (
 ch
@@ -2087,71 +2241,99 @@ ch
 duty
 );
 
-8 
+12 
+£tPWM
+(
+ch
+, 
+duty
+);
+
+14 
+£tVﬁègeMax⁄
+ (
+ch
+, 
+öt8_t
+ 
+pwm_dú
+ , 
+duty
+);
+
+15 
+£tS≥edMax⁄
+(
+ch
+, 
+èrgëS≥ed
+);
+
+17 
 uöt32_t
  * 
 PWM_CCR
 [10];
 
-9 
+18 
 uöt32_t
  
 PWM_DIR
 [10];
 
-10 
+19 
 uöt32_t
  
 GENERAL_PIN
 [10];
 
-11 
+20 
 uöt32_t
  
 EXTI_PIN
 [10];
 
-12 
+21 
 uöt32_t
  
 V12_PIN
 [6];
 
-14 
+23 
 uöt16_t
  
 adcD©a
 [10];
 
-15 
+24 
 uöt8_t
  
 pöTy≥
 [10];
 
-16 
+25 
 uöt8_t
  
 extiTy≥
 [10];
 
-17 
+26 
 uöt16_t
  
 extiFœg
 ;
 
-19 
+28 
 öôAŒ
 ();
 
-20 
+29 
 ˛ór_ext_öãºu±
 (
 pö
 );
 
-21 
+30 
 add_ext_öãºu±
 (
 pö
@@ -2159,7 +2341,7 @@ pö
 edge
 );
 
-	@F:\From Git\LowLevel\Board\Interrupts.c
+	@F:\From Git\LowLevel\Small robot\Board\Interrupts.c
 
 1 
 	~"I¡îru±s.h
@@ -2229,135 +2411,37 @@ edge
 	}
 }
 
-29 
-	$TIM6_DAC_IRQH™dÀr
-()
-
-35 
-TIM6
-->
-SR
- = 0;
-
-37 
-	`NVIC_DißbÀIRQ
-(
-TIM8_UP_TIM13_IRQn
-);
-
-39 
-	`èkódc
-(
-di°™˚D©a
-,1,2,3);
-
-40 i‡(
-curSèã
-.
-fûãrög
-Ë
-	`S≥edFûå©i⁄
-(&
-vT¨gëGlob
-[0],&
-vT¨gëGlobF
-[0]);
-
-43 
-vT¨gëGlobF
-[0] =
-vT¨gëGlob
-[0];
-
-44 
-vT¨gëGlobF
-[1] =
-vT¨gëGlob
-[1];
-
-45 
-vT¨gëGlobF
-[2] =
-vT¨gëGlob
-[2];
-
-48 i‡(
-curSèã
-.
-cﬁlisi⁄AvEn
-)
-
-49 { 
-	`checkCﬁlisi⁄Avoid_smÆl
-(
-robŸS≥ed
-,
-vT¨gëGlobF
-);}
-
-50 
-	`GëD©aF‹Reguœt‹s
-();
-
-51 
-	`NVIC_E«bÀIRQ
-(
-TIM8_UP_TIM13_IRQn
-);
-
-54 i‡(
-curSèã
-.
-köemEn
-Ë
-	`Fun˘i⁄ÆReguœt‹
-(&
-vT¨gëGlobF
-[0], &
-robŸCo‹dT¨gë
-[0], &robŸCo‹dT¨gë[0], &
-ªguœt‹Out
-[0]);
-
-56 
-	`pidLowLevñ
-();
-
-60 
-	}
-}
-
-63 
+64 
 	$TIM7_IRQH™dÀr
 ()
 
-65 
+66 
 TIM7
 ->
 SR
  = 0;
 
-67 
+68 
 	}
 }
 
-71 
+72 
 	$TIM8_UP_TIM13_IRQH™dÀr
 ()
 
-75 
+76 
 TIM13
 ->
 SR
  = 0;
 
-76 
+77 
 	`NVIC_DißbÀIRQ
 (
 TIM6_DAC_IRQn
 );
 
-81 i‡(((
+82 i‡(((
 	`Ábs
 (
 curP©h
@@ -2367,7 +2451,7 @@ curP©h
 Co‹d_loˇl_åack
 [0])) < 0.04) && ((fabs(curPath.Coord_local_track[1])) < 0.04)&&
 
-82 (
+83 (
 	`Ábs
 ((
 curP©h
@@ -2377,19 +2461,19 @@ phiZad
 robŸCo‹d
 [2])) < 0.02))
 
-84 
+85 
 åa˚Fœg
  = 1;
 
-86 
+87 
 åa˚Fœg
  = 0;
 
-87 i‡(!
+88 i‡(!
 movFœg
 )
 
-88 i‡(
+89 i‡(
 poöts
 [0].
 movTask
@@ -2397,7 +2481,7 @@ movTask
 movFœg
 =(points[0].movTask)(); movFlag =1;
 
-89 i‡(
+90 i‡(
 åa˚Fœg
 &&
 movFœg
@@ -2405,7 +2489,7 @@ movFœg
 ídFœg
 ))
 
-90 i‡(
+91 i‡(
 poöts
 [0].
 ídTask
@@ -2415,7 +2499,7 @@ poöts
 ídTaskP1
 ); endFlag =1;
 
-91 i‡(
+92 i‡(
 åa˚Fœg
  && 
 movFœg
@@ -2423,11 +2507,11 @@ movFœg
 ídFœg
 )
 
-93 i‡(
+94 i‡(
 œ°Poöt
  > 0)
 
-95 
+96 
 	`Cª©eP©h
 (&
 poöts
@@ -2435,11 +2519,11 @@ poöts
 curP©h
 );
 
-96 
+97 
 tŸÆPoötCom∂ôe
 ++;
 
-97 
+98 
 	`ªmovePoöt
 (&
 poöts
@@ -2447,25 +2531,25 @@ poöts
 œ°Poöt
 );
 
-98 
+99 
 ídFœg
 =0;
 
-99 
+100 
 movFœg
 =0;
 
-100 
+101 
 åa˚Fœg
 =0;
 
-107 i‡(
+108 i‡(
 curSèã
 .
 åackEn
 )
 
-109 
+110 
 	`TøckReguœt‹
 (&
 robŸCo‹d
@@ -2477,83 +2561,25 @@ curP©h
 vT¨gëGlob
 [0]);
 
-111 
-	`èkódc
-(
-di°™˚D©a
-,1,2,3);
-
-112 i‡(
-curSèã
-.
-fûãrög
-)
-
-114 
-	`S≥edFûå©i⁄
-(&
-vT¨gëGlob
-[0],&
-vT¨gëGlobF
-[0]);
-
-118 
-vT¨gëGlobF
-[0] =
-vT¨gëGlob
-[0];
-
-119 
-vT¨gëGlobF
-[1] =
-vT¨gëGlob
-[1];
-
-120 
-vT¨gëGlobF
-[2] =
-vT¨gëGlob
-[2];
-
-123 i‡(
-curSèã
-.
-cﬁlisi⁄AvEn
-)
-
-124 { 
-	`checkCﬁlisi⁄Avoid_smÆl
-(
-robŸS≥ed
-,
-vT¨gëGlobF
-);}
-
-126 
-	`NVIC_E«bÀIRQ
-(
-TIM6_DAC_IRQn
-);
-
-128 
+130 
 	}
 }
 
-138 
+140 
 	$EXTI0_IRQH™dÀr
 ()
 
-140 
+142 
 EXTI
 ->
 PR
 =0x1;
 
-141 
+143 
 ãmp
  = 2;
 
-142 i‡–
+144 i‡–
 	`pö_vÆ
 (
 EXTI2_PIN
@@ -2561,31 +2587,31 @@ EXTI2_PIN
 ãmp
  |=0x80;
 
-143 
+145 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-144 
+146 
 	}
 }
 
-147 
+149 
 	$EXTI1_IRQH™dÀr
 ()
 
-149 
+151 
 EXTI
 ->
 PR
 =0x2;
 
-150 
+152 
 ãmp
  = 5;
 
-151 i‡–
+153 i‡–
 	`pö_vÆ
 (
 EXTI5_PIN
@@ -2593,31 +2619,31 @@ EXTI5_PIN
 ãmp
  |=0x80;
 
-152 
+154 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-153 
+155 
 	}
 }
 
-156 
+158 
 	$EXTI2_IRQH™dÀr
 ()
 
-158 
+160 
 EXTI
 ->
 PR
 =0x4;
 
-159 
+161 
 ãmp
  = 4;
 
-160 i‡–
+162 i‡–
 	`pö_vÆ
 (
 EXTI4_PIN
@@ -2625,31 +2651,31 @@ EXTI4_PIN
 ãmp
  |=0x80;
 
-161 
+163 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-162 
+164 
 	}
 }
 
-165 
+167 
 	$EXTI3_IRQH™dÀr
 ()
 
-167 
+169 
 EXTI
 ->
 PR
 =0x8;
 
-168 
+170 
 ãmp
  = 6;
 
-169 i‡–
+171 i‡–
 	`pö_vÆ
 (
 EXTI6_PIN
@@ -2657,31 +2683,31 @@ EXTI6_PIN
 ãmp
  |=0x80;
 
-170 
+172 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-172 
+174 
 	}
 }
 
-175 
+177 
 	$EXTI4_IRQH™dÀr
 ()
 
-177 
+179 
 EXTI
 ->
 PR
 =0x10;
 
-178 
+180 
 ãmp
  = 9;
 
-179 i‡–
+181 i‡–
 	`pö_vÆ
 (
 EXTI9_PIN
@@ -2689,37 +2715,37 @@ EXTI9_PIN
 ãmp
  |=0x80;
 
-180 
+182 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-182 
+184 
 	}
 }
 
-186 
+188 
 	$EXTI9_5_IRQH™dÀr
 ()
 
-188 i‡(
+190 i‡(
 EXTI
 ->
 PR
 &(1<<6))
 
-190 
+192 
 EXTI
 ->
 PR
 =(1<<6);
 
-191 
+193 
 ãmp
  = 7;
 
-192 i‡–
+194 i‡–
 	`pö_vÆ
 (
 EXTI7_PIN
@@ -2727,29 +2753,29 @@ EXTI7_PIN
 ãmp
  |=0x80;
 
-193 
+195 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-195 i‡(
+197 i‡(
 EXTI
 ->
 PR
 &(1<<7))
 
-197 
+199 
 EXTI
 ->
 PR
 =(1<<7);
 
-198 
+200 
 ãmp
  = 8;
 
-199 i‡–
+201 i‡–
 	`pö_vÆ
 (
 EXTI8_PIN
@@ -2757,37 +2783,37 @@ EXTI8_PIN
 ãmp
  |=0x80;
 
-200 
+202 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-203 
+205 
 	}
 }
 
-209 
+211 
 	$EXTI15_10_IRQH™dÀr
 ()
 
-211 i‡(
+213 i‡(
 EXTI
 ->
 PR
 &(1<<12))
 
-213 
+215 
 EXTI
 ->
 PR
 =(1<<12);
 
-214 
+216 
 ãmp
  = 3;
 
-215 i‡–
+217 i‡–
 	`pö_vÆ
 (
 EXTI3_PIN
@@ -2795,29 +2821,29 @@ EXTI3_PIN
 ãmp
  |=0x80;
 
-216 
+218 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-218 i‡(
+220 i‡(
 EXTI
 ->
 PR
 &(1<<13))
 
-220 
+222 
 EXTI
 ->
 PR
 =(1<<13);
 
-221 
+223 
 ãmp
  = 10;
 
-222 i‡–
+224 i‡–
 	`pö_vÆ
 (
 EXTI10_PIN
@@ -2825,33 +2851,33 @@ EXTI10_PIN
 ãmp
  |=0x80;
 
-223 
+225 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-225 i‡(
+227 i‡(
 EXTI
 ->
 PR
 &(1<<15))
 
-227 
+229 
 öt_˙t
 ++;
 
-228 
+230 
 EXTI
 ->
 PR
 =(1<<15);
 
-229 
+231 
 ãmp
  = 1;
 
-230 i‡–
+232 i‡–
 	`pö_vÆ
 (
 EXTI1_PIN
@@ -2859,17 +2885,17 @@ EXTI1_PIN
 ãmp
  |=0x80;
 
-231 
+233 
 	`£ndAnswî
 (0x1E,&
 ãmp
 , 1);
 
-234 
+236 
 	}
 }
 
-239 
+241 
 	$dñay
 (
 __IO
@@ -2879,19 +2905,19 @@ uöt32_t
 nCou¡
 )
 
-241 ; 
+243 ; 
 nCou¡
  != 0;ÇCount--);
 
-242 
+244 
 	}
 }
 
-248 
+250 
 	$DMA2_Såóm0_IRQH™dÀr
 ()
 
-250 
+252 
 DMA2
 ->
 LIFCR
@@ -2899,11 +2925,11 @@ LIFCR
 DMA_LIFCR_CTCIF0
 ;
 
-252 
+253 
 	}
 }
 
-	@F:\From Git\LowLevel\Board\Interrupts.h
+	@F:\From Git\LowLevel\Small robot\Board\Interrupts.h
 
 1 #i‚de‡
 _INTERRUPTS_INCLUDED_
@@ -2995,7 +3021,7 @@ uöt32_t
 nCou¡
 );
 
-	@F:\From Git\LowLevel\Board\Pins.h
+	@F:\From Git\LowLevel\Small robot\Board\Pins.h
 
 1 #i‚de‡
 _PINS_INCLUDED_
@@ -3646,7 +3672,7 @@ PORTB
 ,10)
 
 111 
-	#PIN1_12V
+	#PIN6_12V
  
 	`pö_id
 (
@@ -3656,7 +3682,7 @@ PORTB
 	)
 
 112 
-	#PIN2_12V
+	#PIN5_12V
  
 	`pö_id
 (
@@ -3666,7 +3692,7 @@ PORTB
 	)
 
 113 
-	#PIN3_12V
+	#PIN4_12V
  
 	`pö_id
 (
@@ -3676,7 +3702,7 @@ PORTD
 	)
 
 114 
-	#PIN4_12V
+	#PIN3_12V
  
 	`pö_id
 (
@@ -3686,7 +3712,7 @@ PORTA
 	)
 
 115 
-	#PIN5_12V
+	#PIN2_12V
  
 	`pö_id
 (
@@ -3696,7 +3722,7 @@ PORTC
 	)
 
 116 
-	#PIN6_12V
+	#PIN1_12V
  
 	`pö_id
 (
@@ -3705,7 +3731,7 @@ PORTC
 
 	)
 
-	@F:\From Git\LowLevel\Board\adc.h
+	@F:\From Git\LowLevel\Small robot\Board\adc.h
 
 1 #i‚de‡
 _ADC_INCLUDED_
@@ -3779,7 +3805,7 @@ gëLowDi°
 vÆue
 );
 
-	@F:\From Git\LowLevel\Board\gpio.h
+	@F:\From Git\LowLevel\Small robot\Board\gpio.h
 
 1 #i‚de‡
 _GPIO_INCLUDED_
@@ -4537,7 +4563,7 @@ uöt32_t
 
 	)
 
-	@F:\From Git\LowLevel\Board\i2c.c
+	@F:\From Git\LowLevel\Small robot\Board\i2c.c
 
 1 
 	~"i2c.h
@@ -5455,7 +5481,7 @@ Addªss
 	}
 }
 
-	@F:\From Git\LowLevel\Board\i2c.h
+	@F:\From Git\LowLevel\Small robot\Board\i2c.h
 
 1 #i‚de‡
 _I2C_INCLUDED_
@@ -5831,7 +5857,7 @@ cou¡
 °
 );
 
-	@F:\From Git\LowLevel\Board\tim.c
+	@F:\From Git\LowLevel\Small robot\Board\tim.c
 
 1 
 	~"tim.h
@@ -6155,7 +6181,7 @@ TIM_CR1_CEN
 	}
 }
 
-	@F:\From Git\LowLevel\Board\tim.h
+	@F:\From Git\LowLevel\Small robot\Board\tim.h
 
 1 #i‚de‡
 _TIM_INCLUDED_
@@ -6217,7 +6243,7 @@ uöt16_t
 autoRe£t
 );
 
-	@F:\From Git\LowLevel\Board\usart.c
+	@F:\From Git\LowLevel\Small robot\Board\usart.c
 
 1 
 	~"ußπ.h
@@ -7519,7 +7545,7 @@ robŸS≥ed
 	}
 }
 
-	@F:\From Git\LowLevel\Board\usart.h
+	@F:\From Git\LowLevel\Small robot\Board\usart.h
 
 1 #i‚de‡
 _USART_INCLUDED_
@@ -7655,7 +7681,7 @@ ußπ3D©a
 cou¡
 );
 
-	@F:\From Git\LowLevel\Library\My_gpio.h
+	@F:\From Git\LowLevel\Small robot\Library\My_gpio.h
 
 1 #i‚de‡
 _MY_GPIO_INCLUDED_
@@ -8451,7 +8477,7 @@ uöt32_t
 
 	)
 
-	@F:\From Git\LowLevel\Library\arm_common_tables.h
+	@F:\From Git\LowLevel\Small robot\Library\arm_common_tables.h
 
 24 #i‚de‡
 _ARM_COMMON_TABLES_H
@@ -8497,7 +8523,7 @@ q31_t
 ªÆC€fBQ31
 [1024];
 
-	@F:\From Git\LowLevel\Library\arm_math.h
+	@F:\From Git\LowLevel\Small robot\Library\arm_math.h
 
 251 #i‚de‡
 _ARM_MATH_H
@@ -22617,7 +22643,7 @@ acc
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\Library\cdc\inc\usbd_cdc_core.h
+	@F:\From Git\LowLevel\Small robot\Library\cdc\inc\usbd_cdc_core.h
 
 30 #i‚de‡
 __USB_CDC_CORE_H_
@@ -22831,7 +22857,7 @@ USBD_Cœss_cb_Ty≥Def
 USBD_CDC_cb
 ;
 
-	@F:\From Git\LowLevel\Library\cdc\inc\usbd_cdc_if_template.h
+	@F:\From Git\LowLevel\Small robot\Library\cdc\inc\usbd_cdc_if_template.h
 
 29 #i‚de‡
 __USBD_CDC_IF_TEMPLATE_H
@@ -22861,7 +22887,7 @@ CDC_IF_Pr›_Ty≥Def
 TEMPLATE_f›s
 ;
 
-	@F:\From Git\LowLevel\Library\cdc\src\usbd_cdc_core.c
+	@F:\From Git\LowLevel\Small robot\Library\cdc\src\usbd_cdc_core.c
 
 67 
 	~"usbd_cdc_c‹e.h
@@ -24397,7 +24423,7 @@ usbd_cdc_OthîCfgDesc
 	}
 }
 
-	@F:\From Git\LowLevel\Library\core\inc\usb_bsp.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usb_bsp.h
 
 29 #i‚de‡
 __USB_BSP__H__
@@ -24493,7 +24519,7 @@ USB_OTG_CORE_HANDLE
 pdev
 );
 
-	@F:\From Git\LowLevel\Library\core\inc\usb_core.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usb_core.h
 
 29 #i‚de‡
 __USB_CORE_H__
@@ -26225,7 +26251,7 @@ USB_OTG_EP
 ï
 );
 
-	@F:\From Git\LowLevel\Library\core\inc\usb_dcd.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usb_dcd.h
 
 29 #i‚de‡
 __DCD_H__
@@ -26575,7 +26601,7 @@ uöt32_t
 Sètus
 );
 
-	@F:\From Git\LowLevel\Library\core\inc\usb_dcd_int.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usb_dcd_int.h
 
 29 #i‚de‡
 USB_DCD_INT_H__
@@ -26833,7 +26859,7 @@ USB_OTG_CORE_HANDLE
 pdev
 );
 
-	@F:\From Git\LowLevel\Library\core\inc\usb_defines.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usb_defines.h
 
 29 #i‚de‡
 __USB_DEF_H__
@@ -27397,7 +27423,7 @@ uöt32_t
 	mUSB_SPEED_HIGH
 
 
-	@F:\From Git\LowLevel\Library\core\inc\usb_otg.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usb_otg.h
 
 29 #i‚de‡
 __USB_OTG__
@@ -27441,7 +27467,7 @@ USB_OTG_CORE_DEVICE
 pdev
 );
 
-	@F:\From Git\LowLevel\Library\core\inc\usb_regs.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usb_regs.h
 
 29 #i‚de‡
 __USB_OTG_REGS_H__
@@ -30703,7 +30729,7 @@ uöt32_t
 	tUSB_OTG_PCGCCTL_Ty≥Def
  ;
 
-	@F:\From Git\LowLevel\Library\core\inc\usbd_core.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_core.h
 
 29 #i‚de‡
 __USBD_CORE_H
@@ -30813,7 +30839,7 @@ uöt8_t
 cfgidx
 );
 
-	@F:\From Git\LowLevel\Library\core\inc\usbd_def.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_def.h
 
 30 #i‚de‡
 __USBD_DEF_H
@@ -31143,7 +31169,7 @@ uöt8_t
 
 	)
 
-	@F:\From Git\LowLevel\Library\core\inc\usbd_ioreq.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_ioreq.h
 
 30 #i‚de‡
 __USBD_IOREQ_H_
@@ -31287,7 +31313,7 @@ uöt8_t
 ïnum
 );
 
-	@F:\From Git\LowLevel\Library\core\inc\usbd_req.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_req.h
 
 30 #i‚de‡
 __USB_REQUEST_H_
@@ -31395,7 +31421,7 @@ uöt16_t
 Àn
 );
 
-	@F:\From Git\LowLevel\Library\core\inc\usbd_usr.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_usr.h
 
 29 #i‚de‡
 __USBD_USR_H__
@@ -31533,7 +31559,7 @@ USBD_USR_HS_Devi˚C⁄√˘ed
 USBD_USR_HS_Devi˚Disc⁄√˘ed
 ();
 
-	@F:\From Git\LowLevel\Library\core\inc\usbh_core.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usbh_core.h
 
 23 #i‚de‡
 __USBH_CORE_H
@@ -32227,7 +32253,7 @@ USBH_Sètus
 îrTy≥
 );
 
-	@F:\From Git\LowLevel\Library\core\inc\usbh_def.h
+	@F:\From Git\LowLevel\Small robot\Library\core\inc\usbh_def.h
 
 34 #i‚de‡ 
 USBH_DEF_H
@@ -33187,7 +33213,7 @@ uöt8_t
 	tUSBH_EpDesc_Ty≥Def
 ;
 
-	@F:\From Git\LowLevel\Library\core\src\usb_core.c
+	@F:\From Git\LowLevel\Small robot\Library\core\src\usb_core.c
 
 29 
 	~"usb_c‹e.h
@@ -42473,7 +42499,7 @@ d32
 	}
 }
 
-	@F:\From Git\LowLevel\Library\core\src\usb_dcd.c
+	@F:\From Git\LowLevel\Small robot\Library\core\src\usb_dcd.c
 
 29 
 	~"usb_dcd.h
@@ -43711,7 +43737,7 @@ Sètus
 	}
 }
 
-	@F:\From Git\LowLevel\Library\core\src\usb_dcd_int.c
+	@F:\From Git\LowLevel\Small robot\Library\core\src\usb_dcd_int.c
 
 29 
 	~"usb_dcd_öt.h
@@ -46861,7 +46887,7 @@ v
 	}
 }
 
-	@F:\From Git\LowLevel\Library\core\src\usbd_core.c
+	@F:\From Git\LowLevel\Small robot\Library\core\src\usbd_core.c
 
 29 
 	~"usbd_c‹e.h
@@ -48171,7 +48197,7 @@ USBD_OK
 	}
 }
 
-	@F:\From Git\LowLevel\Library\core\src\usbd_ioreq.c
+	@F:\From Git\LowLevel\Small robot\Library\core\src\usbd_ioreq.c
 
 29 
 	~"usbd_i‹eq.h
@@ -48579,7 +48605,7 @@ x„r_cou¡
 	}
 }
 
-	@F:\From Git\LowLevel\Library\core\src\usbd_req.c
+	@F:\From Git\LowLevel\Small robot\Library\core\src\usbd_req.c
 
 29 
 	~"usbd_ªq.h
@@ -50865,7 +50891,7 @@ buf
 	}
 }
 
-	@F:\From Git\LowLevel\Library\core_cm4.h
+	@F:\From Git\LowLevel\Small robot\Library\core_cm4.h
 
 23 #i‡
 deföed
@@ -54943,7 +54969,7 @@ ITM_RXBUFFER_EMPTY
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\Library\core_cm4_simd.h
+	@F:\From Git\LowLevel\Small robot\Library\core_cm4_simd.h
 
 24 #ifde‡
 __˝lu•lus
@@ -58131,7 +58157,7 @@ __TASKING__
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\Library\core_cmFunc.h
+	@F:\From Git\LowLevel\Small robot\Library\core_cmFunc.h
 
 24 #i‚de‡
 __CORE_CMFUNC_H
@@ -59229,7 +59255,7 @@ deföed
 __TASKING__
  )
 
-	@F:\From Git\LowLevel\Library\core_cmInstr.h
+	@F:\From Git\LowLevel\Small robot\Library\core_cmInstr.h
 
 24 #i‚de‡
 __CORE_CMINSTR_H
@@ -60163,7 +60189,7 @@ deföed
 __TASKING__
  )
 
-	@F:\From Git\LowLevel\Library\stm32f4_discovery.h
+	@F:\From Git\LowLevel\Small robot\Library\stm32f4_discovery.h
 
 24 #i‚de‡
 __STM32F4_DISCOVERY_H
@@ -60445,7 +60471,7 @@ Buâ⁄
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\Library\stm32f4xx.h
+	@F:\From Git\LowLevel\Small robot\Library\stm32f4xx.h
 
 53 #i‚de‡
 __STM32F4xx_H
@@ -128535,7 +128561,7 @@ __˝lu•lus
 	}
 }
 
-	@F:\From Git\LowLevel\Library\stm32f4xx_conf.h
+	@F:\From Git\LowLevel\Small robot\Library\stm32f4xx_conf.h
 
 23 #i‚de‡
 __STM32F4xx_CONF_H
@@ -128709,7 +128735,7 @@ ex¥
 
 	)
 
-	@F:\From Git\LowLevel\Library\system_stm32f4xx.h
+	@F:\From Git\LowLevel\Small robot\Library\system_stm32f4xx.h
 
 39 #i‚de‡
 __SYSTEM_STM32F4XX_H
@@ -128743,7 +128769,7 @@ Sy°emC‹eClockUpd©e
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\Robot\Communication.c
+	@F:\From Git\LowLevel\Small robot\Robot\Communication.c
 
 7 
 	~"Communiˇti⁄.h
@@ -129087,7 +129113,7 @@ CHECK_SIZE
 	}
 }
 
-	@F:\From Git\LowLevel\Robot\Communication.h
+	@F:\From Git\LowLevel\Small robot\Robot\Communication.h
 
 2 #i‚de‡
 _COMMUNICATION_
@@ -129139,7 +129165,7 @@ cmd
 ∑ømSize
 );
 
-	@F:\From Git\LowLevel\Robot\Dynamixel_control.c
+	@F:\From Git\LowLevel\Small robot\Robot\Dynamixel_control.c
 
 8 
 	~"°m32f4xx_c⁄f.h
@@ -129201,1997 +129227,35 @@ uöt8_t
 ª˚iveBuf„r
 ;
 
-24 
-	$£ndSîvoComm™d
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
+24 
+	eSîvoComm™d
 
-25 c⁄° 
-SîvoComm™d
- 
-comm™dByã
-,
 
-26 c⁄° 
-uöt8_t
- 
-numP¨ams
-,
+26 
+	mPING
+ = 1,
 
-27 c⁄° 
-uöt8_t
- *
-∑øms
-)
+27 
+	mREAD
+ = 2,
 
-29 
-	`£ndSîvoByã
- (0xff);
+28 
+	mWRITE
+ = 3
 
-30 
-	`£ndSîvoByã
- (0xff);
-
-32 
-	`£ndSîvoByã
- (
-£rvoId
-);
-
-33 
-uöt8_t
- 
-checksum
- = 
-£rvoId
-;
-
-35 
-	`£ndSîvoByã
- (
-numP¨ams
- + 2);
-
-36 
-	`£ndSîvoByã
- ((
-uöt8_t
-)
-comm™dByã
-);
-
-38 
-checksum
- +
-numP¨ams
- + 2 + 
-comm™dByã
-;
-
-40 
-uöt8_t
- 
-i
- = 0;
-
-41 ; 
-i
- < 
-numP¨ams
-; i++)
-
-43 
-	`£ndSîvoByã
- (
-∑øms
-[
-i
-]);
-
-44 
-checksum
- +
-∑øms
-[
-i
-];
-
-47 
-	`£ndSîvoByã
- (~
-checksum
-);
-
-48 
-	}
-}
-
-50 
-boﬁ
- 
-	$gëSîvoRe•⁄£
- ()
-
-52 
-uöt16_t
- 
-ªåõs
- = 0;
-
-54 
-	`˛órSîvoRe˚iveBuf„r
-();
-
-56 
-	`gëSîvoByãsAvaûabÀ
-() < 4)
-
-58 
-ªåõs
-++;
-
-59 i‡(
-ªåõs
- > 
-REC_WAIT_MAX_RETRIES
-)
-
-61 #ifde‡
-SERVO_DEBUG
-
-
-62 
-	`¥ötf
- ("Too manyÑetriesát start\n");
-
-64  
-Ál£
-;
-
-67 
-ªåõs
- = 0;
-
-69 
-	`gëSîvoByã
-();
-
-70 
-	`gëSîvoByã
-();
-
-72 
-ª•⁄£
-.
-id
- = 
-	`gëSîvoByã
-();
-
-73 
-ª•⁄£
-.
-Àngth
- = 
-	`gëSîvoByã
-();
-
-75 i‡(
-ª•⁄£
-.
-Àngth
- > 
-SERVO_MAX_PARAMS
-)
-
-77 #ifde‡
-SERVO_DEBUG
-
-
-78 
-	`¥ötf
- ("Re•⁄£ÜígthÅoÿbig: %d\n", ()
-ª•⁄£
-.
-Àngth
-);
-
-80  
-Ál£
-;
-
-83 
-	`gëSîvoByãsAvaûabÀ
-(Ë< 
-ª•⁄£
-.
-Àngth
-)
-
-85 
-ªåõs
-++;
-
-86 i‡(
-ªåõs
- > 
-REC_WAIT_MAX_RETRIES
-)
-
-88 #ifde‡
-SERVO_DEBUG
-
-
-89 
-	`¥ötf
- ("Toÿm™yÑërõ†waôög f‹Ö¨ams, gŸ %d o‡%dÖ¨ams\n", 
-	`gëSîvoByãsAvaûabÀ
-(), 
-ª•⁄£
-.
-Àngth
-);
-
-91  
-Ál£
-;
-
-95 
-ª•⁄£
-.
-îr‹
- = 
-	`gëSîvoByã
-();
-
-96 
-£rvoEº‹Code
- = 
-ª•⁄£
-.
-îr‹
-;
-
-98 
-uöt8_t
- 
-i
- = 0;
-
-99 ; 
-i
- < 
-ª•⁄£
-.
-Àngth
- - 2; i++)
-
-100 
-ª•⁄£
-.
-∑øms
-[
-i
-] = 
-	`gëSîvoByã
-();
-
-103 
-uöt8_t
- 
-ˇlcChecksum
- = 
-ª•⁄£
-.
-id
- +Ñe•⁄£.
-Àngth
- +Ñe•⁄£.
-îr‹
-;
-
-104 
-i
- = 0;
-
-105 ; 
-i
- < 
-ª•⁄£
-.
-Àngth
- - 2; i++)
-
-106 
-ˇlcChecksum
- +
-ª•⁄£
-.
-∑øms
-[
-i
-];
-
-107 
-ˇlcChecksum
- = ~calcChecksum;
-
-109 c⁄° 
-uöt8_t
- 
-ªcChecksum
- = 
-	`gëSîvoByã
-();
-
-110 i‡(
-ˇlcChecksum
- !
-ªcChecksum
-)
-
-112 #ifde‡
-SERVO_DEBUG
-
-
-113 
-	`¥ötf
- ("Checksum mism©ch: %x cÆcuœãd, %xÑe˚ived\n", 
-ˇlcChecksum
-, 
-ªcChecksum
-);
-
-115  
-Ál£
-;
-
-118  
-åue
-;
-
-119 
-	}
-}
-
-121 
-ölöe
- 
-boﬁ
- 
-	$gëAndCheckRe•⁄£
- (c⁄° 
-uöt8_t
- 
-£rvoId
-)
-
-123 i‡(!
-	`gëSîvoRe•⁄£
-())
-
-125 #ifde‡
-SERVO_DEBUG
-
-
-126 
-	`¥ötf
- ("Sîvÿîr‹: Sîvÿ%d didÇŸÑe•⁄d c‹ª˘ly o∏©áŒ\n", ()
-£rvoId
-);
-
-128  
-Ál£
-;
-
-131 i‡(
-ª•⁄£
-.
-id
- !
-£rvoId
-)
-
-133 #ifde‡
-SERVO_DEBUG
-
-
-134 
-	`¥ötf
- ("Sîvÿîr‹: Re•⁄£ ID %d d€†nŸ m©ch comm™d ID %d\n", ()
-ª•⁄£
-.
-id
-);
-
-136  
-Ál£
-;
-
-139 i‡(
-ª•⁄£
-.
-îr‹
- != 0)
-
-141 #ifde‡
-SERVO_DEBUG
-
-
-142 
-	`¥ötf
- ("Sîvÿîr‹: Re•⁄£Éº‹ codêwa†n⁄zîÿ(%d)\n", ()
-ª•⁄£
-.
-îr‹
-);
-
-144  
-Ál£
-;
-
-147  
-åue
-;
-
-148 
-	}
-}
-
-151 
-boﬁ
- 
-	$pögSîvo
- (c⁄° 
-uöt8_t
- 
-£rvoId
-)
-
-153 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-PING
-, 0, 0);
-
-155 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-156  
-Ál£
-;
-
-158  
-åue
-;
-
-159 
-	}
-}
-
-164 
-boﬁ
- 
-	$£tSîvoRëu∫DñayMi¸os
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-165 c⁄° 
-uöt16_t
- 
-mi¸os
-)
-
-167 i‡(
-mi¸os
- > 510)
-
-168  
-Ál£
-;
-
-169 c⁄° 
-uöt8_t
- 
-∑øms
-[2] = {
-RETURN_DELAY
-,
-
-170 (
-uöt8_t
-)((
-mi¸os
- / 2) & 0xff)};
-
-171 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-WRITE
-, 2, 
-∑øms
-);
-
-172 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-173  
-Ál£
-;
-
-174  
-åue
-;
-
-175 
-	}
-}
-
-178 
-boﬁ
- 
-	$£tSîvoBlökC⁄dôi⁄s
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-179 c⁄° 
-uöt8_t
- 
-Êags
-)
-
-181 c⁄° 
-uöt8_t
- 
-∑øms
-[2] = {
-BLINK_CONDITIONS
-,
-
-182 
-Êags
-};
-
-184 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-WRITE
-, 2, 
-∑øms
-);
-
-186 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-187  
-Ál£
-;
-
-189  
-åue
-;
-
-190 
-	}
-}
-
-193 
-boﬁ
- 
-	$£tSîvoShutdownC⁄dôi⁄s
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-194 c⁄° 
-uöt8_t
- 
-Êags
-)
-
-196 c⁄° 
-uöt8_t
- 
-∑øms
-[2] = {
-SHUTDOWN_CONDITIONS
-,
-
-197 
-Êags
-};
-
-199 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-WRITE
-, 2, 
-∑øms
-);
-
-201 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-202  
-Ál£
-;
-
-204  
-åue
-;
-
-205 
-	}
-}
-
-209 
-boﬁ
- 
-	$£tSîvoT‹que
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-210 c⁄° 
-uöt16_t
- 
-t‹queVÆue
-)
-
-212 c⁄° 
-uöt8_t
- 
-highByã
- = (uöt8_t)((
-t‹queVÆue
- >> 8) & 0xff);
-
-213 c⁄° 
-uöt8_t
- 
-lowByã
- = (uöt8_t)(
-t‹queVÆue
- & 0xff);
-
-215 i‡(
-t‹queVÆue
- > 1023)
-
-216  
-Ál£
-;
-
-218 c⁄° 
-uöt8_t
- 
-∑øms
-[3] = {
-TORQUE
-,
-
-219 
-lowByã
-,
-
-220 
-highByã
-};
-
-222 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-WRITE
-, 3, 
-∑øms
-);
-
-224 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-225  
-Ál£
-;
-
-227  
-åue
-;
-
-228 
-	}
-}
-
-231 
-boﬁ
- 
-	$gëSîvoT‹que
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-232 
-uöt16_t
- *
-t‹queVÆue
-)
-
-234 c⁄° 
-uöt8_t
- 
-∑øms
-[2] = {
-TORQUE
-, 2};
-
-236 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-READ
-, 2, 
-∑øms
-);
-
-238 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-239  
-Ál£
-;
-
-241 *
-t‹queVÆue
- = 
-ª•⁄£
-.
-∑øms
-[1];
-
-242 *
-t‹queVÆue
- <<= 8;
-
-243 *
-t‹queVÆue
- |
-ª•⁄£
-.
-∑øms
-[0];
-
-245  
-åue
-;
-
-246 
-	}
-}
-
-253 
-boﬁ
- 
-	$£tSîvoMovögS≥ed
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-254 c⁄° 
-uöt16_t
- 
-•ìdVÆue
-, c⁄° uöt16_à
-dúe˘i⁄
-)
-
-256 
-uöt16_t
- 
-•ìd
- = 
-•ìdVÆue
-;
-
-257 
-•ìd
- |
-dúe˘i⁄
-;
-
-258 c⁄° 
-uöt8_t
- 
-highByã
- = (uöt8_t)((
-•ìd
- >> 8) & 0xff);
-
-259 c⁄° 
-uöt8_t
- 
-lowByã
- = (uöt8_t)(
-•ìd
- & 0xff);
-
-261 i‡(
-•ìdVÆue
- > 1023)
-
-262  
-Ál£
-;
-
-264 c⁄° 
-uöt8_t
- 
-∑øms
-[3] = {
-MOVING_SPEED
-,
-
-265 
-lowByã
-,
-
-266 
-highByã
-};
-
-268 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-WRITE
-, 3, 
-∑øms
-);
-
-270 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-271  
-Ál£
-;
-
-273  
-åue
-;
-
-274 
-	}
-}
-
-277 
-boﬁ
- 
-	$gëSîvoMovögS≥ed
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-278 
-uöt16_t
- *
-•ìdVÆue
-)
-
-280 c⁄° 
-uöt8_t
- 
-∑øms
-[2] = {
-MOVING_SPEED
-,
-
-283 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-READ
-, 2, 
-∑øms
-);
-
-285 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-286  
-Ál£
-;
-
-288 *
-•ìdVÆue
- = 
-ª•⁄£
-.
-∑øms
-[1];
-
-289 *
-•ìdVÆue
- <<= 8;
-
-290 *
-•ìdVÆue
- |
-ª•⁄£
-.
-∑øms
-[0];
-
-292  
-åue
-;
-
-293 
-	}
-}
-
-296 
-boﬁ
- 
-	$gëSîvoCuºítS≥ed
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-297 
-öt16_t
- *
-•ìdVÆue
-)
-
-299 c⁄° 
-uöt8_t
- 
-∑øms
-[2] = {
-CURRENT_SPEED
-,
-
-302 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-READ
-, 2, 
-∑øms
-);
-
-304 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-305  
-Ál£
-;
-
-307 *
-•ìdVÆue
- = 
-ª•⁄£
-.
-∑øms
-[1];
-
-308 *
-•ìdVÆue
- <<= 8;
-
-309 *
-•ìdVÆue
- |
-ª•⁄£
-.
-∑øms
-[0];
-
-311  
-åue
-;
-
-312 
-	}
-}
-
-315 
-boﬁ
- 
-	$gëCuºítLﬂd
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-316 
-uöt16_t
- *
-lﬂdVÆue
-)
-
-318 c⁄° 
-uöt8_t
- 
-∑øms
-[2] = {
-CURRENT_LOAD
-, 2};
-
-320 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-READ
-, 2, 
-∑øms
-);
-
-322 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-323  
-Ál£
-;
-
-325 *
-lﬂdVÆue
- = 
-ª•⁄£
-.
-∑øms
-[1];
-
-326 *
-lﬂdVÆue
- <<= 8;
-
-327 *
-lﬂdVÆue
- |
-ª•⁄£
-.
-∑øms
-[0];
-
-328 *
-lﬂdVÆue
- &= 0x03ff;
-
-330  
-åue
-;
-
-331 
-	}
-}
-
-335 
-boﬁ
- 
-	$£tSîvoAngÀ
- ( c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-336 c⁄° 
-uöt16_t
- 
-™gÀ
-)
-
-338 i‡(
-™gÀ
- < 0 ||ángle > 300)
-
-339  
-Ál£
-;
-
-342 c⁄° 
-uöt16_t
- 
-™gÀVÆue
- = (uöt16_t)(
-™gÀ
- * (1023.0 / 300.0));
-
-344 c⁄° 
-uöt8_t
- 
-highByã
- = (uöt8_t)((
-™gÀVÆue
- >> 8) & 0xff);
-
-345 c⁄° 
-uöt8_t
- 
-lowByã
- = (uöt8_t)(
-™gÀVÆue
- & 0xff);
-
-347 c⁄° 
-uöt8_t
- 
-∑øms
-[3] = {
-GOAL_ANGLE
-,
-
-348 
-lowByã
-,
-
-349 
-highByã
-};
-
-351 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-WRITE
-, 3, 
-∑øms
-);
-
-353 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-354  
-Ál£
-;
-
-356  
-åue
-;
-
-357 
-	}
-}
-
-360 
-boﬁ
- 
-	$gëSîvoAngÀ
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-361 *
-™gÀ
-)
-
-363 c⁄° 
-uöt8_t
- 
-∑øms
-[2] = {
-CURRENT_ANGLE
-,
-
-366 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-READ
-, 2, 
-∑øms
-);
-
-368 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-369  
-Ál£
-;
-
-371 
-uöt16_t
- 
-™gÀVÆue
- = 
-ª•⁄£
-.
-∑øms
-[1];
-
-372 
-™gÀVÆue
- <<= 8;
-
-373 
-™gÀVÆue
- |
-ª•⁄£
-.
-∑øms
-[0];
-
-375 *
-™gÀ
- = ()
-™gÀVÆue
- * 300.0 / 1023.0;
-
-377  
-åue
-;
-
-378 
-	}
-}
-
-382 
-boﬁ
- 
-	$£tSîvoCWAngÀLimô
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-383 c⁄° 
-uöt16_t
- 
-limôVÆue
-)
-
-385 c⁄° 
-uöt8_t
- 
-highByã
- = (uöt8_t)((
-limôVÆue
- >> 8) & 0xff);
-
-386 c⁄° 
-uöt8_t
- 
-lowByã
- = (uöt8_t)(
-limôVÆue
- & 0xff);
-
-388 i‡(
-limôVÆue
- > 1023)
-
-389  
-Ál£
-;
-
-391 c⁄° 
-uöt8_t
- 
-∑øms
-[3] = {
-CW_ANGLE_LIMIT
-,
-
-392 
-lowByã
-,
-
-393 
-highByã
-};
-
-395 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-WRITE
-, 3, 
-∑øms
-);
-
-397 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-398  
-Ál£
-;
-
-400  
-åue
-;
-
-401 
-	}
-}
-
-405 
-boﬁ
- 
-	$£tSîvoCCWAngÀLimô
- (c⁄° 
-uöt8_t
- 
-£rvoId
-,
-
-406 c⁄° 
-uöt16_t
- 
-limôVÆue
-)
-
-408 c⁄° 
-uöt8_t
- 
-highByã
- = (uöt8_t)((
-limôVÆue
- >> 8) & 0xff);
-
-409 c⁄° 
-uöt8_t
- 
-lowByã
- = (uöt8_t)(
-limôVÆue
- & 0xff);
-
-411 i‡(
-limôVÆue
- > 1023)
-
-412  
-Ál£
-;
-
-414 c⁄° 
-uöt8_t
- 
-∑øms
-[3] = {
-CCW_ANGLE_LIMIT
-,
-
-415 
-lowByã
-,
-
-416 
-highByã
-};
-
-418 
-	`£ndSîvoComm™d
- (
-£rvoId
-, 
-WRITE
-, 3, 
-∑øms
-);
-
-420 i‡(!
-	`gëAndCheckRe•⁄£
- (
-£rvoId
-))
-
-421  
-Ál£
-;
-
-423  
-åue
-;
-
-424 
-	}
-}
-
-426 
-	$öôSîvoUSART
- ()
-
-429 
-	`RCC_APB1PîùhClockCmd
- (
-RCC_AHB1Pîùh_GPIOB
-, 
-ENABLE
-);
-
-430 
-	`RCC_APB1PîùhClockCmd
- (
-RCC_APB1Pîùh_USART3
-, 
-ENABLE
-);
-
-432 
-GPIO_InôTy≥Def
- 
-GPIO_InôSåu˘
-;
-
-433 
-USART_InôTy≥Def
- 
-USART_InôSåu˘uª
-;
-
-434 
-USART_ClockInôTy≥Def
- 
-USART_ClockInôSåu˘uª
-;
-
-435 
-NVIC_InôTy≥Def
- 
-NVIC_InôSåu˘uª
-;
-
-436 
-EXTI_InôTy≥Def
- 
-EXTI_InôSåu˘
-;
-
-438 
-	`˛órSîvoRe˚iveBuf„r
-();
-
-441 
-GPIO_InôSåu˘
-.
-GPIO_Pö
- = 
-GPIO_Pö_8
- | 
-GPIO_Pö_9
-;
-
-442 
-GPIO_InôSåu˘
-.
-GPIO_Mode
- = 
-GPIO_Mode_AF
-;
-
-443 
-GPIO_InôSåu˘
-.
-GPIO_OTy≥
- = 
-GPIO_OTy≥_OD
-;
-
-444 
-GPIO_InôSåu˘
-.
-GPIO_PuPd
- = 
-GPIO_PuPd_NOPULL
-;
-
-445 
-GPIO_InôSåu˘
-.
-GPIO_S≥ed
- = 
-GPIO_S≥ed_25MHz
-;
-
-446 
-	`GPIO_Inô
- (
-GPIOB
-, &
-GPIO_InôSåu˘
-);
-
-449 
-	`GPIO_PöAFC⁄fig
- (
-GPIOB
-, 
-GPIO_PöSour˚8
-, 
-GPIO_AF_USART3
-);
-
-450 
-	`GPIO_PöAFC⁄fig
- (
-GPIOB
-, 
-GPIO_PöSour˚9
-, 
-GPIO_AF_USART3
-);
-
-454 
-USART_InôSåu˘uª
-.
-USART_BaudR©e
- = 1000000;
-
-455 
-USART_InôSåu˘uª
-.
-USART_W‹dLígth
- = 
-USART_W‹dLígth_8b
-;
-
-456 
-USART_InôSåu˘uª
-.
-USART_St›Bôs
- = 
-USART_St›Bôs_1
-;
-
-457 
-USART_InôSåu˘uª
-.
-USART_P¨ôy
- = 
-USART_P¨ôy_No
-;
-
-458 
-USART_InôSåu˘uª
-.
-USART_H¨dw¨eFlowC⁄åﬁ
- = 
-USART_H¨dw¨eFlowC⁄åﬁ_N⁄e
-;
-
-459 
-USART_InôSåu˘uª
-.
-USART_Mode
- = 
-USART_Mode_Rx
- | 
-USART_Mode_Tx
-;
-
-461 
-	`USART_Inô
- (
-USART3
-, &
-USART_InôSåu˘uª
-);
-
-464 
-NVIC_InôSåu˘uª
-.
-NVIC_IRQCh™√l
- = 
-USART3_IRQn
-;
-
-465 
-NVIC_InôSåu˘uª
-.
-NVIC_IRQCh™√lPªem±i⁄Pri‹ôy
- = 0;
-
-466 
-NVIC_InôSåu˘uª
-.
-NVIC_IRQCh™√lSubPri‹ôy
- = 0;
-
-467 
-NVIC_InôSåu˘uª
-.
-NVIC_IRQCh™√lCmd
- = 
-ENABLE
-;
-
-468 
-	`NVIC_Inô
- (&
-NVIC_InôSåu˘uª
-);
-
-471 
-	`USART_ITC⁄fig
- (
-USART3
-, 
-USART_IT_RXNE
-, 
-ENABLE
-);
-
-474 
-	`USART_Cmd
- (
-USART3
-, 
-ENABLE
-);
-
-475 
-	}
-}
-
-477 
-	$£ndSîvoByã
- (c⁄° 
-uöt8_t
- 
-byã
-)
-
-479 
-	`USART_SídD©a
- (
-USART3
-, (
-uöt16_t
-)
-byã
-);
-
-482 
-	`USART_GëFœgSètus
- (
-USART3
-, 
-USART_FLAG_TC
-Ë=
-RESET
-);
-
-483 
-	}
-}
-
-485 
-	$˛órSîvoRe˚iveBuf„r
- ()
-
-487 
-ª˚iveBuf„rSèπ
- = 
-ª˚iveBuf„rEnd
-;
-
-488 
-	}
-}
-
-490 
-size_t
- 
-	$gëSîvoByãsAvaûabÀ
- ()
-
-492 vﬁ©ûê
-uöt8_t
- *
-°¨t
- = 
-ª˚iveBuf„rSèπ
-;
-
-493 vﬁ©ûê
-uöt8_t
- *
-íd
- = 
-ª˚iveBuf„rEnd
-;
-
-495 i‡(
-íd
- >
-°¨t
-)
-
-496  (
-size_t
-)(
-íd
- - 
-°¨t
-);
-
-498  (
-size_t
-)(
-REC_BUFFER_LEN
- - (
-°¨t
- - 
-íd
-));
-
-499 
-	}
-}
-
-501 
-uöt8_t
- 
-	$gëSîvoByã
- ()
-
-503 
-ª˚iveBuf„rSèπ
-++;
-
-504 i‡(
-ª˚iveBuf„rSèπ
- >
-ª˚iveBuf„r
- + 
-REC_BUFFER_LEN
-)
-
-505 
-ª˚iveBuf„rSèπ
- = 
-ª˚iveBuf„r
-;
-
-507  *
-ª˚iveBuf„rSèπ
-;
-
-508 
-	}
-}
-
-510 
-	$USART3_IRQH™dÀr
- ()
-
-513 i‡(
-	`USART_GëITSètus
- (
-USART3
-, 
-USART_IT_RXNE
-))
-
-515 c⁄° 
-uöt8_t
- 
-byã
- = (uöt8_t)
-	`USART_Re˚iveD©a
- (
-USART3
-);
-
-517 
-ª˚iveBuf„rEnd
-++;
-
-518 i‡(
-ª˚iveBuf„rEnd
- >
-ª˚iveBuf„r
- + 
-REC_BUFFER_LEN
-)
-
-519 
-ª˚iveBuf„rEnd
- = 
-ª˚iveBuf„r
-;
-
-521 *
-ª˚iveBuf„rEnd
- = 
-byã
+29 } 
+	tSîvoComm™d
 ;
-
-524 
-	}
-}
-
-	@F:\From Git\LowLevel\Robot\Dynamixel_control.h
-
-8 #i‚de‡
-Dy«mixñs_h
-
-
-9 
-	#Dy«mixñs_h
-
-
-	)
-
-11 
-	~<öây≥s.h
->
-
-12 
-	~<°dboﬁ.h
->
-
-13 
-	~<°dlib.h
->
-
-15 
-	#REC_BUFFER_LEN
- 32
-
-	)
-
-16 
-	#SERVO_MAX_PARAMS
- (
-REC_BUFFER_LEN
- - 5)
-
-	)
-
-18 
-	#REC_WAIT_START_US
- 75
-
-	)
-
-19 
-	#REC_WAIT_PARAMS_US
- (
-SERVO_MAX_PARAMS
- * 5)
-
-	)
-
-20 
-	#REC_WAIT_MAX_RETRIES
- 2000
-
-	)
-
-22 
-	#SERVO_INSTRUCTION_ERROR
- (1 << 6)
-
-	)
-
-23 
-	#SERVO_OVERLOAD_ERROR
- (1 << 5)
-
-	)
-
-24 
-	#SERVO_CHECKSUM_ERROR
- (1 << 4)
-
-	)
-
-25 
-	#SERVO_RANGE_ERROR
- (1 << 3)
-
-	)
-
-26 
-	#SERVO_OVERHEAT_ERROR
- (1 << 2)
-
-	)
-
-27 
-	#SERVO_ANGLE_LIMIT_ERROR
- (1 << 1)
-
-	)
-
-28 
-	#SERVO_INPUT_VOLTAGE_ERROR
- (1)
-
-	)
-
-30 
-	#CW
- 0x0400
-
-	)
 
 31 
-	#CCW
- 0x0000
+	#ID
+ 0x03
+
+	)
+
+32 
+	#BAUD_RATE
+ 0x04
 
 	)
 
@@ -131261,37 +129325,2391 @@ SERVO_MAX_PARAMS
 
 	)
 
-45 
-	eSîvoComm™d
-
-
 47 
-	mPING
- = 1,
-
-48 
-	mREAD
- = 2,
+uöt16_t
+ 
+	$CRC16_BUYPASS
+(
+uöt8_t
+ *
+d©a
+, 
+size_t
+ 
+Àn
+)
 
 49 
-	mWRITE
- = 3
+uöt16_t
+ 
+¸c
+ = 0x0000;
 
-50 } 
-	tSîvoComm™d
+50 
+size_t
+ 
+j
 ;
 
-54 
+51 
+i
+;
+
+52 
+j
+=
+Àn
+; j>0; j--) {
+
+53 
+¸c
+ ^(
+uöt16_t
+)(*
+d©a
+++) << 8;
+
+54 
+i
+=0; i<8; i++) {
+
+55 i‡(
+¸c
+ & 0x8000) crc = (crc<<1) ^ 0x8005;
+
+56 
+¸c
+ <<= 1;
+
+59  (
+¸c
+);
+
+60 
+	}
+}
+
+62 
+	$£ndSîvoComm™d
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+63 c⁄° 
+SîvoComm™d
+ 
+comm™dByã
+,
+
+64 c⁄° 
+uöt8_t
+ 
+numP¨ams
+,
+
+65 c⁄° 
+uöt8_t
+ *
+∑øms
+)
+
+67 
+uöt8_t
+ 
+∑ckë
+[100] = {};
+
+68 
+uöt8_t
+ 
+∑ckë_size
+ = 0;
+
+70 
+	`£ndSîvoByã
+ (0xff);
+
+71 
+∑ckë
+[
+∑ckë_size
+] = 0xff;
+
+72 
+∑ckë_size
+++;
+
+74 
+	`£ndSîvoByã
+ (0xff);
+
+75 
+∑ckë
+[
+∑ckë_size
+] = 0xff;
+
+76 
+∑ckë_size
+++;
+
+78 
+	`£ndSîvoByã
+ (0xfd);
+
+79 
+∑ckë
+[
+∑ckë_size
+] = 0xfd;
+
+80 
+∑ckë_size
+++;
+
+82 
+	`£ndSîvoByã
+ (0x00);
+
+83 
+∑ckë
+[
+∑ckë_size
+] = 0x00;
+
+84 
+∑ckë_size
+++;
+
+86 
+	`£ndSîvoByã
+ (
+£rvoId
+);
+
+87 
+∑ckë
+[
+∑ckë_size
+] = 
+£rvoId
+;
+
+88 
+∑ckë_size
+++;
+
+91 
+uöt16_t
+ 
+Àngth
+ = 
+numP¨ams
+ + 3;
+
+92 
+uöt8_t
+ 
+Àngth_l
+ = (
+Àngth
+ & 0x00FF);
+
+93 
+uöt8_t
+ 
+Àngth_h
+ = (
+Àngth
+>>8) & 0x00FF;
+
+94 
+	`£ndSîvoByã
+ (
+Àngth_l
+);
+
+95 
+∑ckë
+[
+∑ckë_size
+] = 
+Àngth_l
+;
+
+96 
+∑ckë_size
+++;
+
+97 
+	`£ndSîvoByã
+ (
+Àngth_h
+);
+
+98 
+∑ckë
+[
+∑ckë_size
+] = 
+Àngth_h
+;
+
+99 
+∑ckë_size
+++;
+
+101 
+	`£ndSîvoByã
+ ((
+uöt8_t
+)
+comm™dByã
+);
+
+102 
+∑ckë
+[
+∑ckë_size
+] = (
+uöt8_t
+)
+comm™dByã
+;
+
+103 
+∑ckë_size
+++;
+
+106 
+uöt8_t
+ 
+i
+ = 0;
+
+107 ; 
+i
+ < 
+numP¨ams
+; i++)
+
+109 
+	`£ndSîvoByã
+ (
+∑øms
+[
+i
+]);
+
+110 
+∑ckë
+[
+∑ckë_size
+] = 
+∑øms
+[
+i
+];
+
+111 
+∑ckë_size
+++;
+
+114 
+uöt16_t
+ 
+¸c
+ = 
+	`CRC16_BUYPASS
+(
+∑ckë
+, 
+∑ckë_size
+);
+
+115 
+uöt8_t
+ 
+¸c_l
+ = (
+¸c
+ & 0x00FF);
+
+116 
+uöt8_t
+ 
+¸c_h
+ = (
+¸c
+>>8) & 0x00FF;
+
+117 
+	`£ndSîvoByã
+ (
+¸c_l
+);
+
+118 
+	`£ndSîvoByã
+ (
+¸c_h
+);
+
+119 
+	}
+}
+
+121 
+boﬁ
+ 
+	$gëSîvoRe•⁄£
+ ()
+
+123 
+uöt16_t
+ 
+ªåõs
+ = 0;
+
+125 
+	`˛órSîvoRe˚iveBuf„r
+();
+
+127 
+	`gëSîvoByãsAvaûabÀ
+() < 4)
+
+129 
+ªåõs
+++;
+
+130 i‡(
+ªåõs
+ > 
+REC_WAIT_MAX_RETRIES
+)
+
+132 #ifde‡
+SERVO_DEBUG
+
+
+133 
+	`¥ötf
+ ("Too manyÑetriesát start\n");
+
+135  
+Ál£
+;
+
+138 
+ªåõs
+ = 0;
+
+140 
+ª•⁄£
+.
+fú°_byã
+ = 
+	`gëSîvoByã
+();
+
+141 
+ª•⁄£
+.
+£c⁄d_byã
+ = 
+	`gëSîvoByã
+();
+
+142 
+ª•⁄£
+.
+thúd_byã
+ = 
+	`gëSîvoByã
+();
+
+144 
+ª•⁄£
+.
+ª£rved
+ = 
+	`gëSîvoByã
+();
+
+146 
+ª•⁄£
+.
+id
+ = 
+	`gëSîvoByã
+();
+
+147 
+uöt8_t
+ 
+Àngth_l
+ = 
+	`gëSîvoByã
+();
+
+148 
+uöt8_t
+ 
+Àngth_h
+ = 
+	`gëSîvoByã
+();
+
+150 
+ª•⁄£
+.
+Àngth
+ = 0x0000;
+
+151 
+ª•⁄£
+.
+Àngth
+ +
+Àngth_l
+;
+
+152 
+ª•⁄£
+.
+Àngth
+ +(
+uöt16_t
+)(
+Àngth_h
+<<8);
+
+154 i‡(
+ª•⁄£
+.
+Àngth
+ > 
+SERVO_MAX_PARAMS
+)
+
+156 #ifde‡
+SERVO_DEBUG
+
+
+157 
+	`¥ötf
+ ("Re•⁄£ÜígthÅoÿbig: %d\n", ()
+ª•⁄£
+.
+Àngth
+);
+
+159  
+Ál£
+;
+
+162 
+	`gëSîvoByãsAvaûabÀ
+(Ë< 
+ª•⁄£
+.
+Àngth
+)
+
+164 
+ªåõs
+++;
+
+165 i‡(
+ªåõs
+ > 
+REC_WAIT_MAX_RETRIES
+)
+
+167 #ifde‡
+SERVO_DEBUG
+
+
+168 
+	`¥ötf
+ ("Toÿm™yÑërõ†waôög f‹Ö¨ams, gŸ %d o‡%dÖ¨ams\n", 
+	`gëSîvoByãsAvaûabÀ
+(), 
+ª•⁄£
+.
+Àngth
+);
+
+170  
+Ál£
+;
+
+174 
+ª•⁄£
+.
+îr‹
+ = 
+	`gëSîvoByã
+();
+
+175 
+£rvoEº‹Code
+ = 
+ª•⁄£
+.
+îr‹
+;
+
+177 
+uöt16_t
+ 
+i
+ = 0;
+
+178 ; 
+i
+ < 
+ª•⁄£
+.
+Àngth
+ - 3; i++)
+
+179 
+ª•⁄£
+.
+∑øms
+[
+i
+] = 
+	`gëSîvoByã
+();
+
+181 
+uöt16_t
+ 
+ˇlcChecksum
+ = 
+	`CRC16_BUYPASS
+(&
+ª•⁄£
+, (response)-2);
+
+186 
+uöt16_t
+ 
+chc
+;
+
+187 c⁄° 
+uöt8_t
+ 
+checksum_l
+ = 
+	`gëSîvoByã
+();
+
+188 c⁄° 
+uöt8_t
+ 
+checksum_h
+ = 
+	`gëSîvoByã
+();
+
+189 
+ª•⁄£
+.
+checksum
+ = 
+checksum_l
+ + (
+uöt16_t
+)(
+checksum_h
+ << 8);
+
+190 
+chc
+ = 
+ª•⁄£
+.
+checksum
+;
+
+191 i‡(
+ˇlcChecksum
+ !
+ª•⁄£
+.
+checksum
+)
+
+193 #ifde‡
+SERVO_DEBUG
+
+
+194 
+	`¥ötf
+ ("Checksum mism©ch: %x cÆcuœãd, %xÑe˚ived\n", 
+ˇlcChecksum
+, 
+ª•⁄£
+.
+checksum
+);
+
+196  
+Ál£
+;
+
+199  
+åue
+;
+
+200 
+	}
+}
+
+202 
+ölöe
+ 
+boﬁ
+ 
+	$gëAndCheckRe•⁄£
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+)
+
+204 i‡(!
+	`gëSîvoRe•⁄£
+())
+
+206 #ifde‡
+SERVO_DEBUG
+
+
+207 
+	`¥ötf
+ ("Sîvÿîr‹: Sîvÿ%d didÇŸÑe•⁄d c‹ª˘ly o∏©áŒ\n", ()
+£rvoId
+);
+
+209  
+Ál£
+;
+
+212 i‡(
+ª•⁄£
+.
+id
+ !
+£rvoId
+)
+
+214 #ifde‡
+SERVO_DEBUG
+
+
+215 
+	`¥ötf
+ ("Sîvÿîr‹: Re•⁄£ ID %d d€†nŸ m©ch comm™d ID %d\n", ()
+ª•⁄£
+.
+id
+);
+
+217  
+Ál£
+;
+
+220 i‡(
+ª•⁄£
+.
+îr‹
+ != 0)
+
+222 #ifde‡
+SERVO_DEBUG
+
+
+223 
+	`¥ötf
+ ("Sîvÿîr‹: Re•⁄£Éº‹ codêwa†n⁄zîÿ(%d)\n", ()
+ª•⁄£
+.
+îr‹
+);
+
+225  
+Ál£
+;
+
+228  
+åue
+;
+
+229 
+	}
+}
+
+232 
+boﬁ
+ 
+	$pögSîvo
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+)
+
+234 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+PING
+, 0, 0);
+
+236 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+237  
+Ál£
+;
+
+239  
+åue
+;
+
+240 
+	}
+}
+
+245 
+boﬁ
+ 
+	$£tID
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+, uöt8_à
+√wID
+)
+
+247 i‡(
+√wID
+ > 253)
+
+248  
+Ál£
+;
+
+250 c⁄° 
+uöt8_t
+ 
+∑øms
+[2] = {
+ID
+, 
+√wID
+ & 0xff};
+
+252 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 2, 
+∑øms
+);
+
+257  
+åue
+;
+
+258 
+	}
+}
+
+263 
+boﬁ
+ 
+	$£tBaudR©e
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+, uöt8_à
+baudR©e
+)
+
+265 i‡(
+BAUD_RATE
+ > 253)
+
+266  
+Ál£
+;
+
+268 c⁄° 
+uöt8_t
+ 
+∑øms
+[2] = {
+BAUD_RATE
+, 
+baudR©e
+ & 0xff};
+
+270 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 2, 
+∑øms
+);
+
+275  
+åue
+;
+
+276 
+	}
+}
+
+285 
+boﬁ
+ 
+	$£tSîvoRëu∫DñayMi¸os
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+286 c⁄° 
+uöt16_t
+ 
+mi¸os
+)
+
+288 i‡(
+mi¸os
+ > 510)
+
+289  
+Ál£
+;
+
+291 c⁄° 
+uöt8_t
+ 
+∑øms
+[4] = {
+RETURN_DELAY
+, (uint8_t)0x00,
+
+292 (
+uöt8_t
+)((
+mi¸os
+ / 2) & 0xff), (uint8_t)0x00};
+
+294 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 4, 
+∑øms
+);
+
+299  
+åue
+;
+
+300 
+	}
+}
+
+306 
+boﬁ
+ 
+	$£tSîvoBlökC⁄dôi⁄s
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+307 c⁄° 
+uöt8_t
+ 
+Êags
+)
+
+309 c⁄° 
+uöt8_t
+ 
+∑øms
+[4] = {
+BLINK_CONDITIONS
+,(uint8_t)0x00,
+
+310 
+Êags
+, (
+uöt8_t
+)0x00};
+
+312 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 4, 
+∑øms
+);
+
+314 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+315  
+Ál£
+;
+
+317  
+åue
+;
+
+318 
+	}
+}
+
+323 
+boﬁ
+ 
+	$£tSîvoShutdownC⁄dôi⁄s
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+324 c⁄° 
+uöt8_t
+ 
+Êags
+)
+
+326 c⁄° 
+uöt8_t
+ 
+∑øms
+[4] = {
+SHUTDOWN_CONDITIONS
+, (uint8_t)0x00,
+
+327 
+Êags
+, (
+uöt8_t
+)0x00};
+
+329 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 4, 
+∑øms
+);
+
+331 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+332  
+Ál£
+;
+
+334  
+åue
+;
+
+335 
+	}
+}
+
+341 
+boﬁ
+ 
+	$£tSîvoT‹que
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+342 c⁄° 
+uöt16_t
+ 
+t‹queVÆue
+)
+
+344 c⁄° 
+uöt8_t
+ 
+highByã
+ = (uöt8_t)((
+t‹queVÆue
+ >> 8) & 0xff);
+
+345 c⁄° 
+uöt8_t
+ 
+lowByã
+ = (uöt8_t)(
+t‹queVÆue
+ & 0xff);
+
+347 i‡(
+t‹queVÆue
+ > 1023)
+
+348  
+Ál£
+;
+
+350 c⁄° 
+uöt8_t
+ 
+∑øms
+[6] = {
+TORQUE
+, (uint8_t)0x00,
+
+351 
+lowByã
+,
+
+352 
+highByã
+, (
+uöt8_t
+)0x00, (uint8_t)0x00};
+
+354 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 6, 
+∑øms
+);
+
+356 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+357  
+Ál£
+;
+
+359  
+åue
+;
+
+360 
+	}
+}
+
+363 
+boﬁ
+ 
+	$gëSîvoT‹que
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+364 
+uöt16_t
+ *
+t‹queVÆue
+)
+
+366 c⁄° 
+uöt8_t
+ 
+∑øms
+[2] = {
+TORQUE
+, 2};
+
+368 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+READ
+, 2, 
+∑øms
+);
+
+370 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+371  
+Ál£
+;
+
+373 *
+t‹queVÆue
+ = 
+ª•⁄£
+.
+∑øms
+[1];
+
+374 *
+t‹queVÆue
+ <<= 8;
+
+375 *
+t‹queVÆue
+ |
+ª•⁄£
+.
+∑øms
+[0];
+
+378  
+åue
+;
+
+379 
+	}
+}
+
+389 
+boﬁ
+ 
+	$£tSîvoMovögS≥ed
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+390 c⁄° 
+uöt16_t
+ 
+•ìdVÆue
+, c⁄° uöt16_à
+dúe˘i⁄
+)
+
+392 
+uöt16_t
+ 
+•ìd
+ = 
+•ìdVÆue
+;
+
+393 
+•ìd
+ |
+dúe˘i⁄
+;
+
+394 c⁄° 
+uöt8_t
+ 
+highByã
+ = (uöt8_t)((
+•ìd
+ >> 8) & 0xff);
+
+395 c⁄° 
+uöt8_t
+ 
+lowByã
+ = (uöt8_t)(
+•ìd
+ & 0xff);
+
+397 i‡(
+•ìdVÆue
+ > 1023)
+
+398  
+Ál£
+;
+
+400 c⁄° 
+uöt8_t
+ 
+∑øms
+[6] = {
+MOVING_SPEED
+, (uint8_t)0x00,
+
+401 
+lowByã
+,
+
+402 
+highByã
+, (
+uöt8_t
+)0x00, (uint8_t)0x00};
+
+404 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 6, 
+∑øms
+);
+
+406 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+407  
+Ál£
+;
+
+409  
+åue
+;
+
+410 
+	}
+}
+
+413 
+boﬁ
+ 
+	$gëSîvoMovögS≥ed
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+414 
+uöt16_t
+ *
+•ìdVÆue
+)
+
+416 c⁄° 
+uöt8_t
+ 
+∑øms
+[2] = {
+MOVING_SPEED
+,
+
+419 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+READ
+, 2, 
+∑øms
+);
+
+421 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+422  
+Ál£
+;
+
+424 *
+•ìdVÆue
+ = 
+ª•⁄£
+.
+∑øms
+[1];
+
+425 *
+•ìdVÆue
+ <<= 8;
+
+426 *
+•ìdVÆue
+ |
+ª•⁄£
+.
+∑øms
+[0];
+
+428  
+åue
+;
+
+429 
+	}
+}
+
+432 
+boﬁ
+ 
+	$gëSîvoCuºítS≥ed
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+433 
+öt16_t
+ *
+•ìdVÆue
+)
+
+435 c⁄° 
+uöt8_t
+ 
+∑øms
+[2] = {
+CURRENT_SPEED
+,
+
+438 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+READ
+, 2, 
+∑øms
+);
+
+440 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+441  
+Ál£
+;
+
+443 *
+•ìdVÆue
+ = 
+ª•⁄£
+.
+∑øms
+[1];
+
+444 *
+•ìdVÆue
+ <<= 8;
+
+445 *
+•ìdVÆue
+ |
+ª•⁄£
+.
+∑øms
+[0];
+
+447  
+åue
+;
+
+448 
+	}
+}
+
+451 
+boﬁ
+ 
+	$gëCuºítLﬂd
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+452 
+uöt16_t
+ *
+lﬂdVÆue
+)
+
+454 c⁄° 
+uöt8_t
+ 
+∑øms
+[2] = {
+CURRENT_LOAD
+, 2};
+
+456 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+READ
+, 2, 
+∑øms
+);
+
+458 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+459  
+Ál£
+;
+
+461 *
+lﬂdVÆue
+ = 
+ª•⁄£
+.
+∑øms
+[1];
+
+462 *
+lﬂdVÆue
+ <<= 8;
+
+463 *
+lﬂdVÆue
+ |
+ª•⁄£
+.
+∑øms
+[0];
+
+464 *
+lﬂdVÆue
+ &= 0x3ff;
+
+466  
+åue
+;
+
+467 
+	}
+}
+
+471 
+boﬁ
+ 
+	$£tSîvoAngÀ
+ ( c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+472 c⁄° 
+uöt16_t
+ 
+™gÀ
+)
+
+474 i‡(
+™gÀ
+ < 0 ||ángle > 300)
+
+475  
+Ál£
+;
+
+478 c⁄° 
+uöt16_t
+ 
+™gÀVÆue
+ = (uöt16_t)(
+™gÀ
+ * (1023.0 / 300.0));
+
+480 c⁄° 
+uöt8_t
+ 
+highByã
+ = (uöt8_t)((
+™gÀVÆue
+ >> 8) & 0xff);
+
+481 c⁄° 
+uöt8_t
+ 
+lowByã
+ = (uöt8_t)(
+™gÀVÆue
+ & 0xff);
+
+483 c⁄° 
+uöt8_t
+ 
+∑øms
+[6] = {
+GOAL_ANGLE
+, (uint8_t)0x00,
+
+484 
+lowByã
+,
+
+485 
+highByã
+, (
+uöt8_t
+)0x00, (uint8_t)0x00};
+
+487 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 6, 
+∑øms
+);
+
+489 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+490  
+Ál£
+;
+
+492  
+åue
+;
+
+493 
+	}
+}
+
+496 
+boﬁ
+ 
+	$gëSîvoAngÀ
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+, *
+™gÀ
+)
+
+500 c⁄° 
+uöt8_t
+ 
+∑øms
+[2] = {
+CURRENT_ANGLE
+, 0x00, 0x04, 0x00 };
+
+502 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+READ
+, 4, 
+∑øms
+);
+
+504 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+505  
+Ál£
+;
+
+507 
+uöt16_t
+ 
+™gÀVÆue
+ = 
+ª•⁄£
+.
+∑øms
+[1];
+
+508 
+™gÀVÆue
+ <<= 8;
+
+509 
+™gÀVÆue
+ |
+ª•⁄£
+.
+∑øms
+[0];
+
+511 *
+™gÀ
+ = ()
+™gÀVÆue
+ * 300.0 / 1023.0;
+
+513  
+åue
+;
+
+514 
+	}
+}
+
+520 
+boﬁ
+ 
+	$£tSîvoCWAngÀLimô
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+521 c⁄° 
+uöt16_t
+ 
+limôVÆue
+)
+
+523 c⁄° 
+uöt8_t
+ 
+highByã
+ = (uöt8_t)((
+limôVÆue
+ >> 8) & 0xff);
+
+524 c⁄° 
+uöt8_t
+ 
+lowByã
+ = (uöt8_t)(
+limôVÆue
+ & 0xff);
+
+526 i‡(
+limôVÆue
+ > 1023)
+
+527  
+Ál£
+;
+
+529 c⁄° 
+uöt8_t
+ 
+∑øms
+[6] = {
+CW_ANGLE_LIMIT
+, (uint8_t)0x00,
+
+530 
+lowByã
+,
+
+531 
+highByã
+, (
+uöt8_t
+)0x00, (uint8_t)0x00};
+
+533 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 6, 
+∑øms
+);
+
+535 i‡(!
+	`gëAndCheckRe•⁄£
+ (
+£rvoId
+))
+
+536  
+Ál£
+;
+
+538  
+åue
+;
+
+539 
+	}
+}
+
+545 
+boﬁ
+ 
+	$£tSîvoCCWAngÀLimô
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+,
+
+546 c⁄° 
+uöt16_t
+ 
+limôVÆue
+)
+
+548 c⁄° 
+uöt8_t
+ 
+highByã
+ = (uöt8_t)((
+limôVÆue
+ >> 8) & 0xff);
+
+549 c⁄° 
+uöt8_t
+ 
+lowByã
+ = (uöt8_t)(
+limôVÆue
+ & 0xff);
+
+551 i‡(
+limôVÆue
+ > 1023)
+
+552  
+Ál£
+;
+
+554 c⁄° 
+uöt8_t
+ 
+∑øms
+[6] = {
+CCW_ANGLE_LIMIT
+, (uint8_t)0x00,
+
+555 
+lowByã
+,
+
+556 
+highByã
+, (
+uöt8_t
+)0x00, (uint8_t)0x00};
+
+558 
+	`£ndSîvoComm™d
+ (
+£rvoId
+, 
+WRITE
+, 6, 
+∑øms
+);
+
+563  
+åue
+;
+
+564 
+	}
+}
+
+566 
+	$öôSîvoUSART
+ ()
+
+569 
+	`RCC_APB1PîùhClockCmd
+ (
+RCC_AHB1Pîùh_GPIOB
+, 
+ENABLE
+);
+
+570 
+	`RCC_APB1PîùhClockCmd
+ (
+RCC_APB1Pîùh_USART3
+, 
+ENABLE
+);
+
+572 
+GPIO_InôTy≥Def
+ 
+GPIO_InôSåu˘
+;
+
+573 
+USART_InôTy≥Def
+ 
+USART_InôSåu˘uª
+;
+
+574 
+USART_ClockInôTy≥Def
+ 
+USART_ClockInôSåu˘uª
+;
+
+575 
+NVIC_InôTy≥Def
+ 
+NVIC_InôSåu˘uª
+;
+
+576 
+EXTI_InôTy≥Def
+ 
+EXTI_InôSåu˘
+;
+
+578 
+	`˛órSîvoRe˚iveBuf„r
+();
+
+581 
+GPIO_InôSåu˘
+.
+GPIO_Pö
+ = 
+GPIO_Pö_8
+ | 
+GPIO_Pö_9
+;
+
+582 
+GPIO_InôSåu˘
+.
+GPIO_Mode
+ = 
+GPIO_Mode_AF
+;
+
+583 
+GPIO_InôSåu˘
+.
+GPIO_OTy≥
+ = 
+GPIO_OTy≥_OD
+;
+
+584 
+GPIO_InôSåu˘
+.
+GPIO_PuPd
+ = 
+GPIO_PuPd_NOPULL
+;
+
+585 
+GPIO_InôSåu˘
+.
+GPIO_S≥ed
+ = 
+GPIO_S≥ed_25MHz
+;
+
+586 
+	`GPIO_Inô
+ (
+GPIOB
+, &
+GPIO_InôSåu˘
+);
+
+589 
+	`GPIO_PöAFC⁄fig
+ (
+GPIOB
+, 
+GPIO_PöSour˚8
+, 
+GPIO_AF_USART3
+);
+
+590 
+	`GPIO_PöAFC⁄fig
+ (
+GPIOB
+, 
+GPIO_PöSour˚9
+, 
+GPIO_AF_USART3
+);
+
+594 
+USART_InôSåu˘uª
+.
+USART_BaudR©e
+ = 1000000;
+
+595 
+USART_InôSåu˘uª
+.
+USART_W‹dLígth
+ = 
+USART_W‹dLígth_8b
+;
+
+596 
+USART_InôSåu˘uª
+.
+USART_St›Bôs
+ = 
+USART_St›Bôs_1
+;
+
+597 
+USART_InôSåu˘uª
+.
+USART_P¨ôy
+ = 
+USART_P¨ôy_No
+;
+
+598 
+USART_InôSåu˘uª
+.
+USART_H¨dw¨eFlowC⁄åﬁ
+ = 
+USART_H¨dw¨eFlowC⁄åﬁ_N⁄e
+;
+
+599 
+USART_InôSåu˘uª
+.
+USART_Mode
+ = 
+USART_Mode_Rx
+ | 
+USART_Mode_Tx
+;
+
+601 
+	`USART_Inô
+ (
+USART3
+, &
+USART_InôSåu˘uª
+);
+
+604 
+NVIC_InôSåu˘uª
+.
+NVIC_IRQCh™√l
+ = 
+USART3_IRQn
+;
+
+605 
+NVIC_InôSåu˘uª
+.
+NVIC_IRQCh™√lPªem±i⁄Pri‹ôy
+ = 0;
+
+606 
+NVIC_InôSåu˘uª
+.
+NVIC_IRQCh™√lSubPri‹ôy
+ = 0;
+
+607 
+NVIC_InôSåu˘uª
+.
+NVIC_IRQCh™√lCmd
+ = 
+ENABLE
+;
+
+608 
+	`NVIC_Inô
+ (&
+NVIC_InôSåu˘uª
+);
+
+611 
+	`USART_ITC⁄fig
+ (
+USART3
+, 
+USART_IT_RXNE
+, 
+ENABLE
+);
+
+614 
+	`USART_Cmd
+ (
+USART3
+, 
+ENABLE
+);
+
+615 
+	}
+}
+
+617 
+	$£ndSîvoByã
+ (c⁄° 
+uöt8_t
+ 
+byã
+)
+
+619 
+	`USART_SídD©a
+ (
+USART3
+, (
+uöt16_t
+)
+byã
+);
+
+622 
+	`USART_GëFœgSètus
+ (
+USART3
+, 
+USART_FLAG_TC
+Ë=
+RESET
+);
+
+623 
+	}
+}
+
+625 
+	$˛órSîvoRe˚iveBuf„r
+ ()
+
+627 
+ª˚iveBuf„rSèπ
+ = 
+ª˚iveBuf„rEnd
+;
+
+628 
+	}
+}
+
+630 
+size_t
+ 
+	$gëSîvoByãsAvaûabÀ
+ ()
+
+632 vﬁ©ûê
+uöt8_t
+ *
+°¨t
+ = 
+ª˚iveBuf„rSèπ
+;
+
+633 vﬁ©ûê
+uöt8_t
+ *
+íd
+ = 
+ª˚iveBuf„rEnd
+;
+
+635 i‡(
+íd
+ >
+°¨t
+)
+
+636  (
+size_t
+)(
+íd
+ - 
+°¨t
+);
+
+638  (
+size_t
+)(
+REC_BUFFER_LEN
+ - (
+°¨t
+ - 
+íd
+));
+
+639 
+	}
+}
+
+641 
+uöt8_t
+ 
+	$gëSîvoByã
+ ()
+
+643 
+ª˚iveBuf„rSèπ
+++;
+
+644 i‡(
+ª˚iveBuf„rSèπ
+ >
+ª˚iveBuf„r
+ + 
+REC_BUFFER_LEN
+)
+
+645 
+ª˚iveBuf„rSèπ
+ = 
+ª˚iveBuf„r
+;
+
+647  *
+ª˚iveBuf„rSèπ
+;
+
+648 
+	}
+}
+
+650 
+	$USART3_IRQH™dÀr
+ ()
+
+653 i‡(
+	`USART_GëITSètus
+ (
+USART3
+, 
+USART_IT_RXNE
+))
+
+655 c⁄° 
+uöt8_t
+ 
+byã
+ = (uöt8_t)
+	`USART_Re˚iveD©a
+ (
+USART3
+);
+
+657 
+ª˚iveBuf„rEnd
+++;
+
+658 i‡(
+ª˚iveBuf„rEnd
+ >
+ª˚iveBuf„r
+ + 
+REC_BUFFER_LEN
+)
+
+659 
+ª˚iveBuf„rEnd
+ = 
+ª˚iveBuf„r
+;
+
+661 *
+ª˚iveBuf„rEnd
+ = 
+byã
+;
+
+664 
+	}
+}
+
+	@F:\From Git\LowLevel\Small robot\Robot\Dynamixel_control.h
+
+7 #i‚de‡
+Dy«mixñs_h
+
+
+8 
+	#Dy«mixñs_h
+
+
+	)
+
+10 
+	~<öây≥s.h
+>
+
+11 
+	~<°dboﬁ.h
+>
+
+12 
+	~<°dlib.h
+>
+
+14 
+	#REC_BUFFER_LEN
+ 32
+
+	)
+
+15 
+	#SERVO_MAX_PARAMS
+ (
+REC_BUFFER_LEN
+ - 5)
+
+	)
+
+17 
+	#REC_WAIT_START_US
+ 75
+
+	)
+
+18 
+	#REC_WAIT_PARAMS_US
+ (
+SERVO_MAX_PARAMS
+ * 5)
+
+	)
+
+19 
+	#REC_WAIT_MAX_RETRIES
+ 50000
+
+	)
+
+21 
+	#SERVO_INSTRUCTION_ERROR
+ (1 << 6)
+
+	)
+
+22 
+	#SERVO_OVERLOAD_ERROR
+ (1 << 5)
+
+	)
+
+23 
+	#SERVO_CHECKSUM_ERROR
+ (1 << 4)
+
+	)
+
+24 
+	#SERVO_RANGE_ERROR
+ (1 << 3)
+
+	)
+
+25 
+	#SERVO_OVERHEAT_ERROR
+ (1 << 2)
+
+	)
+
+26 
+	#SERVO_ANGLE_LIMIT_ERROR
+ (1 << 1)
+
+	)
+
+27 
+	#SERVO_INPUT_VOLTAGE_ERROR
+ (1)
+
+	)
+
+29 
+	#CW
+ 0x0400
+
+	)
+
+30 
+	#CCW
+ 0x0000
+
+	)
+
+32 
 uöt8_t
  
 £rvoEº‹Code
 ;
 
-58 
+36 
 öôSîvoUSART
  ();
 
-65 
+43 
 boﬁ
  
 pögSîvo
@@ -131301,7 +131719,31 @@ uöt8_t
 £rvoId
 );
 
-70 
+45 
+boﬁ
+ 
+£tID
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+, uöt8_à
+√wID
+);
+
+47 
+boﬁ
+ 
+£tBaudR©e
+ (c⁄° 
+uöt8_t
+ 
+£rvoId
+, uöt8_à
+baudR©e
+);
+
+52 
 boﬁ
  
 £tSîvoRëu∫DñayMi¸os
@@ -131311,13 +131753,13 @@ uöt8_t
 £rvoId
 ,
 
-71 c⁄° 
+53 c⁄° 
 uöt16_t
  
 mi¸os
 );
 
-74 
+56 
 boﬁ
  
 £tSîvoBlökC⁄dôi⁄s
@@ -131327,13 +131769,13 @@ uöt8_t
 £rvoId
 ,
 
-75 c⁄° 
+57 c⁄° 
 uöt8_t
  
 îr‹Fœgs
 );
 
-78 
+60 
 boﬁ
  
 £tSîvoShutdownC⁄dôi⁄s
@@ -131343,13 +131785,13 @@ uöt8_t
 £rvoId
 ,
 
-79 c⁄° 
+61 c⁄° 
 uöt8_t
  
 îr‹Fœgs
 );
 
-83 
+65 
 boﬁ
  
 £tSîvoT‹que
@@ -131359,13 +131801,13 @@ uöt8_t
 £rvoId
 ,
 
-84 c⁄° 
+66 c⁄° 
 uöt16_t
  
 t‹queVÆue
 );
 
-87 
+69 
 boﬁ
  
 gëSîvoT‹que
@@ -131375,13 +131817,13 @@ uöt8_t
 £rvoId
 ,
 
-88 
+70 
 uöt16_t
  *
 t‹queVÆue
 );
 
-95 
+77 
 boﬁ
  
 £tSîvoMovögS≥ed
@@ -131391,7 +131833,7 @@ uöt8_t
 £rvoId
 ,
 
-96 c⁄° 
+78 c⁄° 
 uöt16_t
  
 •ìdVÆue
@@ -131399,7 +131841,7 @@ uöt16_t
 dúe˘i⁄
 );
 
-99 
+81 
 boﬁ
  
 gëSîvoMovögS≥ed
@@ -131409,13 +131851,13 @@ uöt8_t
 £rvoId
 ,
 
-100 
+82 
 uöt16_t
  *
 •ìdVÆue
 );
 
-103 
+85 
 boﬁ
  
 gëSîvoCuºítS≥ed
@@ -131425,13 +131867,13 @@ uöt8_t
 £rvoId
 ,
 
-104 
+86 
 öt16_t
  *
 •ìdVÆue
 );
 
-107 
+89 
 boﬁ
  
 gëCuºítLﬂd
@@ -131441,13 +131883,13 @@ uöt8_t
 £rvoId
 ,
 
-108 
+90 
 uöt16_t
  *
 lﬂdVÆue
 );
 
-112 
+94 
 boﬁ
  
 £tSîvoAngÀ
@@ -131457,13 +131899,13 @@ uöt8_t
 £rvoId
 ,
 
-113 c⁄° 
+95 c⁄° 
 uöt16_t
  
 ™gÀ
 );
 
-116 
+98 
 boﬁ
  
 gëSîvoAngÀ
@@ -131473,11 +131915,11 @@ uöt8_t
 £rvoId
 ,
 
-117 *
+99 *
 ™gÀ
 );
 
-121 
+103 
 boﬁ
  
 £tSîvoCWAngÀLimô
@@ -131487,13 +131929,13 @@ uöt8_t
 £rvoId
 ,
 
-122 c⁄° 
+104 c⁄° 
 uöt16_t
  
 limôVÆue
 );
 
-126 
+108 
 boﬁ
  
 £tSîvoCCWAngÀLimô
@@ -131503,35 +131945,65 @@ uöt8_t
 £rvoId
 ,
 
-127 c⁄° 
+109 c⁄° 
 uöt16_t
  
 limôVÆue
 );
 
-132 
+113 #¥agm®
+∑ck
+(
+push
+, 1)
+
+114 
 	sSîvoRe•⁄£
 
 
-134 
+116 
+uöt8_t
+ 
+	mfú°_byã
+;
+
+117 
+uöt8_t
+ 
+	m£c⁄d_byã
+;
+
+118 
+uöt8_t
+ 
+	mthúd_byã
+;
+
+120 
+uöt8_t
+ 
+	mª£rved
+;
+
+121 
 uöt8_t
  
 	mid
 ;
 
-135 
-uöt8_t
+122 
+uöt16_t
  
 	mÀngth
 ;
 
-136 
+123 
 uöt8_t
  
 	mîr‹
 ;
 
-137 
+124 
 uöt8_t
  
 	m∑øms
@@ -131539,17 +132011,23 @@ uöt8_t
 SERVO_MAX_PARAMS
 ];
 
-138 
-uöt8_t
+125 
+uöt16_t
  
 	mchecksum
 ;
 
-139 } 
+127 } 
 	tSîvoRe•⁄£
 ;
 
-141 
+128 #¥agm®
+∑ck
+(
+p›
+)
+
+131 
 £ndSîvoByã
  (c⁄° 
 uöt8_t
@@ -131557,23 +132035,23 @@ uöt8_t
 byã
 );
 
-143 
+133 
 ˛órSîvoRe˚iveBuf„r
  ();
 
-145 
+135 
 size_t
  
 gëSîvoByãsAvaûabÀ
  ();
 
-146 
+136 
 uöt8_t
  
 gëSîvoByã
  ();
 
-148 
+138 
 £ndSîvoComm™d
  (c⁄° 
 uöt8_t
@@ -131581,31 +132059,45 @@ uöt8_t
 £rvoId
 ,
 
-149 c⁄° 
+139 c⁄° 
 uöt8_t
  
 comm™dByã
 ,
 
-150 c⁄° 
+140 c⁄° 
 uöt8_t
  
 numP¨ams
 ,
 
-151 c⁄° 
+141 c⁄° 
 uöt8_t
  *
 ∑øms
 );
 
-152 
+142 
 boﬁ
  
 gëSîvoRe•⁄£
  ();
 
-	@F:\From Git\LowLevel\Robot\Extern_variables.h
+144 
+uöt16_t
+ 
+CRC16_BUYPASS
+(
+uöt8_t
+ *
+d©a
+, 
+size_t
+ 
+Àn
+);
+
+	@F:\From Git\LowLevel\Small robot\Robot\Extern_variables.h
 
 1 #i‚de‡
 _EXTERN_VARIABLES_
@@ -131625,7 +132117,7 @@ _EXTERN_VARIABLES_
 	~"Reguœt‹.h
 "
 
-	@F:\From Git\LowLevel\Robot\Kinematics.c
+	@F:\From Git\LowLevel\Small robot\Robot\Kinematics.c
 
 1 
 	gMLöeS≥ed
@@ -131639,7 +132131,7 @@ _EXTERN_VARIABLES_
 	gInvî£Köem©ics
 [4][4] =
 
-	@F:\From Git\LowLevel\Robot\Manipulators.c
+	@F:\From Git\LowLevel\Small robot\Robot\Manipulators.c
 
 1 
 	~"M™ùuœt‹s.h
@@ -131657,7 +132149,7 @@ _EXTERN_VARIABLES_
 	~"Bﬂrd.h
 "
 
-6 
+7 
 	$so·Dñay
 (
 __IO
@@ -131665,15 +132157,15 @@ __IO
 ticks
 )
 
-8 ; 
+9 ; 
 ticks
  > 0;Åicks--);
 
-9 
+10 
 	}
 }
 
-13 
+14 
 boﬁ
  
 	$›íTowî
@@ -131683,7 +132175,7 @@ boﬁ
 ID
 )
 
-15 
+16 
 	`£tSîvoAngÀ
 (
 ID
@@ -131691,11 +132183,11 @@ ID
 OPEN_ANG
 );
 
-17 
+18 
 	}
 }
 
-19 
+20 
 boﬁ
  
 	$˛o£Towî
@@ -131705,7 +132197,7 @@ boﬁ
 ID
 )
 
-21 
+22 
 	`£tSîvoAngÀ
 (
 ID
@@ -131713,43 +132205,43 @@ ID
 CLOSED_ANG
 );
 
-23 
+24 
 	}
 }
 
-28 
+29 
 PidSåu˘
  
 	gcubesC©chîPID
 ;
 
-30 
+31 
 	gright_£rvo_™gÀ
  = 0;
 
-31 
+32 
 	gÀ·_£rvo_™gÀ
  = 0;
 
-32 
+33 
 	g¥ev_right_£rvo_™gÀ
  = 1;
 
-33 
+34 
 	g¥ev_À·_£rvo_™gÀ
  = 1;
 
-35 
+36 
 	gCubesC©chîAngÀ
 ;
 
-37 
+38 
 boﬁ
  
 	$›íCubesC©chî
 ()
 
-39 
+40 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -131761,7 +132253,7 @@ uöt16_t
 OPEN_ANG_RIGHT
 );
 
-40 
+41 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -131773,11 +132265,11 @@ uöt16_t
 OPEN_ANG_LEFT
 );
 
-43 
+44 
 	}
 }
 
-45 
+46 
 boﬁ
  
 	$˛o£CubesC©chî
@@ -131787,7 +132279,7 @@ uöt8_t
 numbîOfCubesC©ched
 )
 
-47 
+48 
 	`£tSîvoRëu∫DñayMi¸os
 ((
 uöt8_t
@@ -131797,7 +132289,7 @@ ID_RIGHT
 uöt16_t
 ) 0);
 
-48 
+49 
 	`£tSîvoRëu∫DñayMi¸os
 ((
 uöt8_t
@@ -131806,24 +132298,24 @@ ID_LEFT
 , (
 uöt16_t
 ) 0);
-
-49 
-	`£tSîvoT‹que
-((
-uöt8_t
-)
-ID_RIGHT
-, 500);
 
 50 
 	`£tSîvoT‹que
 ((
 uöt8_t
 )
-ID_LEFT
+ID_RIGHT
 , 500);
 
 51 
+	`£tSîvoT‹que
+((
+uöt8_t
+)
+ID_LEFT
+, 500);
+
+52 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -131835,7 +132327,7 @@ uöt16_t
 CLOSED_ANG_RIGHT
 );
 
-52 
+53 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -131847,11 +132339,11 @@ uöt16_t
 CLOSED_ANG_LEFT
 );
 
-53 
+54 
 	`so·Dñay
 (20000000);
 
-54 (
+55 (
 ¥ev_right_£rvo_™gÀ
  !
 right_£rvo_™gÀ
@@ -131861,19 +132353,19 @@ right_£rvo_™gÀ
 À·_£rvo_™gÀ
 ))
 
-56 
+57 
 ¥ev_right_£rvo_™gÀ
  = 
 right_£rvo_™gÀ
 ;
 
-57 
+58 
 ¥ev_À·_£rvo_™gÀ
  = 
 À·_£rvo_™gÀ
 ;
 
-58 
+59 
 	`gëSîvoAngÀ
 ((
 uöt8_t
@@ -131883,11 +132375,11 @@ ID_RIGHT
 right_£rvo_™gÀ
 );
 
-59 
+60 
 	`so·Dñay
 (1000);
 
-60 
+61 
 	`gëSîvoAngÀ
 ((
 uöt8_t
@@ -131897,7 +132389,7 @@ ID_LEFT
 À·_£rvo_™gÀ
 );
 
-62 
+63 
 dif„ªn˚
  = 
 right_£rvo_™gÀ
@@ -131905,113 +132397,113 @@ right_£rvo_™gÀ
 À·_£rvo_™gÀ
 ;
 
-63 i‡((
+64 i‡((
 dif„ªn˚
  > 1) && (difference <= 15))
 
-65 *
+66 *
 numbîOfCubesC©ched
  = 1;
 
-67 i‡((
+68 i‡((
 dif„ªn˚
  > 15))
 
-69 *
+70 *
 numbîOfCubesC©ched
  = 2;
 
-72 *
+73 *
 numbîOfCubesC©ched
  = 0;
 
-74 
+75 
 right_£rvo_™gÀ
  = 0;
 
-75 
+76 
 À·_£rvo_™gÀ
  = 0;
 
-76 
+77 
 ¥ev_right_£rvo_™gÀ
  = 1;
 
-77 
+78 
 ¥ev_À·_£rvo_™gÀ
  = 1;
 
-80 
+81 
 	}
 }
 
-82 
+83 
 	$öôCubeC©chîPID
 ()
 
-84 
+85 
 cubesC©chîPID
 .
 p_k
  = 5.00;
 
-85 
+86 
 cubesC©chîPID
 .
 i_k
  = 0.0;
 
-86 
+87 
 cubesC©chîPID
 .
 d_k
  = 0.0;
 
-87 
+88 
 cubesC©chîPID
 .
 pid_⁄
  = 1;
 
-88 
+89 
 cubesC©chîPID
 .
 pid_îr‹_íd
  = 3;
 
-89 
+90 
 cubesC©chîPID
 .
 pid_ouçut_íd
  = 1000;
 
-90 
+91 
 cubesC©chîPID
 .
 max_sum_îr‹
  =16.0;
 
-91 
+92 
 cubesC©chîPID
 .
 max_ouçut
  = 1;
 
-92 
+93 
 cubesC©chîPID
 .
 mö_ouçut
  = 0.01;
 
-93 
+94 
 	}
 }
 
-95 
+96 
 	$GëD©aF‹M™ùuœt‹
 ()
 
-97 
+98 
 CubesC©chîAngÀ
  = 
 adcD©a
@@ -132019,11 +132511,11 @@ adcD©a
 CUBES_CATCHER_ADC
  - 1] * 360 / 3.3;
 
-99 
+100 
 	}
 }
 
-101 
+102 
 	$pidLowLevñM™ùuœt‹
 (
 èrgëAngÀ
@@ -132031,7 +132523,7 @@ CUBES_CATCHER_ADC
 cuºítAngÀ
 )
 
-103 
+104 
 cubesC©chîPID
 .
 èrgë
@@ -132039,7 +132531,7 @@ cubesC©chîPID
 èrgëAngÀ
 ;
 
-104 
+105 
 cubesC©chîPID
 .
 cuºít
@@ -132047,13 +132539,13 @@ cuºít
 cuºítAngÀ
 ;
 
-105 
+106 
 	`pidCÆc
 (&
 cubesC©chîPID
 );
 
-106 
+107 
 	`£tVﬁège
 (()
 CUBES_CATCHER_MOTOR_CH
@@ -132063,53 +132555,53 @@ cubesC©chîPID
 ouçut
 );
 
-107 
+108 
 	}
 }
 
-112 
+113 
 boﬁ
  
 	$≤eumoIn
 ()
 
-115 
+116 
 	}
 }
 
-117 
+118 
 boﬁ
  
 	$≤eumoOut
 ()
 
-120 
+121 
 	}
 }
 
-123 
+124 
 	$li·Sóshñl_up
 ()
 
-125 
+126 
 	`£tSîvoT‹que
 (
 SEASHEL_ID
  , 500);
 
-126 
+127 
 	`£tSîvoCWAngÀLimô
 (
 SEASHEL_ID
  , 0);
 
-127 
+128 
 	`£tSîvoCCWAngÀLimô
 (
 SEASHEL_ID
  , 1023);
 
-128 
+129 
 	`£tSîvoAngÀ
 (
 SEASHEL_ID
@@ -132117,37 +132609,37 @@ SEASHEL_ID
 STARTINGPOS
 );
 
-129 
+130 
 	`so·Dñay
 (20000000);
 
-135 
+136 
 	}
 }
 
-137 
+138 
 	$li·Sóshñl_down
 ()
 
-139 
+140 
 	`£tSîvoT‹que
 (
 SEASHEL_ID
  , 500);
 
-140 
+141 
 	`£tSîvoCWAngÀLimô
 (
 SEASHEL_ID
  , 0);
 
-141 
+142 
 	`£tSîvoCCWAngÀLimô
 (
 SEASHEL_ID
  , 1023);
 
-142 
+143 
 	`£tSîvoAngÀ
 (
 SEASHEL_ID
@@ -132155,87 +132647,87 @@ SEASHEL_ID
 ENDINGPOS
 );
 
-143 
+144 
 	`so·Dñay
 (20000000);
 
-144 
+145 
 	}
 }
 
-145 
+146 
 	$˛o£_d‹s
 ()
 
-147 
+148 
 	`£tSîvoT‹que
 (
 DOORS_ID
  , 500);
 
-151 
+152 
 	`£tSîvoMovögS≥ed
 (
 DOORS_ID
 ,1000,0x0400);
 
-152 
+153 
 	`so·Dñay
 (20000000);
 
-154 
+155 
 	}
 }
 
-155 
+156 
 	$°›_d‹s
 ()
 
-157 
+158 
 	`£tSîvoMovögS≥ed
 (
 DOORS_ID
 ,0,0x0400);
 
-158 
+159 
 	}
 }
 
-160 
+161 
 	$›í_d‹s
 ()
 
-162 
+163 
 	`£tSîvoT‹que
 (
 DOORS_ID
  , 1000);
 
-165 
+166 
 	`£tSîvoMovögS≥ed
 (
 DOORS_ID
 ,1000,0x000);
 
-166 
+167 
 	`so·Dñay
 (9000000);
 
-167 
+168 
 	`£tSîvoMovögS≥ed
 (
 DOORS_ID
 ,0,0x000);
 
-168 
+169 
 	}
 }
 
-170 
+171 
 	$O≥nFishögM™ùuœt‹
 ()
 
-172 
+173 
 	`£tSîvoT‹que
 ((
 uöt8_t
@@ -132247,7 +132739,7 @@ uöt16_t
 FISHING_MANIPULATOR_TORQUE
 );
 
-173 
+174 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132259,15 +132751,15 @@ uöt16_t
 ANG_OPEN_FISHING_MANIPULATOR
 );
 
-174 
+175 
 	}
 }
 
-176 
+177 
 	$DìpO≥nFishögM™ùuœt‹
 ()
 
-178 
+179 
 	`£tSîvoT‹que
 ((
 uöt8_t
@@ -132279,7 +132771,7 @@ uöt16_t
 FISHING_MANIPULATOR_TORQUE
 );
 
-179 
+180 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132291,15 +132783,15 @@ uöt16_t
 ANG_SUPEROPEN_FISHING_MANIPULATOR
 );
 
-180 
+181 
 	}
 }
 
-185 
+186 
 	$Clo£FishögM™ùuœt‹
 ()
 
-187 
+188 
 	`£tSîvoT‹que
 ((
 uöt8_t
@@ -132311,7 +132803,7 @@ uöt16_t
 FISHING_MANIPULATOR_TORQUE
 );
 
-188 
+189 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132323,15 +132815,15 @@ uöt16_t
 ANG_CLOSE_FISHING_MANIPULATOR
 );
 
-189 
+190 
 	}
 }
 
-191 
+192 
 	$HÆfO≥nFishögM™ùuœt‹
 ()
 
-193 
+194 
 	`£tSîvoT‹que
 ((
 uöt8_t
@@ -132343,7 +132835,7 @@ uöt16_t
 FISHING_MANIPULATOR_TORQUE
 );
 
-194 
+195 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132355,15 +132847,15 @@ uöt16_t
 ANG_HALF_CLOSE_FISHING_MANIPULATOR
 );
 
-195 
+196 
 	}
 }
 
-197 
+198 
 	$TórFish
 ()
 
-199 
+200 
 	`£tVﬁège
 (()
 CH_FISHIN_GSERVO
@@ -132371,11 +132863,11 @@ CH_FISHIN_GSERVO
 DUTY_FISH_CATCH
 );
 
-200 
+201 
 	`so·Dñay
 (9000000);
 
-201 
+202 
 	`£tVﬁège
 (()
 CH_FISHIN_GSERVO
@@ -132383,15 +132875,15 @@ CH_FISHIN_GSERVO
 DUTY_FISH_CATCH
 +0.005);
 
-204 
+205 
 	}
 }
 
-206 
+207 
 	$UnTórFish
 ()
 
-207 { 
+208 { 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132403,7 +132895,7 @@ uöt16_t
 ANG_HALF_CLOSE_FISHING_MANIPULATOR
 );
 
-208 
+209 
 	`£tVﬁège
 (()
 CH_FISHIN_GSERVO
@@ -132411,11 +132903,11 @@ CH_FISHIN_GSERVO
 DUTY_FISH_UNCATCH
 );
 
-209 
+210 
 	`so·Dñay
 (9000000);
 
-210 
+211 
 	`£tVﬁège
 (()
 CH_FISHIN_GSERVO
@@ -132423,7 +132915,7 @@ CH_FISHIN_GSERVO
 DUTY_FISH_UNCATCH
 -0.005);
 
-211 
+212 
 	`£tSîvoT‹que
 ((
 uöt8_t
@@ -132433,21 +132925,21 @@ ID_FISHING_MANIPULATOR
 uöt16_t
 ) 850);
 
-212 
+213 
 uöt16_t
  
 ™g1
  = 10;
 
-213 
+214 
 i
 =0;
 
-214  
+215  
 i
 <5)
 
-216 
+217 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132461,11 +132953,11 @@ ANG_HALF_CLOSE_FISHING_MANIPULATOR
 ™g1
 );
 
-217 
+218 
 	`so·Dñay
 (900000);
 
-218 
+219 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132479,15 +132971,15 @@ ANG_HALF_CLOSE_FISHING_MANIPULATOR
 ™g1
 );
 
-219 
+220 
 	`so·Dñay
 (900000);
 
-220 ++
+221 ++
 i
 ;
 
-222 
+223 
 	`£tSîvoT‹que
 ((
 uöt8_t
@@ -132499,7 +132991,7 @@ uöt16_t
 FISHING_MANIPULATOR_TORQUE
 );
 
-223 
+224 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132511,21 +133003,21 @@ uöt16_t
 ANG_HALF_CLOSE_FISHING_MANIPULATOR
 );
 
-225 
+226 
 	}
 }
 
-227 
+228 
 	$O≥n_£ashñl_do‹s
 ()
 
-229 
+230 
 	`£tSîvoT‹que
 (
 DOORS_ID
  , 1000);
 
-232 
+233 
 	`£tSîvoCWAngÀLimô
 (
 DOORS_ID
@@ -132533,7 +133025,7 @@ DOORS_ID
 uöt16_t
 ) 0);
 
-233 
+234 
 	`£tSîvoCCWAngÀLimô
 (
 DOORS_ID
@@ -132541,7 +133033,7 @@ DOORS_ID
 uöt16_t
 ) 1023);
 
-234 
+235 
 	`£tSîvoAngÀ
 (
 DOORS_ID
@@ -132549,21 +133041,21 @@ DOORS_ID
 OPENEDSEASHELANGLE
 );
 
-237 
+238 
 	}
 }
 
-241 
+242 
 	$˛o£_£ashñl_do‹s
 ()
 
-243 
+244 
 	`£tSîvoT‹que
 (
 DOORS_ID
  , 1000);
 
-246 
+247 
 	`£tSîvoCWAngÀLimô
 (
 DOORS_ID
@@ -132571,7 +133063,7 @@ DOORS_ID
 uöt16_t
 ) 0);
 
-247 
+248 
 	`£tSîvoCCWAngÀLimô
 (
 DOORS_ID
@@ -132579,7 +133071,7 @@ DOORS_ID
 uöt16_t
 ) 1023);
 
-248 
+249 
 	`£tSîvoAngÀ
 (
 DOORS_ID
@@ -132587,15 +133079,15 @@ DOORS_ID
 CLOSEDSEASHELANGLE
 );
 
-250 
+251 
 	}
 }
 
-252 
+274 
 	$£rvo_ñev©e_ö
 ()
 
-254 
+276 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132607,15 +133099,15 @@ uöt16_t
 SERVO_ELEVATE_IN
 );
 
-255 
+277 
 	}
 }
 
-256 
+278 
 	$£rvo_ñev©e_out
 ()
 
-258 
+280 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132627,15 +133119,15 @@ uöt16_t
 SERVO_ELEVATE_OUT
 );
 
-259 
+281 
 	}
 }
 
-260 
+282 
 	$£rvo_rŸ©e_90
 ()
 
-262 
+284 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132647,15 +133139,15 @@ uöt16_t
 SERVO_ROTATE_90
 );
 
-263 
+285 
 	}
 }
 
-264 
+286 
 	$£rvo_rŸ©e_180
 ()
 
-266 
+288 
 	`£tSîvoAngÀ
 ((
 uöt8_t
@@ -132667,103 +133159,103 @@ uöt16_t
 SERVO_ROTATE_180
 );
 
-267 
+289 
 	}
 }
 
-268 
+290 
 boﬁ
  
 	$swôchOnP√umo
 ()
 
-270 
+292 
 	`£t_pö
 (
 PIN1_12V
 );
 
-271 
+293 
 	`£t_pö
 (
 PIN2_12V
 );
 
-272 
+294 
 	`£t_pö
 (
 PIN3_12V
 );
 
-273 
+295 
 	`£t_pö
 (
 PIN4_12V
 );
 
-274 
+296 
 	`£t_pö
 (
 PIN5_12V
 );
 
-275 
+297 
 	`£t_pö
 (
 PIN6_12V
 );
 
-277 
+299 
 	}
 }
 
-279 
+301 
 boﬁ
  
 	$swôchOffP√umo
 ()
 
-281 
+303 
 	`ª£t_pö
 (
 PIN1_12V
 );
 
-282 
+304 
 	`ª£t_pö
 (
 PIN2_12V
 );
 
-283 
+305 
 	`ª£t_pö
 (
 PIN3_12V
 );
 
-284 
+306 
 	`ª£t_pö
 (
 PIN4_12V
 );
 
-285 
+307 
 	`ª£t_pö
 (
 PIN5_12V
 );
 
-286 
+308 
 	`ª£t_pö
 (
 PIN6_12V
 );
 
-288 
+310 
 	}
 }
 
-	@F:\From Git\LowLevel\Robot\Manipulators.h
+	@F:\From Git\LowLevel\Small robot\Robot\Manipulators.h
 
 1 #i‚de‡
 _MANIPULATORS_INCLUDED_
@@ -132937,207 +133429,231 @@ boﬁ
 swôchOffP√umo
 ();
 
-50 
+51 
 	#SEASHEL_ID
  9
 
 	)
 
-51 
+52 
 	#DOORS_ID
  2
 
 	)
 
-52 
+53 
 	#STARTINGPOS
  60
 
 	)
 
-53 
+54 
 	#ENDINGPOS
  240
 
 	)
 
-54 
+55 
 	#DORS_OPENPOS
  300
 
 	)
 
-55 
+56 
 	#DOORS_CLOSEDPOS
  50
 
 	)
 
-59 
+60 
 li·Sóshñl_up
 ();
 
-60 
+61 
 li·Sóshñl_down
 ();
 
-61 
+62 
 ˛o£_d‹s
 ();
 
-62 
+63 
 °›_d‹s
 ();
 
-63 
+64 
 ›í_d‹s
 ();
 
-65 
+66 
 	#CH_FISHIN_GSERVO
  5
 
 	)
 
-66 
+67 
 	#ID_FISHING_MANIPULATOR
  3
 
 	)
 
-67 
+68 
 	#ANG_OPEN_FISHING_MANIPULATOR
  140
 
 	)
 
-68 
+69 
 	#ANG_SUPEROPEN_FISHING_MANIPULATOR
  133
 
 	)
 
-69 
+70 
 	#ANG_CLOSE_FISHING_MANIPULATOR
  270
 
 	)
 
-70 
+71 
 	#ANG_HALF_CLOSE_FISHING_MANIPULATOR
  200
 
 	)
 
-71 
+72 
 	#DUTY_FISH_CATCH
  0.08
 
 	)
 
-72 
+73 
 	#TIMEOPENDORS
  10000000
 
 	)
 
-73 
+74 
 	#TIMEClo£D‹s
  19000000
 
 	)
 
-75 
+76 
 	#DUTY_FISH_UNCATCH
  0.03
 
-76 
+77 
 	#FISHING_MANIPULATOR_TORQUE
  1000
 
 	)
 
-79 
+80 
 	#OPENEDSEASHELANGLE
  280
 
 	)
 
-80 
+81 
 	#CLOSEDSEASHELANGLE
  80
 
 	)
 
-83 
+84 
 O≥nFishögM™ùuœt‹
 ();
 
-84 
+85 
 Clo£FishögM™ùuœt‹
 ();
 
-85 
+86 
 HÆfO≥nFishögM™ùuœt‹
 ();
 
-86 
+87 
 TórFish
 ();
 
-87 
+88 
 UnTórFish
 ();
 
-89 
+90 
 £rvo_ñev©e_ö
 ();
 
-90 
+91 
 £rvo_ñev©e_out
 ();
 
-91 
+92 
 £rvo_rŸ©e_90
 ();
 
-92 
+93 
 £rvo_rŸ©e_180
 ();
 
-97 
+98 
 	#SERVO_ELEVATE
  1
 
-98 
+99 
 	#SERVO_ROTATE
  2
 
 	)
 
-100 
+101 
 	#SERVO_ELEVATE_IN
  0
 
-101 
+102 
 	#SERVO_ELEVATE_OUT
  155
 
 	)
 
-102 
+103 
 	#SERVO_ROTATE_90
  60
 
 	)
 
-103 
+104 
 	#SERVO_ROTATE_180
  150
 
 	)
 
-	@F:\From Git\LowLevel\Robot\Path.c
+107 
+boﬁ
+ 
+moveSuckîM™ùuœt‹Up
+();
+
+108 
+boﬁ
+ 
+moveSuckîM™ùuœt‹Down
+();
+
+112 
+	#ZERO_ANGLE_FUTABA_S3154
+ 0.05
+
+	)
+
+113 
+	#MAX_ANGLE_FUTABA_S3154
+ 0.1
+
+	)
+
+	@F:\From Git\LowLevel\Small robot\Robot\Path.c
 
 1 
 	~"P©h.h
@@ -133151,7 +133667,7 @@ UnTórFish
 	}
 };
 
-	@F:\From Git\LowLevel\Robot\Path.h
+	@F:\From Git\LowLevel\Small robot\Robot\Path.h
 
 1 #i‚de‡
 _PATHSTRUCTURE_INCLUDED_
@@ -133223,7 +133739,7 @@ Cíãr
 öôP©hs
 ();
 
-	@F:\From Git\LowLevel\Robot\Regulator.c
+	@F:\From Git\LowLevel\Small robot\Robot\Regulator.c
 
 1 
 	~"Reguœt‹.h
@@ -136225,7 +136741,7 @@ V
 	}
 }
 
-	@F:\From Git\LowLevel\Robot\matrix.c
+	@F:\From Git\LowLevel\Small robot\Robot\matrix.c
 
 1 
 	~"m©rix.h
@@ -137389,7 +137905,7 @@ y
 	}
 }
 
-	@F:\From Git\LowLevel\Robot\matrix.h
+	@F:\From Git\LowLevel\Small robot\Robot\matrix.h
 
 1 #i‚de‡
 __MATR
@@ -137589,7 +138105,7 @@ a
 k
 );
 
-	@F:\From Git\LowLevel\Robot\regulator.h
+	@F:\From Git\LowLevel\Small robot\Robot\regulator.h
 
 1 #i‚de‡
 _REGULATOR_INCLUDED_
@@ -138117,7 +138633,7 @@ V
 vF
 );
 
-	@F:\From Git\LowLevel\Robot\robot.c
+	@F:\From Git\LowLevel\Small robot\Robot\robot.c
 
 1 
 	~"robŸ.h
@@ -138205,47 +138721,53 @@ uöt16_t
 	gdi°™˚_digôÆ1
 [10] = {0,0,0,0,0,0,0,0,0,0};
 
-23 
+23 
+uöt8_t
+ 
+	gdi°™˚_digôÆ2
+[6];
+
+24 
 	gvT¨gëGlob_œ°
 [3]={0,0,0};
 
-24 
+25 
 	grobŸCo‹dT¨gë
 [3] = {0,0,0};
 
-25 
+26 
 	grobŸS≥edT¨gë
 [3] = {0,0,0};
 
-26 
+27 
 	gmŸ‹S≥ed
 [4];
 
-27 
+28 
 	gmŸ‹Co‹d
 [4] = {0,0,0};
 
-28 
+29 
 	grobŸCo‹d
 [3] = {0,0,0};
 
-29 
+30 
 	grobŸS≥ed
 [3] = {0,0,0};
 
-30 
+31 
 robSèãSåu˘
  
 	gcurSèã
  = {1, 1, 1, 0, 0};
 
-31 
+32 
 ícOutPackSåu˘
  
 	goutEnc
 ;
 
-33 
+34 
 uöt32_t
  * 
 	gícC¡
@@ -138259,7 +138781,7 @@ ENCODER3_CNT
 ENCODER4_CNT
 };
 
-34 
+35 
 	gWHEELS
 [4]{
 WHEEL1_CH
@@ -138271,7 +138793,7 @@ WHEEL3_CH
 NO_MOTOR
 };
 
-38 
+39 
 	$execComm™d
 (
 InPackSåu˘
@@ -138279,13 +138801,13 @@ InPackSåu˘
 cmd
 )
 
-40 
+41 
 cmd
 ->
 comm™d
 )
 
-44 *
+45 *
 key
 
 cmd
@@ -138293,15 +138815,15 @@ cmd
 ∑øm
 ;
 
-46 i‡((
+47 i‡((
 key
 [0] =='E')&&(key[1] =='C')&&(key[2] =='H')&&(key[3] =='O') )
 
-48 * 
+49 * 
 °r
  ="mobileÑobot V2.0";
 
-49 
+50 
 	`£ndAnswî
 (
 cmd
@@ -138313,7 +138835,7 @@ comm™d
 	`°æí
 (str)+1);
 
-56 *(
+57 *(
 ãmp
 Ë={(*)
 cmd
@@ -138321,41 +138843,41 @@ cmd
 ∑øm
 };
 
-58 
+59 
 robŸCo‹d
 [0]
 ãmp
 [0];
 
-59 
+60 
 robŸCo‹d
 [1]
 ãmp
 [1];
 
-60 
+61 
 robŸCo‹d
 [2]
 ãmp
 [2];
-
-62 
-poöts
-[0].
-˚¡î
-[0]
-ãmp
-[0];
 
 63 
 poöts
 [0].
 ˚¡î
+[0]
+ãmp
+[0];
+
+64 
+poöts
+[0].
+˚¡î
 [1]
 ãmp
 [1];
 
-64 
+65 
 poöts
 [0].
 ˚¡î
@@ -138363,7 +138885,7 @@ poöts
 ãmp
 [2];
 
-66 
+67 
 	`Cª©eP©h
 (&
 poöts
@@ -138371,11 +138893,11 @@ poöts
 curP©h
 );
 
-67 * 
+68 * 
 °r
  ="Ok";
 
-68 
+69 
 	`£ndAnswî
 (
 cmd
@@ -138385,7 +138907,7 @@ comm™d
 °r
 , 3);
 
-76 
+77 
 ch
  = *
 cmd
@@ -138393,7 +138915,7 @@ cmd
 ∑øm
 ;
 
-77 
+78 
 ãmp
  =*((*)(
 cmd
@@ -138401,7 +138923,7 @@ cmd
 ∑øm
  + 1));
 
-78 
+79 
 	`£tPWM
 –
 ch
@@ -138409,11 +138931,11 @@ ch
 ãmp
 );
 
-79 * 
+80 * 
 °r
  ="Ok";
 
-80 
+81 
 	`£ndAnswî
 (
 cmd
@@ -138423,7 +138945,7 @@ comm™d
 °r
 , 3);
 
-87 * 
+88 * 
 ch
  = 
 cmd
@@ -138431,7 +138953,7 @@ cmd
 ∑øm
 ;
 
-88 
+89 
 	`£t_pö
 (
 PWM_DIR
@@ -138439,11 +138961,11 @@ PWM_DIR
 ch
 )-1]);
 
-89 * 
+90 * 
 °r
  ="Ok";
 
-90 
+91 
 	`£ndAnswî
 (
 cmd
@@ -138453,7 +138975,7 @@ comm™d
 °r
 , 3);
 
-97 * 
+98 * 
 ch
  = 
 cmd
@@ -138461,7 +138983,7 @@ cmd
 ∑øm
 ;
 
-98 
+99 
 	`ª£t_pö
 (
 PWM_DIR
@@ -138469,11 +138991,11 @@ PWM_DIR
 ch
 )-1]);
 
-99 * 
+100 * 
 °r
  ="Ok";
 
-100 
+101 
 	`£ndAnswî
 (
 cmd
@@ -138483,7 +139005,7 @@ comm™d
 °r
 , 3);
 
-106 
+107 
 ch
  = *
 cmd
@@ -138491,7 +139013,7 @@ cmd
 ∑øm
 ;
 
-107 
+108 
 ãmp
  = *((*)(
 cmd
@@ -138499,7 +139021,7 @@ cmd
 ∑øm
 +1));
 
-108 
+109 
 	`£tVﬁège
 –
 ch
@@ -138507,11 +139029,11 @@ ch
 ãmp
 );
 
-109 * 
+110 * 
 °r
  ="Ok";
 
-110 
+111 
 	`£ndAnswî
 (
 cmd
@@ -138521,7 +139043,7 @@ comm™d
 °r
 , 3);
 
-116 *(
+117 *(
 ãmp
 Ë={(*)
 cmd
@@ -138529,15 +139051,15 @@ cmd
 ∑øm
 };
 
-117 
+118 
 i
 ;
 
-118 
+119 
 i
  = 0; i<=3; i++)
 
-120 
+121 
 whìlsPidSåu˘
 [
 i
@@ -138547,7 +139069,7 @@ p_k
 ãmp
 [0];
 
-121 
+122 
 whìlsPidSåu˘
 [
 i
@@ -138557,7 +139079,7 @@ i_k
 ãmp
 [1];
 
-122 
+123 
 whìlsPidSåu˘
 [
 i
@@ -138567,11 +139089,11 @@ d_k
 ãmp
 [2];
 
-124 * 
+125 * 
 °r
  ="Ok";
 
-125 
+126 
 	`£ndAnswî
 (
 cmd
@@ -138581,7 +139103,7 @@ comm™d
 °r
 , 3);
 
-131 *(
+132 *(
 ãmp
 Ë={(*)
 cmd
@@ -138589,15 +139111,15 @@ cmd
 ∑øm
 };
 
-132 
+133 
 i
 ;
 
-133 
+134 
 i
  = 0; i<=3; i++)
 
-135 
+136 
 ªguœt‹Out
 [
 i
@@ -138605,11 +139127,11 @@ i
 ãmp
 [i];
 
-137 * 
+138 * 
 °r
  ="Ok";
 
-138 
+139 
 	`£ndAnswî
 (
 cmd
@@ -138619,17 +139141,17 @@ comm™d
 °r
 , 3);
 
-144 
+145 
 curSèã
 .
 köemEn
 =1;
 
-145 * 
+146 * 
 °r
  ="Ok";
 
-146 
+147 
 	`£ndAnswî
 (
 cmd
@@ -138639,17 +139161,17 @@ comm™d
 °r
 , 3);
 
-152 
+153 
 curSèã
 .
 köemEn
  = 0;
 
-153 * 
+154 * 
 °r
  = "Ok";
 
-154 
+155 
 	`£ndAnswî
 (
 cmd
@@ -138659,7 +139181,7 @@ comm™d
 °r
 , 3);
 
-160 *(
+161 *(
 ãmp
 Ë={(*)
 cmd
@@ -138667,15 +139189,15 @@ cmd
 ∑øm
 };
 
-161 
+162 
 i
 ;
 
-162 
+163 
 i
  = 0; i<=2; i++)
 
-164 
+165 
 vT¨gëGlob
 [
 i
@@ -138683,11 +139205,11 @@ i
 ãmp
 [i];
 
-166 * 
+167 * 
 °r
  ="Ok";
 
-167 
+168 
 	`£ndAnswî
 (
 cmd
@@ -138697,17 +139219,17 @@ comm™d
 °r
 , 3);
 
-173 
+174 
 curSèã
 .
 åackEn
 =1;
 
-174 * 
+175 * 
 °r
  ="Ok";
 
-175 
+176 
 	`£ndAnswî
 (
 cmd
@@ -138717,17 +139239,17 @@ comm™d
 °r
 , 3);
 
-181 
+182 
 curSèã
 .
 åackEn
 =0;
 
-182 * 
+183 * 
 °r
  ="Ok";
 
-183 
+184 
 	`£ndAnswî
 (
 cmd
@@ -138737,7 +139259,7 @@ comm™d
 °r
 , 3);
 
-189 
+190 
 œ°Poöt
 >0Ë
 	`ªmovePoöt
@@ -138745,7 +139267,7 @@ comm™d
 poöts
 [0],&lastPoint);
 
-190 
+191 
 poöts
 [0].
 ˚¡î
@@ -138753,7 +139275,7 @@ poöts
 robŸCo‹d
 [0];
 
-191 
+192 
 poöts
 [0].
 ˚¡î
@@ -138761,7 +139283,7 @@ poöts
 robŸCo‹d
 [1];
 
-192 
+193 
 poöts
 [0].
 ˚¡î
@@ -138769,11 +139291,11 @@ poöts
 robŸCo‹d
 [2];
 
-194 * 
+195 * 
 °r
  ="Ok";
 
-195 
+196 
 	`£ndAnswî
 (
 cmd
@@ -138783,7 +139305,7 @@ comm™d
 °r
 , 3);
 
-202 *(
+203 *(
 ãmp
 Ë={(*)(
 cmd
@@ -138791,7 +139313,7 @@ cmd
 ∑øm
 )};
 
-203 * 
+204 * 
 ch
  = 
 cmd
@@ -138799,11 +139321,11 @@ cmd
 ∑øm
  + 12;
 
-204 
+205 
 œ°Poöt
 ++;
 
-205 
+206 
 poöts
 [
 œ°Poöt
@@ -138813,7 +139335,7 @@ poöts
 ãmp
 [0];
 
-206 
+207 
 poöts
 [
 œ°Poöt
@@ -138823,7 +139345,7 @@ poöts
 ãmp
 [1];
 
-207 
+208 
 poöts
 [
 œ°Poöt
@@ -138833,7 +139355,7 @@ poöts
 ãmp
 [2];
 
-208 
+209 
 poöts
 [
 œ°Poöt
@@ -138845,7 +139367,7 @@ poöts
 ch
 ];
 
-209 
+210 
 poöts
 [
 œ°Poöt
@@ -138857,7 +139379,7 @@ rŸTy≥
 ch
 )];
 
-210 
+211 
 poöts
 [
 œ°Poöt
@@ -138867,7 +139389,7 @@ poöts
 NULL
 ;
 
-211 
+212 
 poöts
 [
 œ°Poöt
@@ -138877,11 +139399,11 @@ movTask
 NULL
 ;
 
-212 * 
+213 * 
 °r
  ="Ok";
 
-213 
+214 
 	`£ndAnswî
 (
 cmd
@@ -138891,23 +139413,23 @@ comm™d
 °r
 , 3);
 
-219 
+220 
 outd©a
 [15];
 
-220 * 
+221 * 
 ãmp
  =(*)(&
 outd©a
 [3]);
 
-221 * 
+222 * 
 ˙tPoöt
  = (&
 outd©a
 [0]);
 
-222 
+223 
 uöt16_t
  * 
 curPoöt
@@ -138915,19 +139437,19 @@ curPoöt
 outd©a
 [1]);
 
-223 *
+224 *
 ˙tPoöt
 
 œ°Poöt
 ;
 
-224 *
+225 *
 curPoöt
  = 
 tŸÆPoötCom∂ôe
 ;
 
-225 
+226 
 ãmp
 [0]
 poöts
@@ -138935,7 +139457,7 @@ poöts
 ˚¡î
 [0];
 
-226 
+227 
 ãmp
 [1]
 poöts
@@ -138943,7 +139465,7 @@ poöts
 ˚¡î
 [1];
 
-227 
+228 
 ãmp
 [2]
 poöts
@@ -138951,7 +139473,7 @@ poöts
 ˚¡î
 [2];
 
-229 
+230 
 	`£ndAnswî
 (
 cmd
@@ -138961,7 +139483,7 @@ comm™d
 outd©a
 , 15);
 
-236 
+237 
 	`£ndAnswî
 (
 cmd
@@ -138971,7 +139493,7 @@ comm™d
 robŸCo‹d
 , (robotCoord));
 
-242 i‡(!
+243 i‡(!
 	`pö_vÆ
  (
 EXTI2_PIN
@@ -138979,15 +139501,15 @@ EXTI2_PIN
 robŸS≥ed
 [0] = 0;
 
-243 
+244 
 robŸS≥ed
 [1] = 0;
 
-244 
+245 
 robŸS≥ed
 [2] = 0;}
 
-245 
+246 
 	`£ndAnswî
 (
 cmd
@@ -138999,7 +139521,7 @@ robŸS≥ed
 robŸCo‹d
 ));
 
-251 *(
+252 *(
 ãmp
 Ë={(*)(
 cmd
@@ -139007,15 +139529,15 @@ cmd
 ∑øm
 )};
 
-252 
+253 
 i
 ;
 
-253 
+254 
 i
  = 0; i<=4; i++)
 
-254 
+255 
 n‹mÆVñFa°
 [
 i
@@ -139023,11 +139545,11 @@ i
 ãmp
 [i];
 
-255 
+256 
 i
  = 0; i<=4; i++)
 
-256 
+257 
 °›VñFa°
 [
 i
@@ -139035,15 +139557,15 @@ i
 ãmp
 [i];
 
-257 
+258 
 °›VñFa°
 [2]=-0.2;
 
-259 * 
+260 * 
 °r
  = "Ok";
 
-260 
+261 
 	`£ndAnswî
 (
 cmd
@@ -139053,7 +139575,7 @@ comm™d
 °r
 , 3);
 
-267 
+268 
 ch
  = (*((*)(
 cmd
@@ -139061,11 +139583,11 @@ cmd
 ∑øm
 ))) -1;
 
-268 i‡(
+269 i‡(
 ch
 <10)
 
-270 
+271 
 pöTy≥
 [
 ch
@@ -139075,7 +139597,7 @@ cmd
 ∑øm
  +1));
 
-271 i‡(
+272 i‡(
 pöTy≥
 [
 ch
@@ -139083,7 +139605,7 @@ ch
 ADC_ANALOG_PIN
  )
 
-272 
+273 
 	`c⁄f_pö
 (
 GENERAL_PIN
@@ -139099,7 +139621,7 @@ FAST_S
 NO_PULL_UP
 );
 
-273 i‡(
+274 i‡(
 pöTy≥
 [
 ch
@@ -139107,7 +139629,7 @@ ch
 ADC_DIG_INPUT
  )
 
-274 
+275 
 	`c⁄f_pö
 (
 GENERAL_PIN
@@ -139123,7 +139645,7 @@ FAST_S
 NO_PULL_UP
 );
 
-275 i‡(
+276 i‡(
 pöTy≥
 [
 ch
@@ -139131,7 +139653,7 @@ ch
 ADC_DIG_OUTPUT
  )
 
-276 
+277 
 	`c⁄f_pö
 (
 GENERAL_PIN
@@ -139147,11 +139669,11 @@ FAST_S
 NO_PULL_UP
 );
 
-278 * 
+279 * 
 °r
  ="Ok";
 
-279 
+280 
 	`£ndAnswî
 (
 cmd
@@ -139161,7 +139683,7 @@ comm™d
 °r
 , 3);
 
-286 
+287 
 ch
  = (*((*)(
 cmd
@@ -139169,11 +139691,11 @@ cmd
 ∑øm
 ))) -1;
 
-287 i‡(
+288 i‡(
 ch
 <10)
 
-288 
+289 
 	`£ndAnswî
 (
 cmd
@@ -139187,7 +139709,7 @@ ch
 uöt16_t
 ));
 
-294 
+295 
 	`£ndAnswî
 (
 cmd
@@ -139197,7 +139719,7 @@ comm™d
 adcD©a
 , (adcData));
 
-300 
+301 
 ch
  = (*((*)(
 cmd
@@ -139205,11 +139727,11 @@ cmd
 ∑øm
 ))) -1;
 
-301 i‡(
+302 i‡(
 ch
 <10)
 
-303 
+304 
 ãmp
  = (
 	`pö_vÆ
@@ -139219,7 +139741,7 @@ GENERAL_PIN
 ch
 ])!=0);
 
-304 
+305 
 	`£ndAnswî
 (
 cmd
@@ -139229,15 +139751,15 @@ comm™d
 ãmp
 , (temp));
 
-311 
+312 
 ãmp
 [10];
 
-312 
+313 
 i
  ;
 
-313  
+314  
 i
  = 0; i<10; i++Ë
 ãmp
@@ -139247,7 +139769,7 @@ i
 GENERAL_PIN
 [i])!=0);
 
-314 
+315 
 	`£ndAnswî
 (
 cmd
@@ -139257,7 +139779,7 @@ comm™d
 ãmp
 , (temp));
 
-320 
+321 
 ch
  = (*((*)(
 cmd
@@ -139265,11 +139787,11 @@ cmd
 ∑øm
 ))) -1;
 
-321 i‡(
+322 i‡(
 ch
 <10)
 
-322 i‡(*(
+323 i‡(*(
 cmd
 ->
 ∑øm
@@ -139281,7 +139803,7 @@ GENERAL_PIN
 ch
 ]); 
 
-323 
+324 
 	`£t_pö
 (
 GENERAL_PIN
@@ -139289,11 +139811,11 @@ GENERAL_PIN
 ch
 ]);
 
-324 * 
+325 * 
 °r
  ="Ok";
 
-325 
+326 
 	`£ndAnswî
 (
 cmd
@@ -139303,7 +139825,7 @@ comm™d
 °r
 , 3);
 
-331 
+332 
 ch
  = (*((*)(
 cmd
@@ -139311,11 +139833,11 @@ cmd
 ∑øm
 ))) -1;
 
-332 i‡(
+333 i‡(
 ch
 <10)
 
-333 
+334 
 	`£ndAnswî
 (
 cmd
@@ -139329,7 +139851,7 @@ ch
 uöt8_t
 ));
 
-340 
+341 
 ch
  = (*((*)(
 cmd
@@ -139337,11 +139859,11 @@ cmd
 ∑øm
 ))) -1;
 
-341 i‡(
+342 i‡(
 ch
 <10)
 
-344 
+345 
 extiTy≥
 [
 ch
@@ -139351,7 +139873,7 @@ cmd
 ∑øm
  +1)));
 
-345 i‡(
+346 i‡(
 extiTy≥
 [
 ch
@@ -139359,7 +139881,7 @@ ch
 EXTI_BOTH
  )
 
-347 
+348 
 	`c⁄f_pö
 (
 EXTI_PIN
@@ -139375,7 +139897,7 @@ FAST_S
 PULL_UP
 );
 
-348 
+349 
 	`add_ext_öãºu±
 (
 EXTI_PIN
@@ -139385,7 +139907,7 @@ ch
 EXTI_BOTH_EDGES
 );
 
-351 i‡(
+352 i‡(
 extiTy≥
 [
 ch
@@ -139393,7 +139915,7 @@ ch
 EXTI_RISE
  )
 
-353 
+354 
 	`c⁄f_pö
 (
 EXTI_PIN
@@ -139409,7 +139931,7 @@ FAST_S
 PULL_UP
 );
 
-354 
+355 
 	`add_ext_öãºu±
 (
 EXTI_PIN
@@ -139419,7 +139941,7 @@ ch
 EXTI_RISING_EDGE
 );
 
-356 i‡(
+357 i‡(
 extiTy≥
 [
 ch
@@ -139427,7 +139949,7 @@ ch
 EXTI_FALL
  )
 
-358 
+359 
 	`c⁄f_pö
 (
 EXTI_PIN
@@ -139443,7 +139965,7 @@ FAST_S
 PULL_UP
 );
 
-359 
+360 
 	`add_ext_öãºu±
 (
 EXTI_PIN
@@ -139453,7 +139975,7 @@ ch
 EXTI_FALLING_EDGE
 ) ;
 
-361 i‡(
+362 i‡(
 extiTy≥
 [
 ch
@@ -139461,7 +139983,7 @@ ch
 EXTI_DIG_INPUT
  )
 
-363 
+364 
 	`c⁄f_pö
 (
 EXTI_PIN
@@ -139477,7 +139999,7 @@ FAST_S
 NO_PULL_UP
 );
 
-364 
+365 
 	`˛ór_ext_öãºu±
 (
 EXTI_PIN
@@ -139485,7 +140007,7 @@ EXTI_PIN
 ch
 ]) ;
 
-367 i‡(
+368 i‡(
 extiTy≥
 [
 ch
@@ -139493,7 +140015,7 @@ ch
 EXTI_DIG_OUTPUT
  )
 
-369 
+370 
 	`c⁄f_pö
 (
 EXTI_PIN
@@ -139509,7 +140031,7 @@ FAST_S
 NO_PULL_UP
 );
 
-370 
+371 
 	`˛ór_ext_öãºu±
 (
 EXTI_PIN
@@ -139517,11 +140039,11 @@ EXTI_PIN
 ch
 ]) ;
 
-374 * 
+375 * 
 °r
  ="Ok";
 
-375 
+376 
 	`£ndAnswî
 (
 cmd
@@ -139531,7 +140053,7 @@ comm™d
 °r
 , 3);
 
-382 
+383 
 ch
  = *((*)(
 cmd
@@ -139539,17 +140061,17 @@ cmd
 ∑øm
 ))-1;
 
-383 i‡((
+384 i‡((
 ch
 )<10)
 
-385 
+386 
 ãmp
  = 
 ch
 ;
 
-386 i‡(
+387 i‡(
 	`pö_vÆ
 (
 EXTI_PIN
@@ -139559,7 +140081,7 @@ ch
 ãmp
  |=0x80;
 
-387 
+388 
 	`£ndAnswî
 (
 cmd
@@ -139569,15 +140091,15 @@ comm™d
 ãmp
 , (temp));
 
-395 
+396 
 ãmp
 [10];
 
-396 
+397 
 i
  ;
 
-397  
+398  
 i
  = 0; i<10; i++Ë
 ãmp
@@ -139587,7 +140109,7 @@ i
 EXTI_PIN
 [i])!=0);
 
-398 
+399 
 	`£ndAnswî
 (
 cmd
@@ -139597,7 +140119,7 @@ comm™d
 ãmp
 , (temp));
 
-404 
+405 
 ch
  = *((*)(
 cmd
@@ -139605,11 +140127,11 @@ cmd
 ∑øm
 ))-1;
 
-405 i‡(
+406 i‡(
 ch
 <10)
 
-406 i‡(*(
+407 i‡(*(
 cmd
 ->
 ∑øm
@@ -139621,7 +140143,7 @@ EXTI_PIN
 ch
 ]); 
 
-407 
+408 
 	`£t_pö
 (
 EXTI_PIN
@@ -139629,11 +140151,11 @@ EXTI_PIN
 ch
 ]);
 
-408 * 
+409 * 
 °r
  ="Ok";
 
-409 
+410 
 	`£ndAnswî
 (
 cmd
@@ -139643,7 +140165,7 @@ comm™d
 °r
 , 3);
 
-415 
+416 
 ch
  = *((*)(
 cmd
@@ -139651,11 +140173,11 @@ cmd
 ∑øm
 ))-1;
 
-416 i‡(
+417 i‡(
 ch
 <10)
 
-417 
+418 
 	`£ndAnswî
 (
 cmd
@@ -139669,7 +140191,7 @@ ch
 uöt8_t
 ));
 
-423 
+424 
 ch
  = (*((*)(
 cmd
@@ -139677,17 +140199,17 @@ cmd
 ∑øm
 )))-1;
 
-424 i‡(
+425 i‡(
 ch
 <6)
 
-427 i‡(*(
+428 i‡(*(
 cmd
 ->
 ∑øm
 +1)==0)
 
-428 
+429 
 	`ª£t_pö
 (
 V12_PIN
@@ -139695,7 +140217,7 @@ V12_PIN
 ch
 ]); 
 
-429 
+430 
 	`£t_pö
 (
 V12_PIN
@@ -139703,11 +140225,11 @@ V12_PIN
 ch
 ]);
 
-431 * 
+432 * 
 °r
  ="Ok";
 
-432 
+433 
 	`£ndAnswî
 (
 cmd
@@ -139717,17 +140239,17 @@ comm™d
 °r
 , 3);
 
-438 
+439 
 curSèã
 .
 pidE«bÀd
 =0;
 
-439 * 
+440 * 
 °r
  ="Ok";
 
-440 
+441 
 	`£ndAnswî
 (
 cmd
@@ -139737,17 +140259,17 @@ comm™d
 °r
 , 3);
 
-446 
+447 
 curSèã
 .
 pidE«bÀd
 =1;
 
-447 * 
+448 * 
 °r
  ="Ok";
 
-448 
+449 
 	`£ndAnswî
 (
 cmd
@@ -139757,7 +140279,7 @@ comm™d
 °r
 , 3);
 
-455 *(
+456 *(
 ãmp
 Ë={(*)
 cmd
@@ -139765,29 +140287,29 @@ cmd
 ∑øm
 };
 
-457 
+458 
 robŸCo‹d
 [0] =
 ãmp
 [0];
 
-458 
+459 
 robŸCo‹d
 [1] =
 ãmp
 [1];
 
-459 
+460 
 robŸCo‹d
 [2] =
 ãmp
 [2];
 
-461 * 
+462 * 
 °r
  ="Ok";
 
-463 
+464 
 	`£ndAnswî
 (
 cmd
@@ -139797,7 +140319,7 @@ comm™d
 °r
 , 3);
 
-469 
+470 
 uöt8_t
  *(
 ID
@@ -139807,7 +140329,7 @@ cmd
 ∑øm
 };
 
-470 
+471 
 uöt16_t
  *(
 ™gÀ
@@ -139817,7 +140339,7 @@ cmd
 ∑øm
  + 1)};
 
-471 i‡(
+472 i‡(
 	`£tSîvoMovögS≥ed
 (
 ID
@@ -139825,11 +140347,11 @@ ID
 ™gÀ
 ))
 
-473 * 
+474 * 
 °r
  ="Ok";
 
-474 
+475 
 	`£ndAnswî
 (
 cmd
@@ -139839,7 +140361,7 @@ comm™d
 °r
 , 3);
 
-481 
+482 
 uöt8_t
  *(
 ID
@@ -139849,7 +140371,7 @@ cmd
 ∑øm
 };
 
-482 
+483 
 uöt16_t
  *(
 limô
@@ -139859,7 +140381,7 @@ cmd
 ∑øm
  + 1)};
 
-483 i‡(
+484 i‡(
 	`£tSîvoCWAngÀLimô
 (
 ID
@@ -139867,11 +140389,11 @@ ID
 limô
 ))
 
-485 * 
+486 * 
 °r
  ="Ok";
 
-486 
+487 
 	`£ndAnswî
 (
 cmd
@@ -139881,7 +140403,7 @@ comm™d
 °r
 , 3);
 
-495 
+496 
 uöt8_t
  *(
 ID
@@ -139891,7 +140413,7 @@ cmd
 ∑øm
 };
 
-496 
+497 
 uöt16_t
  *(
 limô
@@ -139901,7 +140423,7 @@ cmd
 ∑øm
  + 1)};
 
-497 i‡(
+498 i‡(
 	`£tSîvoCCWAngÀLimô
 (
 ID
@@ -139909,11 +140431,11 @@ ID
 limô
 ))
 
-499 * 
+500 * 
 °r
  ="Ok";
 
-500 
+501 
 	`£ndAnswî
 (
 cmd
@@ -139923,7 +140445,7 @@ comm™d
 °r
 , 3);
 
-507 
+508 
 uöt8_t
  *(
 ID
@@ -139933,7 +140455,7 @@ cmd
 ∑øm
 };
 
-508 
+509 
 uöt16_t
  *(
 •ìd
@@ -139943,7 +140465,7 @@ cmd
 ∑øm
  + 1)};
 
-509 
+510 
 uöt16_t
  *(
 dúe˘i⁄
@@ -139953,7 +140475,7 @@ cmd
 ∑øm
  + 3)};
 
-510 i‡(
+511 i‡(
 	`£tSîvoMovögS≥ed
 (
 ID
@@ -139963,11 +140485,11 @@ ID
 dúe˘i⁄
 ))
 
-512 * 
+513 * 
 °r
  ="Ok";
 
-513 
+514 
 	`£ndAnswî
 (
 cmd
@@ -139977,7 +140499,7 @@ comm™d
 °r
 , 3);
 
-520 *(
+521 *(
 ãmp
 Ë(*)(
 cmd
@@ -139985,7 +140507,7 @@ cmd
 ∑øm
 );
 
-521 * 
+522 * 
 ch
  = 
 cmd
@@ -139993,7 +140515,7 @@ cmd
 ∑øm
  + 12;
 
-522 
+523 
 	`addPoötInFr⁄tOfQueue
 (&
 poöts
@@ -140005,7 +140527,7 @@ ch
 œ°Poöt
 );
 
-523 
+524 
 	`Cª©eP©h
 (&
 poöts
@@ -140015,11 +140537,11 @@ robŸCo‹d
 curP©h
 );
 
-525 * 
+526 * 
 °r
  ="Ok";
 
-526 
+527 
 	`£ndAnswî
 (
 cmd
@@ -140029,15 +140551,15 @@ comm™d
 °r
 , 3);
 
-533 
+534 
 	`£rvo_rŸ©e_90
 ();
 
-534 * 
+535 * 
 °r
  ="Ok";
 
-535 
+536 
 	`£ndAnswî
 (
 cmd
@@ -140047,15 +140569,15 @@ comm™d
 °r
 , 3);
 
-541 
+542 
 	`£rvo_rŸ©e_180
 ();
 
-542 * 
+543 * 
 °r
  ="Ok";
 
-543 
+544 
 	`£ndAnswî
 (
 cmd
@@ -140065,15 +140587,15 @@ comm™d
 °r
 , 3);
 
-550 
+551 
 	`£rvo_ñev©e_out
 ();
 
-551 * 
+552 * 
 °r
  ="Ok";
 
-552 
+553 
 	`£ndAnswî
 (
 cmd
@@ -140083,15 +140605,15 @@ comm™d
 °r
 , 3);
 
-558 
+559 
 	`£rvo_ñev©e_ö
 ();
 
-559 * 
+560 * 
 °r
  ="Ok";
 
-560 
+561 
 	`£ndAnswî
 (
 cmd
@@ -140101,15 +140623,15 @@ comm™d
 °r
 , 3);
 
-566 
+567 
 	`swôchOnP√umo
 ();
 
-567 * 
+568 * 
 °r
  ="Ok1";
 
-568 
+569 
 	`£ndAnswî
 (
 cmd
@@ -140119,15 +140641,15 @@ comm™d
 °r
 , 4);
 
-574 
+575 
 	`swôchOffP√umo
 ();
 
-575 * 
+576 * 
 °r
  ="Ok2";
 
-576 
+577 
 	`£ndAnswî
 (
 cmd
@@ -140137,11 +140659,11 @@ comm™d
 °r
 , 4);
 
-591  * 
+592  * 
 °r
  ="Ok";
 
-592 
+593 
 	`£ndAnswî
 (
 cmd
@@ -140151,11 +140673,11 @@ comm™d
 °r
 , 3);
 
-605  * 
+606  * 
 °r
  ="Ok";
 
-606 
+607 
 	`£ndAnswî
 (
 cmd
@@ -140165,7 +140687,7 @@ comm™d
 °r
 , 3);
 
-612 
+613 
 	`£ndAnswî
 (
 cmd
@@ -140175,11 +140697,11 @@ comm™d
 åa˚Fœg
 , (traceFlag));
 
-622 * 
+623 * 
 °r
  ="Ok";
 
-623 
+624 
 	`£ndAnswî
 (
 cmd
@@ -140189,29 +140711,29 @@ comm™d
 °r
 , 3);
 
-628 { i‡(
+629 { i‡(
 	`pö_vÆ
 (
 GENERAL_PIN_0
 ))
 
-629 { 
+630 { 
 	`£t_pö
  (
 PIN6_12V
 );}
 
-630 {
+631 {
 	`ª£t_pö
  (
 PIN6_12V
 );}
 
-631 * 
+632 * 
 °r
  ="Ok";
 
-632 
+633 
 	`£ndAnswî
 (
 cmd
@@ -140221,15 +140743,15 @@ comm™d
 °r
 , 3);
 
-638 
+639 
 	`HÆfO≥nFishögM™ùuœt‹
 ();
 
-639 * 
+640 * 
 °r
  ="Ok";
 
-640 
+641 
 	`£ndAnswî
 (
 cmd
@@ -140239,35 +140761,35 @@ comm™d
 °r
 , 3);
 
-645 
+646 
 	`£t_pö
  (
 PIN6_12V
 );
 
-646 
+647 
 	`so·Dñay
 (10000000);
 
-647 
+648 
 	`so·Dñay
 (12000000);
 
-648 
+649 
 	`so·Dñay
 ( 000000);
 
-650 
+651 
 	`ª£t_pö
  (
 PIN6_12V
 );
 
-652 * 
+653 * 
 °r
  ="Ok";
 
-653 
+654 
 	`£ndAnswî
 (
 cmd
@@ -140277,17 +140799,17 @@ comm™d
 °r
 , 3);
 
-659 i‡(
+660 i‡(
 	`pö_vÆ
  (
 EXTI2_PIN
 ))
 
-660 { * 
+661 { * 
 °r
  ="1";
 
-661 
+662 
 	`£ndAnswî
 (
 cmd
@@ -140297,11 +140819,11 @@ comm™d
 °r
 , 2);
 
-665 * 
+666 * 
 °r
  ="0";
 
-666 
+667 
 	`£ndAnswî
 (
 cmd
@@ -140311,25 +140833,25 @@ comm™d
 °r
 , 2);
 
-676 
+677 
 	`Clo£FishögM™ùuœt‹
 ();
 
-677 
+678 
 curSèã
 .
 pidE«bÀd
  = 0;
 
-678 
+679 
 i
 ;
 
-679 
+680 
 i
  = 0; i < 4; i++)
 
-681 
+682 
 	`£tVﬁège
 (
 WHEELS
@@ -140337,11 +140859,11 @@ WHEELS
 i
 ], () 0);
 
-683 * 
+684 * 
 °r
  ="Ok";
 
-684 
+685 
 	`£ndAnswî
 (
 cmd
@@ -140351,17 +140873,17 @@ comm™d
 °r
 , 3);
 
-690 { 
+691 { 
 curSèã
 .
 cﬁlisi⁄AvEn
  = 1;
 
-691 * 
+692 * 
 °r
  ="Ok";
 
-692 
+693 
 	`£ndAnswî
 (
 cmd
@@ -140371,17 +140893,17 @@ comm™d
 °r
 , 3);
 
-698 { 
+699 { 
 curSèã
 .
 cﬁlisi⁄AvEn
  = 0;
 
-699 * 
+700 * 
 °r
  ="Ok";
 
-700 
+701 
 	`£ndAnswî
 (
 cmd
@@ -140391,85 +140913,109 @@ comm™d
 °r
 , 3);
 
-706 
-di°™˚
-[4];
-
 708 
-di°™˚
-[
-FRONT_LEFT
-] = (()
-adcD©a
-[FRONT_LEFT] * (
-MAX_DIST
- - 
-MIN_DIST
-Ë/ 
-MAX_VOLTAGE
+di°™˚_digôÆ2
+[0] = 
+	`pö_vÆ
+(
+IR_FRONT_LEFT_DOWN
 );
 
 709 
-di°™˚
-[
-FRONT_RIGHT
-] = (()
-adcD©a
-[FRONT_RIGHT] * (
-MAX_DIST
- - 
-MIN_DIST
-Ë/ 
-MAX_VOLTAGE
+di°™˚_digôÆ2
+[1] = 
+	`pö_vÆ
+(
+IR_FRONT_RIGHT_DOWN
 );
 
 710 
-di°™˚
-[
-BACK_LEFT
-] = (()
-adcD©a
-[BACK_LEFT] * (
-MAX_DIST
- - 
-MIN_DIST
-Ë/ 
-MAX_VOLTAGE
+di°™˚_digôÆ2
+[2] = 
+	`pö_vÆ
+(
+IR_FRONT_LEFT_UP
 );
 
 711 
-di°™˚
-[
-BACK_RIGHT
-] = (()
-adcD©a
-[BACK_RIGHT] * (
-MAX_DIST
- - 
-MIN_DIST
-Ë/ 
-MAX_VOLTAGE
+di°™˚_digôÆ2
+[3] = 
+	`pö_vÆ
+(
+IR_FRONT_RIGHT_UP
+);
+
+712 
+di°™˚_digôÆ2
+[4] = 
+	`pö_vÆ
+(
+IR_FRONT_TOP
 );
 
 713 
+di°™˚_digôÆ2
+[5] = 
+	`pö_vÆ
+(
+IR_BACK
+);
+
+715 
 	`£ndAnswî
 (
 cmd
 ->
 comm™d
 , (* )
-di°™˚
-, (distance));
+di°™˚_digôÆ2
+, (distance_digital2));
 
-720 
+722 
+	`goUpWôhSuckögM™ùuœt‹
+();
+
+723 * 
+°r
+ ="Ok";
+
+724 
+	`£ndAnswî
+(
+cmd
+->
+comm™d
+, 
+°r
+, 3);
+
+731 
+	`goDownWôhSuckögM™ùuœt‹
+();
+
+732 * 
+°r
+ ="Ok";
+
+733 
+	`£ndAnswî
+(
+cmd
+->
+comm™d
+, 
+°r
+, 3);
+
+746 
 	`O≥n_£ashñl_do‹s
 ();
 
-721 * 
+747 * 
 °r
  ="Ok";
 
-722 
+748 
 	`£ndAnswî
 (
 cmd
@@ -140479,15 +141025,15 @@ comm™d
 °r
 , 3);
 
-728 
+754 
 	`˛o£_£ashñl_do‹s
 ();
 
-729 * 
+755 * 
 °r
  ="Ok";
 
-730 
+756 
 	`£ndAnswî
 (
 cmd
@@ -140497,7 +141043,7 @@ comm™d
 °r
 , 3);
 
-737 *(
+763 *(
 ãmp
 Ë={(*)
 cmd
@@ -140505,7 +141051,7 @@ cmd
 ∑øm
 };
 
-738 * 
+764 * 
 ch
  = 
 cmd
@@ -140513,29 +141059,29 @@ cmd
 ∑øm
  + 24;
 
-739 
+765 
 robŸCo‹d
 [0] = 
 ãmp
 [0];
 
-740 
+766 
 robŸCo‹d
 [1] = 
 ãmp
 [1];
 
-741 
+767 
 robŸCo‹d
 [2] = 
 ãmp
 [2];
 
-742 
+768 
 œ°Poöt
 ++;
 
-743 
+769 
 poöts
 [
 œ°Poöt
@@ -140545,7 +141091,7 @@ poöts
 ãmp
 [3];
 
-744 
+770 
 poöts
 [
 œ°Poöt
@@ -140555,7 +141101,7 @@ poöts
 ãmp
 [4];
 
-745 
+771 
 poöts
 [
 œ°Poöt
@@ -140565,7 +141111,7 @@ poöts
 ãmp
 [5];
 
-746 
+772 
 poöts
 [
 œ°Poöt
@@ -140577,7 +141123,7 @@ poöts
 ch
 ];
 
-747 
+773 
 poöts
 [
 œ°Poöt
@@ -140589,7 +141135,7 @@ rŸTy≥
 ch
 ];
 
-748 
+774 
 poöts
 [
 œ°Poöt
@@ -140599,7 +141145,7 @@ poöts
 NULL
 ;
 
-749 
+775 
 poöts
 [
 œ°Poöt
@@ -140609,11 +141155,11 @@ movTask
 NULL
 ;
 
-751 * 
+777 * 
 °r
  ="Ok";
 
-752 
+778 
 	`£ndAnswî
 (
 cmd
@@ -140623,393 +141169,11 @@ comm™d
 °r
 , 3);
 
-802 
-	}
-}
-
-806 
-	$checkCﬁlisi⁄Avoid_smÆl
-(* 
-rV
-, * 
-vT¨gëGlob
-)
-
-809 
-ªÆRad
- = 
-robŸCo‹d
-[2];
-
-813 
-MrŸ
-[3][3] = {
-	`cos
-(
-ªÆRad
-Ë, 
-	`sö
-(realRad), 0,
-
-814 -
-	`sö
-(
-ªÆRad
-), 
-	`cos
-(realRad), 0,
-
-816 
-loˇlVñocôy
-[3];
-
-817 
-	`m©rixMu…ùlyM2M
-(&
-MrŸ
-[0][0], 3, 3, 
-vT¨gëGlob
-, 3, 1, &
-loˇlVñocôy
-[0]);
-
-828 i‡((
-loˇlVñocôy
-[0]>0Ë&& (loˇlVñocôy[1]<0Ë&& ((
-di°™˚D©a
-[0][5]<=
-thªshhﬁd
- ) || (di°™˚D©a[1][5]<Òhªshhﬁd ) || (
-di°™˚_digôÆ
-[0] == 0))){
-
 829 
-	`°›move
-();}
-
-831 i‡((
-loˇlVñocôy
-[0]<=0Ë&& (loˇlVñocôy[1]<=0Ë&& (
-di°™˚D©a
-[0][5]<=
-thªshhﬁd
- || (
-di°™˚_digôÆ
-[0] == 0)) ) {
-
-832 
-	`°›move
-();}
-
-833 i‡((
-loˇlVñocôy
-[0]<=0Ë&& (loˇlVñocôy[1] >0Ë&& ((
-di°™˚D©a
-[2][5]<=
-thªshhﬁd
- ) || (
-di°™˚_digôÆ1
-[0] == 0))) {
-
-834 
-	`°›move
-();}
-
-840 
 	}
 }
 
-843 
-	$°›move
-(){
-
-845 
-vT¨gëGlob
-[2]=0.0;
-
-846 
-vT¨gëGlob
-[0]=0.0;
-
-847 
-vT¨gëGlob
-[1]=0.0;
-
-848 
-vT¨gëGlobF
-[2]=0.0;
-
-849 
-vT¨gëGlobF
-[0]=0.0;
-
-850 
-vT¨gëGlobF
-[1]=0.0;
-
-851 
-	}
-}
-
-853 
-	$èkódc
-(
-di°™˚D©a
-[][6],
-adc_numbî1
-,
-adc_numbî2
-,
-adc_numbî3
-)
-
-855 
-di°™˚D©a
-[0][0]=distanceData[0][1];
-
-856 
-di°™˚D©a
-[0][1]=distanceData[0][2];
-
-857 
-di°™˚D©a
-[0][2]=distanceData[0][3];
-
-858 
-di°™˚D©a
-[0][3]=distanceData[0][4];
-
-860 
-di°™˚D©a
-[0][4] = 
-adcD©a
-[
-adc_numbî1
-]* 0.0822 * 2.54;
-
-861 
-di°™˚D©a
-[0][5] = (distanceData[0][2] + distanceData[0][1] + distanceData[0][0] + distanceData[0][3]+distanceData[0][4] ) / 5.0;
-
-863 
-di°™˚D©a
-[1][0]=distanceData[1][1];
-
-864 
-di°™˚D©a
-[1][1]=distanceData[1][2];
-
-865 
-di°™˚D©a
-[1][2]=distanceData[1][3];
-
-866 
-di°™˚D©a
-[1][3]=distanceData[1][4];
-
-868 
-di°™˚D©a
-[1][4] = 
-adcD©a
-[
-adc_numbî2
-]* 0.0822 * 2.54;
-
-869 
-di°™˚D©a
-[1][5] = (distanceData[1][2] + distanceData[1][1] + distanceData[1][0] + distanceData[1][3]+distanceData[1][4] ) / 5.0;
-
-871 
-di°™˚D©a
-[2][0]=distanceData[2][1];
-
-872 
-di°™˚D©a
-[2][1]=distanceData[2][2];
-
-873 
-di°™˚D©a
-[2][2]=distanceData[2][3];
-
-874 
-di°™˚D©a
-[2][3]=distanceData[2][4];
-
-875 
-di°™˚D©a
-[2][4] = 
-adcD©a
-[
-adc_numbî3
-]* 0.0822 * 2.54;
-
-876 
-di°™˚D©a
-[2][5] = (distanceData[2][2] + distanceData[2][1] + distanceData[2][0] + distanceData[2][3]+distanceData[2][4] ) / 5.0;
-
-881 i‡(
-adcD©a
-[4]> 0.15*4096.0/3.0)
-
-883 
-di°™˚FromIR
- = ((20.0 / ((3.0 * 
-adcD©a
-[4] / 4096.0) - 0.15)) );
-
-885 
-di°™˚FromIR
- = (20.0 / ((0.01))) ;
-
-890 
-di°™˚_digôÆ
-[1]=distance_digital[2];
-
-891 
-di°™˚_digôÆ
-[2]=distance_digital[3];
-
-892 
-di°™˚_digôÆ
-[3]=distance_digital[4];
-
-893 
-di°™˚_digôÆ
-[4]=distance_digital[5];
-
-895 
-di°™˚_digôÆ
-[5]=distance_digital[6];
-
-896 
-di°™˚_digôÆ
-[6]=distance_digital[7];
-
-897 
-di°™˚_digôÆ
-[7]=distance_digital[8];
-
-899 
-di°™˚_digôÆ
-[8] = 
-	`pö_vÆ
- (
-EXTI5_PIN
-);
-
-901 
-i
- =0;
-
-902 
-i
- = 1; i <= 5; i++)
-
-904 i‡(
-di°™˚_digôÆ
-[
-i
-]==0)
-
-906 
-di°™˚_digôÆ
-[9]=1;
-
-909 i‡(
-di°™˚_digôÆ
-[9]==1)
-
-910 {
-di°™˚_digôÆ
-[0]=0;
-
-911 
-di°™˚_digôÆ
-[9]=0;}
-
-913 {
-di°™˚_digôÆ
-[0]=1;
-
-914 
-di°™˚_digôÆ
-[9]=0;
-
-917 
-di°™˚_digôÆ1
-[1]=distance_digital1[2];
-
-918 
-di°™˚_digôÆ1
-[2]=distance_digital1[3];
-
-919 
-di°™˚_digôÆ1
-[3]=distance_digital1[4];
-
-920 
-di°™˚_digôÆ1
-[4]=distance_digital1[5];
-
-922 
-di°™˚_digôÆ1
-[5]=distance_digital1[6];
-
-923 
-di°™˚_digôÆ1
-[6]=distance_digital1[7];
-
-924 
-di°™˚_digôÆ1
-[7]=distance_digital1[8];
-
-926 
-di°™˚_digôÆ1
-[8] = 
-	`pö_vÆ
- (
-EXTI1_PIN
-);
-
-929 
-i
- = 1; i <= 5; i++)
-
-931 i‡(
-di°™˚_digôÆ1
-[
-i
-]==0)
-
-933 
-di°™˚_digôÆ1
-[9]=1;
-
-936 i‡(
-di°™˚_digôÆ1
-[9]==1)
-
-937 {
-di°™˚_digôÆ1
-[0]=0;
-
-938 
-di°™˚_digôÆ1
-[9]=0;}
-
-940 {
-di°™˚_digôÆ1
-[0]=1;
-
-941 
-di°™˚_digôÆ1
-[9]=0;
-
-946 
-	}
-}
-
-	@F:\From Git\LowLevel\Robot\robot.h
+	@F:\From Git\LowLevel\Small robot\Robot\robot.h
 
 1 #i‚de‡
 _ROBOTS_INCLUDED_
@@ -141297,277 +141461,311 @@ ENCODER4A_PIN
 
 	)
 
-59 #¥agm®
+59 
+	#IR_FRONT_LEFT_DOWN
+ 
+EXTI5_PIN
+
+
+	)
+
+60 
+	#IR_FRONT_RIGHT_DOWN
+ 
+EXTI6_PIN
+
+
+	)
+
+61 
+	#IR_FRONT_LEFT_UP
+ 
+EXTI7_PIN
+
+
+	)
+
+62 
+	#IR_FRONT_RIGHT_UP
+ 
+EXTI8_PIN
+
+
+	)
+
+63 
+	#IR_FRONT_TOP
+ 
+EXTI9_PIN
+
+
+	)
+
+64 
+	#IR_BACK
+ 
+EXTI10_PIN
+*/
+
+	)
+
+66 #¥agm®
 ∑ck
 (
 push
 ,1)
 
-61 
+68 
 	msync
-;
-
-62 
-	madªss
-;
-
-63 
-	m∑ckLí
-;
-
-64 
-	mcomm™d
- ;
-
-65 * 
-	m∑øm
-;
-
-66 } 
-	tInPackSåu˘
 ;
 
 69 
-	msync
+	madªss
 ;
 
 70 
-	madªss
+	m∑ckLí
 ;
 
 71 
 	mcomm™d
+ ;
+
+72 * 
+	m∑øm
 ;
 
-72 
+73 } 
+	tInPackSåu˘
+;
+
+76 
+	msync
+;
+
+77 
+	madªss
+;
+
+78 
+	mcomm™d
+;
+
+79 
 	mrobŸCo‹d
 [4];
 
-73 
+80 
 uöt16_t
  
 	mcheckSum
 ;
 
-74 } 
+81 } 
 	tOutPackSåu˘
 ;
 
-75 #¥agm®
+82 #¥agm®
 ∑ck
 (
 p›
 )
 
-78 #¥agm®
+85 #¥agm®
 ∑ck
 (
 push
 ,1)
 
-80 
+87 
 	msync
-;
-
-81 
-	madªss
-;
-
-82 
-	mrobŸS≥ed
-[3];
-
-83 
-	mrobŸCo‹d
-[3];
-
-84 
-uöt16_t
- 
-	mcheckSum
-;
-
-85 } 
-	tícInPackSåu˘
 ;
 
 88 
-	msync
-;
-
-89 
 	madªss
 ;
 
-90 
-	mComm™d
-;
+89 
+	mrobŸS≥ed
+[3];
 
-91 
+90 
 	mrobŸCo‹d
-[4];
+[3];
 
-92 
+91 
 uöt16_t
  
 	mcheckSum
 ;
 
-94 } 
+92 } 
+	tícInPackSåu˘
+;
+
+95 
+	msync
+;
+
+96 
+	madªss
+;
+
+97 
+	mComm™d
+;
+
+98 
+	mrobŸCo‹d
+[4];
+
+99 
+uöt16_t
+ 
+	mcheckSum
+;
+
+101 } 
 	tícOutPackSåu˘
 ;
 
-95 #¥agm®
+102 #¥agm®
 ∑ck
 (
 p›
 )
 
-100 
+107 
 	mpidE«bÀd
 ;
 
-101 
+108 
 	måackEn
 ;
 
-102 
+109 
 	mköemEn
 ;
 
-103 
+110 
 	mfûãrög
 ;
 
-104 
+111 
 	mcﬁlisi⁄AvEn
 ;
 
-105 } 
+112 } 
 	trobSèãSåu˘
 ;
 
-107 
+114 
 robŸCo‹dT¨gë
 [3];
 
-108 
+115 
 robŸS≥edT¨gë
 [3] ;
 
-109 
+116 
 mŸ‹S≥ed
 [4];
 
-110 
+117 
 mŸ‹Co‹d
 [4] ;
 
-111 
+118 
 robŸCo‹d
 [3] ;
 
-112 
+119 
 robŸS≥ed
 [3] ;
 
-113 
+120 
 robSèãSåu˘
  
 curSèã
 ;
 
-114 
+121 
 ícOutPackSåu˘
  
 outEnc
 ;
 
-115 
+122 
 vT¨gëGlob
 [3];
 
-117 
+125 
+uöt8_t
+ 
+di°™˚_digôÆ2
+[6];
+
+127 
 uöt32_t
  
 PWM_DIR
 [10];
 
-118 
+128 
 uöt32_t
  * 
 PWM_CCR
 [10];
 
-119 
+129 
 uöt32_t
  * 
 ícC¡
 [4];
 
-120 
+130 
 WHEELS
 [4];
 
-121 
+131 
 uöt16_t
  
 adcD©a
 [10];
 
-123 
+133 
 boﬁ
  
 Êag
 ;
 
-124 
+134 
 ∑ckLí
 [0x29];
 
-125 
+135 
 InPackSåu˘
  
 öComm™d
 ;
 
-126 
+136 
 öD©a
 [64];
 
-127 
+137 
 d©aIndex
 ;
 
-128 
+138 
 di°™˚D©a
 [3][6];
 
-129 
-èkódc
-(
-di°™˚D©a
-[][6],
-adc_numbî1
-,
-adc_numbî2
-,
-adc_numbî3
-);
-
-130 
+140 
 °›move
 ();
 
-131 
-checkCﬁlisi⁄Avoid_smÆl
-(*
-rV
- , * 
-vT¨gëGlob
-);
-
-133 
+143 
 £tVﬁège
 (
 ch
@@ -141575,7 +141773,7 @@ ch
 duty
 );
 
-134 
+144 
 execComm™d
 (
 InPackSåu˘
@@ -141583,13 +141781,13 @@ InPackSåu˘
 cmd
 );
 
-135 
+145 
 pushByã
 (
 öByã
 );
 
-136 
+146 
 £ndAnswî
 (
 cmd
@@ -141599,7 +141797,7 @@ cmd
 ∑ømSize
 );
 
-	@F:\From Git\LowLevel\USB App\stm32fxxx_it.c
+	@F:\From Git\LowLevel\Small robot\USB App\stm32fxxx_it.c
 
 31 
 	~"°m32fxxx_ô.h
@@ -141771,7 +141969,7 @@ USB_OTG_dev
 	}
 }
 
-	@F:\From Git\LowLevel\USB App\stm32fxxx_it.h
+	@F:\From Git\LowLevel\Small robot\USB App\stm32fxxx_it.h
 
 29 #i‚de‡
 __STM32Fxxx_IT_H
@@ -141847,7 +142045,7 @@ OTG_FS_IRQH™dÀr
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\USB App\usb_bsp.c
+	@F:\From Git\LowLevel\Small robot\USB App\usb_bsp.c
 
 30 
 	~"usb_b•.h
@@ -142829,7 +143027,7 @@ m£c
 	}
 }
 
-	@F:\From Git\LowLevel\USB App\usb_conf.h
+	@F:\From Git\LowLevel\Small robot\USB App\usb_conf.h
 
 29 #i‚de‡
 __USB_CONF__H__
@@ -143235,7 +143433,7 @@ __u«lig√d
 
 	)
 
-	@F:\From Git\LowLevel\USB App\usbd_cdc_vcp.c
+	@F:\From Git\LowLevel\Small robot\USB App\usbd_cdc_vcp.c
 
 28 #ifde‡
 USB_OTG_HS_INTERNAL_DMA_ENABLED
@@ -143789,7 +143987,7 @@ USBD_OK
 	}
 }
 
-	@F:\From Git\LowLevel\USB App\usbd_cdc_vcp.h
+	@F:\From Git\LowLevel\Small robot\USB App\usbd_cdc_vcp.h
 
 29 #i‚de‡
 __USBD_CDC_VCP_H
@@ -143887,7 +144085,7 @@ USART3_IRQH™dÀr
 EVAL_COM_IRQH™dÀr
 ();
 
-	@F:\From Git\LowLevel\USB App\usbd_conf.h
+	@F:\From Git\LowLevel\Small robot\USB App\usbd_conf.h
 
 29 #i‚de‡
 __USBD_CONF__H__
@@ -144005,7 +144203,7 @@ VCP_f›s
 
 	)
 
-	@F:\From Git\LowLevel\USB App\usbd_desc.c
+	@F:\From Git\LowLevel\Small robot\USB App\usbd_desc.c
 
 29 
 	~"usbd_c‹e.h
@@ -144743,7 +144941,7 @@ idx
 	}
 }
 
-	@F:\From Git\LowLevel\USB App\usbd_desc.h
+	@F:\From Git\LowLevel\Small robot\USB App\usbd_desc.h
 
 30 #i‚de‡
 __USB_DESC_H
@@ -144997,7 +145195,7 @@ uöt16_t
 Àngth
 );
 
-	@F:\From Git\LowLevel\USB App\usbd_usr.c
+	@F:\From Git\LowLevel\Small robot\USB App\usbd_usr.c
 
 29 
 	~"usbd_u§.h
@@ -145125,7 +145323,7 @@ uöt8_t
 	}
 }
 
-	@F:\From Git\LowLevel\readme.txt
+	@F:\From Git\LowLevel\Small robot\readme.txt
 
 1 
 You
@@ -145201,7 +145399,7 @@ ORIGIN
 	gLENGTH
  = 0x01000
 
-	@F:\From Git\LowLevel\spl\inc\misc.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\misc.h
 
 30 #i‚de‡
 __MISC_H
@@ -145507,7 +145705,7 @@ SysTick_CLKSour˚
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_adc.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_adc.h
 
 30 #i‚de‡
 __STM32F4xx_ADC_H
@@ -148071,7 +148269,7 @@ ADC_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_can.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_can.h
 
 30 #i‚de‡
 __STM32F4xx_CAN_H
@@ -149989,7 +150187,7 @@ CAN_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_crc.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_crc.h
 
 30 #i‚de‡
 __STM32F4xx_CRC_H
@@ -150055,7 +150253,7 @@ CRC_GëIDRegi°î
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_cryp.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_cryp.h
 
 30 #i‚de‡
 __STM32F4xx_CRYP_H
@@ -151343,7 +151541,7 @@ Ouçut
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_dac.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_dac.h
 
 30 #i‚de‡
 __STM32F4xx_DAC_H
@@ -152285,7 +152483,7 @@ DAC_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_dbgmcu.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_dbgmcu.h
 
 29 #i‚de‡
 __STM32F4xx_DBGMCU_H
@@ -152581,7 +152779,7 @@ NewSèã
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_dcmi.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_dcmi.h
 
 29 #i‚de‡
 __STM32F4xx_DCMI_H
@@ -153375,7 +153573,7 @@ DCMI_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_dma.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_dma.h
 
 30 #i‚de‡
 __STM32F4xx_DMA_H
@@ -155695,7 +155893,7 @@ DMA_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_exti.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_exti.h
 
 30 #i‚de‡
 __STM32F4xx_EXTI_H
@@ -156177,7 +156375,7 @@ EXTI_Löe
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_flash.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_flash.h
 
 30 #i‚de‡
 __STM32F4xx_FLASH_H
@@ -158161,7 +158359,7 @@ FLASH_WaôF‹La°O≥øti⁄
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_fsmc.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_fsmc.h
 
 30 #i‚de‡
 __STM32F4xx_FSMC_H
@@ -159605,7 +159803,7 @@ FSMC_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_gpio.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_gpio.h
 
 30 #i‚de‡
 __STM32F4xx_GPIO_H
@@ -161785,7 +161983,7 @@ GPIO_AF
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_hash.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_hash.h
 
 30 #i‚de‡
 __STM32F4xx_HASH_H
@@ -162425,7 +162623,7 @@ Ouçut
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_i2c.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_i2c.h
 
 30 #i‚de‡
 __STM32F4xx_I2C_H
@@ -164107,7 +164305,7 @@ I2C_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_iwdg.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_iwdg.h
 
 30 #i‚de‡
 __STM32F4xx_IWDG_H
@@ -164343,7 +164541,7 @@ IWDG_FLAG
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_pwr.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_pwr.h
 
 30 #i‚de‡
 __STM32F4xx_PWR_H
@@ -165045,7 +165243,7 @@ PWR_FLAG
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_rcc.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_rcc.h
 
 29 #i‚de‡
 __STM32F4xx_RCC_H
@@ -169201,7 +169399,7 @@ RCC_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_rng.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_rng.h
 
 30 #i‚de‡
 __STM32F4xx_RNG_H
@@ -169401,7 +169599,7 @@ RNG_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_rtc.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_rtc.h
 
 30 #i‚de‡
 __STM32F4xx_RTC_H
@@ -172315,7 +172513,7 @@ RTC_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_sdio.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_sdio.h
 
 30 #i‚de‡
 __STM32F4xx_SDIO_H
@@ -174117,7 +174315,7 @@ SDIO_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_spi.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_spi.h
 
 30 #i‚de‡
 __STM32F4xx_SPI_H
@@ -175945,7 +176143,7 @@ SPI_I2S_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_syscfg.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_syscfg.h
 
 30 #i‚de‡
 __STM32F4xx_SYSCFG_H
@@ -176719,7 +176917,7 @@ SYSCFG_Bªak
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_tim.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_tim.h
 
 30 #i‚de‡
 __STM32F4xx_TIM_H
@@ -181343,7 +181541,7 @@ TIM_Rem≠
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_usart.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_usart.h
 
 30 #i‚de‡
 __STM32F4xx_USART_H
@@ -182701,7 +182899,7 @@ USART_IT
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\inc\stm32f4xx_wwdg.h
+	@F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_wwdg.h
 
 30 #i‚de‡
 __STM32F4xx_WWDG_H
@@ -182851,7 +183049,7 @@ WWDG_CÀ¨Fœg
 __˝lu•lus
 
 
-	@F:\From Git\LowLevel\spl\src\misc.c
+	@F:\From Git\LowLevel\Small robot\spl\src\misc.c
 
 76 
 	~"misc.h
@@ -183195,7 +183393,7 @@ SysTick_CLKSour˚_HCLK_Div8
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_adc.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_adc.c
 
 106 
 	~"°m32f4xx_adc.h
@@ -186177,7 +186375,7 @@ uöt32_t
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_can.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_can.c
 
 84 
 	~"°m32f4xx_ˇn.h
@@ -189953,7 +190151,7 @@ RESET
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_cec.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cec.c
 
 93 
 	~"°m32f4xx_˚c.h
@@ -190675,7 +190873,7 @@ CEC_IT
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_crc.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_crc.c
 
 29 
 	~"°m32f4xx_¸c.h
@@ -190821,7 +191019,7 @@ IDR
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_cryp.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cryp.c
 
 164 
 	~"°m32f4xx_¸yp.h
@@ -192531,7 +192729,7 @@ bô°©us
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_cryp_aes.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cryp_aes.c
 
 55 
 	~"°m32f4xx_¸yp.h
@@ -198183,7 +198381,7 @@ DISABLE
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_cryp_des.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cryp_des.c
 
 48 
 	~"°m32f4xx_¸yp.h
@@ -198851,7 +199049,7 @@ DISABLE
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_cryp_tdes.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cryp_tdes.c
 
 48 
 	~"°m32f4xx_¸yp.h
@@ -199647,7 +199845,7 @@ DISABLE
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_dac.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dac.c
 
 131 
 	~"°m32f4xx_dac.h
@@ -200789,7 +200987,7 @@ DAC_Ch™√l
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_dbgmcu.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dbgmcu.c
 
 29 
 	~"°m32f4xx_dbgmcu.h
@@ -200999,7 +201197,7 @@ DBGMCU_Pîùh
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_dcmi.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dcmi.c
 
 86 
 	~"°m32f4xx_dcmi.h
@@ -201893,7 +202091,7 @@ DCMI_IT
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_dma.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dma.c
 
 124 
 	~"°m32f4xx_dma.h
@@ -203951,7 +204149,7 @@ RESERVED_MASK
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_dma2d.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dma2d.c
 
 58 
 	~"°m32f4xx_dma2d.h
@@ -205757,7 +205955,7 @@ DMA2D_IT
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_dsi.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dsi.c
 
 44 
 	~"°m32f4xx_dsi.h
@@ -210539,7 +210737,7 @@ DSI_ERROR_GEN_MASK
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_exti.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_exti.c
 
 68 
 	~"°m32f4xx_exti.h
@@ -211045,7 +211243,7 @@ EXTI_Löe
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_gpio.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_gpio.c
 
 84 
 	~"°m32f4xx_gpio.h
@@ -212189,7 +212387,7 @@ GPIO_PöSour˚
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_hash.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_hash.c
 
 123 
 	~"°m32f4xx_hash.h
@@ -213081,7 +213279,7 @@ HASH_IT
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_hash_md5.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_hash_md5.c
 
 47 
 	~"°m32f4xx_hash.h
@@ -213799,7 +213997,7 @@ D©a
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_hash_sha1.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_hash_sha1.c
 
 47 
 	~"°m32f4xx_hash.h
@@ -214549,7 +214747,7 @@ D©a
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_i2c.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_i2c.c
 
 92 
 	~"°m32f4xx_i2c.h
@@ -216999,7 +217197,7 @@ uöt16_t
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_iwdg.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_iwdg.c
 
 85 
 	~"°m32f4xx_iwdg.h
@@ -217195,7 +217393,7 @@ bô°©us
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_lptim.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_lptim.c
 
 96 
 	~"°m32f4xx_Õtim.h
@@ -218673,7 +218871,7 @@ bô°©us
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_ltdc.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_ltdc.c
 
 76 
 	~"°m32f4xx_…dc.h
@@ -221463,7 +221661,7 @@ LTDC_IT
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_pwr.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_pwr.c
 
 38 
 	~"°m32f4xx_pwr.h
@@ -222909,7 +223107,7 @@ PWR_FLAG
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_qspi.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_qspi.c
 
 82 
 	~"°m32f4xx_q•i.h
@@ -224689,7 +224887,7 @@ QUADSPI_CR_DFM
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_rcc.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_rcc.c
 
 59 
 	~"°m32f4xx_rcc.h
@@ -229325,7 +229523,7 @@ RCC_IT
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_rng.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_rng.c
 
 56 
 	~"°m32f4xx_∫g.h
@@ -229683,7 +229881,7 @@ RNG_IT
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_rtc.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_rtc.c
 
 285 
 	~"°m32f4xx_πc.h
@@ -235221,7 +235419,7 @@ uöt8_t
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_sai.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_sai.c
 
 126 
 	~"°m32f4xx_ßi.h
@@ -236909,7 +237107,7 @@ tm¥eg
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_sdio.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_sdio.c
 
 156 
 	~"°m32f4xx_sdio.h
@@ -238421,7 +238619,7 @@ SDIO_IT
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_spdifrx.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_spdifrx.c
 
 34 
 	~"°m32f4xx_•di‰x.h
@@ -239187,7 +239385,7 @@ SPDIFRX_IT
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_spi.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_spi.c
 
 159 
 	~"°m32f4xx_•i.h
@@ -241387,7 +241585,7 @@ uöt16_t
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_syscfg.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_syscfg.c
 
 50 
 	~"°m32f4xx_syscfg.h
@@ -241785,7 +241983,7 @@ SYSCFG_Bªak
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_tim.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_tim.c
 
 119 
 	~"°m32f4xx_tim.h
@@ -249385,7 +249583,7 @@ tmpc˚r
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_usart.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_usart.c
 
 92 
 	~"°m32f4xx_ußπ.h
@@ -251707,7 +251905,7 @@ uöt16_t
 	}
 }
 
-	@F:\From Git\LowLevel\spl\src\stm32f4xx_wwdg.c
+	@F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_wwdg.c
 
 84 
 	~"°m32f4xx_wwdg.h
@@ -252047,7 +252245,7 @@ RESET
 	}
 }
 
-	@F:\From Git\LowLevel\src\main.c
+	@F:\From Git\LowLevel\Small robot\src\main.c
 
 14 
 	~"°m32f4xx_c⁄f.h
@@ -252201,11 +252399,29 @@ uöt16_t
 dëe˘‹
  = 0;
 
-284 
+90 
+™gÀ
+ = 0;
+
+91 
+i
+, 
+j
+;
+
+92 
+d
+;
+
+93 
+p
+;
+
+145 
 	}
 }
 
-	@F:\From Git\LowLevel\src\startup_stm32f4xx.S
+	@F:\From Git\LowLevel\Small robot\src\startup_stm32f4xx.S
 
 32 .
 sy¡ax
@@ -253667,7 +253883,7 @@ def_úq_h™dÀr
 	gíd
 
 
-	@F:\From Git\LowLevel\src\system_stm32f4xx.c
+	@F:\From Git\LowLevel\Small robot\src\system_stm32f4xx.c
 
 123 
 	~"°m32f4xx.h
@@ -254797,7 +255013,7 @@ tm¥eg
 	}
 }
 
-	@F:\From Git\LowLevel\stm32f407vg_flash.ld
+	@F:\From Git\LowLevel\Small robot\stm32f407vg_flash.ld
 
 33 
 OUTPUT_FORMAT
@@ -255247,7 +255463,7 @@ __SèckLimô
 __HópLimô
 , "region RAM overflowed with stack")
 
-	@F:\From Git\LowLevel\stm32f407vg_sram.ld
+	@F:\From Git\LowLevel\Small robot\stm32f407vg_sram.ld
 
 33 
 OUTPUT_FORMAT
@@ -255701,7 +255917,7 @@ __SèckLimô
 __HópLimô
 , "region RAM overflowed with stack")
 
-	@F:\From Git\LowLevel\version.h
+	@F:\From Git\LowLevel\Small robot\version.h
 
 1 #i‚de‡
 VERSION_H
@@ -255788,148 +256004,148 @@ VERSION_H
 .
 0
 144
-6340
-F:\From Git\LowLevel\Board\ADC.c
-F:\From Git\LowLevel\Board\Board.c
-F:\From Git\LowLevel\Board\Board.h
-F:\From Git\LowLevel\Board\Interrupts.c
-F:\From Git\LowLevel\Board\Interrupts.h
-F:\From Git\LowLevel\Board\Pins.h
-F:\From Git\LowLevel\Board\adc.h
-F:\From Git\LowLevel\Board\gpio.h
-F:\From Git\LowLevel\Board\i2c.c
-F:\From Git\LowLevel\Board\i2c.h
-F:\From Git\LowLevel\Board\tim.c
-F:\From Git\LowLevel\Board\tim.h
-F:\From Git\LowLevel\Board\usart.c
-F:\From Git\LowLevel\Board\usart.h
-F:\From Git\LowLevel\Library\My_gpio.h
-F:\From Git\LowLevel\Library\arm_common_tables.h
-F:\From Git\LowLevel\Library\arm_math.h
-F:\From Git\LowLevel\Library\cdc\inc\usbd_cdc_core.h
-F:\From Git\LowLevel\Library\cdc\inc\usbd_cdc_if_template.h
-F:\From Git\LowLevel\Library\cdc\src\usbd_cdc_core.c
-F:\From Git\LowLevel\Library\core\inc\usb_bsp.h
-F:\From Git\LowLevel\Library\core\inc\usb_core.h
-F:\From Git\LowLevel\Library\core\inc\usb_dcd.h
-F:\From Git\LowLevel\Library\core\inc\usb_dcd_int.h
-F:\From Git\LowLevel\Library\core\inc\usb_defines.h
-F:\From Git\LowLevel\Library\core\inc\usb_otg.h
-F:\From Git\LowLevel\Library\core\inc\usb_regs.h
-F:\From Git\LowLevel\Library\core\inc\usbd_core.h
-F:\From Git\LowLevel\Library\core\inc\usbd_def.h
-F:\From Git\LowLevel\Library\core\inc\usbd_ioreq.h
-F:\From Git\LowLevel\Library\core\inc\usbd_req.h
-F:\From Git\LowLevel\Library\core\inc\usbd_usr.h
-F:\From Git\LowLevel\Library\core\inc\usbh_core.h
-F:\From Git\LowLevel\Library\core\inc\usbh_def.h
-F:\From Git\LowLevel\Library\core\src\usb_core.c
-F:\From Git\LowLevel\Library\core\src\usb_dcd.c
-F:\From Git\LowLevel\Library\core\src\usb_dcd_int.c
-F:\From Git\LowLevel\Library\core\src\usbd_core.c
-F:\From Git\LowLevel\Library\core\src\usbd_ioreq.c
-F:\From Git\LowLevel\Library\core\src\usbd_req.c
-F:\From Git\LowLevel\Library\core_cm4.h
-F:\From Git\LowLevel\Library\core_cm4_simd.h
-F:\From Git\LowLevel\Library\core_cmFunc.h
-F:\From Git\LowLevel\Library\core_cmInstr.h
-F:\From Git\LowLevel\Library\stm32f4_discovery.h
-F:\From Git\LowLevel\Library\stm32f4xx.h
-F:\From Git\LowLevel\Library\stm32f4xx_conf.h
-F:\From Git\LowLevel\Library\system_stm32f4xx.h
-F:\From Git\LowLevel\Robot\Communication.c
-F:\From Git\LowLevel\Robot\Communication.h
-F:\From Git\LowLevel\Robot\Dynamixel_control.c
-F:\From Git\LowLevel\Robot\Dynamixel_control.h
-F:\From Git\LowLevel\Robot\Extern_variables.h
-F:\From Git\LowLevel\Robot\Kinematics.c
-F:\From Git\LowLevel\Robot\Manipulators.c
-F:\From Git\LowLevel\Robot\Manipulators.h
-F:\From Git\LowLevel\Robot\Path.c
-F:\From Git\LowLevel\Robot\Path.h
-F:\From Git\LowLevel\Robot\Regulator.c
-F:\From Git\LowLevel\Robot\matrix.c
-F:\From Git\LowLevel\Robot\matrix.h
-F:\From Git\LowLevel\Robot\regulator.h
-F:\From Git\LowLevel\Robot\robot.c
-F:\From Git\LowLevel\Robot\robot.h
-F:\From Git\LowLevel\USB App\stm32fxxx_it.c
-F:\From Git\LowLevel\USB App\stm32fxxx_it.h
-F:\From Git\LowLevel\USB App\usb_bsp.c
-F:\From Git\LowLevel\USB App\usb_conf.h
-F:\From Git\LowLevel\USB App\usbd_cdc_vcp.c
-F:\From Git\LowLevel\USB App\usbd_cdc_vcp.h
-F:\From Git\LowLevel\USB App\usbd_conf.h
-F:\From Git\LowLevel\USB App\usbd_desc.c
-F:\From Git\LowLevel\USB App\usbd_desc.h
-F:\From Git\LowLevel\USB App\usbd_usr.c
-F:\From Git\LowLevel\readme.txt
-F:\From Git\LowLevel\spl\inc\misc.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_adc.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_can.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_crc.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_cryp.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_dac.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_dbgmcu.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_dcmi.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_dma.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_exti.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_flash.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_fsmc.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_gpio.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_hash.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_i2c.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_iwdg.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_pwr.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_rcc.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_rng.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_rtc.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_sdio.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_spi.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_syscfg.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_tim.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_usart.h
-F:\From Git\LowLevel\spl\inc\stm32f4xx_wwdg.h
-F:\From Git\LowLevel\spl\src\misc.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_adc.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_can.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_cec.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_crc.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_cryp.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_cryp_aes.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_cryp_des.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_cryp_tdes.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_dac.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_dbgmcu.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_dcmi.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_dma.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_dma2d.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_dsi.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_exti.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_gpio.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_hash.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_hash_md5.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_hash_sha1.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_i2c.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_iwdg.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_lptim.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_ltdc.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_pwr.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_qspi.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_rcc.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_rng.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_rtc.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_sai.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_sdio.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_spdifrx.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_spi.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_syscfg.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_tim.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_usart.c
-F:\From Git\LowLevel\spl\src\stm32f4xx_wwdg.c
-F:\From Git\LowLevel\src\main.c
-F:\From Git\LowLevel\src\startup_stm32f4xx.S
-F:\From Git\LowLevel\src\system_stm32f4xx.c
-F:\From Git\LowLevel\stm32f407vg_flash.ld
-F:\From Git\LowLevel\stm32f407vg_sram.ld
-F:\From Git\LowLevel\version.h
+8068
+F:\From Git\LowLevel\Small robot\Board\ADC.c
+F:\From Git\LowLevel\Small robot\Board\Board.c
+F:\From Git\LowLevel\Small robot\Board\Board.h
+F:\From Git\LowLevel\Small robot\Board\Interrupts.c
+F:\From Git\LowLevel\Small robot\Board\Interrupts.h
+F:\From Git\LowLevel\Small robot\Board\Pins.h
+F:\From Git\LowLevel\Small robot\Board\adc.h
+F:\From Git\LowLevel\Small robot\Board\gpio.h
+F:\From Git\LowLevel\Small robot\Board\i2c.c
+F:\From Git\LowLevel\Small robot\Board\i2c.h
+F:\From Git\LowLevel\Small robot\Board\tim.c
+F:\From Git\LowLevel\Small robot\Board\tim.h
+F:\From Git\LowLevel\Small robot\Board\usart.c
+F:\From Git\LowLevel\Small robot\Board\usart.h
+F:\From Git\LowLevel\Small robot\Library\My_gpio.h
+F:\From Git\LowLevel\Small robot\Library\arm_common_tables.h
+F:\From Git\LowLevel\Small robot\Library\arm_math.h
+F:\From Git\LowLevel\Small robot\Library\cdc\inc\usbd_cdc_core.h
+F:\From Git\LowLevel\Small robot\Library\cdc\inc\usbd_cdc_if_template.h
+F:\From Git\LowLevel\Small robot\Library\cdc\src\usbd_cdc_core.c
+F:\From Git\LowLevel\Small robot\Library\core\inc\usb_bsp.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usb_core.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usb_dcd.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usb_dcd_int.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usb_defines.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usb_otg.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usb_regs.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_core.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_def.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_ioreq.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_req.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usbd_usr.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usbh_core.h
+F:\From Git\LowLevel\Small robot\Library\core\inc\usbh_def.h
+F:\From Git\LowLevel\Small robot\Library\core\src\usb_core.c
+F:\From Git\LowLevel\Small robot\Library\core\src\usb_dcd.c
+F:\From Git\LowLevel\Small robot\Library\core\src\usb_dcd_int.c
+F:\From Git\LowLevel\Small robot\Library\core\src\usbd_core.c
+F:\From Git\LowLevel\Small robot\Library\core\src\usbd_ioreq.c
+F:\From Git\LowLevel\Small robot\Library\core\src\usbd_req.c
+F:\From Git\LowLevel\Small robot\Library\core_cm4.h
+F:\From Git\LowLevel\Small robot\Library\core_cm4_simd.h
+F:\From Git\LowLevel\Small robot\Library\core_cmFunc.h
+F:\From Git\LowLevel\Small robot\Library\core_cmInstr.h
+F:\From Git\LowLevel\Small robot\Library\stm32f4_discovery.h
+F:\From Git\LowLevel\Small robot\Library\stm32f4xx.h
+F:\From Git\LowLevel\Small robot\Library\stm32f4xx_conf.h
+F:\From Git\LowLevel\Small robot\Library\system_stm32f4xx.h
+F:\From Git\LowLevel\Small robot\Robot\Communication.c
+F:\From Git\LowLevel\Small robot\Robot\Communication.h
+F:\From Git\LowLevel\Small robot\Robot\Dynamixel_control.c
+F:\From Git\LowLevel\Small robot\Robot\Dynamixel_control.h
+F:\From Git\LowLevel\Small robot\Robot\Extern_variables.h
+F:\From Git\LowLevel\Small robot\Robot\Kinematics.c
+F:\From Git\LowLevel\Small robot\Robot\Manipulators.c
+F:\From Git\LowLevel\Small robot\Robot\Manipulators.h
+F:\From Git\LowLevel\Small robot\Robot\Path.c
+F:\From Git\LowLevel\Small robot\Robot\Path.h
+F:\From Git\LowLevel\Small robot\Robot\Regulator.c
+F:\From Git\LowLevel\Small robot\Robot\matrix.c
+F:\From Git\LowLevel\Small robot\Robot\matrix.h
+F:\From Git\LowLevel\Small robot\Robot\regulator.h
+F:\From Git\LowLevel\Small robot\Robot\robot.c
+F:\From Git\LowLevel\Small robot\Robot\robot.h
+F:\From Git\LowLevel\Small robot\USB App\stm32fxxx_it.c
+F:\From Git\LowLevel\Small robot\USB App\stm32fxxx_it.h
+F:\From Git\LowLevel\Small robot\USB App\usb_bsp.c
+F:\From Git\LowLevel\Small robot\USB App\usb_conf.h
+F:\From Git\LowLevel\Small robot\USB App\usbd_cdc_vcp.c
+F:\From Git\LowLevel\Small robot\USB App\usbd_cdc_vcp.h
+F:\From Git\LowLevel\Small robot\USB App\usbd_conf.h
+F:\From Git\LowLevel\Small robot\USB App\usbd_desc.c
+F:\From Git\LowLevel\Small robot\USB App\usbd_desc.h
+F:\From Git\LowLevel\Small robot\USB App\usbd_usr.c
+F:\From Git\LowLevel\Small robot\readme.txt
+F:\From Git\LowLevel\Small robot\spl\inc\misc.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_adc.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_can.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_crc.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_cryp.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_dac.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_dbgmcu.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_dcmi.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_dma.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_exti.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_flash.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_fsmc.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_gpio.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_hash.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_i2c.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_iwdg.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_pwr.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_rcc.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_rng.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_rtc.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_sdio.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_spi.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_syscfg.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_tim.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_usart.h
+F:\From Git\LowLevel\Small robot\spl\inc\stm32f4xx_wwdg.h
+F:\From Git\LowLevel\Small robot\spl\src\misc.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_adc.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_can.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cec.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_crc.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cryp.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cryp_aes.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cryp_des.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_cryp_tdes.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dac.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dbgmcu.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dcmi.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dma.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dma2d.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_dsi.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_exti.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_gpio.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_hash.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_hash_md5.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_hash_sha1.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_i2c.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_iwdg.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_lptim.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_ltdc.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_pwr.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_qspi.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_rcc.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_rng.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_rtc.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_sai.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_sdio.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_spdifrx.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_spi.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_syscfg.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_tim.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_usart.c
+F:\From Git\LowLevel\Small robot\spl\src\stm32f4xx_wwdg.c
+F:\From Git\LowLevel\Small robot\src\main.c
+F:\From Git\LowLevel\Small robot\src\startup_stm32f4xx.S
+F:\From Git\LowLevel\Small robot\src\system_stm32f4xx.c
+F:\From Git\LowLevel\Small robot\stm32f407vg_flash.ld
+F:\From Git\LowLevel\Small robot\stm32f407vg_sram.ld
+F:\From Git\LowLevel\Small robot\version.h

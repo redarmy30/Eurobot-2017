@@ -31,10 +31,6 @@ bool close_tower(int8_t);
 
 extern uint16_t adcData[10];
 
-bool openCubesCatcher();
-bool closeCubesCatcher(uint8_t*);
-void initCubeCatcherPID(void);
-void GetDataForManipulator(void);
 void pidLowLevelManipulator(float, float);
 ///////////////////////////////////////////////////////////////
 
@@ -93,6 +89,15 @@ void servo_rotate_90();
 void servo_rotate_180();
 
 
+#define UPPER_SWITCH EXTI1_PIN
+#define DOWN_SWITCH EXTI2_PIN
+#define INPUT2_CONTROL EXTI3_PIN
+#define INPUT1_CONTROL EXTI4_PIN
+
+
+bool goUpWithSuckingManipulator();
+bool goDownWithSuckingManipulator();
+
 
 
 #define SERVO_ELEVATE  1 //defining servos
@@ -106,7 +111,6 @@ void servo_rotate_180();
 
 bool moveSuckerManipulatorUp();
 bool moveSuckerManipulatorDown();
-
 
 
 #define ZERO_ANGLE_FUTABA_S3154 0.05

@@ -1,4 +1,4 @@
-#include "robot.h"
+#include "Robot.h"
 #include "pins.h"
 #include "usart.h"
 #include "usbd_cdc_core.h"
@@ -8,7 +8,7 @@
 #include "stm32fxxx_it.h"
 #include "usbd_cdc_vcp.h"
 #include "string.h"
-#include "regulator.h"
+#include "Regulator.h"
 #include "interrupts.h"
 #include "Board.h"
 #include "Communication.h"
@@ -20,6 +20,7 @@ float distanceFromIR;
 bool flag = 1;
 uint16_t distance_digital[10] = {0,0,0,0,0,0,0,0,0,0};
 uint16_t distance_digital1[10] = {0,0,0,0,0,0,0,0,0,0};
+uint8_t distance_digital2[6];
 float vTargetGlob_last[3]={0,0,0};
 float robotCoordTarget[3] = {0,0,0}; // Целевые координаты робота в глоб сис-ме координат
 float robotSpeedTarget[3] = {0,0,0}; // Целевые скорости робота в глоб сис-ме координат
@@ -104,8 +105,9 @@ switch(cmd->command)
   case 0x06:  //Установить напряжение на двигателе
   {
       char  ch = *cmd->param;
-      float temp = *((float*)(cmd->param+1));
-      setVoltage( ch-1, temp);
+      float duty = *((float*)(cmd->param + 1));
+      uint16_t dir = *((uint16_t*)(cmd->param + 2));
+      setVoltageMaxon( ch-1, dir, duty);
       char * str ="Ok";
       sendAnswer(cmd->command,str, 3);
   }
@@ -577,69 +579,12 @@ break;
   }
    break;
 
-    case 0x31: // LoadSeashels
-  { /*
-        close_dors();
-        liftSeashell_down();
-        setVoltage(4,-0.5);
-        //optic sensor
-        stop_dors();
-        liftSeashell_up();
-        setVoltage(4,0);
-
-    // optic sensor control
-  */  char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-  }
-   break;
-
-
-
-case 0x132: // Unload seashels
-  {/*
-      open_dors();
-      liftSeashell_down();
-      setVoltage(4,0.5);
-      softDelay(9000000);
-    // optic sensor control
-  */  char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-  }
-   break;
-
 case 0x32:  // Flag of reached point
   {
       sendAnswer(cmd->command, (char *)&traceFlag, sizeof(traceFlag));
   }
   break;
 
-
-
-case 0x33: //open doors
-{/*
-    open_dors();
-*/
-    char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-}
-break;
-
-case 0x94: //UMBRELLA
-{    if (pin_val(GENERAL_PIN_0))
-        { set_pin (PIN6_12V);}
-        else {reset_pin (PIN6_12V);}
-        char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-}
-break;
-
-case 0x35: //halfopen
-{
-    HalfOpenFishingManipulator();
-    char * str ="Ok";
-    sendAnswer(cmd->command, str, 3);
-}
-break;
 case 0x37:   //open umbrella
 {
     set_pin (PIN6_12V); // крутимся
@@ -669,22 +614,19 @@ case 0x36:
 
     }
 break;
-case 0x40: // STOP AFTER 90 SEC
 
-    {  //initAll();
-       //curState.trackEn = 0;
-        CloseFishingManipulator();
-        curState.pidEnabled = 0;
-        char i;
-        for (i = 0; i < 4; i++)
-        {
-            setVoltage(WHEELS[i], (float) 0);
-        }
-        char * str ="Ok";
-        sendAnswer(cmd->command,str, 3);
+  case 0x40:  // Stop command
+  {
+    curState.pidEnabled = 0;
+    char i;
+    for (i = 0; i < 4; i++)
+    {
+        setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
     }
-
-    break;
+    char * str ="Ok";
+    sendAnswer(cmd->command,str, 3);
+  }
+  break;
 
 case 0x38:        // avoidance ENABLED
 {       curState.collisionAvEn   = 1;
@@ -703,19 +645,20 @@ break;
 
 case 0x3A: // Distance from ultrasonic sensors
   {
-        /*float distance[4];
 
-        distance[FRONT_LEFT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[FRONT_LEFT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
-        distance[FRONT_RIGHT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[FRONT_RIGHT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
-        distance[BACK_LEFT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[BACK_LEFT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
-        distance[BACK_RIGHT] = MIN_DIST + (MAX_VOLTAGE - (float)adcData[BACK_RIGHT]) * (MAX_DIST - MIN_DIST) / MAX_VOLTAGE;
+        distance_digital2[0] = pin_val(IR_FRONT_LEFT_DOWN);
+        distance_digital2[1] = pin_val(IR_FRONT_RIGHT_DOWN);
+        distance_digital2[2] = pin_val(IR_FRONT_LEFT_UP);
+        distance_digital2[3] = pin_val(IR_FRONT_RIGHT_UP);
+        distance_digital2[4] = pin_val(IR_FRONT_TOP);
+        distance_digital2[5] = pin_val(IR_BACK);
 
-        sendAnswer(cmd->command, (char* )distance, sizeof(distance));
-*/
+        sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
+
   }
    break;
 
-case 0x3B: // Sucking manipulator
+/*case 0x3B: // Sucking manipulator
   {
         goUpWithSuckingManipulator();
         char * str ="Ok";
@@ -732,25 +675,15 @@ case 0x3C: // Sucking manipulator
 
   }
    break;
-
-case 0x41: // ОТКРЫТЬ ДВЕРИ
+*/
+/*case 0x3D:
     {
-       Open_seashell_doors();
-       char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
-    }
-    break;
 
-case 0x42: // ЗАКРЫТЬ ДВЕРИ
-    {
-       close_seashell_doors();
-       char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
-    }
-    break;
 
-    case 0x43: // Generate new trajectory with correction
+    }*/
 
+
+case 0x43: // Generate new trajectory with correction
 {
 float *(temp) ={(float*)cmd->param};
 char * ch = cmd->param + 24;
@@ -822,7 +755,7 @@ break;
 
 
 
-void checkCollisionAvoid_small(float * rV, float* vTargetGlob)
+/*void checkCollisionAvoid_small(float * rV, float* vTargetGlob)
 {
 
           float realRad        = robotCoord[2];
@@ -849,8 +782,8 @@ void checkCollisionAvoid_small(float * rV, float* vTargetGlob)
 
     else if ((localVelocity[0]<=0) && (localVelocity[1]<=0) && (distanceData[0][5]<=threshhold || (distance_digital[0] == 0))  ) {
         stopmove();}
-    else if ((localVelocity[0]<=0) && (localVelocity[1] >0) && ((distanceData[2][5]<=threshhold ) || (distance_digital1[0] == 0))) {
-        stopmove();}
+//    else if ((localVelocity[0]<=0) && (localVelocity[1] >0) && ((distanceData[2][5]<=threshhold ) || (distance_digital1[0] == 0))) {
+  //      stopmove();}
     else {
         //curState.trackEn = 1;
         //*flag = 1;
@@ -869,53 +802,17 @@ void stopmove(){
         vTargetGlobF[1]=0.0;
         }
 
-void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_number3)
-{
-    distanceData[0][0]=distanceData[0][1];
-    distanceData[0][1]=distanceData[0][2];
-    distanceData[0][2]=distanceData[0][3];
-    distanceData[0][3]=distanceData[0][4];
+//void takeadc(int adc_number1,int adc_number2,int adc_number3)
+//{
 
-    distanceData[0][4] = adcData[adc_number1]* 0.0822 * 2.54;
-    distanceData[0][5] = (distanceData[0][2]  + distanceData[0][1]  + distanceData[0][0] + distanceData[0][3]+distanceData[0][4] ) / 5.0;
-
-    distanceData[1][0]=distanceData[1][1];
-    distanceData[1][1]=distanceData[1][2];
-    distanceData[1][2]=distanceData[1][3];
-    distanceData[1][3]=distanceData[1][4];
-
-    distanceData[1][4] = adcData[adc_number2]* 0.0822 * 2.54;
-    distanceData[1][5] = (distanceData[1][2]  + distanceData[1][1]  + distanceData[1][0] + distanceData[1][3]+distanceData[1][4] ) / 5.0;
-
-    distanceData[2][0]=distanceData[2][1];
-    distanceData[2][1]=distanceData[2][2];
-    distanceData[2][2]=distanceData[2][3];
-    distanceData[2][3]=distanceData[2][4];
-    distanceData[2][4] = adcData[adc_number3]* 0.0822 * 2.54;
-    distanceData[2][5] = (distanceData[2][2]  + distanceData[2][1]  + distanceData[2][0] + distanceData[2][3]+distanceData[2][4] ) / 5.0;
+    //figure out how many distance sensors we will have - 6 IR
 
 
 
+/*
+    for(i=1;i<8:i++)distance_digital[i]=distance_digital[i+1];
+    distance_digital[8] = pin_val(EXTI1_PIN);
 
-    if (adcData[4]> 0.15*4096.0/3.0)
-    {
-      distanceFromIR = ((20.0 / ((3.0 * adcData[4] / 4096.0) - 0.15)) );
-    } else
-    distanceFromIR = (20.0 / ((0.01))) ;
-
-
-
-
-    distance_digital[1]=distance_digital[2];
-    distance_digital[2]=distance_digital[3];
-    distance_digital[3]=distance_digital[4];
-    distance_digital[4]=distance_digital[5];
-
-    distance_digital[5]=distance_digital[6];
-    distance_digital[6]=distance_digital[7];
-    distance_digital[7]=distance_digital[8];
-
-    distance_digital[8] = pin_val (EXTI5_PIN);
     //distance_digital[0]= distance_digital[1]*distance_digital[2]*distance_digital[3]*distance_digital[4]*distance_digital[5]*distance_digital[6];
     int i =0;
     for (i = 1; i <= 5; i++) // 0-4
@@ -933,16 +830,9 @@ void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_num
      distance_digital[9]=0;
      }
 
-    distance_digital1[1]=distance_digital1[2];
-    distance_digital1[2]=distance_digital1[3];
-    distance_digital1[3]=distance_digital1[4];
-    distance_digital1[4]=distance_digital1[5];
+    for(i=1;i<8:i++)distance_digital1[i]=distance_digital1[i+1];
+    distance_digital1[8] = pin_val(EXTI2_PIN);
 
-    distance_digital1[5]=distance_digital1[6];
-    distance_digital1[6]=distance_digital1[7];
-    distance_digital1[7]=distance_digital1[8];
-
-    distance_digital1[8] = pin_val (EXTI1_PIN);
     //distance_digital[0]= distance_digital[1]*distance_digital[2]*distance_digital[3]*distance_digital[4]*distance_digital[5]*distance_digital[6];
 
     for (i = 1; i <= 5; i++) // 0-4
@@ -953,16 +843,15 @@ void takeadc(float distanceData[][6],int adc_number1,int adc_number2,int adc_num
         }
     }
     if (distance_digital1[9]==1)
-    {distance_digital1[0]=0;
+    {distance_digital1[0]=0; //this means there is an obstacle in this sensor
      distance_digital1[9]=0;}
     else
      {distance_digital1[0]=1;
      distance_digital1[9]=0;
      }
+*/
 
-
-
-}
+//}
 
 /*void soft_delay(long int ticks)
 {

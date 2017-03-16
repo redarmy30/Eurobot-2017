@@ -34,19 +34,7 @@ float ACCEL_INC = 0.02;
  TVector AccelInc2 = {0, 0};
  TVector TargSpeed = {0, 0};
 
-pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 30.0, NULL,NULL,0,stopVelFast,normalRotFast,0,1 },  //Стек точек траектории
-                                        {0., 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },//#1
-                                        {1.0, 0., 0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0., 0.0, 0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 4*3.139999-3*0.0001, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.4, 0.1, 0.0, NULL,NULL,0,normalVelFast,normalRotFast,0,1 },//5
-                                        {0.5, 0.50, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },//6
-                                        {0.5, 0.0, 0, NULL,NULL,0,normalVelFast,stopRotFast,0,1 },
-                                        {0,   0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },};
+
 
 //pathPointStr defaultPoint;
 
@@ -74,6 +62,20 @@ float standRotSlow[5] = {1.0 , 1.0, -1.0, 2.0, 2.5};                            
 
 float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow };// типы  линейный скоростей
 float * rotType[6] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow};// типы угловых скоростей
+
+pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },  //Стек точек траектории
+                                        {0.5, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//#1
+                                        {0.0, 0.0, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {0.0, 0.5, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//5
+                                        {0.0, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//6
+                                        {0.5, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
+                                        {0,   0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },};
 
 //______________________________________________________________________________
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,20 +120,7 @@ void addPointInFrontOfQueue(pathPointStr *pointsArray, float *newPoint, char *ch
 
 void initRegulators(void)  // инициализация регуляторов
 {
-//PID Regulator settings________________________________________________________
-  int i = 0;
-  for (i = 0; i<=3; i++)  // пиды колес
-  {
-  	wheelsPidStruct[i].p_k = 5.00; //5.0
-  	wheelsPidStruct[i].i_k = 1.0; //1
-  	wheelsPidStruct[i].d_k = 0.5; //0.5
-  	wheelsPidStruct[i].pid_on = 1;
-  	wheelsPidStruct[i].pid_error_end  = 3;
-  	wheelsPidStruct[i].pid_output_end = 1000;
-  	wheelsPidStruct[i].max_sum_error =3.0;
-  	wheelsPidStruct[i].max_output = 1;
-  	wheelsPidStruct[i].min_output = 0.01;
-  }
+
 //Track Regulator settings______________________________________________________
 
   //RadSpeed
@@ -178,7 +167,7 @@ void MaxValue(float *a,char rows,float *b)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void FunctionalRegulator(float *V_target, float *Coord_target, float *Coord_cur, float *V_out) // расчет требуемой скорости вращения двигателей
+void FunctionalRegulator(float *V_target, float *V_out) // расчет требуемой скорости вращения двигателей
 {
   //float cosinus = cosf(-robotCoord[2]), sinus = sinf(-robotCoord[2]);
   //float Velocity[3]  = {(*(V_target)), (*(V_target+1)),*(V_target+2)};
@@ -229,38 +218,6 @@ void FunctionalRegulator(float *V_target, float *Coord_target, float *Coord_cur,
   } else c1 = 1;
 
     matrixMultiplyS2M(&VSum[0], 4, 1, c1, &V_out[0]);
-
-  //matrixMultiplyM2M(&Ml[0][0], 4, 2, &Kr[0][0], 2, 2, &buf2[0][0]);//Ml*Kr
-  //matrixMultiplyM2M(&buf2[0][0], 4, 2, &deltaVect[0], 2, 1, &vectErrOrig[0]);//*(delta_vect)
-
-
-  //matrixMultiplyS2M(&Mfi[0], 4, 1, Radian, &phiRadOrig[0]);//Mfi*Radian;
-  //matrixMultiplyS2M(&Mfi[0], 4, 1, Kfi, &buf3[0]);// Mfi*Kfi
- // matrixMultiplyS2M(&buf3[0], 4, 1, deltaPhi, &phiErrOrig[0]);//*(delta_phi)
-
-
- // Cost(&vectVelOrig[0], 4, c1, &Kvect);        //cost(vectErr1,c1);
- // matrixMultiplyS2M(&vectVelOrig[0], 4, 1, Kvect, &vectVelWeighted[0]);//vectErr=vectErr1*cost(vectErr1,c1);
-
-
-  //infnormvect(&vectVelWeighted[0], 3, &KnormVect);
-  //c2 =0.2+ fabs(c1 - KnormVect);
- // c2 = Cmax - c1;
-
-
-  //Cost(&phiRadOrig[0], 4, c2, &Kphi); //cost(phiErr1,c2);
-  //matrixMultiplyS2M(&phiRadOrig[0], 4, 1, Kphi, &phiRadWeighted[0]);//phiErr=phiErr1*cost(phiErr1,c2);
-
-
-  //matrixPlusMinus(&vectVelWeighted[0], &vectErrOrig[0], 4, 1, 1, &buf1[0]);//vectVel1+vectErr
-  //matrixMultiplyS2M(&buf1[0], 4, 1, ONE_RO_COS_PHI, &Vvect[0]);//Vvect=((1/ro/cos(phi_rad))*(vectVel1+vectErr));
-
-
-  //matrixPlusMinus(&phiRadWeighted[0], &phiErrOrig[0], 4, 1, 1, &buf1[0]);//phiRad1+phiErr
-  //matrixMultiplyS2M(&buf1[0], 4, 1, ONE_RO_COS_PHI, &Vrad[0]);//((1/ro/cos(phi_rad))*(phiRad1+phiErr))
-
-
-  //matrixPlusMinus(&Vvect[0], &Vrad[0], 4, 1, 1, &V_out[0]);
 
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -538,20 +495,6 @@ float Mrot[2][2]={ cos(realRad),   sin(realRad),
   robotCoord[2] += robotSpeed[2]*PID_PERIOD;
   rangeAngle(&robotCoord[2]);
 
-}
-///////////////////////////////////////////////////////////////////////////////
-void pidLowLevel(void) //вычисление ПИД регулятора колес
-{
-//Low level pid target values are set here__________________________________
-  char i;
-  for(i =0; i < 4; i++)
-  {
-
-    wheelsPidStruct[i].target = regulatorOut[i];//передача требуемых значений от траекторного регулятора
-    wheelsPidStruct[i].current = motorSpeed[i]; // текущие занчения скоростей колес
-    pidCalc(&wheelsPidStruct[i]);
-    if (curState.pidEnabled) setVoltage(WHEELS[i], wheelsPidStruct[i].output);
-  }
 }
 
 void vectorAngle(float x, float y, float* angle)  //рассчет угла вектора
