@@ -1,4 +1,4 @@
-obj\debug\robot\robot.o: Robot\Robot.c Robot\Robot.h \
+obj\debug\robot\robot.o: Robot\robot.c Robot\Robot.h \
  Robot\Communication.h Robot\robot.h USB\ App/usbd_conf.h \
  USB\ App/usb_conf.h Library/stm32f4xx.h Library/core_cm4.h \
  cmsis/core_cmInstr.h cmsis/core_cmFunc.h cmsis/core_cm4_simd.h \

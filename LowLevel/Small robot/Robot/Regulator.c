@@ -38,7 +38,7 @@ float ACCEL_INC = 0.02;
 
 //pathPointStr defaultPoint;
 
-char lastPoint = 0;// последняя активная точка в очереди
+char lastPoint =0;// последняя активная точка в очереди
 Path curPath; //параметры активной прямой для траекторного регулятора
 
 float normalVelFast[5] = {0.8, 0.2, 0.2, 1.5, 2};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
@@ -64,7 +64,7 @@ float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow,
 float * rotType[6] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow};// типы угловых скоростей
 
 pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },  //Стек точек траектории
-                                        {0.5, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//#1
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//#1
                                         {0.0, 0.0, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
                                         {0.0, 0.5, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
                                         {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
@@ -460,13 +460,13 @@ int16_t motorSpeedBuf[4];
   #ifdef ENCODER_IMITATION
   for(i =3; i>=0; i--)
   {
-    motorSpeed[i] =  regulatorOut[i];
+    motorSpeed[i] = regulatorOut[i]; //#!
     motorCoord[i] += motorSpeed[i]*PID_PERIOD;
   }
   #else
   for(i =3; i>=0; i--)
   {
-    motorSpeed[i] =  motorSpeedBuf[i] * DISKR_TO_REAL/PID_PERIOD;
+    motorSpeed[i] =  -  motorSpeedBuf[i] * DISKR_TO_REAL/PID_PERIOD;
     motorCoord[i] += motorSpeed[i] * PID_PERIOD;
   }
    #endif

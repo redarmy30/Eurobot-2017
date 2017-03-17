@@ -9,10 +9,10 @@
 #include "robot.h"
 #include "board.h"
 #include "Manipulators.h"
-
+extern uint32_t ticks;
 int indexSpeeds = 0, indexDists = 0;
 char traceFlag, movFlag, endFlag;
-
+double timeofred = 0;
 int16_t int_cnt = 0;
 
 
@@ -108,6 +108,7 @@ void EXTI0_IRQHandler(void)
   char temp = 2;
   if ( pin_val(EXTI2_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
+  ticks = ticks;
 }
 
 //#define EXTI5_PIN               pin_id(PORTD,1)         //Разъем EXTI5//
@@ -131,11 +132,14 @@ void EXTI2_IRQHandler(void)
 //#define EXTI6_PIN               pin_id(PORTD,3)         //Разъем EXTI6//
 void EXTI3_IRQHandler(void)
 {
+  static uint32_t lasttick;
   EXTI->PR=0x8;
   char temp = 6;
   if ( pin_val(EXTI6_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
 
+  timeofred = (ticks - lasttick)/2000000.0 ;
+  lasttick= ticks;
 }
 
 //#define EXTI9_PIN               pin_id(PORTE,4)         //Разъем EXTI9//

@@ -15,7 +15,6 @@ bool goUpWithSuckingManipulator(){
     set_pin(INPUT1_CONTROL);
     reset_pin(INPUT2_CONTROL);
 
-
     while(!pin_val(UPPER_SWITCH));
 
 
@@ -29,6 +28,7 @@ bool goDownWithSuckingManipulator(){
 
 
     while(!pin_val(DOWN_SWITCH));
+
 
 
     reset_pin(INPUT2_CONTROL);
@@ -56,23 +56,23 @@ void servo_rotate_180()
 
 bool switchOnPneumo()
 {
-    set_pin(PIN1_12V);
+//    set_pin(PIN1_12V);
     set_pin(PIN2_12V);
-    set_pin(PIN3_12V);
-    set_pin(PIN4_12V);
-    set_pin(PIN5_12V);
-    set_pin(PIN6_12V);
+//    set_pin(PIN3_12V);
+//    set_pin(PIN4_12V);
+//    set_pin(PIN5_12V);
+//    set_pin(PIN6_12V);
     return 0;
 }
 
 bool switchOffPneumo()
 {
-    reset_pin(PIN1_12V);
+//    reset_pin(PIN1_12V);
     reset_pin(PIN2_12V);
-    reset_pin(PIN3_12V);
-    reset_pin(PIN4_12V);
-    reset_pin(PIN5_12V);
-    reset_pin(PIN6_12V);
+//    reset_pin(PIN3_12V);
+//    reset_pin(PIN4_12V);
+//    reset_pin(PIN5_12V);
+//    reset_pin(PIN6_12V);
     return 0;
 }
 

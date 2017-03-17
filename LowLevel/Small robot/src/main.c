@@ -28,21 +28,47 @@
 #include "usb_conf.h"
 #include "usbd_desc.h"
 #include "usbd_cdc_vcp.h"
+#include "stm32fxxx_it.h"
 
 #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
   #if defined ( __ICCARM__ ) /*!< IAR Compiler */
     #pragma data_alignment=4
   #endif
 #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
-
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
+uint32_t ticks;
+
+
+void SysTick_Handler(void)
+{
+    ticks++;
+//  /* Information panel */
+////  LCD_SetTextColor(Green);
+// // LCD_SetTextColor(LCD_LOG_DEFAULT_COLOR);
+}
+
+
+
+//#ATTENTION: IN INITALL DISABLED DELAY INHIBIT; IN REGULATOR
 
 
 int main(void)
 {
 
-   __disable_irq();
-   initAll();
+
+    __disable_irq();
+    initAll();
+    NVIC_InitTypeDef NVIC_InitStruct;
+    NVIC_InitStruct.NVIC_IRQChannel = EXTI3_IRQn;
+	/* Set priority */
+	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x00;
+	/* Set sub priority */
+	NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0x00;
+	/* Enable interrupt */
+	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+	/* Add to NVIC */
+	NVIC_Init(&NVIC_InitStruct);
+    SysTick_Config(84);
 
 
     USBD_Init(&USB_OTG_dev,
@@ -56,9 +82,14 @@ int main(void)
                 &USR_cb);
 
     __enable_irq();
-
+    ticks = ticks;
     while(1)
     {
-
+//        goDownWithSuckingManipulator();
+//        switchOnPneumo();
+//        servo_rotate_90();
+//        goUpWithSuckingManipulator();
+//        switchOffPneumo();
+//        servo_rotate_180();
     }
 }

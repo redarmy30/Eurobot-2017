@@ -28,7 +28,7 @@ float motorSpeed[4];                // скорости моторов
 float motorCoord[4] = {0,0,0};      // общий пройденный колесом путь
 float robotCoord[3] = {0,0,0};       // Координаты робота по показаниям измерительной тележки
 float robotSpeed[3] = {0,0,0};       // скорость робота по показаниям измерительной тележки
-robStateStruct curState = {1, 1, 1, 0, 0};    // состояние регуляторов активен-1/неактвен -0
+robStateStruct curState = {1,1,1, 0, 0};    // состояние регуляторов активен-1/неактвен -0
 encOutPackStruct outEnc;              //буфер данных отправляемых измерительной тележке
 
 uint32_t * encCnt[4] ={ENCODER1_CNT, ENCODER2_CNT, ENCODER3_CNT, ENCODER4_CNT};  //массив указателей на счетчики энкодеров колес
@@ -658,7 +658,7 @@ case 0x3A: // Distance from ultrasonic sensors
   }
    break;
 
-/*case 0x3B: // Sucking manipulator
+case 0x3B: // Sucking manipulator
   {
         goUpWithSuckingManipulator();
         char * str ="Ok";
@@ -675,7 +675,6 @@ case 0x3C: // Sucking manipulator
 
   }
    break;
-*/
 /*case 0x3D:
     {
 
