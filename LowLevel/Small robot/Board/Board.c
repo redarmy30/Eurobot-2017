@@ -316,9 +316,9 @@ initRegulators();
   //NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 
 //___EXTI____________________________________________________________________
-  conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP); //
   conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI5_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI6_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
@@ -329,7 +329,7 @@ initRegulators();
 
   add_ext_interrupt(EXTI1_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI2_PIN, EXTI_BOTH_EDGES);
-  add_ext_interrupt(EXTI3_PIN, EXTI_BOTH_EDGES);
+  add_ext_interrupt(EXTI3_PIN, EXTI_FALLING_EDGE);
   add_ext_interrupt(EXTI4_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI5_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI6_PIN, EXTI_BOTH_EDGES);

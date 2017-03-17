@@ -140,12 +140,14 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
-{
-  /* Information panel */
-//  LCD_SetTextColor(Green);
- // LCD_SetTextColor(LCD_LOG_DEFAULT_COLOR);
-}
+
+//void SysTick_Handler(void)
+//{
+//    ticks++;
+//  /* Information panel */
+////  LCD_SetTextColor(Green);
+// // LCD_SetTextColor(LCD_LOG_DEFAULT_COLOR);
+//}
 
 /**
   * @brief  This function handles OTG_HS Handler.

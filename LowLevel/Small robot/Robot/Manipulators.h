@@ -89,8 +89,8 @@ void servo_rotate_90();
 void servo_rotate_180();
 
 
-#define UPPER_SWITCH EXTI1_PIN
-#define DOWN_SWITCH EXTI2_PIN
+#define UPPER_SWITCH  EXTI2_PIN
+#define DOWN_SWITCH EXTI1_PIN
 #define INPUT2_CONTROL EXTI3_PIN
 #define INPUT1_CONTROL EXTI4_PIN
 
@@ -100,13 +100,13 @@ bool goDownWithSuckingManipulator();
 
 
 
-#define SERVO_ELEVATE  1 //defining servos
-#define SERVO_ROTATE 2
+#define SERVO_ELEVATE  2//defining servos
+#define SERVO_ROTATE 1
 
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
-#define SERVO_ROTATE_90  60
-#define SERVO_ROTATE_180  150
+#define SERVO_ROTATE_90  150
+#define SERVO_ROTATE_180  242
 
 
 bool moveSuckerManipulatorUp();

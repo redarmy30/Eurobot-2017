@@ -1,7 +1,7 @@
 /*
 
-Code to control multiple Dynamixel AX-12 servo motors over USART
-on an STM32F4 chip.
+Code to control multiple Dynamixel servo motors over USART
+on an STM32F4 chip using Dynamixel 2.0 protocol.
 
 */
 #ifndef Dynamixels_h
@@ -12,7 +12,7 @@ on an STM32F4 chip.
 #include <stdlib.h>
 
 #define REC_BUFFER_LEN 32
-#define SERVO_MAX_PARAMS (REC_BUFFER_LEN - 5)
+#define SERVO_MAX_PARAMS (REC_BUFFER_LEN - 9)
 
 #define REC_WAIT_START_US    75
 #define REC_WAIT_PARAMS_US   (SERVO_MAX_PARAMS * 5)
@@ -59,7 +59,10 @@ bool setServoBlinkConditions (const uint8_t servoId,
 // set the errors that will cause the servo to shut off torque
 bool setServoShutdownConditions (const uint8_t servoId,
                                  const uint8_t errorFlags);
-
+/*
+//set default values
+bool setDefault (const uint8_t servoId);
+*/
 
 // valid torque values are from 0 (free running) to 1023 (max)
 bool setServoTorque (const uint8_t servoId,
@@ -108,18 +111,24 @@ bool setServoCWAngleLimit (const uint8_t servoId,
 bool setServoCCWAngleLimit (const uint8_t servoId,
                      const uint16_t limitValue);
 
+bool setControlMode(const uint8_t servoId, uint8_t mode);
+
+bool setServoToWheelMode(const uint8_t servoId);
+bool setServoToJointMode(const uint8_t servoId);
+
 //------------------------------------------------------------------------------
-// these shouldn't need to be called externally:
+// these shouldn't be called externally:
 #pragma pack(push, 1)
 typedef struct ServoResponse
 {
-    uint8_t first_byte;
-    uint8_t second_byte;
-    uint8_t third_byte;
+    uint8_t first_header_byte;
+    uint8_t second_header_byte;
+    uint8_t third_header_byte;
 
     uint8_t reserved;
     uint8_t id;
     uint16_t length;
+    uint8_t command;
     uint8_t error;
     uint8_t params[SERVO_MAX_PARAMS];
     uint16_t checksum;
