@@ -26,6 +26,7 @@ class ParticleFilter:
         self.sense_noise = sense_noise
         self.distance_noise = distance_noise
         self.angle_noise = angle_noise
+        self.warning = False
         x = np.random.normal(in_x, distance_noise, particles)
         y = np.random.normal(in_y, distance_noise, particles)
         orient = np.random.normal(0, angle_noise, particles) % (2 * np.pi)
@@ -151,6 +152,10 @@ class ParticleFilter:
             beacon_error_sum[ind, 2] = np.sum(np.where(error_l3, errors, 0), axis=-1)[ind] / err_l3[ind]
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
         weights = self.gaus(np.mean(beacon_error_sum, axis=1), sigma=self.sense_noise)
+        # check weights
+        if np.sum(weights)<self.gaus(150)*self.particles_num:
+            logging.info("Dangerous Situation")
+            self.warning=True
         weights /= np.sum(weights)
         return weights
         # TODO try use median instead mean
@@ -175,6 +180,8 @@ class ParticleFilter:
             shared_coords[1] = main_robot[1]
             shared_coords[2] = main_robot[2]
             time.sleep(0.2)
+
+
 
 
 

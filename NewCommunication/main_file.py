@@ -21,10 +21,15 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 logger = logging.getLogger(__name__)
 
-
+obstacles=[]
 class Robot:
     def __init__(self, lidar_on=True):
+        sensors_number=6
+        self.sensor_range = 20
+        self.collision_avoidance = False
+        self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
         self.lidar_on = lidar_on
+        self.map = np.load('npmap.npy')
         if lidar_on:
             logging.debug('lidar is connected')
             # add check for lidar connection
@@ -43,7 +48,6 @@ class Robot:
         self.fsm_queue = Queue()
         self.PF = pf.ParticleFilter(particles=800, sense_noise=30, distance_noise=30, angle_noise=0.1, in_x=self.coords[0],
                                     in_y=self.coords[1],input_queue=self.input_queue,out_queue=self.loc_queue)
-
 
         # driver process
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
@@ -73,22 +77,71 @@ class Robot:
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
+        x = parameters[0] - self.coords[0]
+        y = parameters[1] - self.coords[1]
+        sm = x+y
+        direction = (float(x)/sm, float(y)/sm)
         logging.info(self.send_command('go_to_with_corrections',pm))
         # After movement
         stamp = time.time()
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
         while not self.send_command('is_point_was_reached')['data']:
             time.sleep(0.05)
+            if(self.collision_avoidance):
+                if self.check_collisions(direction):
+                    self.send_command('stopAllMotors')
+                # check untill ok and then move!
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
                 return False  # Error, need to handle somehow (Localize and add new point maybe)
         logging.info('point reached')
         return True
 
+    def check_collisions(self, direction):
+        angle = np.arctan2(direction[1],direction[0]) % (np.pi*2)
+        sensor_angle = (angle-self.coords[2]) %(np.pi*2)
+        #### switch on sensor_angle
+        collisions = [0,0,0,0,1]
+        for index,i in enumerate(collisions):
+            if i and sensor_angle<=self.sensors_map[index][1] and sensor_angle>=self.sensors_map[index][0]:
+                logging.info("Collision at index "+str(index))
+                if self.check_map(direction):
+                    continue
+                return True
+        return False
+
+    def receive_sensors_data(self):
+        data = self.send_command('sensors_data')
+        answer = []
+        for i in range(6):
+            answer.append((data & (1 << i)) != 0)
+        return answer
+
+
+    def check_map(self,direction): # probably can be optimized However O(1)
+        for i in range(0,self.sensor_range,2):
+            for dx in range(-2,2):
+                for dy in range(-2,2):
+                    x = int(self.coords[0]/10+direction[0]*i+dx)
+                    y = int(self.coords[1]/10+direction[1]*i+dy)
+                    if x > pf.WORLD_X/10 or x < 0 or y > pf.WORLD_Y/10 or y < 0:
+                        return True
+                        # Or maybe Continue
+                    if self.map[x][y]:
+                        return True
+        return False
+
+
+
+
+
+
+
     def go_last(self,parameters):
         while abs(parameters[0]-self.coords[0]) > 10 or abs(parameters[1]-self.coords[1]) > 10:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
+
 
 
     ############################################################################
@@ -124,6 +177,7 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [850, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
+        angle = 0.0
         parameters = [170, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
@@ -207,7 +261,7 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [270, 1050, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [270, 1000, angle, speed]
+        parameters = [270, 950, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [270, 1050, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -225,6 +279,15 @@ class Robot:
 
 
 
+    def big_robot_trajectory(self,speed=1):
+        angle = 3 * np.pi / 2.
+        parameters = [820, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [820, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+
+
     def funny_action(self, signum, frame):
         print 'Main functionaly is off'
         print 'FUNNNY ACTION'
@@ -232,8 +295,8 @@ class Robot:
 
 def test():
     rb = Robot(True)
-    rb.test_trajectory()
-    return
+    #rb.simpliest_trajectory()
+    #return
     i = 0
     while i<10:
         rb.demo(4)
