@@ -3,6 +3,9 @@
 #include "Regulator.h"
 #include "Board.h"
 
+extern double timeofred;
+extern char color, color_check[8];
+extern float r,b,R,B;
 
 void softDelay(__IO unsigned long int ticks)
 {
@@ -32,6 +35,50 @@ bool goDownWithSuckingManipulator(){
 
 
     reset_pin(INPUT2_CONTROL);
+}
+
+char getColor(){
+
+
+}
+
+char getCurrentColor(){
+    int z = 1000;
+    while(z>0){
+        z--;
+        reset_pin(EXTI1_PIN);//red
+        int j,i = 15000;
+            for(; i> 0; i--);
+        r = timeofred;
+        R = 10000./(r);
+        i = 15000;
+            for(; i> 0; i--);
+
+        set_pin(EXTI1_PIN);//blue
+
+        i = 15000;
+            for(; i> 0; i--);
+        b = timeofred;
+        B = 10000./(b);
+////
+        if(R >= B){
+            if(R/B>1.5)color = 'Y';
+            else color = 'W';
+        }
+        else{
+            if(B<100 && B/R>1.1) color = 'B';
+            else color = 'W';
+        }
+        softDelay(500);
+        for(j=0;j<7;j++)color_check[j] = color_check[j+1]; //filter
+        color_check[7] = color;
+
+        for(j=0;j<8;j++)if(color_check[i] != color){color='n';break;}
+
+        if(color!='n') break;
+    }
+
+    return color;
 }
 
 void servo_elevate_in()

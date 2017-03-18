@@ -117,4 +117,7 @@ bool moveSuckerManipulatorDown();
 #define MAX_ANGLE_FUTABA_S3154 0.1
 
 
+char getCurrentColor();
+
+
 #endif
