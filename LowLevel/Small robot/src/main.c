@@ -36,8 +36,12 @@
   #endif
 #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
-uint32_t ticks;
 
+uint32_t ticks;
+char color, color_check[8];
+float r,b,R,B;
+
+extern double timeofred;
 
 void SysTick_Handler(void)
 {
@@ -47,19 +51,17 @@ void SysTick_Handler(void)
 // // LCD_SetTextColor(LCD_LOG_DEFAULT_COLOR);
 }
 
-
-
 //#ATTENTION: IN INITALL DISABLED DELAY INHIBIT; IN REGULATOR
-
+char t;
 
 int main(void)
 {
 
-
     __disable_irq();
     initAll();
+
     NVIC_InitTypeDef NVIC_InitStruct;
-    NVIC_InitStruct.NVIC_IRQChannel = EXTI3_IRQn;
+    NVIC_InitStruct.NVIC_IRQChannel = EXTI1_IRQn;
 	/* Set priority */
 	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x00;
 	/* Set sub priority */
@@ -68,8 +70,7 @@ int main(void)
 	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
 	/* Add to NVIC */
 	NVIC_Init(&NVIC_InitStruct);
-    SysTick_Config(84);
-
+    SysTick_Config(840);
 
     USBD_Init(&USB_OTG_dev,
     #ifdef USE_USB_OTG_HS
@@ -82,14 +83,24 @@ int main(void)
                 &USR_cb);
 
     __enable_irq();
-    ticks = ticks;
+
+
+//    set_pin(EXTI2_PIN);
+//    reset_pin(EXTI1_PIN);
+//    set_pin(EXTI7_PIN); // LED to PD7
+
+
     while(1)
     {
+        t = getCurrentColor();
+        //
 //        goDownWithSuckingManipulator();
 //        switchOnPneumo();
 //        servo_rotate_90();
 //        goUpWithSuckingManipulator();
 //        switchOffPneumo();
 //        servo_rotate_180();
-    }
+
+
+       }
 }

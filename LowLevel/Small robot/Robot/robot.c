@@ -530,7 +530,7 @@ break;
   break;
 
 
-    case 0x2B:  //Open Cubes Catcher
+    case 0x2B:  //pump manipulator rotation for EuroBot 2017 (old)
       {
         servo_rotate_90(); // rotate the pump 90 degrees
         char * str ="Ok";
@@ -538,7 +538,7 @@ break;
     }
     break;
 
-  case 0x2C:  //Close Cubes Catcher
+  case 0x2C:  //pump manipulator rotation for EuroBot 2017 (old)
   {
     servo_rotate_180(); // rotate the pump 180 degrees
     char * str ="Ok";
@@ -547,7 +547,7 @@ break;
 break;
 
 
-  case 0x2D: // open fishing manipulators
+  case 0x2D: //pump manipulator movement for EuroBot 2017 (old)
   {
         servo_elevate_out(); // move servo out
         char * str ="Ok";
@@ -555,7 +555,7 @@ break;
     }
     break;
 
-    case 0x2E:
+    case 0x2E: //pump manipulator movement for EuroBot 2017 (old)
     {
         servo_elevate_in(); // move servo inside
         char * str ="Ok";
@@ -563,7 +563,7 @@ break;
     }
     break;
 
-   case 0x2F: // switch on
+   case 0x2F: // switch on pump
   {
     switchOnPneumo();
     char * str ="Ok1";
@@ -571,7 +571,7 @@ break;
   }
    break;
 
-   case 0x30: // switch off
+   case 0x30: // switch off pump
   {
     switchOffPneumo();
     char * str ="Ok2";
@@ -675,33 +675,33 @@ case 0x3C: // Sucking manipulator
 
   }
    break;
-/*case 0x3D:
+case 0x3D:
     {
-
-
-    }*/
+        char *color = getCurrentColor();
+        sendAnswer(cmd->command, color, 2);
+    }
 
 
 case 0x43: // Generate new trajectory with correction
 {
-float *(temp) ={(float*)cmd->param};
-char * ch = cmd->param + 24;
-robotCoord[0] = temp[0];
-robotCoord[1] = temp[1];
-robotCoord[2] = temp[2];
-lastPoint++;
-points[lastPoint].center[0] = temp[3];
-points[lastPoint].center[1] = temp[4];
-points[lastPoint].center[2] = temp[5];
-points[lastPoint].speedVelTipe = speedType[*ch];
-points[lastPoint].speedRotTipe = rotType[*ch];
-points[lastPoint].endTask = NULL;
-points[lastPoint].movTask = NULL;
+    float *(temp) ={(float*)cmd->param};
+    char * ch = cmd->param + 24;
+    robotCoord[0] = temp[0];
+    robotCoord[1] = temp[1];
+    robotCoord[2] = temp[2];
+    lastPoint++;
+    points[lastPoint].center[0] = temp[3];
+    points[lastPoint].center[1] = temp[4];
+    points[lastPoint].center[2] = temp[5];
+    points[lastPoint].speedVelTipe = speedType[*ch];
+    points[lastPoint].speedRotTipe = rotType[*ch];
+    points[lastPoint].endTask = NULL;
+    points[lastPoint].movTask = NULL;
 
-char * str ="Ok";
-sendAnswer(cmd->command,str, 3);
+    char * str ="Ok";
+    sendAnswer(cmd->command,str, 3);
 }
-break;
+    break;
 /*
 case 0x2E:
 {

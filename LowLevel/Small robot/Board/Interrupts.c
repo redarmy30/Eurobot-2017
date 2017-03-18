@@ -104,20 +104,29 @@ NVIC_EnableIRQ(TIM6_DAC_IRQn);
 //#define EXTI2_PIN               pin_id(PORTD,0)         //Разъем EXTI2//
 void EXTI0_IRQHandler(void)
 {
+
+
   EXTI->PR=0x1;
   char temp = 2;
   if ( pin_val(EXTI2_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
   ticks = ticks;
+
+
 }
 
 //#define EXTI5_PIN               pin_id(PORTD,1)         //Разъем EXTI5//
 void EXTI1_IRQHandler(void)
 {
+    static uint32_t lasttick;
+
   EXTI->PR=0x2;
   char temp = 5;
   if ( pin_val(EXTI5_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
+
+  timeofred = (ticks - lasttick) ;
+  lasttick= ticks;
 }
 
 //#define EXTI4_PIN               pin_id(PORTD,2)         //Разъем EXTI4//
@@ -132,23 +141,25 @@ void EXTI2_IRQHandler(void)
 //#define EXTI6_PIN               pin_id(PORTD,3)         //Разъем EXTI6//
 void EXTI3_IRQHandler(void)
 {
-  static uint32_t lasttick;
+
   EXTI->PR=0x8;
   char temp = 6;
   if ( pin_val(EXTI6_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
 
-  timeofred = (ticks - lasttick)/2000000.0 ;
-  lasttick= ticks;
+
 }
 
 //#define EXTI9_PIN               pin_id(PORTE,4)         //Разъем EXTI9//
 void EXTI4_IRQHandler(void)
 {
+
+
   EXTI->PR=0x10;
   char temp = 9;
   if ( pin_val(EXTI9_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
+
 
 }
 

@@ -316,13 +316,13 @@ initRegulators();
   //NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 
 //___EXTI____________________________________________________________________
-  conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP); //
+  conf_pin(EXTI1_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP); //
   conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI3_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI4_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI5_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI6_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(EXTI7_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI7_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI8_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI9_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI10_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
@@ -338,7 +338,17 @@ initRegulators();
   add_ext_interrupt(EXTI9_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI10_PIN, EXTI_BOTH_EDGES);
 
-
+NVIC_InitTypeDef NVIC_InitStruct;
+    NVIC_InitStruct.NVIC_IRQChannel = EXTI1_IRQn;
+	/* Set priority */
+	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x00;
+	/* Set sub priority */
+	NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0x00;
+	/* Enable interrupt */
+	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+	/* Add to NVIC */
+	NVIC_Init(&NVIC_InitStruct);
+    SysTick_Config(840);
 __enable_irq();
 
 set_pin(PWM_INHIBIT);
