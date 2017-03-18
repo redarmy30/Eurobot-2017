@@ -686,7 +686,7 @@ case 0x43: // Generate new trajectory with correction
 {
 float *(temp) ={(float*)cmd->param};
 char * ch = cmd->param + 24;
-robotCoord[0] = temp[0];
+robotCoord[0] = temp[0]; //# TODO TEST SPEED
 robotCoord[1] = temp[1];
 robotCoord[2] = temp[2];
 lastPoint++;
