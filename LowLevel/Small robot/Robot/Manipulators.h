@@ -5,6 +5,11 @@
 #include <stdint.h>
 #include "pins.h"
 
+
+extern double timeofred;
+extern char color, color_check[8];
+extern float r,b,R,B;
+
 void softDelay(unsigned long int);
 
 ///////////////////////////TOWER BUILDER///////////////////////

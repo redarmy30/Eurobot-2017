@@ -3,9 +3,7 @@
 #include "Regulator.h"
 #include "Board.h"
 
-extern double timeofred;
-extern char color, color_check[8];
-extern float r,b,R,B;
+
 
 void softDelay(__IO unsigned long int ticks)
 {
