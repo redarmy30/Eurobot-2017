@@ -8,8 +8,9 @@ double timeofred;
 char color, color_check[8];
 
 float r,b,R,B,CubesCatcherAngle;
-float whole_angle, previous_status=0, values[10];
-int number_full_rotations=0;
+float whole_angle, values[10];
+
+extern int numberofrot;
 
 //values[0] = 0;
 //values[1] = 0;
@@ -50,7 +51,7 @@ bool goDownWithSuckingManipulator(){
 
     reset_pin(INPUT2_CONTROL);
 }
-
+/*  this commented function is wrong, so don't check it and don't use it
 void GetDataForManipulator(void)
 {
     int i = 3000000;
@@ -82,7 +83,7 @@ void GetDataForManipulator(void)
     whole_angle = number_full_rotations*360 + CubesCatcherAngle;
 
     previous_status = sum;
-}
+}*/
 
 char getCurrentColor(){
     int z = 1000;
@@ -123,6 +124,30 @@ char getCurrentColor(){
     return color;
 }
 
+void setPositionOfCylinderCarrier(float desiredAngle){
+
+    whole_angle = numberofrot * 360 + adcData[(char)CUBES_CATCHER_ADC - 1] / 36 * 3.3;
+    if(desiredAngle > whole_angle){
+ //   setServoToWheelMode(2);
+        while(fabs(desiredAngle - whole_angle)>15 && (desiredAngle > whole_angle)){
+            setServoMovingSpeed(2, (uint16_t)(600 + 1024), 0x0400);
+            setServoMovingSpeed(3, (uint16_t)(600), 0x0000);
+            whole_angle = numberofrot * 360 + adcData[(char)CUBES_CATCHER_ADC - 1] / 36 * 3.3;
+        }
+    }
+    else if(desiredAngle < whole_angle){
+ //   setServoToWheelMode(2);
+        while(fabs(desiredAngle - whole_angle)>15 && (desiredAngle < whole_angle)){
+            setServoMovingSpeed(3, (uint16_t)(600 + 1024), 0x0400);
+            setServoMovingSpeed(2, (uint16_t)(600), 0x0000);
+            whole_angle = numberofrot * 360 + adcData[(char)CUBES_CATCHER_ADC - 1] / 36 * 3.3;
+        }
+    }
+    setServoMovingSpeed(2, (uint16_t)0, 0x0000);
+    setServoMovingSpeed(3, (uint16_t)0, 0x0000);
+
+}
+
 void servo_elevate_in()
 {
     setServoAngle((uint8_t)SERVO_ELEVATE, (uint16_t) SERVO_ELEVATE_IN);
@@ -142,6 +167,41 @@ void servo_rotate_180()
 {
     setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) SERVO_ROTATE_180);
 }
+
+float CubesCatcherAngle = 0;
+float prevCubesCatcherAngle = 0;
+float diff;
+float arCubesCatcherAngle[10];
+
+
+
+float encodermagner(float prevencodermagner){
+
+        arCubesCatcherAngle[9] = adcData[(char)CUBES_CATCHER_ADC - 1] / 36 * 3.3;//*360/3.3
+        int i = 0;
+        float smoothed = 0;
+        for (i;i<9;i++) {
+                arCubesCatcherAngle[i] = arCubesCatcherAngle[i+1];
+                smoothed+= arCubesCatcherAngle[i];
+        }
+        smoothed /= 10;
+
+
+        if ((arCubesCatcherAngle[0] - prevCubesCatcherAngle) > 100) {
+                diff = 1;
+                //softDelay(100000);
+        }
+        else if ((arCubesCatcherAngle[0]- prevCubesCatcherAngle) < -100) {
+                diff = -1;
+                //softDelay(100000);
+        }
+        else diff = 0;
+        prevCubesCatcherAngle = smoothed;
+        if ((diff != 0)  && (prevencodermagner !=0)){
+            diff =2;}
+        return diff;
+}
+
 
 bool switchOnPneumo()
 {

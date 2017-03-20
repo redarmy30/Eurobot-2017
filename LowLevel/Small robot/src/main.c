@@ -88,11 +88,27 @@ int main(void)
 //    set_pin(EXTI2_PIN);
 //    reset_pin(EXTI1_PIN);
 //    set_pin(EXTI7_PIN); // LED to PD7
-
+//uint8_t ID_test = 2;
 
     while(1)
     {
-        GetDataForManipulator();
+//        /*setDefault((uint8_t)1);
+//        setID ((uint8_t)1, (uint8_t)3);
+//        setServoToJointMode(3);
+/*        setServoAngle((uint8_t)3, (uint16_t)290);
+        setServoAngle((uint8_t)3, (uint16_t)120);*/
+//        setServoToWheelMode((uint8_t)3);
+
+        setPositionOfCylinderCarrier(200.0);
+
+
+
+//        setServoToWheelMode(3);
+  /*      setServoMovingSpeed(ID_test, (uint16_t)200, 0x0000);
+        setServoMovingSpeed(ID_test, (uint16_t)1023, 0x0000);
+        setServoMovingSpeed(ID_test, (uint16_t)1200, 0x0400);
+        setServoMovingSpeed(ID_test, (uint16_t)2046, 0x0400);
+        setServoMovingSpeed(ID_test, (uint16_t)0, 0x0000);*/
         //
 //        goDownWithSuckingManipulator();
 //        switchOnPneumo();

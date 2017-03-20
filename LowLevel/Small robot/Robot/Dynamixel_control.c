@@ -241,9 +241,9 @@ bool setID (const uint8_t servoId, uint8_t newID)
     if (newID > 253)
         return false;
 
-    const uint8_t params[2] = {ID, newID & 0xff};
+    const uint8_t params[3] = {ID, (uint8_t)0x00, newID & 0xff};
 
-    sendServoCommand (servoId, WRITE, 2, params);
+    sendServoCommand (servoId, WRITE, 3, params);
 
 //    if (!getAndCheckResponse (newID))
 //        return false;
@@ -553,7 +553,7 @@ bool setServoCCWAngleLimit (const uint8_t servoId,
 // Use setServoSpeed to control servo in this mode
 bool setServoToWheelMode(const uint8_t servoId)
 {
-    setDefault(1);
+    setDefault(servoId);
     int i = 0;
     for(;i < 70000000; i++){ // Delay to set servo parameters to default
         asm("nop");
@@ -568,7 +568,7 @@ bool setServoToWheelMode(const uint8_t servoId)
 // Use setServoAngle to control servo in this mode
 bool setServoToJointMode(const uint8_t servoId)
 {
-    setDefault(1);
+    setDefault(servoId);
     int i = 0;
     for(;i < 70000000; i++){ // Delay to set servo parameters to default
         asm("nop");

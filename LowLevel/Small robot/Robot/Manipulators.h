@@ -90,7 +90,8 @@ void servo_elevate_in();
 void servo_elevate_out();
 void servo_rotate_90();
 void servo_rotate_180();
-
+float encodermagner(float);
+void setPositionOfCylinderCarrier(float);
 
 #define UPPER_SWITCH  EXTI2_PIN
 #define DOWN_SWITCH EXTI1_PIN
