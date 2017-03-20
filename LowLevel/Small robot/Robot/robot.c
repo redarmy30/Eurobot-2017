@@ -530,7 +530,7 @@ break;
   break;
 
 
-    case 0x2B:  //pump manipulator rotation for EuroBot 2017 (old)
+    case 0x2B:  //pump manipulator rotation for EuroBot 2017
       {
         servo_rotate_90(); // rotate the pump 90 degrees
         char * str ="Ok";
@@ -538,7 +538,7 @@ break;
     }
     break;
 
-  case 0x2C:  //pump manipulator rotation for EuroBot 2017 (old)
+  case 0x2C:  //pump manipulator rotation for EuroBot 2017
   {
     servo_rotate_180(); // rotate the pump 180 degrees
     char * str ="Ok";
@@ -680,8 +680,81 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
         char *color = getCurrentColor();
         sendAnswer(cmd->command, color, 2);
     }
+    break;
 
 
+case 0x3E:
+    {
+        setPositionOfCylinderCarrier(60.0);
+        goDownWithSuckingManipulator();
+
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goUpWithSuckingManipulator();
+
+
+        setPositionOfCylinderCarrier(150.0);
+        softDelay(10000000);
+
+        /*
+        switchOffPneumo();
+
+
+        softDelay(10000000);
+        servo_rotate_180();
+        setPositionOfCylinderCarrier(400.0);
+        softDelay(15000000);
+*/
+
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+case 0x3F:
+    {
+        goDownWithSuckingManipulator();
+
+        switchOffPneumo();
+        softDelay(10000000);
+        servo_rotate_180();
+        softDelay(10000000);
+
+        goUpWithSuckingManipulator();
+        softDelay(10000000);
+
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+case 0x40: //move first cylinder up
+    {
+        setPositionOfCylinderCarrier(FIRST_CYLINDER_ANGLE);
+
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+case 0x41: //move second cylinder up
+    {
+        setPositionOfCylinderCarrier(SECOND_CYLINDER_ANGLE);
+
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+case 0x42: //move third cylinder up
+    {
+        setPositionOfCylinderCarrier(THIRD_CYLINDER_ANGLE);
+
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
 
 case 0x43: // Generate new trajectory with correction
 {
