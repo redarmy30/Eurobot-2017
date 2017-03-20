@@ -73,7 +73,7 @@
 	</File>
 	<File name="Robot\Manipulators.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2825" topLine="72" />
+			<Cursor1 position="2747" topLine="72" />
 		</Cursor>
 	</File>
 	<File name="Robot\Manipulators.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -114,9 +114,9 @@
 			<Cursor1 position="29057" topLine="628" />
 		</Cursor>
 	</File>
-	<File name="src\main.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="src\main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2460" topLine="67" />
+			<Cursor1 position="1442" topLine="0" />
 		</Cursor>
 	</File>
 </EmBlocks_layout_file>
