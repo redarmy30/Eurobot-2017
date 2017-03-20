@@ -5,6 +5,11 @@
 #include <stdint.h>
 #include "pins.h"
 
+
+extern double timeofred;
+extern char color, color_check[8];
+extern float r,b,R,B;
+
 void softDelay(unsigned long int);
 
 ///////////////////////////TOWER BUILDER///////////////////////
@@ -91,7 +96,9 @@ void servo_elevate_out();
 void servo_rotate_90();
 void servo_rotate_180();
 float encodermagner(float);
+
 void setPositionOfCylinderCarrier(float);
+
 
 #define UPPER_SWITCH  EXTI2_PIN
 #define DOWN_SWITCH EXTI1_PIN

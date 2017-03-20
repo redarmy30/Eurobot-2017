@@ -29,6 +29,7 @@
 #include "usbd_desc.h"
 #include "usbd_cdc_vcp.h"
 #include "stm32fxxx_it.h"
+#include <math.h>
 
 #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
   #if defined ( __ICCARM__ ) /*!< IAR Compiler */
@@ -37,11 +38,12 @@
 #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
 
-uint32_t ticks;
-char color, color_check[8];
-float r,b,R,B;
+uint32_t ticks; // global "time" for mesuring frequency of rbg signal
+char color, color_check[8]; // for rgb sensor
+float r,b,R,B; //for rgb sensor
 
 extern double timeofred;
+
 
 void SysTick_Handler(void)
 {
@@ -52,13 +54,14 @@ void SysTick_Handler(void)
 }
 
 //#ATTENTION: IN INITALL DISABLED DELAY INHIBIT; IN REGULATOR
-char t;
+
 
 int main(void)
 {
 
     __disable_irq();
     initAll();
+
 
     /*NVIC_InitTypeDef NVIC_InitStruct;
     NVIC_InitStruct.NVIC_IRQChannel = EXTI1_IRQn;
@@ -71,6 +74,7 @@ int main(void)
 	 Add to NVIC
 	NVIC_Init(&NVIC_InitStruct);
     SysTick_Config(840);*/
+
 
     USBD_Init(&USB_OTG_dev,
     #ifdef USE_USB_OTG_HS
@@ -90,8 +94,10 @@ int main(void)
 //    set_pin(EXTI7_PIN); // LED to PD7
 //uint8_t ID_test = 2;
 
+
     while(1)
     {
+
 //        /*setDefault((uint8_t)1);
 //        setID ((uint8_t)1, (uint8_t)3);
 //        setServoToJointMode(3);
@@ -109,6 +115,7 @@ int main(void)
         setServoMovingSpeed(ID_test, (uint16_t)1200, 0x0400);
         setServoMovingSpeed(ID_test, (uint16_t)2046, 0x0400);
         setServoMovingSpeed(ID_test, (uint16_t)0, 0x0000);*/
+
         //
 //        goDownWithSuckingManipulator();
 //        switchOnPneumo();

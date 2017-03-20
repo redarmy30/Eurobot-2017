@@ -49,7 +49,7 @@ float standVelFast[5] = {0.85, 0.6, -0.6, 2.0, 2.5};                            
 float normalVelSlow[5] = {0.4, 0.2, 0.2, 1.5, 2.5};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
 float stopVelSlow[5] = {0.4, 0.05, -0.05, 1.5, 2.5}; //{0.2,0.1,-0.05,0.2,0.7};            //движение с остановкой в точке
 float standVelSlow[5] = {0.4, 0.05, -0.05, 1.5, 2.5};                                       //удержание заданного положения
-
+float stopVelVerySlow[5] = {0.15, 0.05, -0.05, 1.0, 2.5};
 
 float normalRotFast[5] = {3.0, 1.0, 0.2, 4.0, 4.0};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
 float stopRotFast[5] = {3.0, 1.0, -1.0, 4.0, 3.0}; //{0.2,0.1,-0.1,0.3,0.6};             //движение с остановкой в точке
@@ -58,13 +58,13 @@ float standRotFast[5] = {4.0, 4.0, -1.0, 2.0, 2.5};                             
 float normalRotSlow[5] = {1.0, 0.2, 0.2, 4.0, 4.0};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
 float stopRotSlow[5] = {1.0, 0.2, -1.0, 4.0, 3.0}; //{0.2,0.1,-0.1,0.3,0.6};             //движение с остановкой в точке
 float standRotSlow[5] = {1.0 , 1.0, -1.0, 2.0, 2.5};                                       //удержание заданного положения
+float stopRotVerySlow[5] = {0.5, 0.2, -1.0, 4.0, 3.0};
 
-
-float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow };// типы  линейный скоростей
-float * rotType[6] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow};// типы угловых скоростей
+float * speedType[7] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow,stopVelVerySlow };// типы  линейный скоростей
+float * rotType[7] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow,stopRotVerySlow};// типы угловых скоростей
 
 pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },  //Стек точек траектории
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//#1
+                                        {0.3, 0.0, 3.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },//#1
                                         {0.0, 0.0, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
                                         {0.0, 0.5, 0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },
                                         {0.0, 0.0, 0.0, NULL,NULL,0,stopVelSlow,stopRotSlow,0,1 },

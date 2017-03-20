@@ -4,10 +4,11 @@
 #include "Board.h"
 #include "math.h"
 
+
 double timeofred;
 char color, color_check[8];
 
-float r,b,R,B,CubesCatcherAngle;
+float r,b,R,B;
 float whole_angle, values[10];
 
 extern int numberofrot;
@@ -22,6 +23,7 @@ extern int numberofrot;
 //values[7] = 0;
 //values[8] = 0;
 //values[9] = 0;
+
 
 void softDelay(__IO unsigned long int ticks)
 {
@@ -167,13 +169,10 @@ void servo_rotate_180()
 {
     setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) SERVO_ROTATE_180);
 }
-
 float CubesCatcherAngle = 0;
 float prevCubesCatcherAngle = 0;
 float diff;
 float arCubesCatcherAngle[10];
-
-
 
 float encodermagner(float prevencodermagner){
 
@@ -201,6 +200,10 @@ float encodermagner(float prevencodermagner){
             diff =2;}
         return diff;
 }
+
+float diff;
+float arCubesCatcherAngle[10];
+
 
 
 bool switchOnPneumo()

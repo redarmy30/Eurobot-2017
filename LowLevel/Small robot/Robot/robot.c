@@ -685,22 +685,22 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
 
 case 0x43: // Generate new trajectory with correction
 {
-    float *(temp) ={(float*)cmd->param};
-    char * ch = cmd->param + 24;
-    robotCoord[0] = temp[0];
-    robotCoord[1] = temp[1];
-    robotCoord[2] = temp[2];
-    lastPoint++;
-    points[lastPoint].center[0] = temp[3];
-    points[lastPoint].center[1] = temp[4];
-    points[lastPoint].center[2] = temp[5];
-    points[lastPoint].speedVelTipe = speedType[*ch];
-    points[lastPoint].speedRotTipe = rotType[*ch];
-    points[lastPoint].endTask = NULL;
-    points[lastPoint].movTask = NULL;
+float *(temp) ={(float*)cmd->param};
+char * ch = cmd->param + 24;
+robotCoord[0] = temp[0]; //# TODO TEST SPEED
+robotCoord[1] = temp[1];
+robotCoord[2] = temp[2];
+lastPoint++;
+points[lastPoint].center[0] = temp[3];
+points[lastPoint].center[1] = temp[4];
+points[lastPoint].center[2] = temp[5];
+points[lastPoint].speedVelTipe = speedType[*ch];
+points[lastPoint].speedRotTipe = rotType[*ch];
+points[lastPoint].endTask = NULL;
+points[lastPoint].movTask = NULL;
 
-    char * str ="Ok";
-    sendAnswer(cmd->command,str, 3);
+char * str ="Ok";
+sendAnswer(cmd->command,str, 3);
 }
     break;
 /*
