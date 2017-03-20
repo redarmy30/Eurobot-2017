@@ -25,7 +25,8 @@ void TIM2_IRQHandler(void)
   //USB_OTG_BSP_TimerIRQ();
 }
 ////////////////////////////////////////////////////////////////////////////////
-
+int numberofrot= 0;
+float tempor = 0;
 void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес, манипулятора и считывание данных сонаров
 {
   TIM6->SR = 0;
@@ -33,6 +34,10 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
   GetDataForRegulators(); // обновление входных данных для ПИД
   NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn);
 
+  tempor = encodermagner(tempor);
+    if (tempor !=2) {
+     numberofrot += tempor;
+    }
   if (curState.kinemEn) FunctionalRegulator(&vTargetGlob[0],  &regulatorOut[0]); // рассчет  кинематики и насыщения
 
     char i = 0;

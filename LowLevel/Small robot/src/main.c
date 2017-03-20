@@ -29,6 +29,7 @@
 #include "usbd_desc.h"
 #include "usbd_cdc_vcp.h"
 #include "stm32fxxx_it.h"
+#include <math.h>
 
 #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
   #if defined ( __ICCARM__ ) /*!< IAR Compiler */
@@ -42,6 +43,7 @@ char color, color_check[8]; // for rgb sensor
 float r,b,R,B; //for rgb sensor
 
 extern double timeofred;
+
 
 void SysTick_Handler(void)
 {
@@ -80,8 +82,11 @@ int main(void)
 //    set_pin(EXTI7_PIN); // LED to PD7
 
 
+
     while(1)
     {
+
+
         //t = getCurrentColor();
         //
 //        goDownWithSuckingManipulator();

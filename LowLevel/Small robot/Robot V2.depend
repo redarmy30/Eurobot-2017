@@ -3624,7 +3624,7 @@
 
 1488792980 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\path.h
 
-1489846658 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\manipulators.h
+1489859869 c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\manipulators.h
 	<stdbool.h>
 	<stdint.h>
 	"pins.h"
@@ -3634,7 +3634,7 @@
 	<stdbool.h>
 	<stdlib.h>
 
-1489846658 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\board\interrupts.c
+1489859886 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\board\interrupts.c
 	"Interrupts.h"
 	"gpio.h"
 	"Regulator.h"
@@ -3741,7 +3741,7 @@
 
 1489755891 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\kinematics.c
 
-1489846658 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\manipulators.c
+1489859901 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"
@@ -3766,7 +3766,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1489744756 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\robot.c
+1489851503 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\robot\robot.c
 	"Robot.h"
 	"pins.h"
 	"usart.h"
@@ -3969,7 +3969,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1489757505 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\src\main.c
+1489856830 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
@@ -3986,6 +3986,7 @@
 	"usbd_desc.h"
 	"usbd_cdc_vcp.h"
 	"stm32fxxx_it.h"
+	<math.h>
 
 1488792982 source:c:\users\alex\documents\gitrepos\eurobot-2017\lowlevel\small robot\src\startup_stm32f4xx.s
 

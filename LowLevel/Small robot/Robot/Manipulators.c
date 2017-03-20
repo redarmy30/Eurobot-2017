@@ -98,6 +98,37 @@ void servo_rotate_180()
 {
     setServoAngle((uint8_t)SERVO_ROTATE, (uint16_t) SERVO_ROTATE_180);
 }
+float CubesCatcherAngle = 0;
+float prevCubesCatcherAngle = 0;
+float diff;
+float arCubesCatcherAngle[10];
+
+float encodermagner(float prevencodermagner){
+
+        arCubesCatcherAngle[9] = adcData[(char)CUBES_CATCHER_ADC - 1] / 36 * 3.3;//*360/3.3
+        int i = 0;
+        float smoothed = 0;
+        for (i;i<9;i++) {
+                arCubesCatcherAngle[i] = arCubesCatcherAngle[i+1];
+                smoothed+= arCubesCatcherAngle[i];
+        }
+        smoothed /= 10;
+
+
+        if ((arCubesCatcherAngle[0] - prevCubesCatcherAngle) > 100) {
+                diff = 1;
+                //softDelay(100000);
+        }
+        else if ((arCubesCatcherAngle[0]- prevCubesCatcherAngle) < -100) {
+                diff = -1;
+                //softDelay(100000);
+        }
+        else diff = 0;
+        prevCubesCatcherAngle = smoothed;
+        if ((diff != 0)  && (prevencodermagner !=0)){
+            diff =2;}
+        return diff;
+}
 
 bool switchOnPneumo()
 {
