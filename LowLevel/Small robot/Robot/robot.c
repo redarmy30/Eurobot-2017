@@ -729,7 +729,7 @@ case 0x3F:
     }
     break;
 
-case 0x40: //move first cylinder up
+case 0x41: //move first cylinder up
     {
         setPositionOfCylinderCarrier(FIRST_CYLINDER_ANGLE);
 
@@ -738,7 +738,7 @@ case 0x40: //move first cylinder up
     }
     break;
 
-case 0x41: //move second cylinder up
+case 0x42: //move second cylinder up
     {
         setPositionOfCylinderCarrier(SECOND_CYLINDER_ANGLE);
 
@@ -747,7 +747,7 @@ case 0x41: //move second cylinder up
     }
     break;
 
-case 0x42: //move third cylinder up
+case 0x44: //move third cylinder up
     {
         setPositionOfCylinderCarrier(THIRD_CYLINDER_ANGLE);
 

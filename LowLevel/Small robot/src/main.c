@@ -113,6 +113,7 @@ int main(void)
 
         switchOnPneumo();
         softDelay(10000000);
+
         servo_rotate_90();
         goUpWithSuckingManipulator();
 
