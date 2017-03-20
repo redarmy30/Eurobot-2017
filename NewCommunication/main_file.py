@@ -46,8 +46,8 @@ class Robot:
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=800, sense_noise=30, distance_noise=30, angle_noise=0.1, in_x=self.coords[0],
-                                    in_y=self.coords[1],input_queue=self.input_queue,out_queue=self.loc_queue)
+        self.PF = pf.ParticleFilter(particles=1000, sense_noise=30, distance_noise=30, angle_noise=0.2, in_x=self.coords[0],
+                                    in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue)
 
         # driver process
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
@@ -59,7 +59,7 @@ class Robot:
         p2.start()
 
     def send_command(self,name,params=None):
-        self.input_queue.put({'source':'fsm','cmd':name,'params':params})
+        self.input_queue.put({'source': 'fsm','cmd': name,'params': params})
         return self.fsm_queue.get()
 
     def get_raw_lidar(self):
@@ -80,14 +80,14 @@ class Robot:
         x = parameters[0] - self.coords[0]
         y = parameters[1] - self.coords[1]
         sm = x+y
-        direction = (float(x)/sm, float(y)/sm)
         logging.info(self.send_command('go_to_with_corrections',pm))
         # After movement
         stamp = time.time()
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
         while not self.send_command('is_point_was_reached')['data']:
             time.sleep(0.05)
-            if(self.collision_avoidance):
+            if self.collision_avoidance:
+                direction = (float(x) / sm, float(y) / sm)
                 if self.check_collisions(direction):
                     self.send_command('stopAllMotors')
                 # check untill ok and then move!
@@ -132,16 +132,20 @@ class Robot:
         return False
 
 
-
-
-
-
-
     def go_last(self,parameters):
         while abs(parameters[0]-self.coords[0]) > 10 or abs(parameters[1]-self.coords[1]) > 10:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
 
+    def take_cylinder(self): # approx time = 2
+        self.send_command('take_cylinder')
+        time.sleep(2)
+    def store_cylinder(self): # approx time = 0.5
+        self.send_command('store_cylinder')
+        time.sleep(0.5)
+    def drop_cylinder(self): # approx time = 1
+        self.send_command('drop_cylinder')
+        time.sleep(1)
 
 
     ############################################################################
@@ -280,12 +284,41 @@ class Robot:
 
 
     def big_robot_trajectory(self,speed=1):
-        angle = 3 * np.pi / 2.
+        angle = np.pi
         parameters = [820, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [820, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
+    def first_cylinder(self,speed=1):
+        angle = np.pi
+        ############### take cylinder
+        parameters = [700, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 190, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.go_last(parameters)
+        angle = np.pi*3/2.
+        parameters = [1150, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 100, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder()
+        #self.store_cylinder()
+        ##############
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 200, angle, speed]
+        angle = np.pi
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [400, 800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [200, 800, angle, speed]
+        self.go_last(parameters)
+        self.go_to_coord_rotation(parameters)
+        parameters = [120, 800, angle, speed]
+        self.drop_cylinder()
 
 
     def funny_action(self, signum, frame):
@@ -295,8 +328,9 @@ class Robot:
 
 def test():
     rb = Robot(True)
-    #rb.simpliest_trajectory()
-    #return
+    rb.take_cylinder()
+    #rb.first_cylinder()
+    return
     i = 0
     while i<10:
         rb.demo(4)
