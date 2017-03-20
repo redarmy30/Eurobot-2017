@@ -96,6 +96,8 @@ void GetDataForManipulator(void)
 {
   CubesCatcherAngle = adcData[(char)CUBES_CATCHER_ADC - 1] / 36 * 3.3;//*360/3.3
 
+
+
 }
 
 void pidLowLevelManipulator(float targetAngle, float currentAngle) //вычисление ПИД регулятора манипулятора

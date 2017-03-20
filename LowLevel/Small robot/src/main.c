@@ -60,17 +60,17 @@ int main(void)
     __disable_irq();
     initAll();
 
-    NVIC_InitTypeDef NVIC_InitStruct;
+    /*NVIC_InitTypeDef NVIC_InitStruct;
     NVIC_InitStruct.NVIC_IRQChannel = EXTI1_IRQn;
-	/* Set priority */
+	 Set priority
 	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x00;
-	/* Set sub priority */
+	 Set sub priority
 	NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0x00;
-	/* Enable interrupt */
+	 Enable interrupt
 	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
-	/* Add to NVIC */
+	 Add to NVIC
 	NVIC_Init(&NVIC_InitStruct);
-    SysTick_Config(840);
+    SysTick_Config(840);*/
 
     USBD_Init(&USB_OTG_dev,
     #ifdef USE_USB_OTG_HS
@@ -92,7 +92,7 @@ int main(void)
 
     while(1)
     {
-        t = getCurrentColor();
+        GetDataForManipulator();
         //
 //        goDownWithSuckingManipulator();
 //        switchOnPneumo();

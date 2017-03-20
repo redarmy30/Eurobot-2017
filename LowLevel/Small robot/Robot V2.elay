@@ -3,12 +3,12 @@
 	<ActiveTarget name="Debug" />
 	<File name="Board\ADC.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="419" topLine="40" />
+			<Cursor1 position="4311" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Board\Board.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Board\Board.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="14084" topLine="322" />
+			<Cursor1 position="14084" topLine="29" />
 		</Cursor>
 	</File>
 	<File name="Board\Board.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -38,17 +38,22 @@
 	</File>
 	<File name="Robot\Communication.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3186" topLine="0" />
+			<Cursor1 position="3186" topLine="57" />
 		</Cursor>
 	</File>
-	<File name="Robot\Manipulators.c" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\Dynamixel_control.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="899" topLine="43" />
+			<Cursor1 position="0" topLine="552" />
 		</Cursor>
 	</File>
-	<File name="Robot\Manipulators.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\Manipulators.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3151" topLine="0" />
+			<Cursor1 position="1560" topLine="49" />
+		</Cursor>
+	</File>
+	<File name="Robot\Manipulators.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="797" topLine="24" />
 		</Cursor>
 	</File>
 	<File name="Robot\Regulator.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -56,9 +61,14 @@
 			<Cursor1 position="662" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Robot\robot.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\matrix.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="18379" topLine="662" />
+			<Cursor1 position="0" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="Robot\robot.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="18325" topLine="2" />
 		</Cursor>
 	</File>
 	<File name="USB App\usb_bsp.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

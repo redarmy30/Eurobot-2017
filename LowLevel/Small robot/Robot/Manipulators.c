@@ -2,10 +2,25 @@
 #include "Dynamixel_control.h"
 #include "Regulator.h"
 #include "Board.h"
+#include "math.h"
 
-extern double timeofred;
-extern char color, color_check[8];
-extern float r,b,R,B;
+double timeofred;
+char color, color_check[8];
+
+float r,b,R,B,CubesCatcherAngle;
+float whole_angle, previous_status=0, values[10];
+int number_full_rotations=0;
+
+//values[0] = 0;
+//values[1] = 0;
+//values[2] = 0;
+//values[3] = 0;
+//values[4] = 0;
+//values[5] = 0;
+//values[6] = 0;
+//values[7] = 0;
+//values[8] = 0;
+//values[9] = 0;
 
 void softDelay(__IO unsigned long int ticks)
 {
@@ -33,13 +48,40 @@ bool goDownWithSuckingManipulator(){
     while(!pin_val(DOWN_SWITCH));
 
 
-
     reset_pin(INPUT2_CONTROL);
 }
 
-char getColor(){
+void GetDataForManipulator(void)
+{
+    int i = 3000000;
+    CubesCatcherAngle = adcData[(char)CUBES_CATCHER_ADC - 1] / 36 * 3.3;//*360/3.3
+
+    while(--i > 0);
+
+    float sum=0;
+    for(i=0;i<9;i++){
+        values[i] = values[i+1];
+        sum+=values[i];
+    }
+    sum += values[9];
+    sum/=10;
+
+    if(( previous_status < 380  &&  previous_status >= 270 ) && ( sum < 90  &&  sum >= 0 ))
+         number_full_rotations++;
+
+    if((previous_status >= 0  &&  previous_status < 90 ) && ( sum < 380 && sum >= 270 ))
+        number_full_rotations--;
+
+//    if(fabs(CubesCatcherAngle - previous_status)>100)
+//        number_full_rotations--;
 
 
+
+    values[9] = CubesCatcherAngle;
+
+    whole_angle = number_full_rotations*360 + CubesCatcherAngle;
+
+    previous_status = sum;
 }
 
 char getCurrentColor(){

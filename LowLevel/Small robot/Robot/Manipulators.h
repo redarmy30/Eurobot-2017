@@ -44,6 +44,9 @@ bool switchOffPneumo();
 ///////////////////////////////////////////////////////////////
 ////////////////small robot///////////////////
 
+#define CUBES_CATCHER_ADC 1
+void GetDataForManipulator(void);
+
 #define SEASHEL_ID  9
 #define DOORS_ID  2
 #define STARTINGPOS 60

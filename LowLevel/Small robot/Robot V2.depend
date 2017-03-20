@@ -2179,7 +2179,7 @@
 
 1489757001 f:\from git\lowlevel\small robot\robot\path.h
 
-1489841042 f:\from git\lowlevel\small robot\robot\manipulators.h
+1489849774 f:\from git\lowlevel\small robot\robot\manipulators.h
 	<stdbool.h>
 	<stdint.h>
 	"pins.h"
@@ -2389,11 +2389,12 @@
 
 1489757001 source:f:\from git\lowlevel\small robot\robot\kinematics.c
 
-1489845358 source:f:\from git\lowlevel\small robot\robot\manipulators.c
+1489853544 source:f:\from git\lowlevel\small robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"
 	"Board.h"
+	"math.h"
 
 1489757001 source:f:\from git\lowlevel\small robot\robot\path.c
 	"Path.h"
@@ -2421,7 +2422,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1489841063 source:f:\from git\lowlevel\small robot\robot\robot.c
+1489845545 source:f:\from git\lowlevel\small robot\robot\robot.c
 	"Robot.h"
 	"pins.h"
 	"usart.h"
@@ -2653,7 +2654,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1489843619 source:f:\from git\lowlevel\small robot\src\main.c
+1489852151 source:f:\from git\lowlevel\small robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"

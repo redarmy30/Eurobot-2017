@@ -675,7 +675,7 @@ case 0x3C: // Sucking manipulator
 
   }
    break;
-case 0x3D:
+case 0x3D: // RGB sensor for cylinder EuroBot 2017
     {
         char *color = getCurrentColor();
         sendAnswer(cmd->command, color, 2);
