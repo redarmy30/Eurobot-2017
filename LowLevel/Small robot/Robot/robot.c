@@ -682,6 +682,7 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
     }
 
 
+
 case 0x43: // Generate new trajectory with correction
 {
     float *(temp) ={(float*)cmd->param};
