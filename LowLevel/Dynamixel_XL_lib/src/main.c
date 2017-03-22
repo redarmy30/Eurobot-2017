@@ -99,7 +99,7 @@ int main(void)
     bool flag = 0;
 
 
-    uint8_t ID_test = 1;
+    uint8_t ID_test = 0x02;
     uint16_t testAngleVal1 = 150;
     uint16_t testAngleVal2 = 300;
     uint16_t i = 0;
@@ -113,13 +113,16 @@ int main(void)
 //      for (; frequency <= 1001000; frequency *= 1.01)
 //      {
 //          USART_Config(frequency);
-//          setID(ID_broadcast,  (uint8_t)1);
+//          setID(ID_broadcast,  (uint8_t)2);
+//          setID(ID_broadcast,  (uint8_t)2);
+//          setID(ID_broadcast,  (uint8_t)2);
+//          setID(ID_broadcast,  (uint8_t)2);
 //          setBaudRate (ID_broadcast, 1000000);
-//          setServoAngle(ID_broadcast,100);
-//          setServoAngle(ID_broadcast,200);
+//          setServoAngle(ID_test,100);
+//          setServoAngle(ID_test,200);
 //          setServoCWAngleLimit (ID_broadcast, (uint16_t) 0);
 //          setServoCCWAngleLimit (ID_broadcast, (uint16_t) 1023);
-//          //setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
+//          setServoReturnDelayMicros (ID_broadcast, (uint16_t) 0xFA);
 //      }
 //      if (frequency > 1000000) frequency = 5000;
 
@@ -127,19 +130,29 @@ int main(void)
 ////// Test section
 ////// Uncomment when done with first section to test
         USART_Config(1000000);
-//
-        setServoToJointMode(ID_test);
-        setServoAngle(ID_test, testAngleVal);
-        setServoAngle(ID_test, testAngleVal1);
+        setID(ID_broadcast,  ID_test);
+        setID(ID_broadcast,  ID_test);
+
+        setServoAngle(ID_broadcast, testAngleVal1);
+        setServoAngle(ID_broadcast, testAngleVal2);
+        setServoAngle(ID_test,testAngleVal );
         setServoAngle(ID_test, testAngleVal2);
 
-        setServoToWheelMode(ID_test);
-        setServoMovingSpeed(ID_test, (uint16_t)200, 0x0000);
-        setServoMovingSpeed(ID_test, (uint16_t)1023, 0x0000);
-        setServoMovingSpeed(ID_test, (uint16_t)1200, 0x0400);
-        setServoMovingSpeed(ID_test, (uint16_t)2046, 0x0400);
-        setServoMovingSpeed(ID_test, (uint16_t)0, 0x0000);
+        setServoToJointMode(ID_test);
+//        setID(ID_broadcast,  ID_test);
+//        setID(ID_broadcast,  ID_test);
+        setServoAngle(ID_broadcast, testAngleVal1);
+        setServoAngle((uint8_t) 1,testAngleVal );
 
+
+        setServoAngle(ID_test, testAngleVal2);
+
+        setServoToWheelMode(ID_broadcast);
+        setServoMovingSpeed(ID_broadcast, (uint16_t)200, 0x0000);
+        setServoMovingSpeed(ID_broadcast, (uint16_t)1023, 0x0000);
+        setServoMovingSpeed(ID_broadcast, (uint16_t)1200, 0x0400);
+        setServoMovingSpeed(ID_broadcast, (uint16_t)2046, 0x0400);
+        setServoMovingSpeed(ID_broadcast, (uint16_t)0, 0x0000);
 
       //  setServoMovingSpeed(254, 300, 0x0000);
       //  setServoAngle(1,250);

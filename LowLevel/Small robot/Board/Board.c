@@ -9,6 +9,8 @@
 #include "Regulator.h"
 #include "Manipulators.h"
 #include "Dynamixel_control.h"
+#include "Robot.h"
+
 uint16_t adcData[10];
 uint8_t pinType[10];
 uint8_t extiType[10];
@@ -80,7 +82,7 @@ char setVoltageMaxon(char ch, int8_t pwm_dir , float duty) // óñòàíîâèò
             *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
             set_pin(PWM_DIR[ch]);
     }
-    if (pwm_dir == 0)
+    if (pwm_dir < 0)
     {
           *PWM_CCR[ch] = (int32_t) (duty * MAX_PWM);
           reset_pin(PWM_DIR[ch]);
@@ -236,8 +238,8 @@ initRegulators();
   conf_af(BTN10_PWM_PIN, AF9);
 
 
-  timPWMConfigure(TIM4, 5, MAX_PWM, 1, 1, 1, 1); // 1000Hz
-  timPWMConfigure(TIM11, 2*1667, MAX_PWM, 1, 0, 0, 0); // 50 HZ // timPWMConfigure(TIM11, 14, MAX_PWM, 1, 0, 0, 0);
+  timPWMConfigure(TIM4, 2*33600, MAX_PWM, 1, 1, 1, 1);
+  timPWMConfigure(TIM11, 2*1667, MAX_PWM, 1, 0, 0, 0);
   timPWMConfigure(TIM10, 14, MAX_PWM, 1, 0, 0, 0);
   timPWMConfigure(TIM9, 14, MAX_PWM, 1, 1, 0, 0);
   timPWMConfigure(TIM12, 7, MAX_PWM, 1, 1, 0, 0);
@@ -314,20 +316,20 @@ initRegulators();
   //NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 
 //___EXTI____________________________________________________________________
-  conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI1_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP); //
   conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI3_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-  conf_pin(EXTI4_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI3_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);
+  conf_pin(EXTI4_PIN, GENERAL, PUSH_PULL, FAST_S, PULL_UP);
   conf_pin(EXTI5_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI6_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
-  conf_pin(EXTI7_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
+  conf_pin(EXTI7_PIN, GENERAL, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI8_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI9_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
   conf_pin(EXTI10_PIN, INPUT, PUSH_PULL, FAST_S, NO_PULL_UP);
 
   add_ext_interrupt(EXTI1_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI2_PIN, EXTI_BOTH_EDGES);
-  add_ext_interrupt(EXTI3_PIN, EXTI_BOTH_EDGES);
+  add_ext_interrupt(EXTI3_PIN, EXTI_FALLING_EDGE);
   add_ext_interrupt(EXTI4_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI5_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI6_PIN, EXTI_BOTH_EDGES);
@@ -335,31 +337,29 @@ initRegulators();
   add_ext_interrupt(EXTI8_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI9_PIN, EXTI_BOTH_EDGES);
   add_ext_interrupt(EXTI10_PIN, EXTI_BOTH_EDGES);
-//  NVIC_EnableIRQ(EXTI0_IRQn);
-//  NVIC_EnableIRQ(EXTI1_IRQn);
-//  NVIC_EnableIRQ(EXTI2_IRQn);
-//  NVIC_EnableIRQ(EXTI3_IRQn);
-//  NVIC_EnableIRQ(EXTI4_IRQn);
-//  NVIC_EnableIRQ(EXTI9_5_IRQn);
-//  NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-//___I2C_____________________________________________________________________
-//conf_af(I2C_SDA_PIN, AF4);
-//conf_pin(I2C_SDA_PIN, ALTERNATE, OPEN_DRAIN, FAST_S, NO_PULL_UP);    //I2C_SDA
-//conf_af(I2C_SCL_PIN, AF4);
-//conf_pin(I2C_SCL_PIN, ALTERNATE, OPEN_DRAIN, FAST_S, NO_PULL_UP);    //I2C_SCL
-//
-//RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);  //I2C2
-//NVIC_EnableIRQ(I2C2_ER_IRQn);
-//NVIC_EnableIRQ(I2C2_EV_IRQn);
+NVIC_InitTypeDef NVIC_InitStruct;
+    NVIC_InitStruct.NVIC_IRQChannel = EXTI1_IRQn;
+	/* Set priority */
+	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x00;
+	/* Set sub priority */
+	NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0x00;
+	/* Enable interrupt */
+	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+	/* Add to NVIC */
+	NVIC_Init(&NVIC_InitStruct);
+    SysTick_Config(840);
 __enable_irq();
 
+set_pin(PWM_INHIBIT);
+softDelay(500000);
 reset_pin(PWM_INHIBIT);
 //___MAXON'S_PWM________________________________________________________________
-char i = 0;
+int i = 0;
 for(i; i < 4; i++)
 {
     setSpeedMaxon(WHEELS[i], (float) 0.0);
 }
+
 }
 ////////////////////////////////////////////////////////////////////////////////

@@ -5,6 +5,11 @@
 #include <stdint.h>
 #include "pins.h"
 
+
+extern double timeofred;
+extern char color, color_check[8];
+extern float r,b,R,B;
+
 void softDelay(unsigned long int);
 
 ///////////////////////////TOWER BUILDER///////////////////////
@@ -31,10 +36,6 @@ bool close_tower(int8_t);
 
 extern uint16_t adcData[10];
 
-bool openCubesCatcher();
-bool closeCubesCatcher(uint8_t*);
-void initCubeCatcherPID(void);
-void GetDataForManipulator(void);
 void pidLowLevelManipulator(float, float);
 ///////////////////////////////////////////////////////////////
 
@@ -47,6 +48,9 @@ bool switchOffPneumo();
 
 ///////////////////////////////////////////////////////////////
 ////////////////small robot///////////////////
+
+#define CUBES_CATCHER_ADC 1
+void GetDataForManipulator(void);
 
 #define SEASHEL_ID  9
 #define DOORS_ID  2
@@ -91,10 +95,13 @@ void servo_elevate_in();
 void servo_elevate_out();
 void servo_rotate_90();
 void servo_rotate_180();
+float encodermagner(float);
+
+void setPositionOfCylinderCarrier(float);
 
 
-#define UPPER_SWITCH EXTI1_PIN
-#define DOWN_SWITCH EXTI2_PIN
+#define UPPER_SWITCH  EXTI2_PIN
+#define DOWN_SWITCH EXTI1_PIN
 #define INPUT2_CONTROL EXTI3_PIN
 #define INPUT1_CONTROL EXTI4_PIN
 
@@ -104,22 +111,24 @@ bool goDownWithSuckingManipulator();
 
 
 
-#define SERVO_ELEVATE  1 //defining servos
-#define SERVO_ROTATE 2
+#define SERVO_ELEVATE  2//defining servos
+#define SERVO_ROTATE 1
 
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
-#define SERVO_ROTATE_90  60
-#define SERVO_ROTATE_180  150
+#define SERVO_ROTATE_90  150
+#define SERVO_ROTATE_180  242
 
 
 bool moveSuckerManipulatorUp();
 bool moveSuckerManipulatorDown();
 
 
-
 #define ZERO_ANGLE_FUTABA_S3154 0.05
 #define MAX_ANGLE_FUTABA_S3154 0.1
+
+
+char getCurrentColor();
 
 
 #endif

@@ -80,8 +80,8 @@ extern float standVelFast[5];
 extern float normalRotFast[5];//V_уст, V_нач, V_кон, А_уск, А_торм
 extern float stopRotFast[5]; //{0.2,0.1,-0.1,0.3,0.6};
 extern float standRotFast[5];
-extern float * speedType[6];
-extern float * rotType[6];
+extern float * speedType[7];
+extern float * rotType[7];
 extern PidStruct wheelsPidStruct[4];
 extern float vTargetGlob[3];
 extern float vTargetGlobF[3];
@@ -93,7 +93,7 @@ extern float InverseKinematics[4][4];   //
 
 
 void pidCalc(PidStruct *pid_control); //Расчитать ПИД, в качестве параметра - указатель на структуру
-void FunctionalRegulator(float *V_target, float *Coord_target, float *Coord_cur, float *V_out);
+void FunctionalRegulator(float *V_target, float *V_out);
 void pidWheelsFinishWait(void); // Ожидание окончания регулирования пидов колес
 void pidLowLevel(void); // Пид нижнего уровня - колеса
 void GetDataForRegulators(void);

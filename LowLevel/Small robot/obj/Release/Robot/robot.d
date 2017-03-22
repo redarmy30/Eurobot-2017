@@ -1,9 +1,10 @@
-obj\release\robot\robot.o: Robot\robot.c Robot\robot.h \
- Robot\Communication.h USB\ App/usbd_conf.h USB\ App/usb_conf.h \
- Library/stm32f4xx.h Library/core_cm4.h cmsis/core_cmInstr.h \
- cmsis/core_cmFunc.h cmsis/core_cm4_simd.h Library/system_stm32f4xx.h \
- Library/stm32f4xx_conf.h SPL\inc/stm32f4xx_adc.h SPL\inc/stm32f4xx_can.h \
- SPL\inc/stm32f4xx_crc.h SPL\inc/stm32f4xx_cryp.h SPL\inc/stm32f4xx_dac.h \
+obj\release\robot\robot.o: Robot\robot.c Robot\Robot.h \
+ Robot\Communication.h Robot\robot.h USB\ App/usbd_conf.h \
+ USB\ App/usb_conf.h Library/stm32f4xx.h Library/core_cm4.h \
+ cmsis/core_cmInstr.h cmsis/core_cmFunc.h cmsis/core_cm4_simd.h \
+ Library/system_stm32f4xx.h Library/stm32f4xx_conf.h \
+ SPL\inc/stm32f4xx_adc.h SPL\inc/stm32f4xx_can.h SPL\inc/stm32f4xx_crc.h \
+ SPL\inc/stm32f4xx_cryp.h SPL\inc/stm32f4xx_dac.h \
  SPL\inc/stm32f4xx_dbgmcu.h SPL\inc/stm32f4xx_dcmi.h \
  SPL\inc/stm32f4xx_dma.h SPL\inc/stm32f4xx_exti.h \
  SPL\inc/stm32f4xx_flash.h SPL\inc/stm32f4xx_fsmc.h \
@@ -21,5 +22,5 @@ obj\release\robot\robot.o: Robot\robot.c Robot\robot.h \
  Library\core\inc/usb_regs.h Library\core\inc/usb_defines.h \
  Library\core\inc/usbd_usr.h Library\core\inc/usbd_ioreq.h \
  USB\ App/usbd_desc.h Library\core\inc/usbd_req.h USB\ App/stm32fxxx_it.h \
- USB\ App/usbd_cdc_vcp.h USB\ App/usbd_conf.h Robot\regulator.h \
+ USB\ App/usbd_cdc_vcp.h USB\ App/usbd_conf.h Robot\Regulator.h \
  Robot\Path.h Board/interrupts.h Board/Board.h Robot\manipulators.h

@@ -54,7 +54,7 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
   if (curState.kinemEn) FunctionalRegulator(&vTargetGlobF[0], &robotCoordTarget[0], &robotCoordTarget[0], &regulatorOut[0]); // рассчет  кинематики и насыщения
 
   pidLowLevel();
-//  pidLowLevelManipulator();
+  //pidLowLevelManipulator();
 
    //   reset_pin(PWM_DIR[8]);
 }

@@ -42,7 +42,7 @@ void initServoUSART (void);
 // ping a servo, returns true if we get back the expected values
 bool pingServo (const uint8_t servoId);
 
-bool setID (const uint8_t servoId, uint8_t newID);
+bool setID (const uint8_t servoId, const uint8_t newID);
 
 bool setBaudRate (const uint8_t servoId, uint8_t baudRate);
 

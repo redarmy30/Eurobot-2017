@@ -94,7 +94,9 @@ void initCubeCatcherPID(void)
 
 void GetDataForManipulator(void)
 {
-  CubesCatcherAngle = adcData[(char)CUBES_CATCHER_ADC - 1] * 360 / 3.3;
+  CubesCatcherAngle = adcData[(char)CUBES_CATCHER_ADC - 1] / 36 * 3.3;//*360/3.3
+
+
 
 }
 

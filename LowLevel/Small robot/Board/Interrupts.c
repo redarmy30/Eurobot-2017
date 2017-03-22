@@ -9,10 +9,10 @@
 #include "robot.h"
 #include "board.h"
 #include "Manipulators.h"
-
+extern uint32_t ticks;
 int indexSpeeds = 0, indexDists = 0;
 char traceFlag, movFlag, endFlag;
-
+double timeofred = 0;
 int16_t int_cnt = 0;
 
 
@@ -26,39 +26,30 @@ void TIM2_IRQHandler(void)
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-/*void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес
+
+int numberofrot= 0;
+float tempor = 0;
+
+void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регуляторов колес, манипулятора и считывание данных сонаров
 {
-//static char i=0; // Divider by 2 to get 10Hz frequency
-   //   set_pin(PWM_DIR[8]);
-
-
   TIM6->SR = 0;
-
   NVIC_DisableIRQ(TIM8_UP_TIM13_IRQn);
-
-    takeadc(distanceData,1,2,3);
-  if (curState.filtering) SpeedFiltration(&vTargetGlob[0],&vTargetGlobF[0]);
-  else
-   {
-      vTargetGlobF[0] =vTargetGlob[0];
-      vTargetGlobF[1] =vTargetGlob[1];
-      vTargetGlobF[2] =vTargetGlob[2];
-   }
-
-   if (curState.collisionAvEn)
-            { checkCollisionAvoid_small(robotSpeed,vTargetGlobF);}
   GetDataForRegulators(); // обновление входных данных для ПИД
   NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn);
-    // рассчет ПИД
 
-  if (curState.kinemEn) FunctionalRegulator(&vTargetGlobF[0], &robotCoordTarget[0], &robotCoordTarget[0], &regulatorOut[0]); // рассчет  кинематики и насыщения
+  tempor = encodermagner(tempor);
+    if (tempor !=2) {
+     numberofrot += tempor;
+    }
 
-  pidLowLevel();
-//  pidLowLevelManipulator();
+  if (curState.kinemEn) FunctionalRegulator(&vTargetGlob[0],  &regulatorOut[0]); // рассчет  кинематики и насыщения
 
-   //   reset_pin(PWM_DIR[8]);
+    char i = 0;
+    for(i; i < 4; i++)
+    {
+        if (curState.pidEnabled) setSpeedMaxon(WHEELS[i], regulatorOut[i]);
+    }
 }
-*/
 ////////////////////////////////////////////////////////////////////////////////
 
 void TIM7_IRQHandler() // 33kHz
@@ -109,24 +100,7 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
 {
    TrackRegulator(&robotCoord[0],&robotSpeed[0], (&curPath),&vTargetGlob[0]); // расчет глобальных скоростей
 }
-/*takeadc(distanceData,1,2,3);
-   if (curState.filtering)
-       {
-            SpeedFiltration(&vTargetGlob[0],&vTargetGlobF[0]);
-        }
-   else
-   {
-      vTargetGlobF[0] =vTargetGlob[0];
-      vTargetGlobF[1] =vTargetGlob[1];
-      vTargetGlobF[2] =vTargetGlob[2];
-   }
-
-   if (curState.collisionAvEn)
-            { checkCollisionAvoid_small(robotSpeed,vTargetGlobF);}
-    ////////////////////////////////////////////////////////////////////////////////
-  NVIC_EnableIRQ(TIM6_DAC_IRQn); //включение ПИД
-    // reset_pin(PWM_DIR[8]);
-*/
+NVIC_EnableIRQ(TIM6_DAC_IRQn);
 }
 
 
@@ -139,19 +113,29 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
 //#define EXTI2_PIN               pin_id(PORTD,0)         //Разъем EXTI2//
 void EXTI0_IRQHandler(void)
 {
+
+
   EXTI->PR=0x1;
   char temp = 2;
   if ( pin_val(EXTI2_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
+  ticks = ticks;
+
+
 }
 
 //#define EXTI5_PIN               pin_id(PORTD,1)         //Разъем EXTI5//
 void EXTI1_IRQHandler(void)
 {
+    static uint32_t lasttick;
+
   EXTI->PR=0x2;
   char temp = 5;
   if ( pin_val(EXTI5_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
+
+  timeofred = (ticks - lasttick) ;
+  lasttick= ticks;
 }
 
 //#define EXTI4_PIN               pin_id(PORTD,2)         //Разъем EXTI4//
@@ -166,20 +150,25 @@ void EXTI2_IRQHandler(void)
 //#define EXTI6_PIN               pin_id(PORTD,3)         //Разъем EXTI6//
 void EXTI3_IRQHandler(void)
 {
+
   EXTI->PR=0x8;
   char temp = 6;
   if ( pin_val(EXTI6_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
+
 
 }
 
 //#define EXTI9_PIN               pin_id(PORTE,4)         //Разъем EXTI9//
 void EXTI4_IRQHandler(void)
 {
+
+
   EXTI->PR=0x10;
   char temp = 9;
   if ( pin_val(EXTI9_PIN) ) temp |=0x80;
   sendAnswer(0x1E,&temp, 1);
+
 
 }
 
