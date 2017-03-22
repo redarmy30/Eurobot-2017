@@ -143,9 +143,27 @@ switch(cmd->command)
 
   case 0x0B:  //Включить рассчет кинематики
   {
-      curState.kinemEn=1;
-      char * str ="Ok";
-      sendAnswer(cmd->command,str, 3);
+
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+        softDelay(100000000);
+     //   setPositionOfCylinderCarrier(160.0);
+      //  goDownWithSuckingManipulator();
+
+   //     sendAnswer(cmd->command, str, 3);
+
+//        switchOnPneumo();
+//        softDelay(10000000);
+//        servo_rotate_90();
+//        goUpWithSuckingManipulator();
+
+//
+//        setPositionOfCylinderCarrier(150.0);
+//        softDelay(10000000);
+
+//      curState.kinemEn=1;
+//      char * str ="Ok";
+//      sendAnswer(cmd->command,str, 3);
   }
   break;
 
@@ -685,6 +703,9 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
 
 case 0x3E:
     {
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+
         setPositionOfCylinderCarrier(60.0);
         goDownWithSuckingManipulator();
 
@@ -707,8 +728,7 @@ case 0x3E:
         softDelay(15000000);
 */
 
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
+
     }
     break;
 

@@ -94,38 +94,129 @@ int main(void)
 //    set_pin(EXTI7_PIN); // LED to PD7
 //uint8_t ID_test = 2;
 
-
     while(1)
     {
+      //  goUpWithSuckingManipulator();
+        //servo_rotate_180();
+//        setPositionOfCylinderCarrier(0.0);
 
-        /*setDefault((uint8_t)3);
-        setID ((uint8_t)3, (uint8_t)1);
-        setServoToJointMode(1);
-        servo_rotate_90();
-        servo_rotate_180();*/
-/*        setServoAngle((uint8_t)3, (uint16_t)290);
-        setServoAngle((uint8_t)3, (uint16_t)120);*/
-//        setServoToWheelMode((uint8_t)3);
+   //     setPositionOfCylinderCarrier(105.0);
 
-        //setPositionOfCylinderCarrier(100.0);
-        setPositionOfCylinderCarrier(60.0);
+     //   goDownWithSuckingManipulator();
+
+     /*  servo_rotate_180();
+       servo_rotate_90();*/
         goDownWithSuckingManipulator();
-
         switchOnPneumo();
         softDelay(10000000);
-
         servo_rotate_90();
         goUpWithSuckingManipulator();
-
-
-        setPositionOfCylinderCarrier(150.0);
-        softDelay(10000000);
+        setPositionOfCylinderCarrier(292.0);
         switchOffPneumo();
-        softDelay(10000000);
         servo_rotate_180();
-        setPositionOfCylinderCarrier(400.0);
-        softDelay(15000000);
-        setPositionOfCylinderCarrier(60.0);
+
+
+
+        setPositionOfCylinderCarrier(120.0+360);
+        goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goUpWithSuckingManipulator();
+        setPositionOfCylinderCarrier(308.0+360);
+        switchOffPneumo();
+        servo_rotate_180();
+
+
+        setPositionOfCylinderCarrier(122.0+720);
+        goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goUpWithSuckingManipulator();
+        setPositionOfCylinderCarrier(30.0+1080);
+        switchOffPneumo();
+        servo_rotate_180();
+
+
+        goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+
+
+        switchOffPneumo();
+        servo_rotate_180();
+
+
+/*/*
+goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goUpWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_FIRST_CYLINDER);
+        switchOffPneumo();
+        servo_rotate_180();
+
+
+
+        increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
+        goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goUpWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_SECOND_CYLINDER);
+        switchOffPneumo();
+        servo_rotate_180();
+
+
+        increaseByGivenAngle(PREPARE_FOR_THIRD_CYLINDER);
+        goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goUpWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_THIRD_CYLINDER);
+        switchOffPneumo();
+        servo_rotate_180();
+        increaseByGivenAngle(LIFT_ALL);
+
+
+        goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+
+
+        switchOffPneumo();
+        servo_rotate_180();
+*/
+ //       goDownWithSuckingManipulator();
+   /*     switchOnPneumo();
+        servo_rotate_90();
+        servo_rotate_180();
+        switchOffPneumo();
+      /*  switchOnPneumo();
+        servo_rotate_90();
+        goUpWithSuckingManipulator();
+        switchOffPneumo();
+        /*setDefault((uint8_t)3);
+        setID ((uint8_t)3, (uint8_t)1);*/
+//        setServoToJointMode(3);
+    /*    servo_rotate_90();*/
+  //      servo_rotate_180();
+//        setServoAngle((uint8_t)3, (uint16_t)290);
+//        setServoAngle((uint8_t)3, (uint16_t)240);
+//        setServoAngle((uint8_t)3, (uint16_t)190);
+//        setServoAngle((uint8_t)3, (uint16_t)100);
+/*        setServoAngle((uint8_t)3, (uint16_t)120);*/
+ //       setServoToWheelMode((uint8_t)3);
+ //       goUpWithSuckingManipulator();
+ //       getCurrentEncoderAngle(void);
+        //setPositionOfCylinderCarrier(0);
+
 //        setServoToWheelMode(3);
   /*      setServoMovingSpeed(ID_test, (uint16_t)200, 0x0000);
         setServoMovingSpeed(ID_test, (uint16_t)1023, 0x0000);
@@ -142,5 +233,5 @@ int main(void)
 //        servo_rotate_180();
 
 
-       }
+    }
 }

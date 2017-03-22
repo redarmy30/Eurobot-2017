@@ -360,6 +360,6 @@ for(i; i < 4; i++)
 {
     setSpeedMaxon(WHEELS[i], (float) 0.0);
 }
-
+goUpWithSuckingManipulator();
 }
 ////////////////////////////////////////////////////////////////////////////////
