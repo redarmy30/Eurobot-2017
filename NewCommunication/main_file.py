@@ -175,42 +175,59 @@ class Robot:
 
     def simpliest_trajectory(self,speed=1):
         angle =3*np.pi / 2.
+        #1 area 2: after seesaw
         parameters = [700, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #2 back rocket stand to take
         parameters = [1150, 190, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #3 back rocket pass big robot
         parameters = [1250, 190, angle, speed]
         self.go_to_coord_rotation(parameters)
         time.sleep(1)
+        #4 back rocket stand to take
         parameters = [1150, 190, angle, speed]
         self.go_to_coord_rotation(parameters)
         #########
+        #5 between adjust
         parameters = [1250, 1200, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #6 1 lunar module
         parameters = [1350, 1600, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #7 2nd lunar module
         parameters = [1300, 1550, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #8  3rd lunar module
         parameters = [1280, 1530, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #9 last module
         parameters = [1250, 1500, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #10 between adjust
         parameters = [1080, 1300, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #11 lateral rocket stand to take
         parameters = [250, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.go_last(parameters)
         ####
+        #12 between adjustment: back 20
         parameters = [270, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #13 1st module
         parameters = [270, 1150, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #14 2nd module
         parameters = [270, 1050, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #15 3rd module take + rbg detect
         parameters = [270, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #16 2th module take + rbg detect
         parameters = [270, 1050, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #17 1t module take + rbg detect
         parameters = [270, 1150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
