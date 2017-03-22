@@ -202,7 +202,7 @@
 
 1489757001 f:\from git\lowlevel\small robot\robot\path.h
 
-1490189855 f:\from git\lowlevel\small robot\robot\manipulators.h
+1490193696 f:\from git\lowlevel\small robot\robot\manipulators.h
 	<stdbool.h>
 	<stdint.h>
 	"pins.h"
@@ -541,7 +541,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1490191933 source:f:\from git\lowlevel\small robot\src\main.c
+1490193036 source:f:\from git\lowlevel\small robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"

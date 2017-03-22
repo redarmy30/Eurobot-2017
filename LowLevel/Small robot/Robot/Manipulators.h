@@ -133,9 +133,9 @@ char getCurrentColor();
 #define LIFT_FIRST_CYLINDER 187
 #define PREPARE_FOR_SECOND_CYLINDER 188
 #define LIFT_SECOND_CYLINDER 188
-#define PREPARE_THIRD_FOR_CYLINDER 174
+#define PREPARE_FOR_THIRD_CYLINDER 174
 #define LIFT_THIRD_CYLINDER 225
-#define LIFT_ALL 88
+#define LIFT_ALL 80
 
 
 float getCurrentEncoderAngle(void);

@@ -100,13 +100,20 @@ int main(void)
         //servo_rotate_180();
 //        setPositionOfCylinderCarrier(0.0);
 
-   //     setPositionOfCylinderCarrier(105.0);
+        setPositionOfCylinderCarrier(105.0);
 
      //   goDownWithSuckingManipulator();
 
+
+        increaseByGivenAngle(LIFT_FIRST_CYLINDER);
+        increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
+        increaseByGivenAngle(LIFT_SECOND_CYLINDER);
+        increaseByGivenAngle(PREPARE_FOR_THIRD_CYLINDER);
+        increaseByGivenAngle(LIFT_THIRD_CYLINDER);
+        increaseByGivenAngle(LIFT_ALL);
      /*  servo_rotate_180();
        servo_rotate_90();*/
-        goDownWithSuckingManipulator();
+        /*goDownWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_90();
@@ -149,7 +156,7 @@ int main(void)
         servo_rotate_180();
 
 
-/*/*
+/*
 goDownWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
