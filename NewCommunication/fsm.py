@@ -75,9 +75,9 @@ def parse_strategy(strategy_text):
             return False
 
     res = [[part.lstrip().rstrip() for part in line.split(":")]
-                for line in strategy_text.split('\n') if line[0] != '#'e]
+                for line in strategy_text.split('\n') if line[0] != '#']
 
-    for r in res
+    #for r in res
 
 class Timer(smach.State):
     def __init__(sf, outcomes=[], input_keys=[], output_keys=[]):
