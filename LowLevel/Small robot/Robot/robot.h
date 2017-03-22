@@ -63,6 +63,10 @@
 #define IR_FRONT_TOP EXTI9_PIN
 #define IR_BACK EXTI10_PIN
 
+#define FIRST_CYLINDER_ANGLE 400
+#define SECOND_CYLINDER_ANGLE 800
+#define THIRD_CYLINDER_ANGLE 1200
+
 #pragma pack(push,1)
 typedef struct {
   char sync;

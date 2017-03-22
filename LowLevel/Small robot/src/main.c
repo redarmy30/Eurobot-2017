@@ -14,132 +14,133 @@
 #include "stm32f4xx_conf.h"
 
 #include "stm32f4xx.h"
-#include "Board.h"  //файл инициализации
+#include "Board.h"
 
-#include "gpio.h" // работа с портами ввода-вывода
-#include "Pins.h" // определение ножек на плате
+#include "gpio.h"
+#include "Pins.h"
 #include "Interrupts.h"
-#include "regulator.h"  // регул€торы колес, кинематика, траекторный
-
-#include "usart.h" //обмен с измерительной тележкой
-#include "robot.h"  //определение конфигурации робота и его основных функций
+#include "Regulator.h"
+#include "usart.h"
+#include "Robot.h"
 #include "Manipulators.h"
-// обмен с компьютером
 #include "usbd_cdc_core.h"
 #include "usbd_usr.h"
 #include "usb_conf.h"
 #include "usbd_desc.h"
 #include "usbd_cdc_vcp.h"
+#include "stm32fxxx_it.h"
+#include <math.h>
 
 #ifdef USB_OTG_HS_INTERNAL_DMA_ENABLED
   #if defined ( __ICCARM__ ) /*!< IAR Compiler */
     #pragma data_alignment=4
   #endif
 #endif /* USB_OTG_HS_INTERNAL_DMA_ENABLED */
-
 __ALIGN_BEGIN USB_OTG_CORE_HANDLE    USB_OTG_dev __ALIGN_END;
 
-char mode;
+uint32_t ticks; // global "time" for mesuring frequency of rbg signal
+char color, color_check[8]; // for rgb sensor
+float r,b,R,B; //for rgb sensor
+
+extern double timeofred;
+
+
+void SysTick_Handler(void)
+{
+    ticks++;
+//  /* Information panel */
+////  LCD_SetTextColor(Green);
+// // LCD_SetTextColor(LCD_LOG_DEFAULT_COLOR);
+}
+
+//#ATTENTION: IN INITALL DISABLED DELAY INHIBIT; IN REGULATOR
+
 
 int main(void)
 {
+
     __disable_irq();
-   initAll();
+    initAll();
 
 
-      USBD_Init(&USB_OTG_dev,
-#ifdef USE_USB_OTG_HS
-            USB_OTG_HS_CORE_ID,
-#else
-            USB_OTG_FS_CORE_ID,
-#endif
-            &USR_desc,
-            &USBD_CDC_cb,
-            &USR_cb);
-
-       //сброс координат измерительной тележки в случае перезапуска контроллера
-
-
-//    __disable_irq();
-//    conf_pin(EXTI2_PIN, INPUT, PUSH_PULL, FAST_S, PULL_UP);
-__enable_irq();
-
-     //   char * str ="mobile robot V1.0";
-    //char ch = 5;
-    //float duty = 0.09;
-    //float duty1 = 0.07;// закрыто (ѕ–»“я√»¬ј≈ћ)
-    //float duty2 = 0.024;// открыто(ќ“—ќ≈ƒ»Ќя≈ћ)
-//int  test =  0;
+    /*NVIC_InitTypeDef NVIC_InitStruct;
+    NVIC_InitStruct.NVIC_IRQChannel = EXTI1_IRQn;
+	 Set priority
+	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x00;
+	 Set sub priority
+	NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0x00;
+	 Enable interrupt
+	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+	 Add to NVIC
+	NVIC_Init(&NVIC_InitStruct);
+    SysTick_Config(840);*/
 
 
-/*InPackStruct test;
-test.command=0x25;
-char robotCoord1[3] = {0.1,0.,0};
-test.param = *robotCoord1;*/
-//265
-//145
-//pathPointStr robotCoord1 = {0.0, 0.0, 3.14, NULL,NULL,0,stopVel,stopRot,0,1};
-//float robotCoord1[3] = {0.1,0.,0};
-float temp[3] ={0.25,-0.25,0};
-float anlge =270;
-float torka = 1000;
-uint16_t detector = 0;
-//int ttime = 19000000;
-//int ttime1 = 10000000;
-//uint16_t  angle = 130;
-int angle = 0;
-int i, j;
-float d;
-int p;
-/*
-pwm goes from 0.6-1.0
-*/
-while(1){
+    USBD_Init(&USB_OTG_dev,
+    #ifdef USE_USB_OTG_HS
+                USB_OTG_HS_CORE_ID,
+    #else
+                USB_OTG_FS_CORE_ID,
+    #endif
+                &USR_desc,
+                &USBD_CDC_cb,
+                &USR_cb);
 
-        setSpeedMaxon(0, 0.5);
-       // extiType[10];
-        //p = pin_val(EXTI5_PIN);
-        /*distance_digital2[0] = pin_val(EXTI7_PIN);
-        if (distance_digital2[0]>0) {
-                distance_digital2[0] = distance_digital2[0];
-        }*/
-        //distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
-/*        distance_digital2[2] = extiType[6];
-        distance_digital2[3] = extiType[7];
-        distance_digital2[4] = extiType[8];
-        distance_digital2[5] = extiType[9];
-*/
+    __enable_irq();
 
-    /*for(i=2818;i<100000;i++){
-        d = (float)i/100;
-        setPWM((char)4, d);
-        for(j=0; j<500000; j++);
-    }*/
-//    for(i=(-100);i<100;i++){
-//        d = (float)i/100;
-       /* setPWM((char)4, 0.055);
-        setPWM((char)4, 0.099);
-        setPWM((char)4, 0.107);
-        setPWM((char)4, 0.166);*/
-//        for(j=0; j<1000000; j++);
-//    }
 
-//upCollectorToGetBalls();
-//downCollectorWithBalls();
+//    set_pin(EXTI2_PIN);
+//    reset_pin(EXTI1_PIN);
+//    set_pin(EXTI7_PIN); // LED to PD7
+//uint8_t ID_test = 2;
 
-//throwCollectorIntoBox();
 
-  /*  if (pin_val (EXTI2_PIN))
-            {   //curState.pidEnabled=1;
-                curState.trackEn = 1;}
-        else
-          {curState.trackEn = 0;
-            vTargetGlob[0]=0;
-            vTargetGlob[1]=0;
-            vTargetGlob[2]=0;
+    while(1)
+    {
 
-            //curState.pidEnabled=0;
-    } */
+        /*setDefault((uint8_t)3);
+        setID ((uint8_t)3, (uint8_t)1);
+        setServoToJointMode(1);
+        servo_rotate_90();
+        servo_rotate_180();*/
+/*        setServoAngle((uint8_t)3, (uint16_t)290);
+        setServoAngle((uint8_t)3, (uint16_t)120);*/
+//        setServoToWheelMode((uint8_t)3);
 
-}
+        //setPositionOfCylinderCarrier(100.0);
+        setPositionOfCylinderCarrier(60.0);
+        goDownWithSuckingManipulator();
+
+        switchOnPneumo();
+        softDelay(10000000);
+
+        servo_rotate_90();
+        goUpWithSuckingManipulator();
+
+
+        setPositionOfCylinderCarrier(150.0);
+        softDelay(10000000);
+        switchOffPneumo();
+        softDelay(10000000);
+        servo_rotate_180();
+        setPositionOfCylinderCarrier(400.0);
+        softDelay(15000000);
+        setPositionOfCylinderCarrier(60.0);
+//        setServoToWheelMode(3);
+  /*      setServoMovingSpeed(ID_test, (uint16_t)200, 0x0000);
+        setServoMovingSpeed(ID_test, (uint16_t)1023, 0x0000);
+        setServoMovingSpeed(ID_test, (uint16_t)1200, 0x0400);
+        setServoMovingSpeed(ID_test, (uint16_t)2046, 0x0400);
+        setServoMovingSpeed(ID_test, (uint16_t)0, 0x0000);*/
+
+        //
+//        goDownWithSuckingManipulator();
+//        switchOnPneumo();
+//        servo_rotate_90();
+//        goUpWithSuckingManipulator();
+//        switchOffPneumo();
+//        servo_rotate_180();
+
+
+       }
 }

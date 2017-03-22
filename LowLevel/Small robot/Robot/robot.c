@@ -1,4 +1,4 @@
-#include "robot.h"
+#include "Robot.h"
 #include "pins.h"
 #include "usart.h"
 #include "usbd_cdc_core.h"
@@ -8,7 +8,7 @@
 #include "stm32fxxx_it.h"
 #include "usbd_cdc_vcp.h"
 #include "string.h"
-#include "regulator.h"
+#include "Regulator.h"
 #include "interrupts.h"
 #include "Board.h"
 #include "Communication.h"
@@ -28,7 +28,7 @@ float motorSpeed[4];                // скорости моторов
 float motorCoord[4] = {0,0,0};      // общий пройденный колесом путь
 float robotCoord[3] = {0,0,0};       // Координаты робота по показаниям измерительной тележки
 float robotSpeed[3] = {0,0,0};       // скорость робота по показаниям измерительной тележки
-robStateStruct curState = {1, 1, 1, 0, 0};    // состояние регуляторов активен-1/неактвен -0
+robStateStruct curState = {1,1,1, 0, 0};    // состояние регуляторов активен-1/неактвен -0
 encOutPackStruct outEnc;              //буфер данных отправляемых измерительной тележке
 
 uint32_t * encCnt[4] ={ENCODER1_CNT, ENCODER2_CNT, ENCODER3_CNT, ENCODER4_CNT};  //массив указателей на счетчики энкодеров колес
@@ -105,8 +105,9 @@ switch(cmd->command)
   case 0x06:  //Установить напряжение на двигателе
   {
       char  ch = *cmd->param;
-      float temp = *((float*)(cmd->param+1));
-      setVoltageMaxon( ch-1, temp);
+      float duty = *((float*)(cmd->param + 1));
+      uint16_t dir = *((uint16_t*)(cmd->param + 2));
+      setVoltageMaxon( ch-1, dir, duty);
       char * str ="Ok";
       sendAnswer(cmd->command,str, 3);
   }
@@ -529,7 +530,7 @@ break;
   break;
 
 
-    case 0x2B:  //Open Cubes Catcher
+    case 0x2B:  //pump manipulator rotation for EuroBot 2017
       {
         servo_rotate_90(); // rotate the pump 90 degrees
         char * str ="Ok";
@@ -537,7 +538,7 @@ break;
     }
     break;
 
-  case 0x2C:  //Close Cubes Catcher
+  case 0x2C:  //pump manipulator rotation for EuroBot 2017
   {
     servo_rotate_180(); // rotate the pump 180 degrees
     char * str ="Ok";
@@ -546,7 +547,7 @@ break;
 break;
 
 
-  case 0x2D: // open fishing manipulators
+  case 0x2D: //pump manipulator movement for EuroBot 2017 (old)
   {
         servo_elevate_out(); // move servo out
         char * str ="Ok";
@@ -554,7 +555,7 @@ break;
     }
     break;
 
-    case 0x2E:
+    case 0x2E: //pump manipulator movement for EuroBot 2017 (old)
     {
         servo_elevate_in(); // move servo inside
         char * str ="Ok";
@@ -562,7 +563,7 @@ break;
     }
     break;
 
-   case 0x2F: // switch on
+   case 0x2F: // switch on pump
   {
     switchOnPneumo();
     char * str ="Ok1";
@@ -570,7 +571,7 @@ break;
   }
    break;
 
-   case 0x30: // switch off
+   case 0x30: // switch off pump
   {
     switchOffPneumo();
     char * str ="Ok2";
@@ -613,22 +614,19 @@ case 0x36:
 
     }
 break;
-case 0x40: // STOP AFTER 90 SEC
 
-    {  //initAll();
-       //curState.trackEn = 0;
-        CloseFishingManipulator();
-        curState.pidEnabled = 0;
-        char i;
-        for (i = 0; i < 4; i++)
-        {
-            setVoltageMaxon(WHEELS[i], (float) 0);
-        }
-        char * str ="Ok";
-        sendAnswer(cmd->command,str, 3);
+  case 0x40:  // Stop command
+  {
+    curState.pidEnabled = 0;
+    char i;
+    for (i = 0; i < 4; i++)
+    {
+        setVoltageMaxon(WHEELS[i], (uint8_t) 1,  (float) 0);
     }
-
-    break;
+    char * str ="Ok";
+    sendAnswer(cmd->command,str, 3);
+  }
+  break;
 
 case 0x38:        // avoidance ENABLED
 {       curState.collisionAvEn   = 1;
@@ -660,7 +658,7 @@ case 0x3A: // Distance from ultrasonic sensors
   }
    break;
 
-/*case 0x3B: // Sucking manipulator
+case 0x3B: // Sucking manipulator
   {
         goUpWithSuckingManipulator();
         char * str ="Ok";
@@ -677,35 +675,92 @@ case 0x3C: // Sucking manipulator
 
   }
    break;
+case 0x3D: // RGB sensor for cylinder EuroBot 2017
+    {
+        char *color = getCurrentColor();
+        sendAnswer(cmd->command, color, 2);
+    }
+    break;
+
+
+case 0x3E:
+    {
+        setPositionOfCylinderCarrier(60.0);
+        goDownWithSuckingManipulator();
+
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_90();
+        goUpWithSuckingManipulator();
+
+
+        setPositionOfCylinderCarrier(150.0);
+        softDelay(10000000);
+
+        /*
+        switchOffPneumo();
+
+
+        softDelay(10000000);
+        servo_rotate_180();
+        setPositionOfCylinderCarrier(400.0);
+        softDelay(15000000);
 */
-/*case 0x3D:
-    {
 
-
-    }*/
-
-case 0x41: // ОТКРЫТЬ ДВЕРИ
-    {
-       Open_seashell_doors();
-       char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
     }
     break;
 
-case 0x42: // ЗАКРЫТЬ ДВЕРИ
+case 0x3F:
     {
-       close_seashell_doors();
-       char * str ="Ok";
-       sendAnswer(cmd->command, str, 3);
+        goDownWithSuckingManipulator();
+
+        switchOffPneumo();
+        softDelay(10000000);
+        servo_rotate_180();
+        softDelay(10000000);
+
+        goUpWithSuckingManipulator();
+        softDelay(10000000);
+
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
     }
     break;
 
-    case 0x43: // Generate new trajectory with correction
+case 0x41: //move first cylinder up
+    {
+        setPositionOfCylinderCarrier(FIRST_CYLINDER_ANGLE);
 
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+case 0x42: //move second cylinder up
+    {
+        setPositionOfCylinderCarrier(SECOND_CYLINDER_ANGLE);
+
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+case 0x44: //move third cylinder up
+    {
+        setPositionOfCylinderCarrier(THIRD_CYLINDER_ANGLE);
+
+        char * str ="Ok";
+        sendAnswer(cmd->command, str, 3);
+    }
+    break;
+
+case 0x43: // Generate new trajectory with correction
 {
 float *(temp) ={(float*)cmd->param};
 char * ch = cmd->param + 24;
-robotCoord[0] = temp[0];
+robotCoord[0] = temp[0]; //# TODO TEST SPEED
 robotCoord[1] = temp[1];
 robotCoord[2] = temp[2];
 lastPoint++;
@@ -720,7 +775,7 @@ points[lastPoint].movTask = NULL;
 char * str ="Ok";
 sendAnswer(cmd->command,str, 3);
 }
-break;
+    break;
 /*
 case 0x2E:
 {
