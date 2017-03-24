@@ -46,7 +46,7 @@ class Robot:
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=1000, sense_noise=30, distance_noise=30, angle_noise=0.2, in_x=self.coords[0],
+        self.PF = pf.ParticleFilter(particles=1000, sense_noise=20, distance_noise=30, angle_noise=0.2, in_x=self.coords[0],
                                     in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue)
 
         # driver process
@@ -139,7 +139,7 @@ class Robot:
 
     def take_cylinder(self): # approx time = 2
         self.send_command('take_cylinder')
-        time.sleep(2)
+        time.sleep(4)
     def store_cylinder(self): # approx time = 0.5
         self.send_command('store_cylinder')
         time.sleep(0.5)
@@ -293,19 +293,24 @@ class Robot:
     def first_cylinder(self,speed=1):
         angle = np.pi
         ############### take cylinder
-        parameters = [700, 150, angle, speed]
+        parameters = [700, 160, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1150, 190, angle, speed]
+        parameters = [1135, 400, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.go_last(parameters)
         angle = np.pi*3/2.
-        parameters = [1150, 150, angle, speed]
+        parameters = [1135, 400, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [1150, 100, angle, speed]
+        parameters = [1135, 300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1135, 220, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.take_cylinder()
         #self.store_cylinder()
         ##############
+        parameters = [1135, 400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.drop_cylinder()
+        return
         self.go_to_coord_rotation(parameters)
         parameters = [1150, 200, angle, speed]
         angle = np.pi
@@ -328,7 +333,7 @@ class Robot:
 
 def test():
     rb = Robot(True)
-    rb.take_cylinder()
+    #rb.take_cylinder()
     #rb.first_cylinder()
     return
     i = 0
