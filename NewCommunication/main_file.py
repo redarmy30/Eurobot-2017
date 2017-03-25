@@ -42,11 +42,11 @@ class Robot:
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
         self.coords = Array('d',[170, 150, 0])
-        self.localisation = Value('b', True)
+        self.localisation = Array('b', True)
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=1000, sense_noise=15, distance_noise=20, angle_noise=0.2, in_x=self.coords[0],
+        self.PF = pf.ParticleFilter(particles=1000, sense_noise=25, distance_noise=20, angle_noise=0.2, in_x=self.coords[0],
                                     in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue)
 
         # driver process
@@ -291,10 +291,10 @@ class Robot:
 
     def big_robot_trajectory(self,speed=1):
         angle = np.pi*0.1
-        self.localisation = False
+        self.localisation.value = False
         parameters = [900, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.localisation = True
+        self.localisation.value = True
         angle = np.pi/2
         parameters = [950, 400, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -309,13 +309,13 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [950, 400, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [950, 150, angle, speed]
+        parameters = [950, 180, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi * 0.1
-        self.localisation = False
-        parameters = [170, 150, angle, speed]
+        self.localisation.value = False
+        parameters = [170, 180, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.localisation = True
+        self.localisation.value = True
 
     def first_cylinder(self,speed=1):
         angle = np.pi

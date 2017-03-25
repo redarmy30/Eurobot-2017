@@ -162,7 +162,7 @@ class ParticleFilter:
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
         weights = self.gaus(np.mean(beacon_error_sum, axis=1), sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(80)*self.particles_num:
+        if np.sum(weights)<self.gaus(50)*self.particles_num:
             logging.info("Dangerous Situation")
             #self.warning=True
         weights /= np.sum(weights)
@@ -177,7 +177,7 @@ class ParticleFilter:
     def localisation(self, localisation,shared_coords,get_raw):
         time.sleep(0.5)
         while True:
-            if localisation:
+            if localisation.value:
                 coords = self.send_command('getCurrentCoordinates')['data']
                 coords[0]=coords[0]*1000
                 coords[1]=coords[1]*1000
