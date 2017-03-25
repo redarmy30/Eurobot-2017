@@ -42,17 +42,18 @@ class Robot:
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
         self.coords = Array('d',[170, 150, 0])
+        self.localisation = Value('b', True)
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=1000, sense_noise=20, distance_noise=30, angle_noise=0.2, in_x=self.coords[0],
+        self.PF = pf.ParticleFilter(particles=1000, sense_noise=15, distance_noise=20, angle_noise=0.2, in_x=self.coords[0],
                                     in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue)
 
         # driver process
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
         p = Process(target=self.dr.run)
         p.start()
-        p2 = Process(target=self.PF.localisation,args=(self.coords,self.get_raw_lidar))
+        p2 = Process(target=self.PF.localisation,args=(self.localisation,self.coords,self.get_raw_lidar))
         logging.info(self.send_command('echo','ECHO'))
         logging.info(self.send_command('setCoordinates',[self.coords[0] / 1000., self.coords[1] / 1000., self.coords[2]]))
         p2.start()
@@ -94,6 +95,11 @@ class Robot:
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
                 return False  # Error, need to handle somehow (Localize and add new point maybe)
+        if self.localisation == False:
+            self.PF.move_particles([parameters[0]-self.coords[0],parameters[1]-self.coords[1],parameters[2]-self.coords[2]])
+            self.coords[0] = parameters[0]
+            self.coords[1] = parameters[1]
+            self.coords[2] = parameters[2]
         logging.info('point reached')
         return True
 
@@ -285,27 +291,31 @@ class Robot:
 
     def big_robot_trajectory(self,speed=1):
         angle = np.pi*0.1
+        self.localisation = False
         parameters = [900, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
-        angle = np.pi
-        parameters = [900, 400, angle, speed]
+        self.localisation = True
+        angle = np.pi/2
+        parameters = [950, 400, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [900, 1000, angle, speed]
+        parameters = [950, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [250, 1800, angle, speed]
         self.go_to_coord_rotation(parameters)
 
     def big_robot_trajectory_r(self,speed=1):
-        angle = np.pi
+        angle = np.pi/2
         parameters = [900, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [900, 400, angle, speed]
+        parameters = [950, 400, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [900, 150, angle, speed]
+        parameters = [950, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi * 0.1
+        self.localisation = False
         parameters = [170, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.localisation = True
 
     def first_cylinder(self,speed=1):
         angle = np.pi

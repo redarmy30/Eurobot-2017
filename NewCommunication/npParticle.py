@@ -162,9 +162,9 @@ class ParticleFilter:
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
         weights = self.gaus(np.mean(beacon_error_sum, axis=1), sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(200)*self.particles_num:
+        if np.sum(weights)<self.gaus(80)*self.particles_num:
             logging.info("Dangerous Situation")
-            self.warning=True
+            #self.warning=True
         weights /= np.sum(weights)
         return weights
         # TODO try use median instead mean
@@ -174,23 +174,24 @@ class ParticleFilter:
         self.input_queue.put({'source':'loc','cmd':name,'params':params})
         return self.out_queue.get()
 
-    def localisation(self, shared_coords,get_raw):
+    def localisation(self, localisation,shared_coords,get_raw):
         time.sleep(0.5)
         while True:
-            coords = self.send_command('getCurrentCoordinates')['data']
-            coords[0]=coords[0]*1000
-            coords[1]=coords[1]*1000
-            print coords
-            self.move_particles(
-                [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
-            # add aproximation
-            lidar_data = get_raw()
-            self.particle_sense(lidar_data)
-            main_robot = self.calculate_main()
-            self.last = main_robot
-            shared_coords[0] = main_robot[0]
-            shared_coords[1] = main_robot[1]
-            shared_coords[2] = main_robot[2]
+            if localisation:
+                coords = self.send_command('getCurrentCoordinates')['data']
+                coords[0]=coords[0]*1000
+                coords[1]=coords[1]*1000
+                print coords
+                self.move_particles(
+                    [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
+                # add aproximation
+                lidar_data = get_raw()
+                self.particle_sense(lidar_data)
+                main_robot = self.calculate_main()
+                self.last = main_robot
+                shared_coords[0] = main_robot[0]
+                shared_coords[1] = main_robot[1]
+                shared_coords[2] = main_robot[2]
             time.sleep(0.2)
 
 
