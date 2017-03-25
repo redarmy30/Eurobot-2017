@@ -4,7 +4,6 @@ from hokuyolx import HokuyoLX
 import logging
 import signal
 import npParticle as pf
-import fsm
 import numpy as np
 from multiprocessing import Process, Queue, Value,Array
 from multiprocessing.queues import Queue as QueueType
@@ -57,6 +56,7 @@ class Robot:
         logging.info(self.send_command('echo','ECHO'))
         logging.info(self.send_command('setCoordinates',[self.coords[0] / 1000., self.coords[1] / 1000., self.coords[2]]))
         p2.start()
+        time.sleep(0.1)
 
     def send_command(self,name,params=None):
         self.input_queue.put({'source': 'fsm','cmd': name,'params': params})
@@ -284,10 +284,27 @@ class Robot:
 
 
     def big_robot_trajectory(self,speed=1):
-        angle = np.pi
-        parameters = [820, 150, angle, speed]
+        angle = np.pi*0.1
+        parameters = [900, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [820, 150, angle, speed]
+        angle = np.pi
+        parameters = [900, 400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+
+    def big_robot_trajectory_r(self,speed=1):
+        angle = np.pi
+        parameters = [900, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900, 400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [900, 150, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi * 0.1
+        parameters = [170, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
     def first_cylinder(self,speed=1):
@@ -335,11 +352,10 @@ def test():
     rb = Robot(True)
     #rb.take_cylinder()
     #rb.first_cylinder()
-    return
     i = 0
     while i<10:
-        rb.demo(4)
-        rb.demo_r(4)
+        rb.big_robot_trajectory(4)
+        rb.big_robot_trajectory_r(4)
         i+=1
 
 def tst_time():
