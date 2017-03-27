@@ -42,7 +42,7 @@ class Robot:
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
         self.coords = Array('d',[170, 150, 0])
-        self.localisation = Array('b', True)
+        self.localisation = Value('b', True)
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
@@ -77,6 +77,8 @@ class Robot:
             logging.warning('Lidar off')
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
+        if self.PF.warning:
+            time.sleep(2)
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
         x = parameters[0] - self.coords[0]
         y = parameters[1] - self.coords[1]
@@ -95,11 +97,12 @@ class Robot:
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
                 return False  # Error, need to handle somehow (Localize and add new point maybe)
-        if self.localisation == False:
+        if self.localisation.value == 0:
             self.PF.move_particles([parameters[0]-self.coords[0],parameters[1]-self.coords[1],parameters[2]-self.coords[2]])
             self.coords[0] = parameters[0]
             self.coords[1] = parameters[1]
             self.coords[2] = parameters[2]
+
         logging.info('point reached')
         return True
 
