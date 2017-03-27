@@ -15,6 +15,7 @@
 #include "manipulators.h"
 
 //float distanceData[3][4] = {0,0,0,0,0,0,0,0,0,0,0,0};
+extern char allpointsreached;
 float distanceData[3][6] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 float distanceFromIR;
 bool flag = 1;
@@ -31,7 +32,7 @@ robStateStruct curState = {1, 1, 1, 0, 0};    // состояние регуля
 encOutPackStruct outEnc;              //буфер данных отправляемых измерительной тележке
 
 uint32_t * encCnt[4] ={ENCODER1_CNT, ENCODER2_CNT, ENCODER3_CNT, ENCODER4_CNT};  //массив указателей на счетчики энкодеров колес
-char  WHEELS[4]= {WHEEL1_CH, WHEEL2_CH, WHEEL3_CH, NO_MOTOR}; //каналы подкючения колес
+char  WHEELS[4]= {WHEEL1_CH, WHEEL2_CH, WHEEL3_CH, WHEEL4_CH}; //каналы подкючения колес
 
 //extern CDC_IF_Prop_TypeDef  APP_FOPS;
 
