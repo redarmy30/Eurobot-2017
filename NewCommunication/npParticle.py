@@ -99,6 +99,7 @@ class ParticleFilter:
         x_coords, y_coords = p_trans(angle,distance)
         weights = self.weights(x_coords,y_coords)
         if self.warning:
+            return
             x = np.random.normal(self.last[0], 150, self.particles_num)
             y = np.random.normal(self.last[1], 150, self.particles_num)
             orient = np.random.normal(self.last[2], np.pi, self.particles_num) % (2 * np.pi)
@@ -164,7 +165,7 @@ class ParticleFilter:
         # check weights
         if np.sum(weights)<self.gaus(self.sense_noise*1.1)*self.particles_num:
             logging.info("Dangerous Situation")
-            self.warning=True
+            self.warning = True
         weights /= np.sum(weights)
         return weights
         # TODO try use median instead mean
@@ -179,8 +180,8 @@ class ParticleFilter:
         while True:
             if localisation.value:
                 coords = self.send_command('getCurrentCoordinates')['data']
-                coords[0]=coords[0]*1000
-                coords[1]=coords[1]*1000
+                coords[0] = coords[0]*1000
+                coords[1] = coords[1]*1000
                 print coords
                 print shared_coords[0]
                 print shared_coords[1]
@@ -189,6 +190,16 @@ class ParticleFilter:
                 # add aproximation
                 lidar_data = get_raw()
                 self.particle_sense(lidar_data)
+                if self.warning:
+                    x = np.random.normal(self.last[0], 150, self.particles_num)
+                    y = np.random.normal(self.last[1], 150, self.particles_num)
+                    orient = np.random.normal(self.last[2], np.pi, self.particles_num) % (2 * np.pi)
+                    self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
+                    self.warning = False
+                    self.particle_sense(lidar_data)
+                    self.move_particles([0, 0, 0])
+                    self.particle_sense(lidar_data)
+                    self.move_particles([0, 0, 0])
                 main_robot = self.calculate_main()
                 self.last = main_robot
                 shared_coords[0] = main_robot[0]
