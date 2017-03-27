@@ -165,7 +165,7 @@ class Robot:
         signal.signal(signal.SIGALRM, self.funny_action)
         signal.alarm(90)
         # TODO take cylinder
-        angle = 3*np.pi/2.
+        angle = np.pi
         parameters = [850, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 500, angle, speed]
@@ -176,12 +176,13 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [250, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.go_last(parameters)
+        parameters = [300, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
 
     def demo_r(self, speed=1):
         """robot Demo, go to coord and take cylinder"""
         # TODO take cylinder
-        angle =3*np.pi / 2.
+        angle = np.pi
         parameters = [650, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 700, angle, speed]
@@ -367,8 +368,10 @@ def test():
     #rb.first_cylinder()
     i = 0
     while i<10:
-        rb.big_robot_trajectory(4)
-        rb.big_robot_trajectory_r(4)
+        #rb.big_robot_trajectory(4)
+        #rb.big_robot_trajectory_r(4)
+        rb.demo(4)
+        rb.demo_r(4)
         i+=1
 
 def tst_time():
