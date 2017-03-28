@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <EmBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="Board\ADC.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="442" topLine="44" />
@@ -8,7 +8,7 @@
 	</File>
 	<File name="Board\Board.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2604" topLine="58" />
+			<Cursor1 position="7748" topLine="206" />
 		</Cursor>
 	</File>
 	<File name="Board\Board.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -18,16 +18,12 @@
 	</File>
 	<File name="Board\Interrupts.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="815" topLine="82" />
-=======
-			<Cursor1 position="1695" topLine="10" />
->>>>>>> fdeb69ff76f93610bd496e6db3e1b328045f5faa
+			<Cursor1 position="900" topLine="104" />
 		</Cursor>
 	</File>
 	<File name="Board\Pins.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1096" topLine="38" />
+			<Cursor1 position="594" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Board\adc.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -70,68 +66,54 @@
 			<Cursor1 position="0" topLine="121" />
 		</Cursor>
 	</File>
-	<File name="Robot\Kinematics.c" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\Kinematics.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="834" topLine="0" />
+			<Cursor1 position="987" topLine="4" />
 		</Cursor>
 	</File>
-	<File name="Robot\Manipulators.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\Manipulators.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-<<<<<<< HEAD
-			<Cursor1 position="2798" topLine="82" />
+			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Robot\Manipulators.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-=======
-			<Cursor1 position="2747" topLine="72" />
+	<File name="Robot\Manipulators.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Robot\Manipulators.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
->>>>>>> fdeb69ff76f93610bd496e6db3e1b328045f5faa
+	<File name="Robot\Regulator.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1025" topLine="1" />
+			<Cursor1 position="6725" topLine="115" />
 		</Cursor>
 	</File>
-	<File name="Robot\Regulator.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\regulator.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="662" topLine="148" />
-		</Cursor>
-		<Folding>
-			<Collapse line="181" />
-			<Collapse line="362" />
-			<Collapse line="368" />
-			<Collapse line="375" />
-			<Collapse line="594" />
-			<Collapse line="651" />
-		</Folding>
-	</File>
-	<File name="Robot\matrix.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="79" />
+			<Cursor1 position="4195" topLine="71" />
 		</Cursor>
 	</File>
-	<File name="Robot\robot.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\robot.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="24575" topLine="683" />
+			<Cursor1 position="20295" topLine="14" />
 		</Cursor>
 	</File>
-	<File name="Robot\robot.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Robot\robot.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="162" topLine="108" />
+			<Cursor1 position="352" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="spl\inc\stm32f4xx_rcc.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="USB App\stm32fxxx_it.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="29057" topLine="628" />
+			<Cursor1 position="2674" topLine="42" />
 		</Cursor>
 	</File>
-<<<<<<< HEAD
-	<File name="src\main.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-=======
-	<File name="src\main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
->>>>>>> fdeb69ff76f93610bd496e6db3e1b328045f5faa
+	<File name="src\main.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1442" topLine="0" />
+			<Cursor1 position="1442" topLine="33" />
+		</Cursor>
+	</File>
+	<File name="src\startup_stm32f4xx.S" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9439" topLine="161" />
 		</Cursor>
 	</File>
 </EmBlocks_layout_file>
