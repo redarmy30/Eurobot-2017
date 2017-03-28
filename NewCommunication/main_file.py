@@ -160,6 +160,30 @@ class Robot:
         self.send_command('drop_cylinder')
         time.sleep(1)
 
+    def left_ball_down(self):
+        self.send_command('left_ball_down')
+        time.sleep(1)
+    def left_ball_up(self):
+        self.send_command('left_ball_up')
+        time.sleep(1)
+    def left_ball_drop(self):
+        self.send_command('left_ball_drop')
+        time.sleep(1)
+    def right_ball_down(self):
+        self.send_command('right_ball_down')
+        time.sleep(1)
+    def right_ball_up(self):
+        self.send_command('right_ball_up')
+        time.sleep(1)
+    def right_ball_drop(self):
+        self.send_command('right_ball_drop')
+        time.sleep(1)
+    def funny(self):
+        self.send_command('funny')
+        time.sleep(1)
+
+
+
 
     ############################################################################
     ######## HIGH LEVEL FUNCTIONS ##############################################
@@ -193,7 +217,7 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 500, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [850, 150, angle, speed]
+        parameters = [850, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = 0.0
         parameters = [170, 150, angle, speed]
@@ -247,42 +271,59 @@ class Robot:
 
     def simpliest_trajectory(self,speed=1):
         angle =3*np.pi / 2.
+        #1 area 2: after seesaw
         parameters = [700, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #2 back rocket stand to take
         parameters = [1150, 190, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #3 back rocket pass big robot
         parameters = [1250, 190, angle, speed]
         self.go_to_coord_rotation(parameters)
         time.sleep(1)
+        #4 back rocket stand to take
         parameters = [1150, 190, angle, speed]
         self.go_to_coord_rotation(parameters)
         #########
+        #5 between adjust
         parameters = [1250, 1200, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #6 1 lunar module
         parameters = [1350, 1600, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #7 2nd lunar module
         parameters = [1300, 1550, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #8  3rd lunar module
         parameters = [1280, 1530, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #9 last module
         parameters = [1250, 1500, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #10 between adjust
         parameters = [1080, 1300, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #11 lateral rocket stand to take
         parameters = [250, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.go_last(parameters)
         ####
+        #12 between adjustment: back 20
         parameters = [270, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #13 1st module
         parameters = [270, 1150, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #14 2nd module
         parameters = [270, 1050, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #15 3rd module take + rbg detect
         parameters = [270, 950, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #16 2th module take + rbg detect
         parameters = [270, 1050, angle, speed]
         self.go_to_coord_rotation(parameters)
+        #17 1t module take + rbg detect
         parameters = [270, 1150, angle, speed]
         self.go_to_coord_rotation(parameters)
 
@@ -299,6 +340,7 @@ class Robot:
 
     def big_robot_trajectory(self,speed=1):
         angle = np.pi*0.1
+        self.left_ball_up()
         self.localisation.value = False
         parameters = [900, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -308,8 +350,11 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [950, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 1800, angle, speed]
+        angle = 0.0
+        parameters = [250, 1750, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.left_ball_down()
+        self.left_ball_up()
 
     def big_robot_trajectory_r(self,speed=1):
         angle = np.pi/2
@@ -317,13 +362,15 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [950, 400, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [950, 180, angle, speed]
+        parameters = [950, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi * 0.1
         self.localisation.value = False
         parameters = [170, 180, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.localisation.value = True
+        self.left_ball_drop()
+        self.funny()
 
     def first_cylinder(self,speed=1):
         angle = np.pi
