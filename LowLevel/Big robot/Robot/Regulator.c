@@ -210,7 +210,7 @@ void FunctionalRegulator(float *V_target, float *Coord_target, float *Coord_cur,
   float Cmax;
   float Kvect, Kphi, KnormVect;
 
-
+;
   Cmax = MAX_CAPACITANCE;
 
 

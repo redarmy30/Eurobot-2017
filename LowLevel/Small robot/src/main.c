@@ -43,7 +43,7 @@ char color, color_check[8]; // for rgb sensor
 float r,b,R,B; //for rgb sensor
 
 extern double timeofred;
-
+float ADC_8, ADC_7, ADC_6, ADC_5;
 
 void SysTick_Handler(void)
 {
@@ -63,17 +63,17 @@ int main(void)
     initAll();
 
 
-    /*NVIC_InitTypeDef NVIC_InitStruct;
-    NVIC_InitStruct.NVIC_IRQChannel = EXTI1_IRQn;
-	 Set priority
+    NVIC_InitTypeDef NVIC_InitStruct;
+    NVIC_InitStruct.NVIC_IRQChannel = EXTI0_IRQn;
+	// Set priority
 	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x00;
-	 Set sub priority
+	// Set sub priority
 	NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0x00;
-	 Enable interrupt
+	// Enable interrupt
 	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
-	 Add to NVIC
+	// Add to NVIC
 	NVIC_Init(&NVIC_InitStruct);
-    SysTick_Config(840);*/
+    SysTick_Config(840);
 
 
     USBD_Init(&USB_OTG_dev,
@@ -92,58 +92,72 @@ int main(void)
 //    set_pin(EXTI2_PIN);
 //    reset_pin(EXTI1_PIN);
 //    set_pin(EXTI7_PIN); // LED to PD7
-//uint8_t ID_test = 2;
-
+    //uint8_t ID_test = 2;
+  //  float ADC_8, ADC_7, ADC_6, ADC_5;
     while(1)
     {
-      //  goUpWithSuckingManipulator();
+        ADC_8 = pin_val(GENERAL_PIN_7);
+        ADC_7 = pin_val(GENERAL_PIN_6);
+        ADC_6 = pin_val(GENERAL_PIN_5);
+        ADC_5 = pin_val(GENERAL_PIN_4);
+//        goUpWithSuckingManipulator();
+//        goDownWithSuckingManipulator();
         //servo_rotate_180();
 //        setPositionOfCylinderCarrier(0.0);
+//        servo_rotate_90();
+//        setCurrentAngleAsBeginning();
+ //       increaseByGivenAngle(100.0);
 
-        setPositionOfCylinderCarrier(105.0);
+//        color = getCurrentColor();
 
-     //   goDownWithSuckingManipulator();
+//        goDownWithSuckingManipulator();
+   //     setCurrentAngleAsBeginning();
+       /* servo_rotate_90();
+        goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_180();
+        goUpWithSuckingManipulator();*/
+ //       increaseByGivenAngle(LIFT_FIRST_CYLINDER);
+   //     softDelay(4000000);
+     /*   switchOffPneumo();
+        softDelay(1000000);
+        servo_rotate_90();
+        softDelay(4000000);
 
-
-        increaseByGivenAngle(LIFT_FIRST_CYLINDER);
-        increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
+        servo_rotate_90();
+        goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_180();
+        goUpWithSuckingManipulator();
         increaseByGivenAngle(LIFT_SECOND_CYLINDER);
-        increaseByGivenAngle(PREPARE_FOR_THIRD_CYLINDER);
+        switchOffPneumo();
+        softDelay(1000000);
+        servo_rotate_90();
+        softDelay(4000000);
+
+        servo_rotate_90();
+        goDownWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_180();
+        goUpWithSuckingManipulator();
         increaseByGivenAngle(LIFT_THIRD_CYLINDER);
+        switchOffPneumo();
+        softDelay(1000000);
+        servo_rotate_90();
+        softDelay(4000000);
+*/
+   //     increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
+        /*
         increaseByGivenAngle(LIFT_ALL);
-     /*  servo_rotate_180();
-       servo_rotate_90();*/
-        /*goDownWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_90();
-        goUpWithSuckingManipulator();
-        setPositionOfCylinderCarrier(292.0);
-        switchOffPneumo();
-        servo_rotate_180();
-
-
-
-        setPositionOfCylinderCarrier(120.0+360);
         goDownWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
-        servo_rotate_90();
-        goUpWithSuckingManipulator();
-        setPositionOfCylinderCarrier(308.0+360);
-        switchOffPneumo();
         servo_rotate_180();
-
-
-        setPositionOfCylinderCarrier(122.0+720);
-        goDownWithSuckingManipulator();
-        switchOnPneumo();
-        softDelay(10000000);
-        servo_rotate_90();
         goUpWithSuckingManipulator();
-        setPositionOfCylinderCarrier(30.0+1080);
-        switchOffPneumo();
-        servo_rotate_180();
+        increaseByGivenAngle(LIFT_SECOND_CYLINDER);
 
 
         goDownWithSuckingManipulator();
@@ -238,6 +252,11 @@ goDownWithSuckingManipulator();
 //        goUpWithSuckingManipulator();
 //        switchOffPneumo();
 //        servo_rotate_180();
+
+
+
+
+
 
 
     }

@@ -664,12 +664,10 @@ break;
 case 0x3A: // Distance from ultrasonic sensors
   {
 
-        distance_digital2[0] = pin_val(IR_FRONT_LEFT_DOWN);
-        distance_digital2[1] = pin_val(IR_FRONT_RIGHT_DOWN);
-        distance_digital2[2] = pin_val(IR_FRONT_LEFT_UP);
-        distance_digital2[3] = pin_val(IR_FRONT_RIGHT_UP);
-        distance_digital2[4] = pin_val(IR_FRONT_TOP);
-        distance_digital2[5] = pin_val(IR_BACK);
+        distance_digital2[0] = pin_val(IR_FRONT_LEFT);
+        distance_digital2[1] = pin_val(IR_FRONT_RIGHT);
+        distance_digital2[2] = pin_val(IR_FRONT_TOP);
+        distance_digital2[3] = pin_val(IR_BACK);
 
         sendAnswer(cmd->command, (char* )distance_digital2, sizeof(distance_digital2));
 
