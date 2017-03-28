@@ -116,11 +116,8 @@ bool goDownWithSuckingManipulator();
 
 #define SERVO_ELEVATE_IN 0 //defining angular values
 #define SERVO_ELEVATE_OUT 155
-<<<<<<< HEAD
+
 #define SERVO_ROTATE_90  145
-=======
-#define SERVO_ROTATE_90  140
->>>>>>> 4e4ab5390cbd37bb609ad67e7e90b8d3d4d2745e
 #define SERVO_ROTATE_180  242
 
 

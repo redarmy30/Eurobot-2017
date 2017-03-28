@@ -704,14 +704,13 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
 
 case 0x3E:
     {
-<<<<<<< HEAD
-=======
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
 
-        setPositionOfCylinderCarrier(60.0);
-        goDownWithSuckingManipulator();
->>>>>>> 4e4ab5390cbd37bb609ad67e7e90b8d3d4d2745e
+//        char * str ="Ok";
+//        sendAnswer(cmd->command, str, 3);
+//
+//        setPositionOfCylinderCarrier(60.0);
+//        goDownWithSuckingManipulator();
+
 
         servo_rotate_180();
         //char * str ="Ok";
@@ -721,22 +720,6 @@ case 0x3E:
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_90();
-
-
-<<<<<<< HEAD
-=======
-        /*
-        switchOffPneumo();
-
-
-        softDelay(10000000);
-        servo_rotate_180();
-        setPositionOfCylinderCarrier(400.0);
-        softDelay(15000000);
-*/
-
-
->>>>>>> 4e4ab5390cbd37bb609ad67e7e90b8d3d4d2745e
     }
     break;
 
