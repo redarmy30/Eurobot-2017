@@ -35,7 +35,7 @@ CMD_LIST = {
     'switchOffPid': 0x23,
     'switchOnPid': 0x24,
     'stopAllMotors': 0x29,
-    'setCorectCoordinates': 0x25,
+    'setCorrectCoordinates': 0x25,
 
     # TODO': laying field side
     # TODO: beginning of the competition sign
@@ -51,6 +51,10 @@ CMD_LIST = {
     'startGame': 0x34,
 
     # Denis Commands
+    'suck_cylinder':0x3E , # no parameters
+    'inside_cylinder':0x45,
+     #'store_cylinder': , # no parameters
+    'drop_cylinder': 0x3F , # no parameters
     'go_to_with_corrections': 0x43,# expected parameters: float32[6], int[1]
     'switch_on_pneumo': 0x2F,  # no parameters
     'switch_off_pneumo': 0x30,  # no parameters

@@ -12,13 +12,13 @@ BORDER = 10
 BEACONS = np.array([[WORLD_X+BEAC_R+BORDER, WORLD_Y / 2.], [-BEAC_R-BORDER, WORLD_Y + BEAC_R+BORDER], [- BEAC_R-BORDER, - BEAC_R - BORDER]])
 
 # parametres of lidar
-MAX_ITENS = 2000  # MAX_ITENS 2600
+MAX_ITENS = 2600  # MAX_ITENS 2600
 MAX_DIST = 3700
 BEAC_DIST_THRES = 200
 
 
 class ParticleFilter:
-    def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x=150, in_y=150,input_queue=None,out_queue=None):
+    def __init__(self, particles=500, sense_noise=50, distance_noise=30, angle_noise=0.02, in_x=150, in_y=150, in_angle=0.0, input_queue=None, out_queue=None):
         stamp = time.time()
         self.input_queue = input_queue
         self.out_queue = out_queue
@@ -27,9 +27,10 @@ class ParticleFilter:
         self.distance_noise = distance_noise
         self.angle_noise = angle_noise
         self.warning = False
+        self.last = (in_x,in_y,in_angle)
         x = np.random.normal(in_x, distance_noise, particles)
         y = np.random.normal(in_y, distance_noise, particles)
-        orient = np.random.normal(0, angle_noise, particles) % (2 * np.pi)
+        orient = np.random.normal(in_angle, angle_noise, particles) % (2 * np.pi)
         self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
         logging.info('initialize time: '+str(time.time()-stamp))
 
@@ -97,6 +98,15 @@ class ParticleFilter:
         angle, distance = get_landmarks(scan)
         x_coords, y_coords = p_trans(angle,distance)
         weights = self.weights(x_coords,y_coords)
+        if self.warning:
+            return
+            x = np.random.normal(self.last[0], 150, self.particles_num)
+            y = np.random.normal(self.last[1], 150, self.particles_num)
+            orient = np.random.normal(self.last[2], np.pi, self.particles_num) % (2 * np.pi)
+            self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
+            self.warning = False
+            logging.info('particle_sense time :' + str(time.time() - stamp) + " points: " + str(len(x_coords)))
+            return self.particles
         self.particles = self.particles[self.resample(weights), :]
         logging.info('particle_sense time :' + str(time.time() - stamp)+" points: "+str(len(x_coords)))
         return self.particles
@@ -153,9 +163,9 @@ class ParticleFilter:
         # weights of particles are estimated via errors got from scan of beacons and theoretical beacons location
         weights = self.gaus(np.mean(beacon_error_sum, axis=1), sigma=self.sense_noise)
         # check weights
-        if np.sum(weights)<self.gaus(150)*self.particles_num:
+        if np.sum(weights)<self.gaus(self.sense_noise*1.1)*self.particles_num:
             logging.info("Dangerous Situation")
-            self.warning=True
+            self.warning = True
         weights /= np.sum(weights)
         return weights
         # TODO try use median instead mean
@@ -165,20 +175,36 @@ class ParticleFilter:
         self.input_queue.put({'source':'loc','cmd':name,'params':params})
         return self.out_queue.get()
 
-    def localisation(self, shared_coords,get_raw):
+    def localisation(self, localisation,shared_coords,get_raw):
+        time.sleep(0.5)
         while True:
-            coords = self.send_command('getCurrentCoordinates')['data']
-            coords[0]=coords[0]*1000
-            coords[1]=coords[1]*1000
-            print coords
-            self.move_particles(
-                [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
-            lidar_data = get_raw()
-            self.particle_sense(lidar_data)
-            main_robot = self.calculate_main()
-            shared_coords[0] = main_robot[0]
-            shared_coords[1] = main_robot[1]
-            shared_coords[2] = main_robot[2]
+            if localisation.value:
+                coords = self.send_command('getCurrentCoordinates')['data']
+                coords[0] = coords[0]*1000
+                coords[1] = coords[1]*1000
+                print coords
+                print shared_coords[0]
+                print shared_coords[1]
+                self.move_particles(
+                    [coords[0] - shared_coords[0], coords[1] - shared_coords[1], coords[2] - shared_coords[2]])
+                # add aproximation
+                lidar_data = get_raw()
+                self.particle_sense(lidar_data)
+                if self.warning:
+                    x = np.random.normal(self.last[0], 150, self.particles_num)
+                    y = np.random.normal(self.last[1], 150, self.particles_num)
+                    orient = np.random.normal(self.last[2], np.pi, self.particles_num) % (2 * np.pi)
+                    self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
+                    self.warning = False
+                    self.particle_sense(lidar_data)
+                    self.move_particles([0, 0, 0])
+                    self.particle_sense(lidar_data)
+                    self.move_particles([0, 0, 0])
+                main_robot = self.calculate_main()
+                self.last = main_robot
+                shared_coords[0] = main_robot[0]
+                shared_coords[1] = main_robot[1]
+                shared_coords[2] = main_robot[2]
             time.sleep(0.2)
 
 
@@ -194,7 +220,7 @@ def get_landmarks(scan):
     angles = np.pi / 4 / 180 * ind
     distances = scan[ind, 0]
     logging.info('scan preproccesing time: ' + str(time.time() - stamp))
-    return (angles + np.pi / 4+ np.pi/2) % (2 * np.pi), distances  # delete +np.pi for our robot
+    return (angles + np.pi / 4+ np.pi) % (2 * np.pi), distances  # delete +np.pi for our robot
 
 
 def p_trans(agl, pit):

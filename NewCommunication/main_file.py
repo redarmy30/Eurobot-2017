@@ -4,7 +4,6 @@ from hokuyolx import HokuyoLX
 import logging
 import signal
 import npParticle as pf
-import fsm
 import numpy as np
 from multiprocessing import Process, Queue, Value,Array
 from multiprocessing.queues import Queue as QueueType
@@ -43,23 +42,25 @@ class Robot:
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
         self.coords = Array('d',[170, 150, 0])
+        self.localisation = Value('b', True)
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=800, sense_noise=30, distance_noise=30, angle_noise=0.1, in_x=self.coords[0],
-                                    in_y=self.coords[1],input_queue=self.input_queue,out_queue=self.loc_queue)
+        self.PF = pf.ParticleFilter(particles=1000, sense_noise=25, distance_noise=20, angle_noise=0.2, in_x=self.coords[0],
+                                    in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue)
 
         # driver process
         self.dr = driver.Driver(self.input_queue,self.fsm_queue,self.loc_queue)
         p = Process(target=self.dr.run)
         p.start()
-        p2 = Process(target=self.PF.localisation,args=(self.coords,self.get_raw_lidar))
+        p2 = Process(target=self.PF.localisation,args=(self.localisation,self.coords,self.get_raw_lidar))
         logging.info(self.send_command('echo','ECHO'))
         logging.info(self.send_command('setCoordinates',[self.coords[0] / 1000., self.coords[1] / 1000., self.coords[2]]))
         p2.start()
+        time.sleep(0.1)
 
     def send_command(self,name,params=None):
-        self.input_queue.put({'source':'fsm','cmd':name,'params':params})
+        self.input_queue.put({'source': 'fsm','cmd': name,'params': params})
         return self.fsm_queue.get()
 
     def get_raw_lidar(self):
@@ -76,24 +77,32 @@ class Robot:
             logging.warning('Lidar off')
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
+        if self.PF.warning:
+            time.sleep(2)
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
         x = parameters[0] - self.coords[0]
         y = parameters[1] - self.coords[1]
         sm = x+y
-        direction = (float(x)/sm, float(y)/sm)
         logging.info(self.send_command('go_to_with_corrections',pm))
         # After movement
         stamp = time.time()
         time.sleep(0.100001)  # sleep because of STM interruptions (Maybe add force interrupt in STM)
         while not self.send_command('is_point_was_reached')['data']:
             time.sleep(0.05)
-            if(self.collision_avoidance):
+            if self.collision_avoidance:
+                direction = (float(x) / sm, float(y) / sm)
                 if self.check_collisions(direction):
                     self.send_command('stopAllMotors')
                 # check untill ok and then move!
             # add Collision Avoidance there
             if (time.time() - stamp) > 30:
                 return False  # Error, need to handle somehow (Localize and add new point maybe)
+        if self.localisation.value == 0:
+            self.PF.move_particles([parameters[0]-self.coords[0],parameters[1]-self.coords[1],parameters[2]-self.coords[2]])
+            self.coords[0] = parameters[0]
+            self.coords[1] = parameters[1]
+            self.coords[2] = parameters[2]
+
         logging.info('point reached')
         return True
 
@@ -132,16 +141,20 @@ class Robot:
         return False
 
 
-
-
-
-
-
     def go_last(self,parameters):
         while abs(parameters[0]-self.coords[0]) > 10 or abs(parameters[1]-self.coords[1]) > 10:
             print 'calibrate'
             self.go_to_coord_rotation(parameters)
 
+    def take_cylinder(self): # approx time = 2
+        self.send_command('take_cylinder')
+        time.sleep(4)
+    def store_cylinder(self): # approx time = 0.5
+        self.send_command('store_cylinder')
+        time.sleep(0.5)
+    def drop_cylinder(self): # approx time = 1
+        self.send_command('drop_cylinder')
+        time.sleep(1)
 
 
     ############################################################################
@@ -152,7 +165,7 @@ class Robot:
         signal.signal(signal.SIGALRM, self.funny_action)
         signal.alarm(90)
         # TODO take cylinder
-        angle = 3*np.pi/2.
+        angle = np.pi
         parameters = [850, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 500, angle, speed]
@@ -163,12 +176,13 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [250, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
-        self.go_last(parameters)
+        parameters = [300, 1350, angle, speed]
+        self.go_to_coord_rotation(parameters)
 
     def demo_r(self, speed=1):
         """robot Demo, go to coord and take cylinder"""
         # TODO take cylinder
-        angle =3*np.pi / 2.
+        angle = np.pi
         parameters = [650, 1350, angle, speed]
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 700, angle, speed]
@@ -280,12 +294,67 @@ class Robot:
 
 
     def big_robot_trajectory(self,speed=1):
-        angle = 3 * np.pi / 2.
-        parameters = [820, 150, angle, speed]
+        angle = np.pi*0.1
+        self.localisation.value = False
+        parameters = [900, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [820, 150, angle, speed]
+        self.localisation.value = True
+        angle = np.pi/2
+        parameters = [950, 400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [950, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [250, 1800, angle, speed]
         self.go_to_coord_rotation(parameters)
 
+    def big_robot_trajectory_r(self,speed=1):
+        angle = np.pi/2
+        parameters = [900, 1000, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [950, 400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [950, 180, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi * 0.1
+        self.localisation.value = False
+        parameters = [170, 180, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.localisation.value = True
+
+    def first_cylinder(self,speed=1):
+        angle = np.pi
+        ############### take cylinder
+        parameters = [700, 160, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1135, 400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        angle = np.pi*3/2.
+        parameters = [1135, 400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1135, 300, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [1135, 220, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.take_cylinder()
+        #self.store_cylinder()
+        ##############
+        parameters = [1135, 400, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        self.drop_cylinder()
+        return
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 200, angle, speed]
+        angle = np.pi
+        self.go_to_coord_rotation(parameters)
+        parameters = [1150, 200, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [400, 800, angle, speed]
+        self.go_to_coord_rotation(parameters)
+        parameters = [200, 800, angle, speed]
+        self.go_last(parameters)
+        self.go_to_coord_rotation(parameters)
+        parameters = [120, 800, angle, speed]
+        self.drop_cylinder()
 
 
     def funny_action(self, signum, frame):
@@ -295,10 +364,12 @@ class Robot:
 
 def test():
     rb = Robot(True)
-    #rb.simpliest_trajectory()
-    #return
+    #rb.take_cylinder()
+    #rb.first_cylinder()
     i = 0
     while i<10:
+        #rb.big_robot_trajectory(4)
+        #rb.big_robot_trajectory_r(4)
         rb.demo(4)
         rb.demo_r(4)
         i+=1
