@@ -34,28 +34,14 @@ float ACCEL_INC = 0.02;
  TVector AccelInc2 = {0, 0};
  TVector TargSpeed = {0, 0};
 
-pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 30.0, NULL,NULL,0,stopVelFast,normalRotFast,0,1 },  //Стек точек траектории
-                                        {0., 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },//#1
-                                        {1.0, 0., 0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0., 0.0, 0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 4*3.139999-3*0.0001, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.4, 0.1, 0.0, NULL,NULL,0,normalVelFast,normalRotFast,0,1 },//5
-                                        {0.5, 0.50, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },//6
-                                        {0.5, 0.0, 0, NULL,NULL,0,normalVelFast,stopRotFast,0,1 },
-                                        {0,   0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
-                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },};
 
-//pathPointStr defaultPoint;
 
 char lastPoint = 0;// последняя активная точка в очереди
 Path curPath; //параметры активной прямой для траекторного регулятора
 
 float normalVelFast[5] = {0.8, 0.2, 0.2, 1.5, 2};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
 //float stopVelFast[5] = {0.4, 0.2, -0.2, 4.0, 4.0};
-float stopVelFast[5] = {0.85, 0.2, -0.2, 1.5, 2.5}; //{0.2,0.1,-0.05,0.2,0.7};            //движение с остановкой в точке
+float stopVelFast[5] = {0.85, 0.2, -0.2, 1.5, 1.5}; //{0.2,0.1,-0.05,0.2,0.7};            //движение с остановкой в точке
 float standVelFast[5] = {0.85, 0.6, -0.6, 2.0, 2.5};                                       //удержание заданного положения
 
 float normalVelSlow[5] = {0.4, 0.2, 0.2, 1.5, 2.5};//V_уст, V_нач, V_кон, А_уск, А_торм  //непрерывное движение
@@ -74,6 +60,23 @@ float standRotSlow[5] = {1.0 , 1.0, -1.0, 2.0, 2.5};                            
 
 float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow };// типы  линейный скоростей
 float * rotType[6] = {normalRotFast, stopRotFast, standRotFast, normalRotSlow, stopRotSlow, standRotSlow};// типы угловых скоростей
+pathPointStr points[POINT_STACK_SIZE]={ {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },  //Стек точек траектории
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },//#1
+                                        {1.0, 0., 3.14, NULL,NULL,0,stopVelFast,stopRotSlow,0,1 },
+                                        {0., 0.0, 0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 4*3.139999-3*0.0001, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.4, 0.1, 0.0, NULL,NULL,0,normalVelFast,normalRotFast,0,1 },//5
+                                        {0.5, 0.50, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },//6
+                                        {0.5, 0.0, 0, NULL,NULL,0,normalVelFast,stopRotFast,0,1 },
+                                        {0,   0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },
+                                        {0.0, 0.0, 0.0, NULL,NULL,0,stopVelFast,stopRotFast,0,1 },};
+
+//pathPointStr defaultPoint;
+
+
 
 //______________________________________________________________________________
 ////////////////////////////////////////////////////////////////////////////////
@@ -132,6 +135,8 @@ void initRegulators(void)  // инициализация регуляторов
   	wheelsPidStruct[i].max_output = 1;
   	wheelsPidStruct[i].min_output = 0.01;
   }
+    wheelsPidStruct[0].p_k = 4.00; //5.0
+
 //Track Regulator settings______________________________________________________
 
   //RadSpeed

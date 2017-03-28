@@ -96,6 +96,7 @@ int main(void)
   //  float ADC_8, ADC_7, ADC_6, ADC_5;
     while(1)
     {
+
         ADC_8 = pin_val(GENERAL_PIN_7);
         ADC_7 = pin_val(GENERAL_PIN_6);
         ADC_6 = pin_val(GENERAL_PIN_5);
@@ -252,12 +253,6 @@ goDownWithSuckingManipulator();
 //        goUpWithSuckingManipulator();
 //        switchOffPneumo();
 //        servo_rotate_180();
-
-
-
-
-
-
 
     }
 }

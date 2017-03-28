@@ -139,8 +139,8 @@ void EXTI0_IRQHandler(void)
 {
   EXTI->PR=0x1;
   char temp = 2;
-  if ( pin_val(EXTI2_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+  //if ( pin_val(EXTI2_PIN) ) temp |=0x80;
+  //sendAnswer(0x1E,&temp, 1);
 }
 
 //#define EXTI5_PIN               pin_id(PORTD,1)         //Разъем EXTI5//
@@ -148,8 +148,8 @@ void EXTI1_IRQHandler(void)
 {
   EXTI->PR=0x2;
   char temp = 5;
-  if ( pin_val(EXTI5_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+  //if ( pin_val(EXTI5_PIN) ) temp |=0x80;
+  //sendAnswer(0x1E,&temp, 1);
 }
 
 //#define EXTI4_PIN               pin_id(PORTD,2)         //Разъем EXTI4//
@@ -157,8 +157,8 @@ void EXTI2_IRQHandler(void)
 {
   EXTI->PR=0x4;
   char temp = 4;
-  if ( pin_val(EXTI4_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+  //if ( pin_val(EXTI4_PIN) ) temp |=0x80;
+  //sendAnswer(0x1E,&temp, 1);
 }
 
 //#define EXTI6_PIN               pin_id(PORTD,3)         //Разъем EXTI6//
@@ -166,8 +166,8 @@ void EXTI3_IRQHandler(void)
 {
   EXTI->PR=0x8;
   char temp = 6;
-  if ( pin_val(EXTI6_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+  //if ( pin_val(EXTI6_PIN) ) temp |=0x80;
+  //sendAnswer(0x1E,&temp, 1);
 
 }
 
@@ -176,8 +176,8 @@ void EXTI4_IRQHandler(void)
 {
   EXTI->PR=0x10;
   char temp = 9;
-  if ( pin_val(EXTI9_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+  //if ( pin_val(EXTI9_PIN) ) temp |=0x80;
+  //sendAnswer(0x1E,&temp, 1);
 
 }
 
@@ -189,15 +189,15 @@ void EXTI9_5_IRQHandler(void)
   {
     EXTI->PR=(1<<6);
     char temp = 7;
-    if ( pin_val(EXTI7_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+    //if ( pin_val(EXTI7_PIN) ) temp |=0x80;
+    //sendAnswer(0x1E,&temp, 1);
   }
   if (EXTI->PR&(1<<7))
   {
     EXTI->PR=(1<<7);
     char temp = 8;
-    if ( pin_val(EXTI8_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+    //if ( pin_val(EXTI8_PIN) ) temp |=0x80;
+    //sendAnswer(0x1E,&temp, 1);
   }
 
 }
@@ -212,23 +212,23 @@ void EXTI15_10_IRQHandler(void)
   {
     EXTI->PR=(1<<12);
     char temp = 3;
-    if ( pin_val(EXTI3_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+    //if ( pin_val(EXTI3_PIN) ) temp |=0x80;
+    //sendAnswer(0x1E,&temp, 1);
   }
   if (EXTI->PR&(1<<13))
   {
     EXTI->PR=(1<<13);
     char temp = 10;
-    if ( pin_val(EXTI10_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+    //if ( pin_val(EXTI10_PIN) ) temp |=0x80;
+    //sendAnswer(0x1E,&temp, 1);
   }
   if (EXTI->PR&(1<<15))
   {
       int_cnt++;
     EXTI->PR=(1<<15);
     char temp = 1;
-    if ( pin_val(EXTI1_PIN) ) temp |=0x80;
-    sendAnswer(0x1E,&temp, 1);
+    //if ( pin_val(EXTI1_PIN) ) temp |=0x80;
+    //sendAnswer(0x1E,&temp, 1);
   }
 
 }
@@ -248,6 +248,5 @@ void delay(__IO uint32_t nCount)
 void DMA2_Stream0_IRQHandler(void)
 {
 DMA2->LIFCR |= DMA_LIFCR_CTCIF0;
-
 }
 ////////////////////////////////////////////////////////////////////////////////

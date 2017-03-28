@@ -15,6 +15,7 @@
 #include "manipulators.h"
 
 //float distanceData[3][4] = {0,0,0,0,0,0,0,0,0,0,0,0};
+extern char allpointsreached;
 float distanceData[3][6] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 float distanceFromIR;
 bool flag = 1;

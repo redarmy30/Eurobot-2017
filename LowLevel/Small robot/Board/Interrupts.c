@@ -11,7 +11,7 @@
 #include "Manipulators.h"
 extern uint32_t ticks;
 int indexSpeeds = 0, indexDists = 0;
-char traceFlag, movFlag, endFlag;
+char traceFlag, movFlag, endFlag, allpointsreached;
 double timeofred = 0;
 int16_t int_cnt = 0;
 static uint8_t prev_val, current_val;
@@ -71,11 +71,14 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
 
  // if (((fabs(curPath.lengthTrace) )) <= fabs(curPath.Coord_local_track[0]) && // достигнута заданная точка по положению и углу
     if (((fabs(curPath.lengthTrace) - fabs(curPath.Coord_local_track[0])) < 0.04) && ((fabs(curPath.Coord_local_track[1])) < 0.04)&& // достигнута заданная точка по положению и углу
-     (fabs((curPath.phiZad)-(robotCoord[2])) < 0.02))
+        (fabs((curPath.phiZad)-(robotCoord[2])) < 0.02))
         {
           traceFlag = 1;  // точка достигнута
         }
-  else traceFlag = 0;
+  else {
+          traceFlag = 0;
+          allpointsreached = 0;
+        }
  if (!movFlag)
     if (points[0].movTask) movFlag=(points[0].movTask)(); else movFlag =1; // действие в процессе движения
  if (traceFlag&&movFlag&&(!endFlag))
@@ -90,7 +93,11 @@ void TIM8_UP_TIM13_IRQHandler() // рассчет траекторного ре�
             endFlag=0;
             movFlag=0;
             traceFlag=0;
+            allpointsreached = 0;
           }
+          else {
+                allpointsreached = 1;
+               }
         }
 
 
@@ -133,8 +140,8 @@ void EXTI1_IRQHandler(void)
 
   EXTI->PR=0x2;
   char temp = 5;
-  if ( pin_val(EXTI5_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+//  if ( pin_val(EXTI5_PIN) ) temp |=0x80;
+//  sendAnswer(0x1E,&temp, 1);
 
 //  timeofred = (ticks - lasttick) ;
 //  lasttick = ticks;
@@ -145,8 +152,8 @@ void EXTI2_IRQHandler(void)
 {
   EXTI->PR=0x4;
   char temp = 4;
-  if ( pin_val(EXTI4_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+  //if ( pin_val(EXTI4_PIN) ) temp |=0x80;
+  //sendAnswer(0x1E,&temp, 1);
 }
 
 //#define EXTI6_PIN               pin_id(PORTD,3)         //Разъем EXTI6//
@@ -155,8 +162,8 @@ void EXTI3_IRQHandler(void)
   //  static uint32_t lasttick;
   EXTI->PR=0x8;
   char temp = 6;
-  if ( pin_val(EXTI6_PIN) ) temp |=0x80;
-  sendAnswer(0x1E,&temp, 1);
+//  if ( pin_val(EXTI6_PIN) ) temp |=0x80;
+//  sendAnswer(0x1E,&temp, 1);
 
   //  timeofred = (ticks - lasttick) ;
   //lasttick= ticks;
