@@ -15,6 +15,7 @@
 #include "manipulators.h"
 
 //float distanceData[3][4] = {0,0,0,0,0,0,0,0,0,0,0,0};
+extern char allpointsreached;
 float distanceData[3][6] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 float distanceFromIR;
 bool flag = 1;
@@ -32,7 +33,7 @@ robStateStruct curState = {1,1,1, 0, 0};    // состояние регулят
 encOutPackStruct outEnc;              //буфер данных отправляемых измерительной тележке
 
 uint32_t * encCnt[4] ={ENCODER1_CNT, ENCODER2_CNT, ENCODER3_CNT, ENCODER4_CNT};  //массив указателей на счетчики энкодеров колес
-char  WHEELS[4]= {WHEEL1_CH, WHEEL2_CH, WHEEL3_CH, NO_MOTOR}; //каналы подкючения колес
+char  WHEELS[4]= {WHEEL1_CH, WHEEL2_CH, WHEEL3_CH, WHEEL4_CH}; //каналы подкючения колес
 
 //extern CDC_IF_Prop_TypeDef  APP_FOPS;
 
@@ -132,7 +133,7 @@ switch(cmd->command)
   {
       float *(temp) ={(float*)cmd->param};
       char i;
-   for (i = 0; i<=3; i++)
+      for (i = 0; i<=3; i++)
   {
   	regulatorOut[i] = temp[i];
   }
@@ -599,7 +600,7 @@ break;
 
 case 0x32:  // Flag of reached point
   {
-      sendAnswer(cmd->command, (char *)&traceFlag, sizeof(traceFlag));
+      sendAnswer(cmd->command, (char *)&allpointsreached, sizeof(allpointsreached));
   }
   break;
 
@@ -703,49 +704,41 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
 
 case 0x3E:
     {
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
 
-        setPositionOfCylinderCarrier(60.0);
+//        char * str ="Ok";
+//        sendAnswer(cmd->command, str, 3);
+//
+//        setPositionOfCylinderCarrier(60.0);
+//        goDownWithSuckingManipulator();
+
+
+        servo_rotate_180();
+        //char * str ="Ok";
+        //sendAnswer(cmd->command, str, 3);
+        //setPositionOfCylinderCarrier(-154.0);
         goDownWithSuckingManipulator();
-
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_90();
-        goUpWithSuckingManipulator();
-
-
-        setPositionOfCylinderCarrier(150.0);
-        softDelay(10000000);
-
-        /*
-        switchOffPneumo();
-
-
-        softDelay(10000000);
-        servo_rotate_180();
-        setPositionOfCylinderCarrier(400.0);
-        softDelay(15000000);
-*/
-
-
     }
     break;
 
-case 0x3F:
+case 0x3f:
     {
+        //char * str ="Ok";
+        //sendAnswer(cmd->command, str, 3);
         goDownWithSuckingManipulator();
-
+        softDelay(10000000);
         switchOffPneumo();
-        softDelay(10000000);
         servo_rotate_180();
-        softDelay(10000000);
+//        softDelay(10000000);
+//        servo_rotate_180();
+//        softDelay(10000000);
+//
+//        goUpWithSuckingManipulator();
+//        softDelay(10000000);
 
-        goUpWithSuckingManipulator();
-        softDelay(10000000);
 
-        char * str ="Ok";
-        sendAnswer(cmd->command, str, 3);
     }
     break;
 
@@ -778,25 +771,32 @@ case 0x44: //move third cylinder up
 
 case 0x43: // Generate new trajectory with correction
 {
-float *(temp) ={(float*)cmd->param};
-char * ch = cmd->param + 24;
-robotCoord[0] = temp[0]; //# TODO TEST SPEED
-robotCoord[1] = temp[1];
-robotCoord[2] = temp[2];
-lastPoint++;
-points[lastPoint].center[0] = temp[3];
-points[lastPoint].center[1] = temp[4];
-points[lastPoint].center[2] = temp[5];
-points[lastPoint].speedVelTipe = speedType[*ch];
-points[lastPoint].speedRotTipe = rotType[*ch];
-points[lastPoint].endTask = NULL;
-points[lastPoint].movTask = NULL;
-
-char * str ="Ok";
-sendAnswer(cmd->command,str, 3);
+    float *(temp) ={(float*)cmd->param};
+    char * ch = cmd->param + 24;
+    robotCoord[0] = temp[0]; //# TODO TEST SPEED
+    robotCoord[1] = temp[1];
+    robotCoord[2] = temp[2];
+    lastPoint++;
+    points[lastPoint].center[0] = temp[3];
+    points[lastPoint].center[1] = temp[4];
+    points[lastPoint].center[2] = temp[5];
+    points[lastPoint].speedVelTipe = speedType[*ch];
+    points[lastPoint].speedRotTipe = rotType[*ch];
+    points[lastPoint].endTask = NULL;
+    points[lastPoint].movTask = NULL;
+    char * str ="Ok";
+    sendAnswer(cmd->command, str, 3);
 }
     break;
-/*
+
+
+case 0x45:{
+//    char * str ="Ok";
+//    sendAnswer(cmd->command,str, 3);
+    servo_rotate_90();
+    goUpWithSuckingManipulator();
+    }
+    break;          /*
 case 0x2E:
 {
     SERVO_EVEVATE_IN(); // move servo inside

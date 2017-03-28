@@ -54,7 +54,8 @@ extern uint32_t APP_Rx_ptr_in;    /* Increment this pointer or roll it back to
 
 char sendAnswer(char cmd, char * param, int paramSize) // отправить ответ по USB
 {
-             __disable_irq();
+
+         __disable_irq();
          outData[0] = 0xFA;
          outData[1] = 0xFA;
          outData[2] = paramSize + HEADER_SIZE + CHECK_SIZE;
