@@ -31,5 +31,5 @@
       "module multicolor lateral": [500, 1100],
       "module multicolor diagonal lunar slot": [900, 1400]
   },
-  "strategy actions": ["move", "take module", "put module"]
+  "strategy actions": ["move", "take cylinder", "drop cylinder"]
 }
