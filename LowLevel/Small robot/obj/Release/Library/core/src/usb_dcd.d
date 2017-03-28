@@ -15,4 +15,4 @@ obj\release\library\core\src\usb_dcd.o: Library\core\src\usb_dcd.c \
  SPL\inc/stm32f4xx_syscfg.h SPL\inc/stm32f4xx_tim.h \
  SPL\inc/stm32f4xx_usart.h SPL\inc/stm32f4xx_wwdg.h SPL\inc/misc.h \
  Library\core\inc/usb_regs.h Library\core\inc/usb_defines.h \
- Library\core\inc/usb_bsp.h
+ Library\core\inc/usb_bsp.h Library\core\inc/usb_core.h
