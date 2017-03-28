@@ -1,7 +1,5 @@
 # float * speedType[6] = {normalVelFast, stopVelFast, standVelFast, normalVelSlow, stopVelSlow, standVelSlow }
 CMD_LIST = {
-    'echo': 0x01, #expected parameters: char[4] = 'ECHO'
-    'setCoordinates': 0x02,   #expected parameters: float32[3]
     'dutyCycle': 0x03,    #expected parameters: int[1], float32[1]
     'setDirectionBit': 0x04, #expected parameters: int[1]
     'removeDirectionBit': 0x05,   #expected parameters: int[1]
@@ -14,10 +12,7 @@ CMD_LIST = {
     'switchOnTrajectoryRegulator': 0xE,
     'switchOffTrajectoryRegulator': 0xF,
     'cleanPointsStack': 0x10,
-    'addPointToStack': 0x11,  #expected parameters: float32[3], int[1]
     'getStackState': 0x12,
-    'getCurrentCoordinates': 0x13,
-    'getCurrentSpeed': 0x14,
     'setMovementParameters': 0x15,    #expected parameters: float32[5]
     'setADCPinMode': 0x16,    #expected parameters: int[1], int[1]
     'getADCPinState': 0x17,   #expected parameters: int[1]
@@ -34,7 +29,6 @@ CMD_LIST = {
     'set12VState': 0x22, #expected parameters: int[1]
     'switchOffPid': 0x23,
     'switchOnPid': 0x24,
-    'stopAllMotors': 0x29,
     'setCorrectCoordinates': 0x25,
 
     # TODO': laying field side
@@ -50,20 +44,39 @@ CMD_LIST = {
     'switchOffBelts': 0x33,
     'startGame': 0x34,
 
-    # Denis Commands
-    'suck_cylinder':0x3E , # no parameters
-    'inside_cylinder':0x45,
-     #'store_cylinder': , # no parameters
-    'drop_cylinder': 0x3F , # no parameters
+
+
+    # Small Robot
+    'on_sucker':0x3e,
+    'off_sucker':0x3f,
+    'rotate_cylinder_horizonal':0x40,
+    'rotate_cylinder_vertical':0x41,
+    'take_cylinder_inside':0x42,
+    'take_cylinder_outside':0x49,
+    'lift_up':0x44,
+    'lift_down':0x45,
+    'out+suck':0x46,
+    'in+store':0x47,
+    'drop':0x48,
+    #Big Robot
+    'left_ball_down':0x51,
+    'left_ball_up':0x52,
+    'left_ball_drop':0x53,
+    'right_ball_down':0x54,
+    'right_ball_up':0x55,
+    'right_ball_drop':0x56,
+    'funny_action':0x57,
+
+    # General
+    'echo': 0x01,  # expected parameters: char[4] = 'ECHO'
+    'setCoordinates': 0x02,  # expected parameters: float32[3]
     'go_to_with_corrections': 0x43,# expected parameters: float32[6], int[1]
-    'switch_on_pneumo': 0x2F,  # no parameters
-    'switch_off_pneumo': 0x30,  # no parameters
-    'move_out_cyl_manipulator': 0x2D,  # no parameters
-    'move_in_cyl_manipulator': 0x2E,  # no parameters
-    'rotate_0_cyl_manipulator': 0x2B,  # no parameters
-    'rotate_1_cyl_manipulator': 0x2C,  # no parameters
     'is_point_was_reached': 0x32,  # no parameters, returns 0 or 1
     'sensors_data': 0x47,  # no parameters, returns integer with first 6 bits sensor data
+    'getCurrentCoordinates': 0x13,
+    'getCurrentSpeed': 0x14,
+    'addPointToStack': 0x11,  # expected parameters: float32[3], int[1]
+    'stopAllMotors': 0x29,
 
 }
 

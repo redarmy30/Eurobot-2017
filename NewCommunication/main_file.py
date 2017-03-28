@@ -22,11 +22,12 @@ logger = logging.getLogger(__name__)
 
 obstacles=[]
 class Robot:
-    def __init__(self, lidar_on=True):
+    def __init__(self, lidar_on=True,small=True):
         sensors_number=6
         self.sensor_range = 20
         self.collision_avoidance = False
-        self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
+        if small:
+            self.sensors_map= {0: (0, np.pi/3), 1: (np.pi/4, np.pi*7/12), 2: (np.pi*0.5, np.pi*1.5), 3: (17/12.*np.pi, 7/4.*np.pi), 4: (5/3.*np.pi,2*np.pi), 5: [(7/4.*np.pi,2*np.pi),(0,np.pi*1/4.)]}  # can be problem with 2pi and 0
         self.lidar_on = lidar_on
         self.map = np.load('npmap.npy')
         if lidar_on:
@@ -41,12 +42,15 @@ class Robot:
         #self.x = 170  # mm
         #self.y = 150  # mm
         #self.angle = 0.0  # pi
-        self.coords = Array('d',[170, 150, 0])
+        if small:
+            self.coords = Array('d',[850, 170, 0])
+        else:
+            self.coords = Array('d', [170, 170, 0])
         self.localisation = Value('b', True)
         self.input_queue = Queue()
         self.loc_queue = Queue()
         self.fsm_queue = Queue()
-        self.PF = pf.ParticleFilter(particles=1000, sense_noise=25, distance_noise=20, angle_noise=0.2, in_x=self.coords[0],
+        self.PF = pf.ParticleFilter(particles=1500, sense_noise=25, distance_noise=20, angle_noise=0.3, in_x=self.coords[0],
                                     in_y=self.coords[1], in_angle=self.coords[2],input_queue=self.input_queue, out_queue=self.loc_queue)
 
         # driver process
@@ -78,7 +82,7 @@ class Robot:
 
     def go_to_coord_rotation(self, parameters):  # parameters [x,y,angle,speed]
         if self.PF.warning:
-            time.sleep(2)
+            time.sleep(1)
         pm = [self.coords[0]/1000.,self.coords[1]/1000.,float(self.coords[2]),parameters[0] / 1000., parameters[1] / 1000., float(parameters[2]), parameters[3]]
         x = parameters[0] - self.coords[0]
         y = parameters[1] - self.coords[1]

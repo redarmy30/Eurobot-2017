@@ -191,8 +191,8 @@ class ParticleFilter:
                 lidar_data = get_raw()
                 self.particle_sense(lidar_data)
                 if self.warning:
-                    x = np.random.normal(self.last[0], 150, self.particles_num)
-                    y = np.random.normal(self.last[1], 150, self.particles_num)
+                    x = np.random.normal(self.last[0], 200, self.particles_num)
+                    y = np.random.normal(self.last[1], 200, self.particles_num)
                     orient = np.random.normal(self.last[2], np.pi, self.particles_num) % (2 * np.pi)
                     self.particles = np.array([x, y, orient]).T  # instead of np.vstack((x,y,orient)).T
                     self.warning = False
