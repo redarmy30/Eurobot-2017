@@ -93,7 +93,7 @@ float speed = 0;
 while(1){
 //OpenLauncher();
 //CloseLauncher();
-    GetDataForManipulator();
+    //GetDataForManipulator();
 
 
 //        distance[FRONT_LEFT] = MIN_DIST + (float)MAX_RAW_SENSOR*(MAX_DIST - MIN_DIST)/(MAX_RAW_SENSOR - MIN_RAW_SENSOR) - (MAX_DIST - MIN_DIST)*(float)adcData[FRONT_LEFT]/(MAX_RAW_SENSOR - MIN_RAW_SENSOR);
