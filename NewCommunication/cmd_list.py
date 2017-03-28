@@ -47,25 +47,25 @@ CMD_LIST = {
 
 
     # Small Robot
-    'on_sucker':0x3e,
-    'off_sucker':0x3f,
-    'rotate_cylinder_horizonal':0x40,
-    'rotate_cylinder_vertical':0x41,
-    'take_cylinder_inside':0x42,
-    'take_cylinder_outside':0x49,
-    'lift_up':0x44,
-    'lift_down':0x45,
-    'out+suck':0x46,
-    'in+store':0x47,
-    'drop':0x48,
+    #'on_sucker':0x3e,
+    #'off_sucker':0x3f,
+    #'rotate_cylinder_horizonal':0x40,
+    #'rotate_cylinder_vertical':0x41,
+    #'take_cylinder_inside':0x42,
+    #'take_cylinder_outside':0x49,
+    #'lift_up':0x44,
+    #'lift_down':0x45,
+    #'out+suck':0x46,
+    #'in+store':0x47,
+    #'drop':0x48,
     #Big Robot
-    'left_ball_down':0x51,
-    'left_ball_up':0x52,
-    'left_ball_drop':0x53,
-    'right_ball_down':0x54,
-    'right_ball_up':0x55,
-    'right_ball_drop':0x56,
-    'funny_action':0x57,
+    'left_ball_down':0x44,
+    'left_ball_up':0x45,
+    'left_ball_drop':0x46,
+    'right_ball_down':0x47,
+    'right_ball_up':0x48,
+    'right_ball_drop':0x49,
+    'funny_action':0x3b,
 
     # General
     'echo': 0x01,  # expected parameters: char[4] = 'ECHO'

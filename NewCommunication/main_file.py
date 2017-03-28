@@ -160,6 +160,30 @@ class Robot:
         self.send_command('drop_cylinder')
         time.sleep(1)
 
+    def left_ball_down(self):
+        self.send_command('left_ball_down')
+        time.sleep(1)
+    def left_ball_up(self):
+        self.send_command('left_ball_up')
+        time.sleep(1)
+    def left_ball_drop(self):
+        self.send_command('left_ball_drop')
+        time.sleep(1)
+    def right_ball_down(self):
+        self.send_command('right_ball_down')
+        time.sleep(1)
+    def right_ball_up(self):
+        self.send_command('right_ball_up')
+        time.sleep(1)
+    def right_ball_drop(self):
+        self.send_command('right_ball_drop')
+        time.sleep(1)
+    def funny(self):
+        self.send_command('funny')
+        time.sleep(1)
+
+
+
 
     ############################################################################
     ######## HIGH LEVEL FUNCTIONS ##############################################
@@ -193,7 +217,7 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [1000, 500, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [850, 150, angle, speed]
+        parameters = [850, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = 0.0
         parameters = [170, 150, angle, speed]
@@ -299,6 +323,7 @@ class Robot:
 
     def big_robot_trajectory(self,speed=1):
         angle = np.pi*0.1
+        self.left_ball_up()
         self.localisation.value = False
         parameters = [900, 150, angle, speed]
         self.go_to_coord_rotation(parameters)
@@ -308,8 +333,11 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [950, 1000, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [250, 1800, angle, speed]
+        angle = 0.0
+        parameters = [250, 1750, angle, speed]
         self.go_to_coord_rotation(parameters)
+        self.left_ball_down()
+        self.left_ball_up()
 
     def big_robot_trajectory_r(self,speed=1):
         angle = np.pi/2
@@ -317,13 +345,15 @@ class Robot:
         self.go_to_coord_rotation(parameters)
         parameters = [950, 400, angle, speed]
         self.go_to_coord_rotation(parameters)
-        parameters = [950, 180, angle, speed]
+        parameters = [950, 250, angle, speed]
         self.go_to_coord_rotation(parameters)
         angle = np.pi * 0.1
         self.localisation.value = False
         parameters = [170, 180, angle, speed]
         self.go_to_coord_rotation(parameters)
         self.localisation.value = True
+        self.left_ball_drop()
+        self.funny()
 
     def first_cylinder(self,speed=1):
         angle = np.pi
