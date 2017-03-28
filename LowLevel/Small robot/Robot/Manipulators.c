@@ -31,7 +31,7 @@ void softDelay(__IO unsigned long int ticks)
 }
 
 
-bool goUpWithSuckingManipulator(){
+bool goInsideWithSuckingManipulator(){
 
     set_pin(INPUT1_CONTROL);
     reset_pin(INPUT2_CONTROL);
@@ -42,7 +42,7 @@ bool goUpWithSuckingManipulator(){
     reset_pin(INPUT1_CONTROL);
 }
 
-bool goDownWithSuckingManipulator(){
+bool goOutsideWithSuckingManipulator(){
 
     set_pin(INPUT2_CONTROL); //set and reset pin do not work
     reset_pin(INPUT1_CONTROL);
@@ -140,11 +140,10 @@ void setCurrentAngleAsBeginning(void){
 }
 
 void setPositionOfCylinderCarrier(float desiredAngle){
-    setCurrentAngleAsBeginning();
     angle_encoder = adcData[(char)CUBES_CATCHER_ADC - 1] *360 / 4096;
     angle_enc_real = 58*exp(-0.029*angle_encoder)*sin(2*3.14*angle_encoder/150) - 75*exp(-0.015*angle_encoder)*sin(2*3.14*angle_encoder/150) + 5*pow(angle_encoder, 0.735) + 30*exp(-pow((angle_encoder-160)/160,2))-10 - angle_encoder*13.5/350;;
     whole_angle = numberofrot * 360 + angle_enc_real;
-/*
+
     if(desiredAngle > whole_angle){
     //setServoToWheelMode(3);
         while(fabs(desiredAngle - whole_angle) > 15 && (desiredAngle > whole_angle)){
@@ -177,7 +176,7 @@ void setPositionOfCylinderCarrier(float desiredAngle){
     }
     setServoMovingSpeed(2, (uint16_t)0, 0x0000);
     setServoMovingSpeed(3, (uint16_t)0, 0x0000);
-*/
+
 }
 
 void increaseByGivenAngle(float givenAngle){

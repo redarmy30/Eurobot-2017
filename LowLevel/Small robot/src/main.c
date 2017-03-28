@@ -101,8 +101,8 @@ int main(void)
         ADC_7 = pin_val(GENERAL_PIN_6);
         ADC_6 = pin_val(GENERAL_PIN_5);
         ADC_5 = pin_val(GENERAL_PIN_4);
-//        goUpWithSuckingManipulator();
-//        goDownWithSuckingManipulator();
+//        goInsideWithSuckingManipulator();
+//        goOutsideWithSuckingManipulator();
         //servo_rotate_180();
 //        setPositionOfCylinderCarrier(0.0);
 //        servo_rotate_90();
@@ -111,14 +111,14 @@ int main(void)
 
 //        color = getCurrentColor();
 
-//        goDownWithSuckingManipulator();
+//        goOutsideWithSuckingManipulator();
    //     setCurrentAngleAsBeginning();
        /* servo_rotate_90();
-        goDownWithSuckingManipulator();
+        goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_180();
-        goUpWithSuckingManipulator();*/
+        goInsideWithSuckingManipulator();*/
  //       increaseByGivenAngle(LIFT_FIRST_CYLINDER);
    //     softDelay(4000000);
      /*   switchOffPneumo();
@@ -127,11 +127,11 @@ int main(void)
         softDelay(4000000);
 
         servo_rotate_90();
-        goDownWithSuckingManipulator();
+        goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_180();
-        goUpWithSuckingManipulator();
+        goInsideWithSuckingManipulator();
         increaseByGivenAngle(LIFT_SECOND_CYLINDER);
         switchOffPneumo();
         softDelay(1000000);
@@ -139,11 +139,11 @@ int main(void)
         softDelay(4000000);
 
         servo_rotate_90();
-        goDownWithSuckingManipulator();
+        goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_180();
-        goUpWithSuckingManipulator();
+        goInsideWithSuckingManipulator();
         increaseByGivenAngle(LIFT_THIRD_CYLINDER);
         switchOffPneumo();
         softDelay(1000000);
@@ -153,15 +153,15 @@ int main(void)
    //     increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
         /*
         increaseByGivenAngle(LIFT_ALL);
-        goDownWithSuckingManipulator();
+        goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_180();
-        goUpWithSuckingManipulator();
+        goInsideWithSuckingManipulator();
         increaseByGivenAngle(LIFT_SECOND_CYLINDER);
 
 
-        goDownWithSuckingManipulator();
+        goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_90();
@@ -172,11 +172,11 @@ int main(void)
 
 
 /*
-goDownWithSuckingManipulator();
+goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_90();
-        goUpWithSuckingManipulator();
+        goInsideWithSuckingManipulator();
         increaseByGivenAngle(LIFT_FIRST_CYLINDER);
         switchOffPneumo();
         servo_rotate_180();
@@ -184,29 +184,29 @@ goDownWithSuckingManipulator();
 
 
         increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
-        goDownWithSuckingManipulator();
+        goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_90();
-        goUpWithSuckingManipulator();
+        goInsideWithSuckingManipulator();
         increaseByGivenAngle(LIFT_SECOND_CYLINDER);
         switchOffPneumo();
         servo_rotate_180();
 
 
         increaseByGivenAngle(PREPARE_FOR_THIRD_CYLINDER);
-        goDownWithSuckingManipulator();
+        goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_90();
-        goUpWithSuckingManipulator();
+        goInsideWithSuckingManipulator();
         increaseByGivenAngle(LIFT_THIRD_CYLINDER);
         switchOffPneumo();
         servo_rotate_180();
         increaseByGivenAngle(LIFT_ALL);
 
 
-        goDownWithSuckingManipulator();
+        goInsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_90();
@@ -215,14 +215,14 @@ goDownWithSuckingManipulator();
         switchOffPneumo();
         servo_rotate_180();
 */
- //       goDownWithSuckingManipulator();
+ //       goOutsideWithSuckingManipulator();
    /*     switchOnPneumo();
         servo_rotate_90();
         servo_rotate_180();
         switchOffPneumo();
       /*  switchOnPneumo();
         servo_rotate_90();
-        goUpWithSuckingManipulator();
+        goInsideWithSuckingManipulator();
         switchOffPneumo();
         /*setDefault((uint8_t)3);
         setID ((uint8_t)3, (uint8_t)1);*/
@@ -235,7 +235,7 @@ goDownWithSuckingManipulator();
 //        setServoAngle((uint8_t)3, (uint16_t)100);
 /*        setServoAngle((uint8_t)3, (uint16_t)120);*/
  //       setServoToWheelMode((uint8_t)3);
- //       goUpWithSuckingManipulator();
+ //       goInsideWithSuckingManipulator();
  //       getCurrentEncoderAngle(void);
         //setPositionOfCylinderCarrier(0);
 
@@ -247,10 +247,10 @@ goDownWithSuckingManipulator();
         setServoMovingSpeed(ID_test, (uint16_t)0, 0x0000);*/
 
         //
-//        goDownWithSuckingManipulator();
+//        goOutsideWithSuckingManipulator();
 //        switchOnPneumo();
 //        servo_rotate_90();
-//        goUpWithSuckingManipulator();
+//        goInsideWithSuckingManipulator();
 //        switchOffPneumo();
 //        servo_rotate_180();
 

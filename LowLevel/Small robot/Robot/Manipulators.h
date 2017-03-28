@@ -106,8 +106,8 @@ void setPositionOfCylinderCarrier(float);
 #define INPUT1_CONTROL EXTI6_PIN
 
 
-bool goUpWithSuckingManipulator();
-bool goDownWithSuckingManipulator();
+bool goInsideWithSuckingManipulator();
+bool goOutsideWithSuckingManipulator();
 
 
 
@@ -127,14 +127,10 @@ bool moveSuckerManipulatorDown();
 #define ZERO_ANGLE_FUTABA_S3154 0.05
 #define MAX_ANGLE_FUTABA_S3154 0.1
 
-
 char getCurrentColor();
 
-#define LIFT_FIRST_CYLINDER 180
-#define LIFT_SECOND_CYLINDER 370
-#define LIFT_THIRD_CYLINDER 220
-#define LIFT_ALL 88
-
+#define LIFT_CYLINDER 180
+#define STORE_CYLINDER 180
 
 float getCurrentEncoderAngle(void);
 void increaseByGivenAngle(float);

@@ -360,6 +360,8 @@ for(i; i < 4; i++)
 {
     setSpeedMaxon(WHEELS[i], (float) 0.0);
 }
-goUpWithSuckingManipulator();
+goInsideWithSuckingManipulator();
+servo_rotate_90();
+setCurrentAngleAsBeginning();
 }
 ////////////////////////////////////////////////////////////////////////////////
