@@ -164,7 +164,7 @@
 	"stm32f4xx_rcc.h"
 	"stm32f4xx_conf.h"
 
-1490711768 source:f:\from git\lowlevel\small robot\board\board.c
+1490731273 source:f:\from git\lowlevel\small robot\board\board.c
 	"Board.h"
 	"stm32f4xx.h"
 	"Pins.h"
@@ -202,7 +202,7 @@
 
 1489757001 f:\from git\lowlevel\small robot\robot\path.h
 
-1490708004 f:\from git\lowlevel\small robot\robot\manipulators.h
+1490748040 f:\from git\lowlevel\small robot\robot\manipulators.h
 	<stdbool.h>
 	<stdint.h>
 	"pins.h"
@@ -212,7 +212,7 @@
 	<stdbool.h>
 	<stdlib.h>
 
-1490711767 source:f:\from git\lowlevel\small robot\board\interrupts.c
+1490744033 source:f:\from git\lowlevel\small robot\board\interrupts.c
 	"Interrupts.h"
 	"gpio.h"
 	"Regulator.h"
@@ -281,9 +281,10 @@
 1489757001 f:\from git\lowlevel\small robot\library\core\inc\usb_bsp.h
 	"usb_core.h"
 
-1489757001 source:f:\from git\lowlevel\small robot\library\core\src\usb_dcd.c
+1490728383 source:f:\from git\lowlevel\small robot\library\core\src\usb_dcd.c
 	"usb_dcd.h"
 	"usb_bsp.h"
+	"usb_core.h"
 
 1489757001 source:f:\from git\lowlevel\small robot\library\core\src\usb_dcd_int.c
 	"usb_dcd_int.h"
@@ -306,7 +307,7 @@
 	"usbd_ioreq.h"
 	"usbd_desc.h"
 
-1490089097 source:f:\from git\lowlevel\small robot\robot\communication.c
+1490728383 source:f:\from git\lowlevel\small robot\robot\communication.c
 	"Communication.h"
 	"stdint.h"
 	"robot.h"
@@ -322,7 +323,7 @@
 1489757001 source:f:\from git\lowlevel\small robot\robot\path.c
 	"Path.h"
 
-1490012713 source:f:\from git\lowlevel\small robot\robot\regulator.c
+1490728383 source:f:\from git\lowlevel\small robot\robot\regulator.c
 	"Regulator.h"
 	"robot.h"
 	"matrix.h"
@@ -338,7 +339,7 @@
 	"matrix.h"
 	"stdlib.h"
 
-1490698129 source:f:\from git\lowlevel\small robot\robot\robot.c
+1490737881 source:f:\from git\lowlevel\small robot\robot\robot.c
 	"Robot.h"
 	"pins.h"
 	"usart.h"
@@ -541,7 +542,7 @@
 	"stm32f4xx_wwdg.h"
 	"stm32f4xx_rcc.h"
 
-1490726981 source:f:\from git\lowlevel\small robot\src\main.c
+1490748273 source:f:\from git\lowlevel\small robot\src\main.c
 	"stm32f4xx_conf.h"
 	"stm32f4xx.h"
 	"Board.h"
@@ -565,7 +566,7 @@
 1489757002 source:f:\from git\lowlevel\small robot\src\system_stm32f4xx.c
 	"stm32f4xx.h"
 
-1490716973 source:f:\from git\lowlevel\small robot\robot\manipulators.c
+1490748080 source:f:\from git\lowlevel\small robot\robot\manipulators.c
 	"Manipulators.h"
 	"Dynamixel_control.h"
 	"Regulator.h"

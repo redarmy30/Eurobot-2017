@@ -670,7 +670,7 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
     }
     break;
 
-    case 0x40:  //pump manipulator rotation for EuroBot 2017
+    case 0x41:  //pump manipulator rotation for EuroBot 2017
     {
         servo_rotate_90(); // rotate the pump 90 degrees - horizontal
         char * str ="Ok";
@@ -678,7 +678,7 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
     }
     break;
 
-    case 0x41:  //pump manipulator rotation for EuroBot 2017
+    case 0x42:  //pump manipulator rotation for EuroBot 2017
     {
         servo_rotate_180(); // rotate the pump 180 degrees - vertical
         char * str ="Ok";
@@ -686,7 +686,7 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
     }
     break;
 
-    case 0x42: // Sucking manipulator
+    case 0x4A: // Sucking manipulator
     {
         goInsideWithSuckingManipulator();
     }

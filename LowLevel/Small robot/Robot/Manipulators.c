@@ -147,8 +147,11 @@ void setPositionOfCylinderCarrier(float desiredAngle){
     if(desiredAngle > whole_angle){
     //setServoToWheelMode(3);
         while(fabs(desiredAngle - whole_angle) > 15 && (desiredAngle > whole_angle)){
-            setServoMovingSpeed(3, (uint16_t)(605 + 1024), 0x0400);
-            setServoMovingSpeed(2, (uint16_t)(555), 0x0000);
+//            setServoMovingSpeed(3, (uint16_t)(595 + 1024), 0x0400);
+//            setServoMovingSpeed(2, (uint16_t)(625), 0x0000);
+
+            setServoMovingSpeed(2, (uint16_t)(615 + 1024), 0x0400);
+            setServoMovingSpeed(3, (uint16_t)(600), 0x0000);
 
 //            setServoMovingSpeed(2, (uint16_t)(605 + 1024), 0x0400);
 //            setServoMovingSpeed(3, (uint16_t)(555), 0x0000);
@@ -161,10 +164,11 @@ void setPositionOfCylinderCarrier(float desiredAngle){
     else if(desiredAngle < whole_angle){
  //   setServoToWheelMode(2);
         while(fabs(desiredAngle - whole_angle) > 15 && (desiredAngle < whole_angle)){
+            setServoMovingSpeed(3, (uint16_t)(600 + 1024), 0x0400);
+            setServoMovingSpeed(2, (uint16_t)(615), 0x0000);
 
-
-            setServoMovingSpeed(2, (uint16_t)(605 + 1024), 0x0400);
-            setServoMovingSpeed(3, (uint16_t)(555), 0x0000);
+//            setServoMovingSpeed(2, (uint16_t)(625 + 1024), 0x0400);
+//            setServoMovingSpeed(3, (uint16_t)(595), 0x0000);
 
 //            setServoMovingSpeed(3, (uint16_t)(605 + 1024), 0x0400);
 //            setServoMovingSpeed(2, (uint16_t)(555), 0x0000);
@@ -180,11 +184,11 @@ void setPositionOfCylinderCarrier(float desiredAngle){
 }
 
 void increaseByGivenAngle(float givenAngle){
-    setPositionOfCylinderCarrier(whole_angle - givenAngle);
+    setPositionOfCylinderCarrier(whole_angle + givenAngle);
 }
 
 void decreaseByGivenAngle(float givenAngle){
-    setPositionOfCylinderCarrier(whole_angle + givenAngle);
+    setPositionOfCylinderCarrier(whole_angle - givenAngle);
 }
 
 void servo_elevate_in()

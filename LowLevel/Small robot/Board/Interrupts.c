@@ -41,7 +41,7 @@ void TIM6_DAC_IRQHandler() // 100Hz  // Рассчет ПИД регулятор
     if (tempor !=2) {
      numberofrot += tempor;
     }
-
+ //   whole_angle = numberofrot * 360 + angle_enc_real;
   if (curState.kinemEn) FunctionalRegulator(&vTargetGlob[0],  &regulatorOut[0]); // рассчет  кинематики и насыщения
 
     char i = 0;

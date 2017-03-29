@@ -129,11 +129,13 @@ bool moveSuckerManipulatorDown();
 
 char getCurrentColor();
 
-#define LIFT_CYLINDER 180
+#define LIFT_CYLINDER 210
 #define STORE_CYLINDER 180
+
 
 float getCurrentEncoderAngle(void);
 void increaseByGivenAngle(float);
+void decreaseByGivenAngle(float);
 void setPositionOfCylinderCarrier(float);
 
 #endif

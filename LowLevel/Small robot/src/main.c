@@ -97,10 +97,10 @@ int main(void)
     while(1)
     {
 
-        ADC_8 = pin_val(GENERAL_PIN_7);
+       /* ADC_8 = pin_val(GENERAL_PIN_7);
         ADC_7 = pin_val(GENERAL_PIN_6);
         ADC_6 = pin_val(GENERAL_PIN_5);
-        ADC_5 = pin_val(GENERAL_PIN_4);
+        ADC_5 = pin_val(GENERAL_PIN_4);*/
 //        goInsideWithSuckingManipulator();
 //        goOutsideWithSuckingManipulator();
         //servo_rotate_180();
@@ -113,16 +113,35 @@ int main(void)
 
 //        goOutsideWithSuckingManipulator();
    //     setCurrentAngleAsBeginning();
-       /* servo_rotate_90();
+     //   setCurrentAngleAsBeginning();
+        servo_rotate_90();
+        servo_rotate_180();
+        servo_rotate_90();
         goOutsideWithSuckingManipulator();
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_180();
-        goInsideWithSuckingManipulator();*/
- //       increaseByGivenAngle(LIFT_FIRST_CYLINDER);
-   //     softDelay(4000000);
-     /*   switchOffPneumo();
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(4000000);
+        switchOffPneumo();
         softDelay(1000000);
+        increaseByGivenAngle(STORE_CYLINDER);
+        servo_rotate_90();
+        softDelay(4000000);
+
+
+        servo_rotate_90();
+        goOutsideWithSuckingManipulator();
+        switchOnPneumo();
+        softDelay(10000000);
+        servo_rotate_180();
+        goInsideWithSuckingManipulator();
+        increaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(4000000);
+        switchOffPneumo();
+        softDelay(1000000);
+        increaseByGivenAngle(STORE_CYLINDER);
         servo_rotate_90();
         softDelay(4000000);
 
@@ -132,9 +151,11 @@ int main(void)
         softDelay(10000000);
         servo_rotate_180();
         goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_SECOND_CYLINDER);
+        increaseByGivenAngle(LIFT_CYLINDER);
+        softDelay(4000000);
         switchOffPneumo();
         softDelay(1000000);
+        increaseByGivenAngle(STORE_CYLINDER-50);
         servo_rotate_90();
         softDelay(4000000);
 
@@ -143,13 +164,12 @@ int main(void)
         switchOnPneumo();
         softDelay(10000000);
         servo_rotate_180();
-        goInsideWithSuckingManipulator();
-        increaseByGivenAngle(LIFT_THIRD_CYLINDER);
+
+        softDelay(30000000);
+
         switchOffPneumo();
-        softDelay(1000000);
-        servo_rotate_90();
-        softDelay(4000000);
-*/
+        goInsideWithSuckingManipulator();
+        decreaseByGivenAngle(LIFT_CYLINDER + STORE_CYLINDER - 50);
    //     increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
         /*
         increaseByGivenAngle(LIFT_ALL);
