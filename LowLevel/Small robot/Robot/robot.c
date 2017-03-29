@@ -736,6 +736,12 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
     }
     break;
 
+    case 0x4A: // Sucking manipulator
+    {
+        dropAllCylinders();
+    }
+    break;
+
 case 0x43: // Generate new trajectory with correction
 {
     float *(temp) ={(float*)cmd->param};

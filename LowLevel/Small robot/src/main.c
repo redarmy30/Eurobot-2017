@@ -114,7 +114,7 @@ int main(void)
 //        goOutsideWithSuckingManipulator();
    //     setCurrentAngleAsBeginning();
      //   setCurrentAngleAsBeginning();
-        servo_rotate_90();
+    /*    servo_rotate_90();
         servo_rotate_180();
         servo_rotate_90();
         goOutsideWithSuckingManipulator();
@@ -169,7 +169,7 @@ int main(void)
 
         switchOffPneumo();
         goInsideWithSuckingManipulator();
-        decreaseByGivenAngle(LIFT_CYLINDER + STORE_CYLINDER - 50);
+        dropAllCylinders();
    //     increaseByGivenAngle(PREPARE_FOR_SECOND_CYLINDER);
         /*
         increaseByGivenAngle(LIFT_ALL);
@@ -189,7 +189,7 @@ int main(void)
 
         switchOffPneumo();
         servo_rotate_180();
-
+*/
 
 /*
 goOutsideWithSuckingManipulator();
