@@ -4,7 +4,7 @@
 #include "i2c.h"
 #include "Interrupts.h"
 #include "usart.h"
-#include "tim.h"
+#include "tsdim.h"
 #include "adc.h"
 #include "Regulator.h"
 #include "Manipulators.h"
