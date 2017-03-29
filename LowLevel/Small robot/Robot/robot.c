@@ -736,7 +736,7 @@ case 0x3D: // RGB sensor for cylinder EuroBot 2017
     }
     break;
 
-    case 0x4A: // Sucking manipulator
+    case 0x4B: // Sucking manipulator
     {
         dropAllCylinders();
     }
